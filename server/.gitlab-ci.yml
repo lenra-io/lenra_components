@@ -1,0 +1,40 @@
+include:
+    - project: 'lenra/environment'
+      ref: master
+      file: '/ci-cd/gitlab/lib/base.yml'
+    - project: 'lenra/environment'
+      ref: master
+      file: '/ci-cd/gitlab/lib/docker.yml'
+
+variables:
+    VERSION_GETTER: mix lenra version
+    DOCKER_BUILD_ARGS: --build-arg secret_key_base=$SECRET_KEY_BASE
+
+cache:
+    paths:
+        - ./deps
+        - ./_build
+
+manage version:
+    extends: .get version
+    image: registry.gitlab.com/lenra/integration/docker-ci-elixir
+    before_script:
+        - mix deps.get
+        - mix compile
+
+tests:
+    image: registry.gitlab.com/lenra/integration/docker-ci-elixir
+    stage: test
+    script:
+        - mix credo --strict
+        - mix test
+
+dockerize:
+    extends: .build docker
+    only:
+        refs:
+            - master
+            - staging
+
+dockerize dev:
+    extends: .build docker dev

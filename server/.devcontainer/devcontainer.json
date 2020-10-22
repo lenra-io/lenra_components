@@ -1,0 +1,20 @@
+{
+	"name": "Lenra Server Phoenix",
+	"build": {
+		"dockerfile": "Dockerfile",
+	},
+	"runArgs": [
+		"--name=lenra-server-phoenix"
+	],
+	"settings": {
+		"terminal.integrated.shell.linux": "/bin/bash"
+	},
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"jakebecker.elixir-ls"
+	],
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	"forwardPorts": [
+		4000
+	]
+}
