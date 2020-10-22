@@ -1,0 +1,104 @@
+include:
+    - project: 'lenra/environment'
+      ref: master
+      file: '/ci-cd/gitlab/lib/base.yml'
+    - project: 'lenra/environment'
+      ref: master
+      file: '/ci-cd/gitlab/lib/docker.yml'
+
+# Cache for server and client
+cache:
+    paths:
+        - server/deps
+        - server/_build
+        - client/build
+
+variables:
+    CLIENT_WORKDIR: ./client
+    SERVER_WORKDIR: ./server
+
+################
+## INIT STAGE ##
+################
+
+# Handle version globally for server and client
+
+manage version:
+    variables:
+        VERSION_GETTER: cat version
+    extends: .get version
+
+
+#################
+## BUILD STAGE ##
+#################
+client build prod:
+    image: registry.gitlab.com/lenra/integration/docker-ci-flutter
+    stage: build 
+    script:
+        - cd $CLIENT_WORKDIR
+        - flutter pub get
+        - flutter build web --release --target=./lib/main_prod.dart
+    only:
+        refs:
+            - master
+
+client build dev:
+    image: registry.gitlab.com/lenra/integration/docker-ci-flutter
+    stage: build
+    script:
+        - cd $CLIENT_WORKDIR
+        - flutter pub get
+        - flutter build web --release --target=./lib/main.dart
+    except:
+        refs:
+            - master
+
+################
+## TEST STAGE ##
+################
+
+# Unit test and code analysis for server
+server tests:
+    image: registry.gitlab.com/lenra/integration/docker-ci-elixir
+    stage: test
+    script:
+        - cd $SERVER_WORKDIR
+        - mix credo --strict
+        - mix test
+
+###################
+## RELEASE STAGE ##
+###################
+
+server dockerize:
+    stage: release
+    variables:
+        WORKDIR: $SERVER_WORKDIR
+        DOCKER_BUILD_ARGS: --build-arg secret_key_base=$SECRET_KEY_BASE
+    extends: .build docker
+    only:
+        refs:
+            - master
+            - staging
+
+server dockerize dev:
+    stage: release
+    variables:
+        WORKDIR: $SERVER_WORKDIR
+        DOCKER_BUILD_ARGS: --build-arg secret_key_base=$SECRET_KEY_BASE
+    extends: .build docker dev
+
+client dockerize:
+    variables:
+        WORKDIR: $CLIENT_WORKDIR
+    extends: .build docker
+    only:
+        refs:
+            - master
+            - staging
+
+client dockerize dev:
+    variables:
+        WORKDIR: $CLIENT_WORKDIR
+    extends: .build docker dev
