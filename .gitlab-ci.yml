@@ -9,9 +9,9 @@ include:
 # Cache for server and client
 cache:
     paths:
-        - server/deps
-        - server/_build
-        - client/build
+        - ./server/deps
+        - ./server/_build
+        - ./client/build
 
 variables:
     CLIENT_WORKDIR: ./client
@@ -54,6 +54,14 @@ client build dev:
         refs:
             - master
 
+server build:
+    image: registry.gitlab.com/lenra/integration/docker-ci-elixir
+    stage: build
+    script:
+        - cd $SERVER_WORKDIR
+        - mix deps.get
+        - mix compile
+
 ################
 ## TEST STAGE ##
 ################
@@ -70,12 +78,16 @@ server tests:
 ###################
 ## RELEASE STAGE ##
 ###################
-
-server dockerize:
+.docker-server-env: &docker-server-env
     stage: release
     variables:
         WORKDIR: $SERVER_WORKDIR
+        DOCKER_IMAGE: $CI_REGISTRY_IMAGE/server
         DOCKER_BUILD_ARGS: --build-arg secret_key_base=$SECRET_KEY_BASE
+
+
+server dockerize:
+    <<: *docker-server-env
     extends: .build docker
     only:
         refs:
@@ -83,15 +95,18 @@ server dockerize:
             - staging
 
 server dockerize dev:
-    stage: release
-    variables:
-        WORKDIR: $SERVER_WORKDIR
-        DOCKER_BUILD_ARGS: --build-arg secret_key_base=$SECRET_KEY_BASE
+    <<: *docker-server-env
     extends: .build docker dev
 
-client dockerize:
+
+.docker-client-env: &docker-client-env
+    stage: release
     variables:
         WORKDIR: $CLIENT_WORKDIR
+        DOCKER_IMAGE: $CI_REGISTRY_IMAGE/client
+
+client dockerize:
+    <<: *docker-client-env
     extends: .build docker
     only:
         refs:
@@ -99,6 +114,5 @@ client dockerize:
             - staging
 
 client dockerize dev:
-    variables:
-        WORKDIR: $CLIENT_WORKDIR
+    <<: *docker-client-env
     extends: .build docker dev
