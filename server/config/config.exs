@@ -20,6 +20,8 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+config :xema, loader: LenraServices.Loader
+
 # Use Jiffy Nif for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 

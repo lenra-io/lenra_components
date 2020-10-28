@@ -1,0 +1,35 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://lenra.me/component_validator.json",
+    "title": "Component",
+    "description": "Schema of a component running on lenra",
+    "type": "object",
+    "properties": {
+        "updateOn": {
+            "description": "when this value change we update the ui",
+            "items": {
+                "type": "string"
+            }
+        },
+        "root": {
+            "description": "the first root element of ui",
+            "oneOf": [
+                {
+                    "$ref": "button_validator.schema.json"
+                },
+                {
+                    "$ref": "text_validator.schema.json"
+                },
+                {
+                    "$ref": "textfield_validator.schema.json"
+                },
+                {
+                    "$ref": "container_validator.schema.json"
+                }
+            ]
+        }
+    },
+    "required": [
+        "root"
+    ]
+}

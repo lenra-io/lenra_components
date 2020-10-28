@@ -1,0 +1,26 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://lenra.me/ui_validator.schema.json",
+    "title": "Text",
+    "description": "Element of type ui",
+    "type": "object",
+    "properties": {
+        "type": {
+            "description": "The type of the element",
+            "type": "string",
+            "pattern": "ui"
+        },
+        "name": {
+            "descritpion": "method to call",
+            "type": "string"
+        },
+        "props": {
+            "type": "object"
+        }
+    },
+    "required": [
+        "type",
+        "name"
+    ],
+    "additionalProperties": false
+}

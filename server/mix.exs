@@ -48,6 +48,7 @@ defmodule Lenra.MixProject do
       {:telemetry_poller, "~> 0.4"},
       {:jiffy, "~> 1.0"},
       {:jason, "~> 1.2"},
+      {:json_xema, "~> 0.6"},
       {:plug_cowboy, "~> 2.0"},
       {:finch, "~> 0.3"},
       {:json_diff, "~> 0.1.0"},

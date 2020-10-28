@@ -1,0 +1,23 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://lenra.me/text_validator.schema.json",
+    "title": "Text",
+    "description": "Element of type Text",
+    "type": "object",
+    "properties": {
+        "type": {
+            "description": "The type of the element",
+            "type": "string",
+            "pattern": "text"
+        },
+        "value": {
+            "descritpion": "the value displayed in the element",
+            "type": "string"
+        }
+    },
+    "required": [
+        "type",
+        "value"
+    ],
+    "additionalProperties": false
+}

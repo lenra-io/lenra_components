@@ -26,6 +26,7 @@ tests:
     image: registry.gitlab.com/lenra/integration/docker-ci-elixir
     stage: test
     script:
+        - mix deps.get
         - mix credo --strict
         - mix test
 
