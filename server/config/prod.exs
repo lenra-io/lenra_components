@@ -1,5 +1,13 @@
 use Mix.Config
 
+config :lenra, Lenra.Repo,
+  username: System.get_env("POSTGRES_USER", "postgres"),
+  password: System.get_env("POSTGRES_PASSWORD", "postgres"),
+  database: System.get_env("POSTGRES_DB_NAME", "lenra"),
+  hostname: System.get_env("POSTGRES_HOST", "localhost"),
+  show_sensitive_data_on_connection_error: true,
+  pool_size: 10
+
 # For production, don't forget to configure the url host
 # to something meaningful, Phoenix uses this information
 # when generating URLs.
@@ -16,7 +24,6 @@ config :lenra, LenraWeb.Endpoint,
 # Do not print debug messages in production
 config :logger, level: :info
 
-
 config :lenra,
   ow_host: System.get_env("OW_HOST", "http://172.17.0.1"),
   ow_port: String.to_integer(System.get_env("OW_PORT", "3233")),
@@ -26,10 +33,9 @@ config :lenra,
       "Basic MjNiYzQ2YjEtNzFmNi00ZWQ1LThjNTQtODE2YWE0ZjhjNTAyOjEyM3pPM3haQ0xyTU42djJCS0sxZFhZRnBYbFBrY2NPRnFtMTJDZEFzTWdSVTRWck5aOWx5R1ZDR3VNREdJd1A="
     )
 
-#Edit to allow only wanted sources
+# Edit to allow only wanted sources
 config :cors_plug,
   origin: ["*"]
-
 
 # ## SSL Support
 #

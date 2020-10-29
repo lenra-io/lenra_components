@@ -15,3 +15,10 @@ config :lenra,
   ow_port: 1234,
   ow_auth:
     "Basic MjNiYzQ2YjEtNzFmNi00ZWQ1LThjNTQtODE2YWE0ZjhjNTAyOjEyM3pPM3haQ0xyTU42djJCS0sxZFhZRnBYbFBrY2NPRnFtMTJDZEFzTWdSVTRWck5aOWx5R1ZDR3VNREdJd1A="
+
+config :lenra, Lenra.Repo,
+  username: "postgres",
+  password: "postgres",
+  database: "lenra_test#{System.get_env("MIX_TEST_PARTITION")}",
+  hostname: System.get_env("POSTGRES_HOST", "localhost"),
+  pool: Ecto.Adapters.SQL.Sandbox

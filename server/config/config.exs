@@ -7,6 +7,10 @@
 # General application configuration
 use Mix.Config
 
+# Configure the repo
+config :lenra,
+  ecto_repos: [Lenra.Repo]
+
 # Configures the endpoint
 config :lenra, LenraWeb.Endpoint,
   url: [host: "localhost"],

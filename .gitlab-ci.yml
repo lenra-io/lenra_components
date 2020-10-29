@@ -69,9 +69,15 @@ server build:
 # Unit test and code analysis for server
 server tests:
     image: registry.gitlab.com/lenra/integration/docker-ci-elixir
+    services: 
+        - postgres:12.2-alpine
+    variables:
+        POSTGRES_PASSWORD: "postgres"
+        POSTGRES_HOST: "postgres"
     stage: test
     script:
         - cd $SERVER_WORKDIR
+        - mix deps.get
         - mix credo --strict
         - mix test
 

@@ -7,6 +7,8 @@ defmodule Lenra.Application do
 
   def start(_type, _args) do
     children = [
+      # Start the ecto repository
+      Lenra.Repo,
       # Start the Telemetry supervisor
       LenraWeb.Telemetry,
       # Start the PubSub system

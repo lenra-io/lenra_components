@@ -14,7 +14,7 @@ defmodule Lenra.MixProject do
       # releases
       releases: [
         lenra: [
-          include_executables_for: [:unix],
+          include_executables_for: [:unix]
         ]
       ],
 
@@ -52,6 +52,9 @@ defmodule Lenra.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:finch, "~> 0.3"},
       {:json_diff, "~> 0.1.0"},
+      {:phoenix_ecto, "~> 4.1"},
+      {:ecto_sql, "~> 3.4"},
+      {:postgrex, ">= 0.0.0"},
       {:cowlib, "~> 2.9.1", override: true},
       {:ranch, "~> 1.7.1", override: true},
       {:cors_plug, "~> 2.0"},
@@ -70,7 +73,10 @@ defmodule Lenra.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      setup: ["deps.get"]
+      setup: ["deps.get", "ecto.setup"],
+      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+      "ecto.reset": ["ecto.drop", "ecto.setup"],
+      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
     ]
   end
 end

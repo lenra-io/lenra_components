@@ -27,7 +27,6 @@ defmodule LenraServices.Openwhisk do
         params
       )
       when is_binary(app_name) and is_binary(action_code) and is_map(params) do
-
     {base_url, headers} = get_http_context()
 
     url = "#{base_url}/actions/#{app_name}/main?result=true&blocking=true"
@@ -68,5 +67,4 @@ defmodule LenraServices.Openwhisk do
   defp response({:error, %{reason: reason}}) do
     {:error, "Action internal error : #{reason}"}
   end
-
 end
