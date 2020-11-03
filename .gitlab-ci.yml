@@ -12,10 +12,12 @@ cache:
         - ./server/deps
         - ./server/_build
         - ./client/build
+        - ./documentation/website/build
 
 variables:
     CLIENT_WORKDIR: ./client
     SERVER_WORKDIR: ./server
+    DOCUMENTATION_WORKDIR: ./documentation
 
 ################
 ## INIT STAGE ##
@@ -61,6 +63,17 @@ server build:
         - cd $SERVER_WORKDIR
         - mix deps.get
         - mix compile
+
+documentation build:
+    image: node:10-buster-slim
+    stage: build
+    script:
+        - cd $DOCUMENTATION_WORKDIR/docs
+        - npm install -g @adobe/jsonschema2md
+        - jsonschema2md -d ../../server/lib/lenra/services/json_validator/json -o schema
+        - cd ../website
+        - npm install
+        - npm run build
 
 ################
 ## TEST STAGE ##
@@ -121,4 +134,22 @@ client dockerize:
 
 client dockerize dev:
     <<: *docker-client-env
+    extends: .build docker dev
+
+.docker-documentation-env: &docker-documentation-env
+    stage: release
+    variables:
+        WORKDIR: $DOCUMENTATION_WORKDIR
+        DOCKER_IMAGE: $CI_REGISTRY_IMAGE/documentation
+
+documentation dockerize:
+    <<: *docker-documentation-env
+    extends: .build docker
+    only:
+        refs:
+            - master
+            - staging
+
+documentation dockerize dev:
+    <<: *docker-documentation-env
     extends: .build docker dev
