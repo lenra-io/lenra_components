@@ -13,16 +13,20 @@ defmodule LenraServices.JsonValidator do
     {:error, %{properties: %{"type" => %{pattern: ~r/text/, value: "txt"}}}}
   """
   def validate_json(schema_validator, schema) do
-    #Just the name of validator
-    validator = File.read!("lib/lenra/services/json_validator/json/#{schema_validator}_validator.schema.json")
-                |>Jason.decode!()
+    # Just the name of validator
+    validator =
+      File.read!(
+        "lib/lenra/services/json_validator/json/#{schema_validator}_validator.schema.json"
+      )
+      |> Jason.decode!()
 
-    #Schema validator already read
-    #validator=Jason.decode!(schema_validator)
+    # Schema validator already read
+    # validator=Jason.decode!(schema_validator)
 
-    schema_decoded = schema
-                        |> Jason.encode!()
-                        |> Jason.decode!()
+    schema_decoded =
+      schema
+      |> Jason.encode!()
+      |> Jason.decode!()
 
     validator_xema = JsonXema.new(validator)
     response(JsonXema.validate(validator_xema, schema_decoded))

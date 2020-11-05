@@ -55,6 +55,7 @@ defmodule Lenra.MixProject do
       {:phoenix_ecto, "~> 4.1"},
       {:ecto_sql, "~> 3.4"},
       {:postgrex, ">= 0.0.0"},
+      {:argon2_elixir, "~> 2.0"},
       {:cowlib, "~> 2.9.1", override: true},
       {:ranch, "~> 1.7.1", override: true},
       {:cors_plug, "~> 2.0"},
