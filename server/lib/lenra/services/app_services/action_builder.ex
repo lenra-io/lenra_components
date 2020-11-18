@@ -6,7 +6,7 @@ defmodule LenraServices.ActionBuilder do
   require Logger
 
   alias LenraServers.Storage, as: Storage
-  alias LenraServices.Openwhisk, as: Openwhisk
+  alias LenraServices.Openfaas, as: Openfaas
 
   @type ow_info :: {String.t(), String.t()}
   @type event :: map()
@@ -181,7 +181,7 @@ defmodule LenraServices.ActionBuilder do
 
   defp run_and_save_ui({_client_id, app_name} = ow_action, action_code, data, props) do
     with {:ok, ui} <-
-           Openwhisk.run_action(app_name, action_code, %{
+           Openfaas.run_action(app_name, action_code, %{
              data: data,
              props: props
            }) do
@@ -204,7 +204,7 @@ defmodule LenraServices.ActionBuilder do
 
   defp run_data({client_id, app_name}, action_code, old_data, props, event) do
     with {:ok, data} <-
-           Openwhisk.run_action(app_name, action_code, %{
+           Openfaas.run_action(app_name, action_code, %{
              data: old_data,
              props: props,
              event: event

@@ -79,7 +79,7 @@ class _LenraAppPageState extends State<LenraAppPage> {
       stream: stream,
       builder: (
         BuildContext context,
-        AsyncSnapshot<LenraComponent<LenraComponentState>> snapshot,
+        AsyncSnapshot<LenraComponent> snapshot,
       ) {
         if (snapshot.hasData) {
           return this.buildThemedApp(snapshot.data, appInfo.color);

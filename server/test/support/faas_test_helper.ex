@@ -4,12 +4,12 @@ defmodule LenraWeb.AppStub do
   """
   use ExUnit.CaseTemplate
 
-  def create_owstub do
+  def create_faas_stub do
     Bypass.open(port: 1234)
   end
 
   def stub_app(bypass, app_name) do
-    url = "/api/v1/namespaces/guest/actions/#{app_name}/main"
+    url = "/function/#{app_name}"
 
     Bypass.stub(bypass, "POST", url, &handle_action(&1, app_name))
 
@@ -24,7 +24,7 @@ defmodule LenraWeb.AppStub do
 
   defp handle_action(conn, app_name) do
     {:ok, body, _} = Plug.Conn.read_body(conn)
-    %{"action" => action_code} = LenraServices.Jiffy.decode!(body)
+    %{"action" => action_code} = Jason.decode!(body)
 
     {stored_action_code, result} = pop(app_name)
     assert stored_action_code == action_code
@@ -34,7 +34,7 @@ defmodule LenraWeb.AppStub do
         Plug.Conn.resp(conn, code, message)
 
       data ->
-        Plug.Conn.resp(conn, 200, LenraServices.Jiffy.encode!(data))
+        Plug.Conn.resp(conn, 200, Jason.encode!(data))
     end
   end
 

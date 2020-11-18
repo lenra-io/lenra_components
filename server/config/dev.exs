@@ -60,10 +60,6 @@ config :phoenix, :stacktrace_depth, 20
 config :phoenix, :plug_init_mode, :runtime
 
 config :lenra,
-  ow_host: System.get_env("OW_HOST", "http://172.17.0.1"),
-  ow_port: String.to_integer(System.get_env("OW_PORT", "3233")),
-  ow_auth:
-    System.get_env(
-      "OW_AUTH",
-      "Basic MjNiYzQ2YjEtNzFmNi00ZWQ1LThjNTQtODE2YWE0ZjhjNTAyOjEyM3pPM3haQ0xyTU42djJCS0sxZFhZRnBYbFBrY2NPRnFtMTJDZEFzTWdSVTRWck5aOWx5R1ZDR3VNREdJd1A="
-    )
+  faas_host: System.get_env("FAAS_HOST", "http://127.0.0.1"),
+  faas_port: String.to_integer(System.get_env("FAAS_PORT", "8080")),
+  faas_auth: System.get_env("FAAS_AUTH", "Basic YWRtaW46M2kwREc4NTdLWlVaODQ3R0pheW5qMXAwbQ==")

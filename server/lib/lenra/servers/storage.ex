@@ -118,7 +118,7 @@ defmodule LenraServers.Storage do
       "42:Counter:InitData:{\"toto\":\"tata\"}"
   """
   def generate_listeners_key(client_id, app_name, action_code, props) do
-    "#{client_id}:#{app_name}:#{action_code}:#{LenraServices.Jiffy.encode!(props)}"
+    "#{client_id}:#{app_name}:#{action_code}:#{Jason.encode!(props)}"
   end
 
   @doc ~S"""
@@ -130,6 +130,6 @@ defmodule LenraServers.Storage do
       "42:Counter:InitData:{\"toto\":\"tata\"}"
   """
   def generate_ui_key(client_id, app_name, action_code, props) do
-    "#{client_id}:#{app_name}:#{action_code}:#{LenraServices.Jiffy.encode!(props)}"
+    "#{client_id}:#{app_name}:#{action_code}:#{Jason.encode!(props)}"
   end
 end

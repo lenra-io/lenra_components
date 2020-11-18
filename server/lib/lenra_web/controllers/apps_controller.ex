@@ -1,10 +1,18 @@
 defmodule LenraWeb.AppsController do
   use LenraWeb, :controller
+  require Logger
 
   def index(conn, _params) do
-    case LenraServices.Openwhisk.run_app_list() do
-      {:ok, to_send} -> json(conn, to_send)
-      {:error, error_message} -> conn |> put_status(500) |> json(%{error: error_message})
+    with {:ok, app_list} <- LenraServices.Openfaas.run_app_list(),
+         to_send <- Enum.map(app_list, fn %{"name" => app_name} -> %{"name" => app_name} end) do
+      json(conn, to_send)
+    else
+      {:error, error_message} ->
+        Logger.debug(error_message)
+
+        conn
+        |> put_status(500)
+        |> json(%{error: error_message})
     end
   end
 end

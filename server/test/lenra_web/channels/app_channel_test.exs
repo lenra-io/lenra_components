@@ -8,7 +8,7 @@ defmodule LenraWeb.AppChannelTest do
   setup do
     socket = socket(LenraWeb.UserSocket, "socket_id", %{})
 
-    owstub = AppStub.create_owstub()
+    owstub = AppStub.create_faas_stub()
 
     %{socket: socket, owstub: owstub}
   end

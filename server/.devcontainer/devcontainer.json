@@ -7,7 +7,7 @@
 		"--name=lenra-server-phoenix"
 	],
 	"settings": {
-		"terminal.integrated.shell.linux": "/bin/bash"
+		"terminal.integrated.shell.linux": "/bin/sh"
 	},
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [

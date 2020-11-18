@@ -20,7 +20,7 @@ defmodule Lenra.Application do
       # Start the Cache Storage system (init all tables of storage)
       LenraServers.Storage,
       LenraServers.AppQueueHandler,
-      {Finch, name: Openwhisk}
+      {Finch, name: FaasHttp}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

@@ -1,21 +1,21 @@
-defmodule LenraServices.Openwhisk do
+defmodule LenraServices.Openfaas do
   @moduledoc """
-    The service that manage calls to an openwhisk action with `run_action/3`
+    The service that manage calls to an Openfaas action with `run_action/3`
   """
   require Logger
 
   defp get_http_context do
-    host = Application.fetch_env!(:lenra, :ow_host)
-    port = Application.fetch_env!(:lenra, :ow_port)
-    auth = Application.fetch_env!(:lenra, :ow_auth)
+    host = Application.fetch_env!(:lenra, :faas_host)
+    port = Application.fetch_env!(:lenra, :faas_port)
+    auth = Application.fetch_env!(:lenra, :faas_auth)
 
-    base_url = "#{host}:#{port}/api/v1/namespaces/guest"
-    header = [{"Authorization", auth}]
-    {base_url, header}
+    base_url = "#{host}:#{port}"
+    headers = [{"Authorization", auth}]
+    {base_url, headers}
   end
 
   @doc """
-    Run a HTTP POST request with needed headers and body to call an Openwhisk Action and decode the response body.
+    Run a HTTP POST request with needed headers and body to call an Openfaas Action and decode the response body.
 
     Returns `{:ok, decoded_body}` if the HTTP Post succeed
     Returns `{:error, reason}` if the HTTP Post fail
@@ -29,35 +29,35 @@ defmodule LenraServices.Openwhisk do
       when is_binary(app_name) and is_binary(action_code) and is_map(params) do
     {base_url, headers} = get_http_context()
 
-    url = "#{base_url}/actions/#{app_name}/main?result=true&blocking=true"
+    url = "#{base_url}/function/#{app_name}"
 
-    Logger.debug("Call OW Action : #{app_name}")
+    Logger.debug("Call to Openfaas : #{app_name}")
 
     headers = [{"Content-Type", "application/json"} | headers]
     params = Map.put(params, :action, action_code)
-    body = LenraServices.Jiffy.encode!(params)
+    body = Jason.encode!(params)
 
     Logger.info("Run app #{app_name} with action #{action_code}")
 
     Finch.build(:post, url, headers, body)
-    |> Finch.request(Openwhisk)
+    |> Finch.request(FaasHttp)
     |> response()
   end
 
   def run_app_list do
     {base_url, headers} = get_http_context()
 
-    Logger.debug("Get OW app list")
+    Logger.debug("Get Openfaas app list")
 
-    url = "#{base_url}/packages"
+    url = "#{base_url}/system/functions"
 
     Finch.build(:get, url, headers)
-    |> Finch.request(Openwhisk)
+    |> Finch.request(FaasHttp)
     |> response()
   end
 
   defp response({:ok, %Finch.Response{status: 200, body: body}}) do
-    {:ok, LenraServices.Jiffy.decode!(body)}
+    {:ok, Jason.decode!(body)}
   end
 
   defp response({:ok, %Finch.Response{status: status_code, body: body}}) do
@@ -65,6 +65,6 @@ defmodule LenraServices.Openwhisk do
   end
 
   defp response({:error, %{reason: reason}}) do
-    {:error, "Action internal error : #{reason}"}
+    {:error, "Error : #{reason}"}
   end
 end

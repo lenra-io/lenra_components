@@ -11,10 +11,9 @@ config :logger, level: :warn
 
 # Used to "mock" with Bypass
 config :lenra,
-  ow_host: "http://localhost",
-  ow_port: 1234,
-  ow_auth:
-    "Basic MjNiYzQ2YjEtNzFmNi00ZWQ1LThjNTQtODE2YWE0ZjhjNTAyOjEyM3pPM3haQ0xyTU42djJCS0sxZFhZRnBYbFBrY2NPRnFtMTJDZEFzTWdSVTRWck5aOWx5R1ZDR3VNREdJd1A="
+  faas_host: "http://localhost",
+  faas_port: 1234,
+  faas_auth: "Basic YWRtaW46M2kwREc4NTdLWlVaODQ3R0pheW5qMXAwbQ=="
 
 config :lenra, Lenra.Repo,
   username: "postgres",

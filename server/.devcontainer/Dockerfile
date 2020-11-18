@@ -1,12 +1,12 @@
-FROM elixir:1.10.4-slim
+FROM elixir:1.10-alpine
 
 # ** [Optional] Uncomment this section to install additional packages. **
 #
-RUN apt-get update \
-    && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get -y install --no-install-recommends inotify-tools bash \
-    && apt-get -y install git
+RUN apk add --no-cache build-base git python
 
-RUN mix local.hex --force
+RUN mix local.hex --force && \
+    mix local.rebar --force
 RUN mix archive.install hex phx_new 1.5.4 --force
 
+ENV POSTGRES_HOST=host.docker.internal
+ENV FAAS_HOST=http://host.docker.internal

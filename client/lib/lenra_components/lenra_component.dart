@@ -132,7 +132,7 @@ class LenraComponent<T extends LenraComponentState> extends StatefulWidget {
   }
 }
 
-abstract class LenraComponentState<T> extends State<LenraComponent> {
+abstract class LenraComponentState extends State<LenraComponent> {
   Key key;
   String id;
   LenraComponentState parent;
