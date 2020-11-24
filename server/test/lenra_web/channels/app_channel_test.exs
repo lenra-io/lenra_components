@@ -21,7 +21,7 @@ defmodule LenraWeb.AppChannelTest do
 
   @app_name "Counter"
   @listener_name "HiBob"
-  @listener_code "42:#{@app_name}:#{@listener_name}:{}"
+  @listener_code "#{@listener_name}:{}"
 
   @data %{"user" => %{"name" => "World"}}
   @data2 %{"user" => %{"name" => "Bob"}}
@@ -31,7 +31,13 @@ defmodule LenraWeb.AppChannelTest do
 
   @textfield %{
     "type" => "textfield",
-    "value" => "Hello {{user.name}}",
+    "value" => "Hello World",
+    "listeners" => @listeners
+  }
+
+  @textfield2 %{
+    "type" => "textfield",
+    "value" => "Hello Bob",
     "listeners" => @listeners
   }
 
@@ -41,11 +47,12 @@ defmodule LenraWeb.AppChannelTest do
     "listeners" => @transformed_listeners
   }
 
-  @ui %{"root" => @textfield}
+  @ui %{"root" => %{"type" => "container", "children" => [@textfield]}}
+  @ui2 %{"root" => %{"type" => "container", "children" => [@textfield2]}}
 
-  @expected_ui %{"root" => @transformed_textfield}
+  @expected_ui %{"root" => %{"type" => "container", "children" => [@transformed_textfield]}}
   @expected_patch_ui %{
-    patch: [%{"op" => "replace", "path" => "/root/value", "value" => "Hello Bob"}]
+    patch: [%{"op" => "replace", "path" => "/root/children/0/value", "value" => "Hello Bob"}]
   }
 
   test "Base use case with simple app", %{socket: socket, owstub: owstub} do
@@ -53,15 +60,14 @@ defmodule LenraWeb.AppChannelTest do
     # and the next MainUI should not be called but taken from cache instead
     owstub
     |> AppStub.stub_app(@app_name)
-    |> AppStub.stub_action_once("InitData", @data)
-    |> AppStub.stub_action_once("MainUi", @ui)
-    |> AppStub.stub_action_once(@listener_name, @data2)
+    |> AppStub.stub_action_once("InitData", %{"data" => @data, "ui" => @ui})
+    |> AppStub.stub_action_once(@listener_name, %{"data" => @data2, "ui" => @ui2})
 
     # Join the channel
     {:ok, _, socket} = my_subscribe_and_join(socket, %{"app" => @app_name})
 
     # Check that the correct data is stored into the socket
-    assert socket.assigns == %{app_name: @app_name, client_id: 42}
+    assert socket.assigns == %{app_name: @app_name, client_id: "42"}
 
     # Check that we receive a "ui" event with the final UI
     assert_push "ui", @expected_ui

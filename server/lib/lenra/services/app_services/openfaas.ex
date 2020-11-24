@@ -44,7 +44,7 @@ defmodule LenraServices.Openfaas do
     |> response()
   end
 
-  def run_app_list do
+  def fetch_app_list do
     {base_url, headers} = get_http_context()
 
     Logger.debug("Get Openfaas app list")

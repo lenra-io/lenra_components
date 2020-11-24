@@ -5,6 +5,9 @@
     "previous": "Previous",
     "tagline": "Welcome on the lenra documentation website",
     "docs": {
+      "getting_started": {
+        "title": "getting_started"
+      },
       "README": {
         "title": "README"
       },
@@ -160,6 +163,21 @@
       },
       "schema/ui_validator": {
         "title": "schema/ui_validator"
+      },
+      "ui/components": {
+        "title": "ui/components"
+      },
+      "ui/components/container": {
+        "title": "ui/components/container"
+      },
+      "ui/components/text": {
+        "title": "ui/components/text"
+      },
+      "ui/context": {
+        "title": "ui/context"
+      },
+      "ui/theme": {
+        "title": "ui/theme"
       }
     },
     "links": {

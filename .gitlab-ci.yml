@@ -92,7 +92,7 @@ server tests:
         - cd $SERVER_WORKDIR
         - mix deps.get
         - mix credo --strict
-        - mix test
+        - mix coveralls
 
 ###################
 ## RELEASE STAGE ##

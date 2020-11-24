@@ -11,6 +11,8 @@ defmodule Lenra.MixProject do
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: [coveralls: :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test],
       # releases
       releases: [
         lenra: [
@@ -61,7 +63,8 @@ defmodule Lenra.MixProject do
       {:bypass, "~> 2.0", only: :test},
       {:ex_doc, "~> 0.22", only: :dev, runtime: false},
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
-      {:sobelow, "~> 0.8", only: :dev}
+      {:sobelow, "~> 0.8", only: :dev},
+      {:excoveralls, "~> 0.10", only: :test}
     ]
   end
 

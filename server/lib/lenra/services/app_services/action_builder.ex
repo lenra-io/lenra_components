@@ -18,9 +18,8 @@ defmodule LenraServices.ActionBuilder do
   """
   @spec first_run(ow_info()) :: {:ok, ui()} | {:error, String.t()}
   def first_run(ow_info) do
-    with {:ok, data} <- run_data(ow_info, "InitData", %{}, %{}, %{}),
-         {:ok, final_ui} <- build_ui(ow_info, %{}, data, "MainUi") do
-      save_final_ui(ow_info, final_ui)
+    with {:ok, final_ui} <- run_app_listener(ow_info, "InitData", %{}, %{}, %{}) do
+      {:ok, final_ui}
     end
   end
 
@@ -29,10 +28,10 @@ defmodule LenraServices.ActionBuilder do
   """
   @spec listener_run(ow_info(), String.t(), event()) :: {:ok, ui_patch()} | {:error, String.t()}
   def listener_run(ow_info, action_key, event) do
-    with {:ok, {old_data, data}} <- run_listener_data(ow_info, action_key, event),
-         {:ok, final_ui} <- build_ui(ow_info, old_data, data, "MainUi"),
+    with {:ok, old_data} <- get_data(ow_info),
+         {:ok, {action_code, props}} <- get_listener(action_key),
          {:ok, last_final_ui} <- get_last_final_ui(ow_info),
-         {:ok, _} <- save_final_ui(ow_info, final_ui),
+         {:ok, final_ui} <- run_app_listener(ow_info, action_code, old_data, props, event),
          patch <- JSONDiff.diff(last_final_ui, final_ui) do
       {:ok, patch}
     end
@@ -44,6 +43,12 @@ defmodule LenraServices.ActionBuilder do
     {:ok, final_ui}
   end
 
+  defp save_data({client_id, app_name}, data) do
+    data_key = Storage.generate_data_key(client_id, app_name)
+    Storage.insert(:data, data_key, data)
+    {:ok, data}
+  end
+
   defp get_last_final_ui({client_id, app_name}) do
     final_ui_key = Storage.generate_final_ui_key(client_id, app_name)
 
@@ -53,79 +58,60 @@ defmodule LenraServices.ActionBuilder do
     end
   end
 
-  defp build_ui(ow_info, old_data, data, ui_action_code) do
-    with {:ok, %{"root" => base_component}} <- run_ui(ow_info, ui_action_code, old_data, data),
-         {:ok, builded_base_component} <- rec_build_ui(ow_info, base_component, old_data, data) do
-      {:ok, %{"root" => builded_base_component}}
+  defp build_ui(%{"root" => base_component} = ui) do
+    with {:ok, builded_base_component} <- rec_build_ui(base_component) do
+      {:ok, Map.put(ui, "root", builded_base_component)}
     end
   end
 
-  @spec rec_build_ui(ow_info(), map(), map(), map()) :: {:ok, map()} | {:error, String.t()}
-  def rec_build_ui(ow_info, component, old_data, data)
+  @spec rec_build_ui(map()) :: {:ok, map()} | {:error, String.t()}
+  def rec_build_ui(component)
 
   @doc """
     Build recursively the given component and return the builded component.
     The UI can be :
      - A container -> The function will build all children recursively
-     - A base component -> The function will bind the data
-     - A listener component -> The function will build the listener and bind the data
-     - A sub-ui -> The function replace the component with the builded corresponding UI
+     - A listener component -> The function will build the listener
+     - Any other : Nothing happend, return self.
   """
 
   # Container case. Run recursivly for all children. Return builded container with updated children
-  def rec_build_ui(ow_info, %{"children" => children} = container, old_data, data)
-      when is_list(children) do
-    with {:ok, new_children} <- call_async_children(ow_info, children, old_data, data) do
-      {:ok, Map.put(container, "children", new_children)}
+  def rec_build_ui(%{"children" => children} = container) when is_list(children) do
+    Enum.reduce_while(children, {:ok, []}, fn child, {:ok, acc} ->
+      case rec_build_ui(child) do
+        {:ok, new_child} -> {:cont, {:ok, acc ++ [new_child]}}
+        {:error, _} = err -> {:halt, err}
+      end
+    end)
+    |> case do
+      {:ok, new_children} -> {:ok, Map.put(container, "children", new_children)}
+      err -> err
     end
   end
 
   # listener case. Save all listeners and return modified listener element with data replacement
-  def rec_build_ui(
-        ow_info,
-        %{"listeners" => listeners_map} = component,
-        _old_data,
-        data
-      )
-      when is_map(listeners_map) do
-    with {:ok, new_listeners} <- save_and_encode_listeners(ow_info, listeners_map) do
+  def rec_build_ui(%{"listeners" => listeners_map} = component) when is_map(listeners_map) do
+    with {:ok, new_listeners} <- save_and_encode_listeners(listeners_map) do
       {
         :ok,
-        component
-        |> Map.merge(%{"listeners" => new_listeners})
-        |> Utils.DataManipulation.replace_keys(data)
+        Map.put(component, "listeners", new_listeners)
       }
     end
   end
 
-  # Sub ui case, run sub ui and return it
-  def rec_build_ui(
-        ow_info,
-        %{"type" => "ui", "name" => action_code} = sub_ui,
-        old_data,
-        data
-      ) do
-    with props <- Map.get(sub_ui, "props", %{}),
-         cache <- Map.get(sub_ui, "cache", :none),
-         {:ok, %{"root" => component}} <-
-           run_ui(ow_info, action_code, old_data, data, props, cache) do
-      rec_build_ui(ow_info, component, old_data, data)
-    end
-  end
-
   # Base case, return same component
-  def rec_build_ui(_ow_info, component, _old_data, data) do
-    {:ok, Utils.DataManipulation.replace_keys(component, data)}
+  def rec_build_ui(component) do
+    {:ok, component}
   end
 
-  defp save_and_encode_listeners({client_id, app_name}, listeners_map) do
+  defp save_and_encode_listeners(listeners_map) do
     Enum.reduce_while(
       listeners_map,
       {:ok, %{}},
       fn
         {event_name, %{"name" => action_code} = listener}, {:ok, acc} ->
           props = Map.get(listener, "props", %{})
-          listener_key = Storage.generate_listeners_key(client_id, app_name, action_code, props)
+          listener_key = Storage.generate_listeners_key(action_code, props)
           Storage.insert(:listeners, listener_key, listener)
           {:cont, {:ok, Map.put(acc, event_name, %{"code" => listener_key})}}
 
@@ -135,82 +121,17 @@ defmodule LenraServices.ActionBuilder do
     )
   end
 
-  defp call_async_children(ow_info, children, old_data, data) do
-    children
-    |> Enum.map(
-      &Task.async(LenraServices.ActionBuilder, :rec_build_ui, [ow_info, &1, old_data, data])
-    )
-    |> Enum.reduce_while({:ok, []}, fn task, {:ok, acc} ->
-      case Task.await(task) do
-        {:ok, child} -> {:cont, {:ok, acc ++ [child]}}
-        {:error, _} = err -> {:halt, err}
-      end
-    end)
-  end
-
-  defp run_ui(ow_info, action_code, old_data, data, props \\ %{}, cache \\ :none) do
-    with {:ok, ui} <- get_ui(ow_info, action_code, props),
-         false <- must_rebuild_ui?(ui, old_data, data) do
-      Logger.info("Get UI from Internal Cache")
-      {:ok, ui}
-    else
-      _ ->
-        case cache do
-          :none ->
-            run_and_save_ui(ow_info, action_code, data, props)
-
-          cache ->
-            Logger.info("Get UI from App Cache")
-            save_ui(ow_info, action_code, props, cache)
-        end
-    end
-  end
-
-  defp must_rebuild_ui?(%{"updateOn" => update_key_list}, old_data, new_data) do
-    Enum.any?(update_key_list, fn key ->
-      with old_value <- Utils.DataManipulation.get_data_from_key(key, old_data),
-           new_value <- Utils.DataManipulation.get_data_from_key(key, new_data) do
-        old_value != new_value
-      end
-    end)
-  end
-
-  defp must_rebuild_ui?(_any, _old_data, _new_data) do
-    false
-  end
-
-  defp run_and_save_ui({_client_id, app_name} = ow_action, action_code, data, props) do
-    with {:ok, ui} <-
-           Openfaas.run_action(app_name, action_code, %{
-             data: data,
-             props: props
-           }) do
-      save_ui(ow_action, action_code, props, ui)
-    end
-  end
-
-  defp save_ui({client_id, app_name}, action_code, props, ui) do
-    ui_key = Storage.generate_ui_key(client_id, app_name, action_code, props)
-    Storage.insert(:ui, ui_key, ui)
-  end
-
-  defp run_listener_data(ow_info, action_key, ui_event) do
-    with {:ok, old_data} <- get_data(ow_info),
-         {:ok, {action_code, props}} <- get_listener(action_key),
-         {:ok, data} <- run_data(ow_info, action_code, old_data, props, ui_event) do
-      {:ok, {old_data, data}}
-    end
-  end
-
-  defp run_data({client_id, app_name}, action_code, old_data, props, event) do
-    with {:ok, data} <-
+  defp run_app_listener({_client_id, app_name} = ow_info, action_code, old_data, props, event) do
+    with {:ok, %{"data" => data, "ui" => ui}} <-
            Openfaas.run_action(app_name, action_code, %{
              data: old_data,
              props: props,
              event: event
            }),
-         data_key <- Storage.generate_data_key(client_id, app_name) do
-      Storage.insert(:data, data_key, data)
+         {:ok, final_ui} <- build_ui(ui),
+         {:ok, _} <- save_final_ui(ow_info, final_ui),
+         {:ok, _} <- save_data(ow_info, data) do
+      {:ok, final_ui}
     end
   end
 
@@ -226,15 +147,6 @@ defmodule LenraServices.ActionBuilder do
     with data_key <- Storage.generate_data_key(client_id, app_name) do
       case Storage.get(:data, data_key) do
         nil -> {:error, "No data found."}
-        data -> {:ok, data}
-      end
-    end
-  end
-
-  defp get_ui({client_id, app_name}, action_code, props) do
-    with ui_key <- Storage.generate_ui_key(client_id, app_name, action_code, props) do
-      case Storage.get(:ui, ui_key) do
-        nil -> {:error, "No ui Found"}
         data -> {:ok, data}
       end
     end

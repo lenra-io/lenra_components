@@ -7,18 +7,19 @@ import 'package:fr_lenra_client/socket/ui_patch_event.dart';
 class LenraContainerState extends LenraComponentState {
   List<LenraComponent> children;
 
-  LenraContainerState(
-      {String id,
-      LenraComponentState parent,
-      Map<String, dynamic> properties,
-      Map<String, dynamic> styles,
-      Stream stream})
-      : super(
-            id: id,
-            parent: parent,
-            properties: properties,
-            styles: styles,
-            stream: stream) {
+  LenraContainerState({
+    String id,
+    LenraComponentState parent,
+    Map<String, dynamic> properties,
+    Map<String, dynamic> styles,
+    Stream stream,
+  }) : super(
+          id: id,
+          parent: parent,
+          properties: properties,
+          styles: styles,
+          stream: stream,
+        ) {
     List<dynamic> jsonChild = this.properties['children'] as List<dynamic>;
 
     // TODO : Attention, O(n²)

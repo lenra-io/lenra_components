@@ -7,17 +7,16 @@ defmodule LenraWeb.AppChannel do
   require Logger
 
   def join("app", %{"app" => app_name}, socket) do
-    client_id = 42
+    client_id = "42"
     socket = assign(socket, app_name: app_name, client_id: client_id)
 
-    LenraServers.AppQueueHandler.push(
-      client_id,
-      :ui,
-      LenraServices.ActionBuilder,
-      :first_run,
-      [{client_id, app_name}],
-      self()
-    )
+    case LenraServices.ActionBuilder.first_run({client_id, app_name}) do
+      {:ok, ui} ->
+        send(self(), {:send_ui, ui})
+
+      {:error, reason} ->
+        Logger.error(reason)
+    end
 
     {:ok, socket}
   end
@@ -26,27 +25,8 @@ defmodule LenraWeb.AppChannel do
     {:error, %{reason: "No App Name"}}
   end
 
-  def handle_info({:ui, res}, socket) do
-    case res do
-      {:ok, ui} ->
-        push(socket, "ui", ui)
-
-      {:error, reason} ->
-        Logger.error(reason)
-    end
-
-    {:noreply, socket}
-  end
-
-  def handle_info({:patch_ui, res}, socket) do
-    case res do
-      {:ok, patch} ->
-        push(socket, "patchUi", %{patch: patch})
-
-      {:error, reason} ->
-        Logger.error(reason)
-    end
-
+  def handle_info({:send_ui, ui}, socket) do
+    push(socket, "ui", ui)
     {:noreply, socket}
   end
 
@@ -61,14 +41,13 @@ defmodule LenraWeb.AppChannel do
   defp handle_run(socket, action_key, event \\ %{}) do
     %{app_name: app_name, client_id: client_id} = socket.assigns
 
-    LenraServers.AppQueueHandler.push(
-      client_id,
-      :patch_ui,
-      LenraServices.ActionBuilder,
-      :listener_run,
-      [{client_id, app_name}, action_key, event],
-      self()
-    )
+    case LenraServices.ActionBuilder.listener_run({client_id, app_name}, action_key, event) do
+      {:ok, patch} ->
+        push(socket, "patchUi", %{patch: patch})
+
+      {:error, reason} ->
+        Logger.error(reason)
+    end
 
     {:noreply, socket}
   end

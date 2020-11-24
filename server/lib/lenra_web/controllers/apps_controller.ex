@@ -3,7 +3,7 @@ defmodule LenraWeb.AppsController do
   require Logger
 
   def index(conn, _params) do
-    with {:ok, app_list} <- LenraServices.Openfaas.run_app_list(),
+    with {:ok, app_list} <- LenraServices.Openfaas.fetch_app_list(),
          to_send <- Enum.map(app_list, fn %{"name" => app_name} -> %{"name" => app_name} end) do
       json(conn, to_send)
     else

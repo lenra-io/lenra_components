@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_component.dart';
 
 class LenraTextState extends LenraComponentState {
-  LenraTextState({this.id, this.parent, this.properties, this.styles})
-      : super();
-
-  Key key;
-  String id;
-  LenraComponentState parent;
-  Map<String, dynamic> properties;
-  Map<String, dynamic> styles;
+  LenraTextState({
+    String id,
+    LenraComponentState parent,
+    Map<String, dynamic> properties,
+    Map<String, dynamic> styles,
+  }) : super(id: id, parent: parent, properties: properties, styles: styles);
 
   @override
   Widget build(BuildContext context) {
@@ -29,16 +27,9 @@ class LenraTextState extends LenraComponentState {
     Color backgroundColor =
         hex != null ? Color(int.parse('FF$hex', radix: 16)) : null;
 
-    if (this.properties['rich'] == 'true') {
-      return Text(
-        this.properties['value'],
-        style: TextStyle(color: color, backgroundColor: backgroundColor),
-      );
-    } else {
-      return Text(
-        this.properties['value'],
-        style: TextStyle(color: color, backgroundColor: backgroundColor),
-      );
-    }
+    return Text(
+      this.properties['value'].toString(),
+      style: TextStyle(color: color, backgroundColor: backgroundColor),
+    );
   }
 }

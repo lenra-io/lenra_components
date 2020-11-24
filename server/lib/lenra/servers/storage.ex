@@ -114,11 +114,11 @@ defmodule LenraServers.Storage do
     Each key is uniq for the same arguments
 
     # Examples
-      iex> LenraServers.Storage.generate_listeners_key(42, "Counter", "InitData", %{"toto" => "tata"})
-      "42:Counter:InitData:{\"toto\":\"tata\"}"
+      iex> LenraServers.Storage.generate_listeners_key("InitData", %{"toto" => "tata"})
+      "InitData:{\"toto\":\"tata\"}"
   """
-  def generate_listeners_key(client_id, app_name, action_code, props) do
-    "#{client_id}:#{app_name}:#{action_code}:#{Jason.encode!(props)}"
+  def generate_listeners_key(action_code, props) do
+    "#{action_code}:#{Jason.encode!(props)}"
   end
 
   @doc ~S"""

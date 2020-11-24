@@ -19,7 +19,6 @@ defmodule Lenra.Application do
       # {Lenra.Worker, arg}
       # Start the Cache Storage system (init all tables of storage)
       LenraServers.Storage,
-      LenraServers.AppQueueHandler,
       {Finch, name: FaasHttp}
     ]
 

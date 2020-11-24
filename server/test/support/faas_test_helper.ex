@@ -16,6 +16,24 @@ defmodule LenraWeb.AppStub do
     {bypass, app_name}
   end
 
+  def expect_app_list_once(bypass, result) do
+    url = "/system/functions"
+
+    Bypass.expect_once(bypass, "GET", url, fn conn ->
+      case result do
+        {:error, code, message} ->
+          Plug.Conn.resp(conn, code, message)
+
+        any ->
+          Plug.Conn.resp(
+            conn,
+            200,
+            Jason.encode!(any)
+          )
+      end
+    end)
+  end
+
   @spec stub_action_once(tuple(), String.t(), map() | {:error, number(), String.t()}) :: tuple()
   def stub_action_once({_bypass, app_name} = app, action_code, result) do
     push(app_name, {action_code, result})

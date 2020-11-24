@@ -1,5 +1,5 @@
 # Documentation
 
-## Schema
-
-get start with lenra application schema [here](schema/README.md)
+- [Getting started](getting_started.md)
+- [Composants](ui/components.md)
+- [Schema de validation](schema/README.md)

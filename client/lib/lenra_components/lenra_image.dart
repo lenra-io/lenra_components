@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_component.dart';
 
 class LenraImageState extends LenraComponentState {
-  LenraImageState(
-      {String id,
-      LenraComponentState parent,
-      Map<String, dynamic> properties,
-      Map<String, dynamic> styles,
-      Stream stream})
-      : super(
+  LenraImageState({
+    String id,
+    LenraComponentState parent,
+    Map<String, dynamic> properties,
+    Map<String, dynamic> styles,
+    Stream stream,
+  }) : super(
             id: id,
             parent: parent,
             properties: properties,
