@@ -19,7 +19,8 @@ defmodule Lenra.Application do
       # {Lenra.Worker, arg}
       # Start the Cache Storage system (init all tables of storage)
       LenraServers.Storage,
-      {Finch, name: FaasHttp}
+      {Finch, name: FaasHttp},
+      LenraService.EventQueue
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

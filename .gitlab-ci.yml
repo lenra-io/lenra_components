@@ -92,7 +92,7 @@ server tests:
         - cd $SERVER_WORKDIR
         - mix deps.get
         - mix credo --strict
-        - mix coveralls
+        - elixir --erl "+C multi_time_warp" -S mix coveralls
 
 ###################
 ## RELEASE STAGE ##

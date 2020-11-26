@@ -12,7 +12,12 @@ defmodule Lenra.MixProject do
       aliases: aliases(),
       deps: deps(),
       test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: [coveralls: :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test],
+      preferred_cli_env: [
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test
+      ],
       # releases
       releases: [
         lenra: [
@@ -60,6 +65,7 @@ defmodule Lenra.MixProject do
       {:cowlib, "~> 2.9.1", override: true},
       {:ranch, "~> 1.7.1", override: true},
       {:cors_plug, "~> 2.0"},
+      {:honeydew, "~> 1.4.6"},
       {:bypass, "~> 2.0", only: :test},
       {:ex_doc, "~> 0.22", only: :dev, runtime: false},
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
@@ -79,7 +85,11 @@ defmodule Lenra.MixProject do
       setup: ["deps.get", "ecto.setup"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
+      test: [
+        "ecto.create --quiet",
+        "ecto.migrate --quiet",
+        "test"
+      ]
     ]
   end
 end
