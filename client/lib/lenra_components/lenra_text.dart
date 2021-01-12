@@ -1,35 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:fr_lenra_client/app.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_component.dart';
 
-class LenraTextState extends LenraComponentState {
-  LenraTextState({
-    String id,
-    LenraComponentState parent,
-    Map<String, dynamic> properties,
-    Map<String, dynamic> styles,
-  }) : super(id: id, parent: parent, properties: properties, styles: styles);
+// TODO generate this from annotation on LenraText
+extension LenraTextExt on LenraText {
+  static LenraText create({color, backgroundColor, value}) {
+    return LenraText(color: color, backgroundColor: backgroundColor, value: value);
+  }
+
+  static const Map<String, String> propsTypes = {
+    "value": "String",
+    "color": "Color",
+    "backgroundColor": "Color"
+  };
+}
+
+class LenraText extends StatelessLenraComponent {
+  final String value;
+  final Color color;
+  final Color backgroundColor;
+
+  LenraText({this.color, this.backgroundColor, this.value}) : super();
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Change color from Hex to Int representation of color
-
-    String hex;
-    if (this.properties['color'] != null) {
-      hex = this.properties['color'].replaceFirst('#', '');
-    }
-    Color color = hex != null ? Color(int.parse('FF$hex', radix: 16)) : null;
-
-    // TODO: Change color from Hex to Int representation of color
-    hex = null;
-    if (this.properties['backgroundColor'] != null) {
-      hex = this.properties['backgroundColor'].replaceFirst('#', '');
-    }
-    Color backgroundColor =
-        hex != null ? Color(int.parse('FF$hex', radix: 16)) : null;
-
     return Text(
-      this.properties['value'].toString(),
-      style: TextStyle(color: color, backgroundColor: backgroundColor),
+      this.value,
+      style: TextStyle(color: this.color, backgroundColor: this.backgroundColor),
     );
   }
 }

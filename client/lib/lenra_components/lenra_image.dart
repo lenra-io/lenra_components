@@ -4,34 +4,33 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_component.dart';
 
-class LenraImageState extends LenraComponentState {
-  LenraImageState({
-    String id,
-    LenraComponentState parent,
-    Map<String, dynamic> properties,
-    Map<String, dynamic> styles,
-    Stream stream,
-  }) : super(
-            id: id,
-            parent: parent,
-            properties: properties,
-            styles: styles,
-            stream: stream);
+// TODO : generate this from annotation on LenraImage
+extension LenraImageExt on LenraImage {
+  static LenraImage create({value, backgroundColor, height, width}) {
+    return LenraImage(value: value, backgroundColor: backgroundColor, width: width, height: height);
+  }
+
+  static const Map<String, String> propsTypes = {
+    "value": "String",
+    "backgroundColor": "Color",
+    "width": "double",
+    "height": "double",
+  };
+}
+
+class LenraImage extends StatelessLenraComponent {
+  final String value;
+  final Color backgroundColor;
+  final double height;
+  final double width;
+
+  LenraImage({this.value, this.backgroundColor, this.height, this.width}) : super();
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Change color from Hex to Int representation of color
-    Uint8List _bytes = base64.decode(this.properties['value'].split(',').last);
-    String hex;
-    if (this.properties['backgroundColor'] != null) {
-      hex = this.properties['backgroundColor'].replaceFirst('#', '');
-    }
-    Color backgroundColor =
-        hex != null ? Color(int.parse('FF$hex', radix: 16)) : null;
-    return Container(
-        child: Image.memory(_bytes),
-        color: backgroundColor,
-        width: this.properties['width'],
-        height: this.properties['height']);
+    Uint8List _bytes = base64.decode(this.value.split(',').last);
+
+    return Image.memory(_bytes,
+        color: this.backgroundColor, width: this.width, height: this.height);
   }
 }

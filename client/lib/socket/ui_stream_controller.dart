@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:fr_lenra_client/lenra_components/lenra_component.dart';
+import 'package:fr_lenra_client/lenra_components/lenra_component_wrapper.dart';
 import 'package:fr_lenra_client/socket/lenra_socket.dart';
 import 'package:fr_lenra_client/socket/lerna_channel.dart';
 import 'package:fr_lenra_client/socket/ui_patch_event.dart';
@@ -12,7 +12,7 @@ class UIStreamController {
   LenraChannel chan;
 
   // ignore: close_sinks
-  StreamController<LenraComponent> _uiStreamController;
+  StreamController<LenraComponentWrapper> _uiStreamController;
 
   //? Une Map des streams liés aux éléments par leurs IDs.
   Map<String, StreamController<dynamic>> _uiStreams = Map();
@@ -23,12 +23,14 @@ class UIStreamController {
     this._createPatchUiStream();
   }
 
-  Stream<LenraComponent> get uiStream {
+  Stream<LenraComponentWrapper> get uiStream {
     return _uiStreamController.stream;
   }
 
-  void _handleNewUi(Map<String, dynamic> ui, EventSink<LenraComponent> sink) {
-    LenraComponent component = LenraComponent.create(ui);
+  void _handleNewUi(
+      Map<String, dynamic> ui, EventSink<LenraComponentWrapper> sink) {
+    LenraComponentWrapper component =
+        LenraComponentWrapper.create(ui["root"], '/root');
     sink.add(component);
   }
 
@@ -107,7 +109,7 @@ class UIStreamController {
   void _createUiStream() {
     _uiStreamController = StreamController();
 
-    Stream<LenraComponent> transformedUiStream =
+    Stream<LenraComponentWrapper> transformedUiStream =
         this.chan.getStreamController('ui').stream.transform(
               StreamTransformer.fromHandlers(handleData: this._handleNewUi),
             );

@@ -36,7 +36,8 @@ class ApplicationService {
       }).toList();
     } else {
       //replace by logger
-      throw Exception('Erreur de chargement');
+      throw Exception(
+          'Error (${response.statusCode}) fetching the list of apps');
     }
   }
 }

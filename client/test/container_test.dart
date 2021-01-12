@@ -7,26 +7,17 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fr_lenra_client/lenra_components/lenra_component.dart';
+import 'package:fr_lenra_client/lenra_components/container/lenra_container.dart';
 
 void main() {
   testWidgets('Create container component', (WidgetTester tester) async {
-    String value = 'My textfield';
-    LenraComponent container;
+    String value = 'My text';
+    LenraContainer container = LenraContainer(
+      children: [],
+    );
 
-    await tester.pumpWidget(LenraComponent.create(
-      {
-        'type': 'container',
-        'children': [
-          {'type': 'text', 'value': value}
-        ]
-      },
-    ));
+    await tester.pumpWidget(MaterialApp(home: Scaffold(body: container)));
 
-    expect(find.text(value), findsOneWidget,
-        reason: 'Can\'t find the LenraText widget');
-    // TODO: find how to find the State of the widget to see the real children list
-    expect(container.properties['children'].length, 1,
-        reason: 'LenraText value was not expected value.');
+    expect(container.children.length, 0);
   });
 }

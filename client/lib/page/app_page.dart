@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/apps/lenra_app_data_provider.dart';
 import 'package:fr_lenra_client/apps/lenra_application_info.dart';
 import 'package:fr_lenra_client/lenra_components/actionable/events/lenra_event.dart';
-import 'package:fr_lenra_client/lenra_components/lenra_component.dart';
+import 'package:fr_lenra_client/lenra_components/lenra_component_wrapper.dart';
 import 'package:fr_lenra_client/services/application_service.dart';
 import 'package:fr_lenra_client/socket/ui_stream_controller.dart';
 
@@ -37,14 +37,27 @@ class _LenraAppPageState extends State<LenraAppPage> {
     this.uiStreamController.close();
   }
 
-  Widget buildThemedApp(Widget app, Color color) {
+  Widget buildThemedApp(Widget app, LenraApplicationInfo appInfo) {
+    Widget scaffold = Scaffold(
+        body: app,
+        appBar: AppBar(
+            actionsIconTheme: IconThemeData(),
+            title: Text(
+              appInfo.name,
+              style: TextStyle(
+                  color: appInfo.color.computeLuminance() > 0.5
+                      ? Colors.black
+                      : Colors.white),
+            ),
+            centerTitle: true));
+
     return Theme(
       data: Theme.of(context).copyWith(
-        primaryColor: color,
-        accentColor: Colors.accents[Colors.primaries.indexOf(color)],
-        buttonColor: Colors.accents[Colors.primaries.indexOf(color)],
+        primaryColor: appInfo.color,
+        accentColor: Colors.accents[Colors.primaries.indexOf(appInfo.color)],
+        buttonColor: Colors.accents[Colors.primaries.indexOf(appInfo.color)],
       ),
-      child: app,
+      child: scaffold,
     );
   }
 
@@ -73,16 +86,16 @@ class _LenraAppPageState extends State<LenraAppPage> {
     }
   }
 
-  StreamBuilder<LenraComponent> getStreamBuilder(
-      Stream<LenraComponent> stream, LenraApplicationInfo appInfo) {
-    return StreamBuilder<LenraComponent>(
+  StreamBuilder<LenraComponentWrapper> getStreamBuilder(
+      Stream<LenraComponentWrapper> stream, LenraApplicationInfo appInfo) {
+    return StreamBuilder<LenraComponentWrapper>(
       stream: stream,
       builder: (
         BuildContext context,
-        AsyncSnapshot<LenraComponent> snapshot,
+        AsyncSnapshot<LenraComponentWrapper> snapshot,
       ) {
         if (snapshot.hasData) {
-          return this.buildThemedApp(snapshot.data, appInfo.color);
+          return this.buildThemedApp(snapshot.data, appInfo);
         } else {
           return this.buildWaitingOrErrorCase(snapshot.connectionState);
         }

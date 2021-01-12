@@ -5,18 +5,27 @@ import 'package:fr_lenra_client/lenra_components/actionable/events/lenra_on_subm
 import 'package:fr_lenra_client/lenra_components/actionable/lenra_actionable.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_component.dart';
 
-class LenraButtonState extends LenraComponentState implements LenraActionable {
-  LenraButtonState(
-      {String id,
-      LenraComponentState parent,
-      Map<String, dynamic> properties,
-      Map<String, dynamic> styles})
-      : super(id: id, parent: parent, properties: properties, styles: styles);
+// TODO : generate this from annotation on LenraButton
+extension LenraButtonExt on LenraButton {
+  static LenraButton create({value, listeners}) {
+    return LenraButton(value: value, listeners: listeners);
+  }
 
-  void onPressed() {
-    if (this.properties['listeners'] != null) {
-      final Map<String, dynamic> listener =
-          this.properties['listeners']['onClick'];
+  static const Map<String, String> propsTypes = {
+    "value": "String",
+    "listeners": "Map<String, dynamic>"
+  };
+}
+
+class LenraButton extends StatelessLenraComponent implements LenraActionable {
+  final String value;
+  final Map<String, dynamic> listeners;
+
+  LenraButton({@required this.value, this.listeners}) : super();
+
+  void onPressed(BuildContext context) {
+    if (this.listeners != null) {
+      final Map<String, dynamic> listener = this.listeners['onClick'];
       if (listener != null) {
         LenraOnPressEvent(code: listener['code'], event: {}).dispatch(context);
       }
@@ -25,13 +34,11 @@ class LenraButtonState extends LenraComponentState implements LenraActionable {
     }
   }
 
-  void onLongPress() {
-    if (this.properties['listeners'] != null) {
-      final Map<String, dynamic> listener =
-          this.properties['listeners']['onLongClick'];
+  void onLongPress(BuildContext context) {
+    if (this.listeners != null) {
+      final Map<String, dynamic> listener = this.listeners['onLongClick'];
       if (listener != null) {
-        LenraOnLongPressEvent(code: listener['code'], event: {})
-            .dispatch(context);
+        LenraOnLongPressEvent(code: listener['code'], event: {}).dispatch(context);
       }
     }
   }
@@ -39,10 +46,10 @@ class LenraButtonState extends LenraComponentState implements LenraActionable {
   @override
   Widget build(BuildContext context) {
     return OutlineButton(
-      child: Text(this.properties['value']),
+      child: Text(this.value),
       borderSide: BorderSide(color: Theme.of(context).buttonColor),
-      onPressed: this.onPressed,
-      onLongPress: this.onLongPress,
+      onPressed: () => this.onPressed(context),
+      onLongPress: () => this.onLongPress(context),
     );
   }
 }

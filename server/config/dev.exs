@@ -62,4 +62,8 @@ config :phoenix, :plug_init_mode, :runtime
 config :lenra,
   faas_host: System.get_env("FAAS_HOST", "http://127.0.0.1"),
   faas_port: String.to_integer(System.get_env("FAAS_PORT", "8080")),
-  faas_auth: System.get_env("FAAS_AUTH", "Basic YWRtaW46M2kwREc4NTdLWlVaODQ3R0pheW5qMXAwbQ==")
+  faas_auth:
+    System.get_env(
+      "FAAS_AUTH",
+      "Basic YWRtaW46YWQ5YmVmOWI5YmY4MDMzZjc0Y2E0ZDE5ZDkzOGM1YzMxMjlhOThjOWYwNGJlOWI5NTYwMTA1Y2E3ZTYwYzcyYw=="
+    )
