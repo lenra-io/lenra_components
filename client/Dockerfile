@@ -1,2 +1,2 @@
-FROM nginx:alpine
-COPY build/web /usr/share/nginx/html
+FROM bitnami/nginx
+COPY build/web /app

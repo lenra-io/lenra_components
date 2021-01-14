@@ -1,23 +1,19 @@
 include:
-    - project: 'lenra/environment'
-      ref: master
-      file: '/ci-cd/gitlab/lib/base.yml'
-    - project: 'lenra/environment'
-      ref: master
-      file: '/ci-cd/gitlab/lib/docker.yml'
-
-# Cache for server and client
-cache:
-    paths:
-        - ./server/deps
-        - ./server/_build
-        - ./client/build
-        - ./documentation/website/build
+  - project: "lenra/integration/ci/gitlab-ci"
+    ref: master
+    file: "/lib/base.yml"
+  - project: "lenra/integration/ci/gitlab-ci"
+    ref: master
+    file: "/lib/docker.yml"
+  - project: "lenra/integration/ci/gitlab-ci"
+    ref: master
+    file: "/lib/kubernetes.yml"
 
 variables:
-    CLIENT_WORKDIR: ./client
-    SERVER_WORKDIR: ./server
-    DOCUMENTATION_WORKDIR: ./documentation
+  CLIENT_WORKDIR: ./client
+  SERVER_WORKDIR: ./server
+  DOCUMENTATION_WORKDIR: ./documentation
+  DOCKER_SUBIMAGES: "client server documentation"
 
 ################
 ## INIT STAGE ##
@@ -26,54 +22,67 @@ variables:
 # Handle version globally for server and client
 
 manage version:
-    variables:
-        VERSION_GETTER: cat version
-    extends: .get version
-
+  variables:
+    VERSION_GETTER: cat version
+  extends: .get version
+  needs: []
 
 #################
 ## BUILD STAGE ##
 #################
-client build prod:
-    image: registry.gitlab.com/lenra/integration/docker-ci-flutter
-    stage: build 
-    script:
-        - cd $CLIENT_WORKDIR
-        - flutter pub get
-        - flutter build web --release --target=./lib/main_prod.dart
-    only:
-        refs:
-            - master
-
-client build dev:
-    image: registry.gitlab.com/lenra/integration/docker-ci-flutter
-    stage: build
-    script:
-        - cd $CLIENT_WORKDIR
-        - flutter pub get
-        - flutter build web --release --target=./lib/main.dart
-    except:
-        refs:
-            - master
+client build:
+  image: registry.gitlab.com/lenra/integration/docker-ci-flutter
+  stage: build
+  script:
+    - cd $CLIENT_WORKDIR
+    - flutter pub get
+    - flutter build web --release --target=./lib/main.dart
+  artifacts:
+    paths:
+      - ${WORKDIR}/client/build
+  needs: []
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "staging"'
+    - if: "$CI_MERGE_REQUEST_IID"
 
 server build:
-    image: registry.gitlab.com/lenra/integration/docker-ci-elixir
-    stage: build
-    script:
-        - cd $SERVER_WORKDIR
-        - mix deps.get
-        - mix compile
+  image: registry.gitlab.com/lenra/integration/docker-ci-elixir
+  stage: build
+  script:
+    - cd $SERVER_WORKDIR
+    - mix deps.get
+    - mix compile
+  cache:
+    key: server_${CI_MERGE_REQUEST_IID}
+    paths:
+      - ./server/deps
+      - ./server/_build
+  artifacts:
+    paths:
+      - ${WORKDIR}/server/deps
+      - ${WORKDIR}/server/_build
+  needs: []
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "staging"'
+    - if: "$CI_MERGE_REQUEST_IID"
 
 documentation build:
-    image: node:10-buster-slim
-    stage: build
-    script:
-        - cd $DOCUMENTATION_WORKDIR/docs
-        - npm install -g @adobe/jsonschema2md
-        - jsonschema2md -d ../../server/lib/lenra/services/json_validator/json -o schema
-        - cd ../website
-        - npm install
-        - npm run build
+  image: node:10-buster-slim
+  stage: build
+  script:
+    - cd $DOCUMENTATION_WORKDIR/docs
+    - npm install -g @adobe/jsonschema2md
+    - jsonschema2md -d ../../server/lib/lenra/services/json_validator/json -o schema
+    - cd ../website
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - ${WORKDIR}/documentation/website/build
+  needs: []
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "staging"'
+    - if: "$CI_MERGE_REQUEST_IID"
 
 ################
 ## TEST STAGE ##
@@ -81,75 +90,185 @@ documentation build:
 
 # Unit test and code analysis for server
 server tests:
-    image: registry.gitlab.com/lenra/integration/docker-ci-elixir
-    services: 
-        - postgres:12.2-alpine
-    variables:
-        POSTGRES_PASSWORD: "postgres"
-        POSTGRES_HOST: "postgres"
-    stage: test
-    script:
-        - cd $SERVER_WORKDIR
-        - mix deps.get
-        - mix credo --strict
-        - elixir --erl "+C multi_time_warp" -S mix coveralls
+  image: registry.gitlab.com/lenra/integration/docker-ci-elixir
+  services:
+    - postgres:12.2-alpine
+  cache:
+    key: server-test_${CI_MERGE_REQUEST_IID}
+    paths:
+      - ./server/deps
+      - ./server/_build
+  variables:
+    POSTGRES_PASSWORD: "postgres"
+    POSTGRES_HOST: "postgres"
+  stage: test
+  script:
+    - cd $SERVER_WORKDIR
+    - mix deps.get
+    - mix credo --strict
+    - elixir --erl "+C multi_time_warp" -S mix coveralls
+
+  needs: []
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "staging"'
+    - if: "$CI_MERGE_REQUEST_IID"
 
 ###################
 ## RELEASE STAGE ##
 ###################
-.docker-server-env: &docker-server-env
-    stage: release
-    variables:
-        WORKDIR: $SERVER_WORKDIR
-        DOCKER_IMAGE: $CI_REGISTRY_IMAGE/server
-        DOCKER_BUILD_ARGS: --build-arg secret_key_base=$SECRET_KEY_BASE
-
 
 server dockerize:
-    <<: *docker-server-env
-    extends: .build docker
-    only:
-        refs:
-            - master
-            - staging
-
-server dockerize dev:
-    <<: *docker-server-env
-    extends: .build docker dev
-
-
-.docker-client-env: &docker-client-env
-    stage: release
-    variables:
-        WORKDIR: $CLIENT_WORKDIR
-        DOCKER_IMAGE: $CI_REGISTRY_IMAGE/client
+  extends: .build docker
+  variables:
+    WORKDIR: $SERVER_WORKDIR
+    DOCKER_IMAGE: $CI_REGISTRY_IMAGE/server
+  needs:
+    - job: server build
+      artifacts: true
+    - server tests
 
 client dockerize:
-    <<: *docker-client-env
-    extends: .build docker
-    only:
-        refs:
-            - master
-            - staging
-
-client dockerize dev:
-    <<: *docker-client-env
-    extends: .build docker dev
-
-.docker-documentation-env: &docker-documentation-env
-    stage: release
-    variables:
-        WORKDIR: $DOCUMENTATION_WORKDIR
-        DOCKER_IMAGE: $CI_REGISTRY_IMAGE/documentation
+  extends: .build docker
+  variables:
+    WORKDIR: $CLIENT_WORKDIR
+    DOCKER_IMAGE: $CI_REGISTRY_IMAGE/client
+  needs:
+    - job: client build
+      artifacts: true
 
 documentation dockerize:
-    <<: *docker-documentation-env
-    extends: .build docker
-    only:
-        refs:
-            - master
-            - staging
+  extends: .build docker
+  variables:
+    WORKDIR: $DOCUMENTATION_WORKDIR
+    DOCKER_IMAGE: $CI_REGISTRY_IMAGE/documentation
+  needs:
+    - job: documentation build
+      artifacts: true
 
-documentation dockerize dev:
-    <<: *docker-documentation-env
-    extends: .build docker dev
+prepare release:
+  extends: .prepare release
+  variables:
+    ISSUE_BASE_URL: https://lenra.atlassian.net/browse/
+    REGEX_SUBJECT_PATTERN: ^((feature|bugfix|hotfix|ignore)\/)?(LENRA-[0-9]+)?(.*)$
+  needs:
+    - job: manage version
+      artifacts: true
+
+release:
+  extends: .release
+  needs:
+    - job: manage version
+      artifacts: true
+    - job: prepare release
+      artifacts: true
+
+.tag docker lenra:
+  extends: .tag docker image
+  variables:
+    DOCKER_STAGING_TAG: release-${VERSION}
+  needs:
+    - job: manage version
+      artifacts: true
+
+tag client:
+  extends: .tag docker lenra
+  variables:
+    DOCKER_IMAGE: $CI_REGISTRY_IMAGE/client
+
+tag server:
+  extends: .tag docker lenra
+  variables:
+    DOCKER_IMAGE: $CI_REGISTRY_IMAGE/server
+
+tag documentation:
+  extends: .tag docker lenra
+  variables:
+    DOCKER_IMAGE: $CI_REGISTRY_IMAGE/documentation
+
+###################
+## DEPLOY STAGE ##
+###################
+
+deploy test:
+  extends: .deploy kustomize force update
+  variables:
+    KUSTOMIZE_ENV: test
+    LENRA_HOST: ${CI_COMMIT_REF_SLUG}.test.lenra.me
+    LENRA_DOCUMENTATION_HOST: ${CI_COMMIT_REF_SLUG}.test.lenra.io
+  before_script:
+    - cat k8s/environment/test/ingressroute-patches.yml | envsubst '${LENRA_HOST} ${LENRA_DOCUMENTATION_HOST}' > tmp.txt
+    - cat tmp.txt > k8s/environment/test/ingressroute-patches.yml
+    - cat k8s/environment/test/add-script.conf | envsubst > tmp.txt
+    - cat tmp.txt > k8s/environment/test/add-script.conf
+    - mv ${GITLAB_REGISTRY_SECRET} k8s/environment/test/secret-gitlab-registry.yml
+    - cat k8s/environment/gitlab-env.yml | envsubst > k8s/environment/${KUSTOMIZE_ENV}/gitlab-env.yml
+    - cd k8s/environment/${KUSTOMIZE_ENV}
+    - kustomize edit add patch --kind Deployment --path gitlab-env.yml
+    - kustomize edit add resource secret-gitlab-registry.yml
+    - kustomize edit add configmap lenra-host --from-literal LENRA_HOST=${LENRA_HOST} --from-literal LENRA_DOCUMENTATION_HOST=${LENRA_DOCUMENTATION_HOST}
+    - eval ${KUBE_INIT}
+  needs:
+    - client dockerize
+    - server dockerize
+    - documentation dockerize
+  environment:
+    name: ${CI_COMMIT_REF_SLUG}
+    url: https://${CI_COMMIT_REF_SLUG}.test.lenra.me/
+    on_stop: stop test env
+  rules:
+    - if: "$CI_MERGE_REQUEST_IID"
+
+stop test env:
+  extends: .stop dynamic env
+  needs:
+    - deploy test
+  rules:
+    - if: "$CI_MERGE_REQUEST_IID"
+      when: manual
+
+deploy staging:
+  extends: .deploy kustomize force update
+  variables:
+    KUBE_NAMESPACE: lenra-test
+  before_script:
+    - cat k8s/environment/gitlab-env.yml | envsubst > k8s/environment/${KUSTOMIZE_ENV}/gitlab-env.yml
+    - cd k8s/environment/${KUSTOMIZE_ENV}
+    - kustomize edit add patch --kind Deployment --path gitlab-env.yml
+    - eval ${KUBE_INIT}
+  needs:
+    - job: manage version
+      artifacts: true
+    - client dockerize
+    - server dockerize
+    - documentation dockerize
+  environment:
+    name: staging
+    url: https://staging.lenra.me/
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "staging"'
+    - if: '$CI_MERGE_REQUEST_IID && $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^release\//'
+      variables:
+        DOCKER_TAG: release-${VERSION}
+
+deploy prod:
+  extends: .deploy kustomize
+  variables:
+    DOCKER_TAG: ${VERSION}
+    KUBE_NAMESPACE: lenra-prod
+  before_script:
+    - cat k8s/environment/gitlab-env.yml | envsubst > k8s/environment/${KUSTOMIZE_ENV}/gitlab-env.yml
+    - cd k8s/environment/${KUSTOMIZE_ENV}
+    - kustomize edit add patch --kind Deployment --path gitlab-env.yml
+    - eval ${KUBE_INIT}
+  needs:
+    - job: manage version
+      artifacts: true
+    - tag client
+    - tag server
+    - tag documentation
+  environment:
+    name: production
+    url: https://www.lenra.me/
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+      when: manual

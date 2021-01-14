@@ -5,11 +5,9 @@ defmodule LenraServices.Openfaas do
   require Logger
 
   defp get_http_context do
-    host = Application.fetch_env!(:lenra, :faas_host)
-    port = Application.fetch_env!(:lenra, :faas_port)
+    base_url = Application.fetch_env!(:lenra, :faas_url)
     auth = Application.fetch_env!(:lenra, :faas_auth)
 
-    base_url = "#{host}:#{port}"
     headers = [{"Authorization", auth}]
     {base_url, headers}
   end

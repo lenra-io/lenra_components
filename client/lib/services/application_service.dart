@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/apps/lenra_application_info.dart';
+import 'package:fr_lenra_client/config/config.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -10,7 +11,7 @@ class ApplicationService {
   }
 
   static Future<List<LenraApplicationInfo>> getAppList() async {
-    final response = await http.get('http://localhost:4000/api/apps');
+    final response = await http.get("${Config.instance.httpEndpoint}/api/apps");
     final icon = [
       Icons.access_alarm,
       Icons.ac_unit,

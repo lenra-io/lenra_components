@@ -36,7 +36,7 @@ defmodule Lenra.MixProject do
   def application do
     [
       mod: {Lenra.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :peerage]
     ]
   end
 
@@ -66,6 +66,7 @@ defmodule Lenra.MixProject do
       {:ranch, "~> 1.7.1", override: true},
       {:cors_plug, "~> 2.0"},
       {:honeydew, "~> 1.4.6"},
+      {:peerage, "~> 1.0"},
       {:bypass, "~> 2.0", only: :test},
       {:ex_doc, "~> 0.22", only: :dev, runtime: false},
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
@@ -82,6 +83,7 @@ defmodule Lenra.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
+      start: ["phx.server"],
       setup: ["deps.get", "ecto.setup"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],

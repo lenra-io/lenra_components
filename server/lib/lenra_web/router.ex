@@ -11,6 +11,10 @@ defmodule LenraWeb.Router do
     get("/apps", AppsController, :index)
   end
 
+  scope "/", LenraWeb do
+    get("/health", HealthController, :index)
+  end
+
   # Enables LiveDashboard only for development
   #
   # If you want to use the LiveDashboard in production, you should put

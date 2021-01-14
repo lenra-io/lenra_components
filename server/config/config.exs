@@ -14,10 +14,9 @@ config :lenra,
 # Configures the endpoint
 config :lenra, LenraWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "FuEn07fjnCLaC53BiDoBagPYdsv/S65QTfxWgusKP1BA5NiaFzXGYMHLZ6JAYxt1",
+  http: [port: {:system, "PORT"}],
   render_errors: [view: LenraWeb.ErrorView, accepts: ~w(json), layout: false],
-  pubsub_server: Lenra.PubSub,
-  live_view: [signing_salt: "DVg2ybPd"]
+  pubsub_server: Lenra.PubSub
 
 # Configures Elixir's Logger
 config :logger, :console,

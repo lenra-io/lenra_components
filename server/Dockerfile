@@ -1,13 +1,10 @@
 FROM elixir:1.10-alpine AS build
 
-ARG secret_key_base
-ENV SECRET_KEY_BASE=$secret_key_base
+# prepare build dir
+WORKDIR /app
 
 # install build dependencies
 RUN apk add --no-cache build-base git python
-
-# prepare build dir
-WORKDIR /app
 
 # install hex + rebar
 RUN mix local.hex --force && \
@@ -16,33 +13,26 @@ RUN mix local.hex --force && \
 # set build ENV
 ENV MIX_ENV=prod
 
+# copy needed files
+COPY . .
+
 # install mix dependencies
-COPY mix.exs mix.lock ./
-COPY config config
 RUN mix do deps.get, deps.compile
 
 # build assets
-COPY priv priv
 RUN mix phx.digest
 
 # compile and build release
-COPY lib lib
-# uncomment COPY if rel/ exists
-# COPY rel rel
 RUN mix do compile, release
 
 # prepare release image
-# FROM elixir:1.10-alpine AS app
-RUN apk add --no-cache openssl ncurses-libs
+FROM erlang:22-alpine
 
-# WORKDIR /app
+WORKDIR /app
+COPY --from=build /app/_build/prod/rel/lenra .
 
-# RUN chown nobody:nobody /app
+RUN adduser -D lenra && chown -R lenra:lenra .
+USER lenra
 
-# USER nobody:nobody
-
-# COPY --from=build /app/_build ./_build
-
-ENV HOME=/app
-
-CMD ["_build//prod/rel/lenra/bin/lenra", "start"]
+ENTRYPOINT [ "bin/lenra" ]
+CMD ["start"]

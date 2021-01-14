@@ -4,7 +4,7 @@ use Mix.Config
 config :lenra, Lenra.Repo,
   username: System.get_env("POSTGRES_USER", "postgres"),
   password: System.get_env("POSTGRES_PASSWORD", "postgres"),
-  database: System.get_env("POSTGRES_DB_NAME", "lenra_dev"),
+  database: System.get_env("POSTGRES_DB", "lenra_dev"),
   hostname: System.get_env("POSTGRES_HOST", "localhost"),
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
@@ -17,6 +17,7 @@ config :lenra, Lenra.Repo,
 # with webpack to recompile .js and .css sources.
 config :lenra, LenraWeb.Endpoint,
   http: [port: String.to_integer(System.get_env("PORT", "4000"))],
+  secret_key_base: "FuEn07fjnCLaC53BiDoBagPYdsv/S65QTfxWgusKP1BA5NiaFzXGYMHLZ6JAYxt1",
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
@@ -60,10 +61,10 @@ config :phoenix, :stacktrace_depth, 20
 config :phoenix, :plug_init_mode, :runtime
 
 config :lenra,
-  faas_host: System.get_env("FAAS_HOST", "http://127.0.0.1"),
-  faas_port: String.to_integer(System.get_env("FAAS_PORT", "8080")),
-  faas_auth:
-    System.get_env(
-      "FAAS_AUTH",
-      "Basic YWRtaW46YWQ5YmVmOWI5YmY4MDMzZjc0Y2E0ZDE5ZDkzOGM1YzMxMjlhOThjOWYwNGJlOWI5NTYwMTA1Y2E3ZTYwYzcyYw=="
-    )
+  faas_url: System.get_env("FAAS_URL", "http://localhost:8080"),
+  faas_auth: System.get_env("FAAS_AUTH", "Basic YWRtaW46M2kwREc4NTdLWlVaODQ3R0pheW5qMXAwbQ==")
+
+config :peerage,
+  via: Peerage.Via.List,
+  node_list: [:"lenra@127.0.0.1"],
+  log_results: false

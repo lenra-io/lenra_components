@@ -11,8 +11,7 @@ config :logger, level: :warn
 
 # Used to "mock" with Bypass
 config :lenra,
-  faas_host: "http://localhost",
-  faas_port: 1234,
+  faas_url: "http://localhost:1234",
   faas_auth: "Basic YWRtaW46M2kwREc4NTdLWlVaODQ3R0pheW5qMXAwbQ=="
 
 config :lenra, Lenra.Repo,

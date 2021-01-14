@@ -1,33 +1,26 @@
+import 'package:flutter/services.dart';
+import 'dart:js';
+
 class Config {
-  Config._({
-    this.serverHost,
-    this.serverPort,
-    this.secure,
-  }) {
+  Config._(this.httpEndpoint) {
     if (_instance == null) {
       Config._instance = this;
     } else {
       throw Exception("La config ne doit être instanciée qu'une seule fois.");
     }
-    String httpScheme = this.secure ? "https" : "http";
-    httpEndpoint = "$httpScheme://$serverHost:$serverPort/";
-    String wsScheme = this.secure ? "wss" : "ws";
-    wsEndpoint = "$wsScheme://$serverHost:$serverPort/socket/websocket";
+    String url = httpEndpoint;
+    if (url.isEmpty) {
+      url = context['location']['origin'];
+    }
+    wsEndpoint = "${url.replaceFirst(new RegExp("^http"), "ws")}/socket/websocket";
   }
 
-  factory Config.create({String serverHost, int serverPort, bool secure}) {
-    return Config._(
-      serverHost: serverHost,
-      serverPort: serverPort,
-      secure: secure,
-    );
+  factory Config.create(String serverUrl) {
+    return Config._(serverUrl);
   }
 
   static Config _instance;
-  final String serverHost;
-  final int serverPort;
-  final bool secure;
-  String httpEndpoint;
+  final String httpEndpoint;
   String wsEndpoint;
 
   static Config get instance => _instance;

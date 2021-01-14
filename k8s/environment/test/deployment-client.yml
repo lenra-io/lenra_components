@@ -1,0 +1,16 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: lenra-client
+spec:
+  template:
+    spec:
+      volumes:
+        - name: conf-dir
+          configMap:
+            name: nginx-conf
+      containers:
+        - name: lenra-client
+          volumeMounts:
+            - name: conf-dir
+              mountPath: /opt/bitnami/nginx/conf/server_blocks/

@@ -1,0 +1,21 @@
+- op: replace
+  path: /spec/routes/0/match
+  value: Host(`www.lenra.me`) && PathPrefix(`/api`)
+- op: replace
+  path: /spec/routes/0/middlewares
+  value: []
+- op: replace
+  path: /spec/routes/1/match
+  value: Host(`www.lenra.me`) && PathPrefix(`/socket`)
+- op: replace
+  path: /spec/routes/2/match
+  value: Host(`www.lenra.me`) && PathPrefix(`/`)
+- op: replace
+  path: /spec/routes/2/middlewares
+  value: []
+- op: replace
+  path: /spec/routes/3/match
+  value: Host(`www.lenra.io`)
+- op: replace
+  path: /spec/routes/3/middlewares
+  value: []

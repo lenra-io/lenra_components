@@ -1,0 +1,44 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: lenra
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`test.lenra.me`) && PathPrefix(`/api`)
+      middlewares:
+        - name: basicauth
+          namespace: traefik
+      services:
+        - kind: Service
+          name: lenra-server
+          port: 4000
+    # Le basic auth ne marche pas sur Safari...
+    - kind: Rule
+      match: Host(`test.lenra.me`) && PathPrefix(`/socket`)
+      services:
+        - kind: Service
+          name: lenra-server
+          port: 4000
+    - kind: Rule
+      match: Host(`test.lenra.me`) && PathPrefix(`/`)
+      middlewares:
+        - name: basicauth
+          namespace: traefik
+      services:
+        - kind: Service
+          name: lenra-client
+          port: 8080
+    - kind: Rule
+      match: Host(`test.lenra.io`)
+      middlewares:
+        - name: basicauth
+          namespace: traefik
+      services:
+        - kind: Service
+          name: lenra-documentation
+          port: 8080
+  tls:
+    certResolver: letsencryptresolver

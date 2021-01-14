@@ -1,2 +1,2 @@
-FROM nginx:alpine
-COPY website/build/lenra-documentation /usr/share/nginx/html
+FROM bitnami/nginx
+COPY website/build/lenra-documentation /app

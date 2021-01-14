@@ -1,11 +1,6 @@
 use Mix.Config
 
 config :lenra, Lenra.Repo,
-  username: System.get_env("POSTGRES_USER", "postgres"),
-  password: System.get_env("POSTGRES_PASSWORD", "postgres"),
-  database: System.get_env("POSTGRES_DB_NAME", "lenra"),
-  hostname: System.get_env("POSTGRES_HOST", "localhost"),
-  show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
 # For production, don't forget to configure the url host
@@ -18,55 +13,15 @@ config :lenra, Lenra.Repo,
 # which you should run after static files are built and
 # before starting your production server.
 config :lenra, LenraWeb.Endpoint,
-  url: [host: "lenra.me", port: 80],
+  http: [
+    transport_options: [socket_opts: [:inet6]]
+  ],
+  server: true,
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production
 config :logger, level: :info
 
-config :lenra,
-  faas_host: System.get_env("FAAS_HOST", "http://127.0.0.1"),
-  faas_port: String.to_integer(System.get_env("FAAS_PORT", "8080")),
-  faas_auth: System.get_env("FAAS_AUTH", "Basic YWRtaW46M2kwREc4NTdLWlVaODQ3R0pheW5qMXAwbQ==")
-
 # Edit to allow only wanted sources
 config :cors_plug,
-  origin: ["*"]
-
-# ## SSL Support
-#
-# To get SSL working, you will need to add the `https` key
-# to the previous section and set your `:url` port to 443:
-#
-#     config :lenra, LenraWeb.Endpoint,
-#       ...
-#       url: [host: "example.com", port: 443],
-#       https: [
-#         port: 443,
-#         cipher_suite: :strong,
-#         keyfile: System.get_env("SOME_APP_SSL_KEY_PATH"),
-#         certfile: System.get_env("SOME_APP_SSL_CERT_PATH"),
-#         transport_options: [socket_opts: [:inet6]]
-#       ]
-#
-# The `cipher_suite` is set to `:strong` to support only the
-# latest and more secure SSL ciphers. This means old browsers
-# and clients may not be supported. You can set it to
-# `:compatible` for wider support.
-#
-# `:keyfile` and `:certfile` expect an absolute path to the key
-# and cert in disk or a relative path inside priv, for example
-# "priv/ssl/server.key". For all supported SSL configuration
-# options, see https://hexdocs.pm/plug/Plug.SSL.html#configure/1
-#
-# We also recommend setting `force_ssl` in your endpoint, ensuring
-# no data is ever sent via http, always redirecting to https:
-#
-#     config :lenra, LenraWeb.Endpoint,
-#       force_ssl: [hsts: true]
-#
-# Check `Plug.SSL` for all available options in `force_ssl`.
-
-# Finally import the config/prod.secret.exs which loads secrets
-# and configuration from environment variables.
-import_config "prod.secret.exs"
+  origin: []

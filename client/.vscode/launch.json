@@ -14,20 +14,8 @@
                 "-d",
                 "chrome",
                 "--web-port",
-                "1000"
-            ]
-        },
-        {
-            "name": "Flutter Prod",
-            "program": "lib/main_prod.dart",
-            "request": "launch",
-            "flutterMode": "release",
-            "type": "dart",
-            "args": [
-                "-d",
-                "chrome",
-                "--web-port",
-                "1000"
+                "1000",
+                "--dart-define=SERVER_URL=http://localhost:4000"
             ]
         }
     ]

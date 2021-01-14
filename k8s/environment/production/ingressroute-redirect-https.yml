@@ -1,0 +1,24 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: lenra-redirect
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`www.lenra.me`, `www.lenra.io`)
+      middlewares:
+        - name: redirect-https
+          namespace: traefik
+      services:
+        - name: coming-soon
+          port: 80
+    - kind: Rule
+      match: Host(`lenra.me`, `lenra.io`)
+      middlewares:
+        - name: redirect-https-www
+          namespace: traefik
+      services:
+        - name: coming-soon
+          port: 80

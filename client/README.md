@@ -8,5 +8,5 @@ The Lenra Client in Flutter
 ## Getting Started
 
 ```sh
-flutter run -d chrome
+flutter run -d chrome --dart-define=SERVER_URL=http://localhost:4000
 ```

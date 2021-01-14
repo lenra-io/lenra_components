@@ -1,0 +1,28 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+  - ../../../client/k8s/base
+  - ../../../server/k8s/base
+  - ../../../documentation/k8s/base
+  - deployment-postgres.yml
+  - service-postgres.yml
+  - secret-lenra-server.yml
+  - secret-openfaas.yml
+  - secret-postgres.yml
+
+patches:
+  - path: ingressroute-patches.yml
+    target:
+      kind: IngressRoute
+      name: lenra
+
+patchesStrategicMerge:
+  - deployment-client.yml
+  - deployment-server.yml
+  - deployment-documentation.yml
+
+configMapGenerator:
+  - name: nginx-conf
+    files:
+      - add-script.conf
