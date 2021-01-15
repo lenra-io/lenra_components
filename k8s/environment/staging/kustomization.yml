@@ -1,8 +1,10 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ../../overlay/gitlab-review
+  - ../../base
+  - ../../../client/k8s/base
   - ../../../server/k8s/base
+  - ../../../documentation/k8s/base
 
 patches:
   - path: ingressroute-patches.yml
