@@ -1,5 +1,5 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "http://json-schema.org/draft-04/schema#",
     "$id": "http://lenra.me/textfield_validator.schema.json",
     "title": "TextField",
     "description": "Element of type TextField",
@@ -8,21 +8,25 @@
         "type": {
             "description": "The type of the element",
             "type": "string",
-            "pattern": "textfield"
+            "pattern": "^textfield$"
         },
         "value": {
             "descritpion": "the value displayed in the element",
             "type": "string"
         },
         "listeners": {
-            "description": "Listeners on the element",
-            "$ref": "listeners_validator.schema.json"
+            "properties": {
+                "onChange": {
+                    "$ref": "listeners/onchange_validator.schema.json"
+                }
+            },
+            "minProperties": 1,
+            "additionalProperties": false
         }
     },
     "required": [
         "type",
-        "value",
-        "listeners"
+        "value"
     ],
     "additionalProperties": false
 }

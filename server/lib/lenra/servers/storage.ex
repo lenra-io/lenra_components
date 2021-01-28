@@ -6,7 +6,7 @@ defmodule LenraServers.Storage do
   require Logger
 
   @name __MODULE__
-  @tables [:data, :final_ui, :listeners, :ui]
+  @tables [:data, :final_ui, :listeners]
 
   # GenServer Callbacks
 

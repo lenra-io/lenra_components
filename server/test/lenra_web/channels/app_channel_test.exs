@@ -26,8 +26,8 @@ defmodule LenraWeb.AppChannelTest do
   @data %{"user" => %{"name" => "World"}}
   @data2 %{"user" => %{"name" => "Bob"}}
 
-  @listeners %{"onClick" => %{"name" => @listener_name}}
-  @transformed_listeners %{"onClick" => %{"code" => @listener_code}}
+  @listeners %{"onChange" => %{"action" => @listener_name}}
+  @transformed_listeners %{"onChange" => %{"code" => @listener_code}}
 
   @textfield %{
     "type" => "textfield",

@@ -54,7 +54,7 @@ defmodule Lenra.MixProject do
       {:telemetry_metrics, "~> 0.4"},
       {:telemetry_poller, "~> 0.4"},
       {:jason, "~> 1.2"},
-      {:json_xema, "~> 0.6"},
+      {:ex_json_schema, "~> 0.7.3"},
       {:plug_cowboy, "~> 2.0"},
       {:finch, "~> 0.3"},
       {:json_diff, "~> 0.1.0"},
@@ -71,7 +71,8 @@ defmodule Lenra.MixProject do
       {:ex_doc, "~> 0.22", only: :dev, runtime: false},
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
       {:sobelow, "~> 0.8", only: :dev},
-      {:excoveralls, "~> 0.10", only: :test}
+      {:excoveralls, "~> 0.10", only: :test},
+      {:benchee, "~> 1.0", only: :dev}
     ]
   end
 

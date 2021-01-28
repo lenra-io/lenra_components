@@ -4,7 +4,7 @@ FROM elixir:1.10-alpine AS build
 WORKDIR /app
 
 # install build dependencies
-RUN apk add --no-cache build-base git python
+RUN apk add --no-cache build-base git python3
 
 # install hex + rebar
 RUN mix local.hex --force && \

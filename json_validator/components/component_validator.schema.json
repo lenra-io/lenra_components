@@ -1,0 +1,21 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$id": "http://lenra.me/component_validator.json",
+    "title": "Component",
+    "description": "The base element in Lenra. Not a real element but a subtype of all others.",
+    "type": "object",
+    "oneOf": [
+        {
+            "$ref": "components/button_validator.schema.json"
+        },
+        {
+            "$ref": "components/text_validator.schema.json"
+        },
+        {
+            "$ref": "components/container_validator.schema.json"
+        },
+        {
+            "$ref": "components/textfield_validator.schema.json"
+        }
+    ]
+}

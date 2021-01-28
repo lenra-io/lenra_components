@@ -1,0 +1,17 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$id": "http://lenra.me/ui_validator.schema.json",
+    "title": "Ui",
+    "description": "The main json object that represents the Lenra UI",
+    "type": "object",
+    "properties": {
+        "root": {
+            "description": "The first element of the ui. It can be any component.",
+            "$ref": "components/component_validator.schema.json"
+        }
+    },
+    "required": [
+        "root"
+    ],
+    "additionalProperties": false
+}

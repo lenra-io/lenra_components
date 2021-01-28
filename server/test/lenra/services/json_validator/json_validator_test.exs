@@ -1,235 +1,130 @@
 defmodule LenraServices.JsonValidatorTest do
-  @moduledoc """
-    Test the `LenraServices.JsonValidator` module
-  """
   use ExUnit.Case, async: true
-  doctest LenraServices.JsonValidator
 
-  test "Validator correctly handle valide text" do
-    schema_valide = %{
-      type: "text",
-      value: "Txt test"
+  @moduledoc """
+    Test the `LenraServer.JsonValidator` module
+  """
+  alias LenraServices.JsonValidator
+
+  doctest JsonValidator
+
+  setup do
+    %{
+      datastore:
+        ExJsonSchema.Schema.resolve(%{
+          "type" => "array",
+          "items" => %{
+            "properties" => %{
+              "type" => %{
+                "type" => "string"
+              }
+            }
+          },
+          "minItems" => 1,
+          "maxItems" => 2
+        })
     }
-
-    assert {:ok, "Schema valide"} ==
-             LenraServices.JsonValidator.validate_json("text", schema_valide)
   end
 
-  test "Validator correctly handle invalide text" do
-    schema_invalide = %{
-      type: "Test",
-      value: "Txt test"
-    }
-
-    assert {:error, %{properties: %{"type" => %{pattern: ~r/text/, value: "Test"}}}} ==
-             LenraServices.JsonValidator.validate_json("text", schema_invalide)
-  end
-
-  test "Validator correctly handle valide container" do
-    schema_valide = %{
-      type: "container",
-      children: [
-        %{
-          type: "text",
-          value: "Txt test"
-        }
-      ]
-    }
-
-    assert {:ok, "Schema valide"} ==
-             LenraServices.JsonValidator.validate_json("container", schema_valide)
-  end
-
-  test "Validator correctly handle empty container" do
-    schema_valide = %{
-      type: "container",
-      children: []
-    }
-
-    assert {:ok, "Schema valide"} ==
-             LenraServices.JsonValidator.validate_json("container", schema_valide)
-  end
-
-  test "Validator correctly handle invalide container" do
-    schema_invalide = %{
-      type: "container",
-      children: [
-        %{
-          type: "text",
-          value: "Txt test"
-        },
-        %{
-          type: "New"
-        }
-      ]
-    }
-
-    assert {:error,
-            %{
-              properties: %{
-                "children" => %{
-                  items: %{
-                    1 => %{
-                      anyOf: [
-                        %{required: ["listeners", "value"]},
-                        %{required: ["value"]},
-                        %{required: ["listeners", "value"]},
-                        %{required: ["children"]}
-                      ],
-                      value: %{"type" => "New"}
-                    }
+  test "invalide schema" do
+    schema =
+      ExJsonSchema.Schema.resolve(%{
+        "type" => "object",
+        "allOf" => [
+          %{
+            "oneOf" => [
+              %{
+                "properties" => %{
+                  "type" => %{
+                    "type" => "string",
+                    "pattern" => "^button$"
                   }
                 }
               }
-            }} ==
-             LenraServices.JsonValidator.validate_json("container", schema_invalide)
-  end
-
-  test "Validator correctly handle valide textfield" do
-    schema_valide = %{
-      type: "textfield",
-      value: "",
-      listeners: %{
-        onChange: %{
-          name: "",
-          props: %{
-            number: 10,
-            value: "value"
-          }
-        }
-      }
-    }
-
-    assert {:ok, "Schema valide"} ==
-             LenraServices.JsonValidator.validate_json("textfield", schema_valide)
-  end
-
-  test "Validator correctly handle invalide textfield" do
-    schema_invalide = %{
-      type: "textfield",
-      value: "",
-      listeners: %{
-        onChange: %{
-          name: 10,
-          props: %{
-            number: 10,
-            value: "value"
-          }
-        }
-      }
-    }
-
-    assert {:error,
-            %{
-              properties: %{
-                "listeners" => %{
-                  oneOf:
-                    {:error,
-                     [
-                       %{properties: %{"onChange" => %{additionalProperties: false}}},
-                       %{
-                         properties: %{
-                           "onChange" => %{properties: %{"name" => %{type: "string", value: 10}}}
-                         }
-                       }
-                     ]},
-                  value: %{
-                    "onChange" => %{
-                      "name" => 10,
-                      "props" => %{"number" => 10, "value" => "value"}
-                    }
+            ]
+          },
+          %{
+            "anyOf" => [
+              %{
+                "properties" => %{
+                  "value" => %{
+                    "type" => "number",
+                    "minimum" => 50,
+                    "exclusiveMinimum" => true,
+                    "maximum" => 30,
+                    "exclusiveMaximum" => true,
+                    "multipleOf" => 10
                   }
+                },
+                "minProperties" => 5,
+                "maxProperties" => 1
+              },
+              %{
+                "properties" => %{
+                  "str" => %{
+                    "type" => "string",
+                    "minLength" => 10,
+                    "maxLength" => 2
+                  }
+                },
+                "dependencies" => %{
+                  "str" => ["test"]
                 }
               }
-            }} ==
-             LenraServices.JsonValidator.validate_json("textfield", schema_invalide)
-  end
-
-  test "Validator correctly handle valide button" do
-    schema_valide = %{
-      type: "button",
-      value: "",
-      listeners: %{
-        onChange: %{
-          name: "",
-          props: %{
-            number: 10,
-            value: "value"
+            ]
           }
-        }
-      }
+        ]
+      })
+
+    json = %{
+      "type" => "text",
+      "value" => 42,
+      "str" => "test"
     }
 
-    assert {:ok, "Schema valide"} ==
-             LenraServices.JsonValidator.validate_json("button", schema_valide)
+    assert {
+             :error,
+             [
+               {"", "The component has incorrect type.", :type_invalid_found},
+               {"", "Expected a maximum of 1 properties but got 3", :object_error},
+               {"", "Expected a minimum of 5 properties but got 3", :object_error},
+               {"", "Property \"str\" depends on property \"test\" to be present but it was not.",
+                :object_error},
+               {"/str", "Expected value to have a maximum length of 2 but was 4.", :object_error},
+               {"/str", "Expected value to have a minimum length of 10 but was 4.",
+                :object_error},
+               {"/value", "Expected the value to be < 30", :object_error},
+               {"/value", "Expected the value to be > 50", :object_error},
+               {"/value", "Expected value to be a multiple of 10.", :object_error}
+             ]
+           } ==
+             JsonValidator.validate_json(schema, json)
   end
 
-  test "Validator correctly handle invalide button" do
-    schema_invalide = %{
-      type: "button",
-      value: "",
-      listeners: %{
-        onChange: %{
-          name: 10,
-          props: %{
-            number: 10,
-            value: "value"
-          }
-        }
-      }
-    }
+  test "invalide empty datastore", %{datastore: schema} do
+    json = []
 
-    assert {:error,
-            %{
-              properties: %{
-                "listeners" => %{
-                  oneOf:
-                    {:error,
-                     [
-                       %{properties: %{"onChange" => %{additionalProperties: false}}},
-                       %{
-                         properties: %{
-                           "onChange" => %{properties: %{"name" => %{type: "string", value: 10}}}
-                         }
-                       }
-                     ]},
-                  value: %{
-                    "onChange" => %{
-                      "name" => 10,
-                      "props" => %{"number" => 10, "value" => "value"}
-                    }
-                  }
-                }
-              }
-            }} ==
-             LenraServices.JsonValidator.validate_json("button", schema_invalide)
+    assert {:error, [{"", "Expected a minimum of 1 items but got 0.", :object_error}]} ==
+             JsonValidator.validate_json(schema, json)
   end
 
-  test "Validator correctly handle valide ui" do
-    schema_valide = %{
-      type: "ui",
-      name: "MyUimethod",
-      props: %{
-        val: "Myval",
-        val2: 06
+  test "invalide toomuch datastores", %{datastore: schema} do
+    json = [
+      %{
+        "type" => "local",
+        "value" => "Txt test"
+      },
+      %{
+        "type" => "ref",
+        "value" => "Txt test"
+      },
+      %{
+        "type" => "ref",
+        "value" => "2"
       }
-    }
+    ]
 
-    assert {:ok, "Schema valide"} ==
-             LenraServices.JsonValidator.validate_json("ui", schema_valide)
-  end
-
-  test "Validator correctly handle invalide ui" do
-    schema_invalide = %{
-      type: "Ui",
-      name: "MyUimethod",
-      props: %{
-        val: "Myval",
-        val2: 06
-      }
-    }
-
-    assert {:error, %{properties: %{"type" => %{pattern: ~r/ui/, value: "Ui"}}}} ==
-             LenraServices.JsonValidator.validate_json("ui", schema_invalide)
+    assert {:error, [{"", "Expected a maximum of 2 items but got 3.", :object_error}]} ==
+             JsonValidator.validate_json(schema, json)
   end
 end

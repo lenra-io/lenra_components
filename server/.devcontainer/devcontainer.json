@@ -16,5 +16,14 @@
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [
 		4000
-	]
+	],
+	"remoteEnv": {
+		"PORT": "4000",
+		"POSTGRES_USER": "postgres",
+		"POSTGRES_PASSWORD": "postgres",
+		"POSTGRES_DB": "lenra_dev",
+		"POSTGRES_HOST": "host.docker.internal",
+		"FAAS_URL": "http://host.docker.internal:8080",
+		"FAAS_AUTH": "${localEnv:FAAS_AUTH}"
+	}
 }

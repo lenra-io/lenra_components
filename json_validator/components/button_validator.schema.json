@@ -1,5 +1,5 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "http://json-schema.org/draft-04/schema#",
     "$id": "http://lenra.me/button_validator.schema.json",
     "title": "Button",
     "description": "Element of type Button",
@@ -8,21 +8,25 @@
         "type": {
             "description": "The type of the element",
             "type": "string",
-            "pattern": "button"
+            "pattern": "^button$"
         },
         "value": {
             "descritpion": "the value displayed in the element",
             "type": "string"
         },
         "listeners": {
-            "description": "Listeners on the element",
-            "$ref": "listeners_validator.schema.json"
+            "additionalProperties": false,
+            "minProperties": 1,
+            "properties": {
+                "onClick": {
+                    "$ref": "listeners/onclick_validator.schema.json"
+                }
+            }
         }
     },
     "required": [
         "type",
-        "value",
-        "listeners"
+        "value"
     ],
     "additionalProperties": false
 }

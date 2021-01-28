@@ -1,0 +1,26 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$id": "http://lenra.me/container_validator.schema.json",
+    "title": "Container",
+    "description": "Element of type Container",
+    "type": "object",
+    "properties": {
+        "type": {
+            "description": "The type of the element",
+            "type": "string",
+            "pattern": "^container$"
+        },
+        "children": {
+            "type": "array",
+            "description": "Listeners on the element",
+            "items": {
+                "$ref": "components/component_validator.schema.json"
+            }
+        }
+    },
+    "required": [
+        "type",
+        "children"
+    ],
+    "additionalProperties": false
+}

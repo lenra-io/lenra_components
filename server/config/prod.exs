@@ -1,7 +1,6 @@
 use Mix.Config
 
-config :lenra, Lenra.Repo,
-  pool_size: 10
+config :lenra, Lenra.Repo, pool_size: 10
 
 # For production, don't forget to configure the url host
 # to something meaningful, Phoenix uses this information
@@ -18,6 +17,9 @@ config :lenra, LenraWeb.Endpoint,
   ],
   server: true,
   cache_static_manifest: "priv/static/cache_manifest.json"
+
+config :lenra,
+  json_validator_schema: "priv/static/json_validator/"
 
 # Do not print debug messages in production
 config :logger, level: :info

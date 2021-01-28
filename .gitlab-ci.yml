@@ -72,7 +72,7 @@ documentation build:
   script:
     - cd $DOCUMENTATION_WORKDIR/docs
     - npm install -g @adobe/jsonschema2md
-    - jsonschema2md -d ../../server/lib/lenra/services/json_validator/json -o schema
+    - jsonschema2md -d ../../json_validator -o schema
     - cd ../website
     - npm install
     - npm run build
@@ -122,6 +122,9 @@ server dockerize:
   variables:
     WORKDIR: $SERVER_WORKDIR
     DOCKER_IMAGE: $CI_REGISTRY_IMAGE/server
+  before_script:
+    - eval ${DOCKER_INIT}
+    - mv ../json_validator priv/static/json_validator
   needs:
     - job: server build
       artifacts: true

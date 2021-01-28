@@ -15,6 +15,7 @@ config :lenra,
   faas_url: System.fetch_env!("FAAS_URL"),
   faas_auth: System.fetch_env!("FAAS_AUTH")
 
-config :peerage, via: Peerage.Via.Dns,
+config :peerage,
+  via: Peerage.Via.Dns,
   dns_name: System.fetch_env!("SERVICE_NAME"),
   app_name: "lenra"

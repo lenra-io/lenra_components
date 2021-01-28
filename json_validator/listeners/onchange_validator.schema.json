@@ -1,0 +1,19 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$id": "http://lenra.me/onchange_validator.schema.json",
+    "title": "OnChange Listener",
+    "description": "Listener that generate an event when the value of the component change",
+    "type": "object",
+    "properties": {
+        "action": {
+            "$ref": "action_validator.schema.json"
+        },
+        "props": {
+            "$ref": "props_validator.schema.json"
+        }
+    },
+    "required": [
+        "action"
+    ],
+    "additionalProperties": false
+}

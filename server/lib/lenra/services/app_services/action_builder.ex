@@ -5,8 +5,9 @@ defmodule LenraServices.ActionBuilder do
 
   require Logger
 
-  alias LenraServers.Storage, as: Storage
-  alias LenraServices.Openfaas, as: Openfaas
+  alias LenraServers.JsonValidator
+  alias LenraServers.Storage
+  alias LenraServices.Openfaas
 
   @type ow_info :: {String.t(), String.t()}
   @type event :: map()
@@ -109,14 +110,14 @@ defmodule LenraServices.ActionBuilder do
       listeners_map,
       {:ok, %{}},
       fn
-        {event_name, %{"name" => action_code} = listener}, {:ok, acc} ->
+        {event_name, %{"action" => action_code} = listener}, {:ok, acc} ->
           props = Map.get(listener, "props", %{})
           listener_key = Storage.generate_listeners_key(action_code, props)
           Storage.insert(:listeners, listener_key, listener)
           {:cont, {:ok, Map.put(acc, event_name, %{"code" => listener_key})}}
 
         _, _ ->
-          {:halt, {:error, "All listener must have a name."}}
+          {:halt, {:error, "All listener must have an action name."}}
       end
     )
   end
@@ -128,6 +129,7 @@ defmodule LenraServices.ActionBuilder do
              props: props,
              event: event
            }),
+         {:ok, "Schema valide"} <- JsonValidator.validate_ui(ui),
          {:ok, final_ui} <- build_ui(ui),
          {:ok, _} <- save_final_ui(ow_info, final_ui),
          {:ok, _} <- save_data(ow_info, data) do
@@ -137,8 +139,8 @@ defmodule LenraServices.ActionBuilder do
 
   defp get_listener(action_key) do
     case Storage.get(:listeners, action_key) do
-      %{"name" => name, "props" => props} -> {:ok, {name, props}}
-      %{"name" => name} -> {:ok, {name, %{}}}
+      %{"action" => name, "props" => props} -> {:ok, {name, props}}
+      %{"action" => name} -> {:ok, {name, %{}}}
       nil -> {:error, "No listener found."}
     end
   end

@@ -15,12 +15,14 @@ defmodule Lenra.Application do
       {Phoenix.PubSub, name: Lenra.PubSub},
       # Start the Endpoint (http/https)
       LenraWeb.Endpoint,
-      # Start a worker by calling: Lenra.Worker.start_link(arg)
-      # {Lenra.Worker, arg}
       # Start the Cache Storage system (init all tables of storage)
       LenraServers.Storage,
-      {Finch, name: FaasHttp},
-      LenraService.EventQueue
+      # Start the json validator server for the UI
+      {LenraServers.JsonValidator, "ui_validator.schema.json"},
+      # Start the Event Queue
+      LenraService.EventQueue,
+      # Start the HTTP Server
+      {Finch, name: FaasHttp}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

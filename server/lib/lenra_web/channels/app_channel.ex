@@ -15,7 +15,7 @@ defmodule LenraWeb.AppChannel do
         send(self(), {:send_ui, ui})
 
       {:error, reason} ->
-        Logger.error(reason)
+        Logger.error(inspect(reason))
     end
 
     {:ok, socket}

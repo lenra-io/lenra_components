@@ -1,5 +1,5 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "http://json-schema.org/draft-04/schema#",
     "$id": "http://lenra.me/text_validator.schema.json",
     "title": "Text",
     "description": "Element of type Text",
@@ -8,7 +8,7 @@
         "type": {
             "description": "The type of the element",
             "type": "string",
-            "pattern": "text"
+            "pattern": "^text$"
         },
         "value": {
             "descritpion": "the value displayed in the element",
