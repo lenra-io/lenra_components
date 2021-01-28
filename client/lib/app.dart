@@ -4,12 +4,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:fr_lenra_client/page/app_page.dart';
 import 'package:fr_lenra_client/page/store_page.dart';
 
-void start() {
-  runApp(Lenra());
-}
-
-typedef CustomRouteBuilder = Widget Function(BuildContext) Function(
-    Map<String, String>);
+typedef CustomRouteBuilder = Widget Function(BuildContext) Function(Map<String, String>);
 
 class _RouteData {
   Map<String, String> params = Map();
@@ -28,14 +23,13 @@ class Lenra extends StatelessWidget {
   Lenra({Key key}) : super(key: key);
 
   final Map<String, CustomRouteBuilder> routes = {
-    StorePage.routeName: (Map<String, String> params) =>
-        (BuildContext context) => StorePage(),
+    StorePage.routeName: (Map<String, String> params) => (BuildContext context) => StorePage(),
     LenraAppPage.routeName: (Map<String, String> params) =>
         (BuildContext context) => LenraAppPage(appName: params["appName"]),
   };
 
-  _RouteData getRouteDataForRoutes(List<String> currentRouteParts, String route,
-      CustomRouteBuilder routeBuilder) {
+  _RouteData getRouteDataForRoutes(
+      List<String> currentRouteParts, String route, CustomRouteBuilder routeBuilder) {
     _RouteData routeData = _RouteData(routeBuilder);
     List<String> routeParts = route.split('/');
     if (routeParts.length != currentRouteParts.length) return null;
@@ -56,8 +50,7 @@ class Lenra extends StatelessWidget {
   _RouteData getFirstMatchingRoute(String currentRoute) {
     List<String> currentRouteParts = currentRoute.split('/');
     for (MapEntry<String, CustomRouteBuilder> entry in routes.entries) {
-      _RouteData _routeData =
-          getRouteDataForRoutes(currentRouteParts, entry.key, entry.value);
+      _RouteData _routeData = getRouteDataForRoutes(currentRouteParts, entry.key, entry.value);
       if (_routeData != null) {
         return _routeData;
       }

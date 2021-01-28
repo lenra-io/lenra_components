@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:fr_lenra_client/lenra_components/lenra_component_wrapper.dart';
 import 'package:fr_lenra_client/socket/lenra_socket.dart';
-import 'package:fr_lenra_client/socket/lerna_channel.dart';
+import 'package:fr_lenra_client/socket/lenra_channel.dart';
 import 'package:fr_lenra_client/socket/ui_patch_event.dart';
 
 /// UIStream permet de dispatcher les évènements de modification de l'UI aux différents éléments Lenra.

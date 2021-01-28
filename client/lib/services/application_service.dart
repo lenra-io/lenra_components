@@ -11,7 +11,14 @@ class ApplicationService {
   }
 
   static Future<List<LenraApplicationInfo>> getAppList() async {
-    final response = await http.get("${Config.instance.httpEndpoint}/api/apps");
+    Map<String, String> headers = {};
+    if (Config.instance.basicAuth.isNotEmpty) {
+      headers["Authorization"] = "Basic ${Config.instance.basicAuth}";
+    }
+    final response = await http.get(
+      "${Config.instance.httpEndpoint}/api/apps",
+      headers: headers,
+    );
     final icon = [
       Icons.access_alarm,
       Icons.ac_unit,

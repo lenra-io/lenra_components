@@ -1,8 +1,11 @@
 library socket;
 
 import 'package:fr_lenra_client/config/config.dart';
-import 'package:fr_lenra_client/socket/lerna_channel.dart';
-import 'package:phoenix_wings/html.dart';
+import 'package:fr_lenra_client/socket/lenra_channel.dart';
+import 'package:phoenix_wings/phoenix_wings.dart';
+import 'socket_manager_stub.dart'
+    if (dart.library.io) 'socket_manager_io.dart'
+    if (dart.library.js) 'socket_manager_web.dart';
 
 class LenraSocket {
   static PhoenixSocket _socket;
@@ -10,12 +13,9 @@ class LenraSocket {
   static final LenraSocket _instance = LenraSocket._privateConstructor();
 
   LenraSocket._privateConstructor() {
-    LenraSocket._socket = new PhoenixSocket(Config.instance.wsEndpoint,
-        connectionProvider: PhoenixHtmlConnection.provider);
+    LenraSocket._socket = createPhoenixSocket(Config.instance.wsEndpoint);
     _socket.connect();
   }
-
-  static LenraSocket get instance => _instance;
 
   LenraChannel channel(String channelName, Map<String, dynamic> params) {
     return new LenraChannel(LenraSocket._socket, channelName, params);
@@ -26,4 +26,6 @@ class LenraSocket {
   }
 
   void emit() {}
+
+  static LenraSocket get instance => _instance;
 }

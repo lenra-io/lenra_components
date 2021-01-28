@@ -3,7 +3,7 @@ library socket;
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:phoenix_wings/html.dart';
+import 'package:phoenix_wings/phoenix_wings.dart';
 
 class LenraChannel {
   PhoenixChannel _channel;

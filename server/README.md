@@ -1,7 +1,7 @@
 # Lenra Server
 
 Prerequis : 
-  * Démarrer la base de donnée avec docker `docker run --rm -p 5432:5432 --name lenra-postgres -e POSTGRES_DB=lenra_dev -e POSTGRES_PASSWORD=postgres -d postgres`
+  * Démarrer la base de donnée avec docker `docker run --restart always -p 5432:5432 --name lenra-postgres -e POSTGRES_DB=lenra_dev -e POSTGRES_PASSWORD=postgres -d postgres`
   * Créer la db et démarrer la migration `mix setup`. Cela équivaux à lancer les commandes suivantes : 
     * `mix deps.get` pour installer les dépendances
     * `mix ecto.create` pour créer la base de donnée

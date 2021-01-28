@@ -1,27 +1,32 @@
-import 'package:flutter/services.dart';
-import 'dart:js';
+import 'config_getter_stub.dart'
+    if (dart.library.io) 'config_getter_io.dart'
+    if (dart.library.js) 'config_getter_web.dart';
 
 class Config {
-  Config._(this.httpEndpoint) {
-    if (_instance == null) {
-      Config._instance = this;
-    } else {
-      throw Exception("La config ne doit être instanciée qu'une seule fois.");
-    }
-    String url = httpEndpoint;
-    if (url.isEmpty) {
-      url = context['location']['origin'];
-    }
-    wsEndpoint = "${url.replaceFirst(new RegExp("^http"), "ws")}/socket/websocket";
-  }
+  static final Config instance = createInstance();
 
-  factory Config.create(String serverUrl) {
-    return Config._(serverUrl);
-  }
-
-  static Config _instance;
   final String httpEndpoint;
-  String wsEndpoint;
+  final String wsEndpoint;
+  final String basicAuth;
 
-  static Config get instance => _instance;
+  Config._(
+    this.httpEndpoint,
+    this.wsEndpoint,
+    this.basicAuth,
+  );
+
+  static Config createInstance() {
+    String httpEndpoint = const String.fromEnvironment("LENRA_SERVER_URL");
+    if (httpEndpoint.isEmpty) {
+      httpEndpoint = getServerUrl();
+    }
+    String wsEndpoint = httpEndpoint.replaceFirst(new RegExp("^http"), "ws");
+    wsEndpoint += "/socket/websocket";
+    String basicAuth = const String.fromEnvironment("LENRA_BASIC_AUTH");
+    return Config._(
+      httpEndpoint,
+      wsEndpoint,
+      basicAuth,
+    );
+  }
 }
