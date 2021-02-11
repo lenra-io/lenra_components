@@ -7,8 +7,10 @@ defmodule Lenra.Repo.Migrations.Users do
       add(:last_name, :string, null: false)
       add(:email, :string, null: false)
       add(:password, :string, null: false)
+      add(:role, :integer, null: false)
+      timestamps()
     end
 
-    create(index(:users, [:email], unique: true))
+    create(unique_index(:users, [:email]))
   end
 end

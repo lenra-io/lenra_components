@@ -42,8 +42,7 @@ defmodule LenraServices.JsonValidator.ErrorFormatter do
 
   def get_error_string(%Error.Type{expected: expected, actual: actual}, path) do
     [
-      {path, "Type mismatch. Expected #{type_names(expected)} but got #{type_names(actual)}.",
-       :object_error}
+      {path, "Type mismatch. Expected #{type_names(expected)} but got #{type_names(actual)}.", :object_error}
     ]
   end
 
@@ -62,8 +61,7 @@ defmodule LenraServices.JsonValidator.ErrorFormatter do
         path
       ) do
     [
-      {path, "Expected exactly one of the schemata to match, but the multiple schemata did.",
-       :not_expected}
+      {path, "Expected exactly one of the schemata to match, but the multiple schemata did.", :not_expected}
     ]
   end
 
@@ -121,9 +119,8 @@ defmodule LenraServices.JsonValidator.ErrorFormatter do
   def get_error_string(%Error.Required{missing: missing}, path) do
     [
       {path,
-       "Required properties #{
-         missing |> Enum.map(fn miss -> "\"#{miss}\"" end) |> Enum.join(", ")
-       } were not present.", :object_error}
+       "Required properties #{missing |> Enum.map(fn miss -> "\"#{miss}\"" end) |> Enum.join(", ")} were not present.",
+       :object_error}
     ]
   end
 
@@ -132,9 +129,7 @@ defmodule LenraServices.JsonValidator.ErrorFormatter do
         path
       ) do
     [
-      {path,
-       "Property \"#{property}\" depends on property \"#{missing}\" to be present but it was not.",
-       :object_error}
+      {path, "Property \"#{property}\" depends on property \"#{missing}\" to be present but it was not.", :object_error}
     ]
   end
 
@@ -169,15 +164,13 @@ defmodule LenraServices.JsonValidator.ErrorFormatter do
 
   def get_error_string(%Error.Minimum{expected: expected, exclusive?: exclusive?}, path) do
     [
-      {path, "Expected the value to be #{if exclusive?, do: ">", else: ">="} #{expected}",
-       :object_error}
+      {path, "Expected the value to be #{if exclusive?, do: ">", else: ">="} #{expected}", :object_error}
     ]
   end
 
   def get_error_string(%Error.Maximum{expected: expected, exclusive?: exclusive?}, path) do
     [
-      {path, "Expected the value to be #{if exclusive?, do: "<", else: "<="} #{expected}",
-       :object_error}
+      {path, "Expected the value to be #{if exclusive?, do: "<", else: "<="} #{expected}", :object_error}
     ]
   end
 
@@ -187,15 +180,13 @@ defmodule LenraServices.JsonValidator.ErrorFormatter do
 
   def get_error_string(%Error.MinLength{expected: expected, actual: actual}, path) do
     [
-      {path, "Expected value to have a minimum length of #{expected} but was #{actual}.",
-       :object_error}
+      {path, "Expected value to have a minimum length of #{expected} but was #{actual}.", :object_error}
     ]
   end
 
   def get_error_string(%Error.MaxLength{expected: expected, actual: actual}, path) do
     [
-      {path, "Expected value to have a maximum length of #{expected} but was #{actual}.",
-       :object_error}
+      {path, "Expected value to have a maximum length of #{expected} but was #{actual}.", :object_error}
     ]
   end
 

@@ -11,8 +11,7 @@ end
 defmodule EventQueueTest do
   use ExUnit.Case
 
-  alias LenraService.EventQueue
-  alias LenraService.QueueGroup
+  alias LenraServers.{EventQueue, QueueGroup}
 
   setup do
     assert :ok = EventQueue.add_worker(TestWorker, :do_a_thing)
@@ -52,7 +51,7 @@ defmodule EventQueueTest do
 
   test "QUEUE add workers" do
     # Worker added in setup
-    assert 1 = Enum.count(:sys.get_state(EventQueue))
+    assert %{do_a_thing: pid} = :sys.get_state(EventQueue)
   end
 
   test "QUEUE ignore add events" do
@@ -67,7 +66,7 @@ defmodule EventQueueTest do
     EventQueue.add_worker(TestWorker, :do_a_thing)
     EventQueue.add_worker(TestWorker, :do_a_thing)
 
-    assert 1 = Enum.count(:sys.get_state(EventQueue))
+    assert %{do_a_thing: pid} = :sys.get_state(EventQueue)
 
     EventQueue.add_event(:do_a_thing, [:test])
   end

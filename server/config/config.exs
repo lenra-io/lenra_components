@@ -11,6 +11,25 @@ use Mix.Config
 config :lenra,
   ecto_repos: [Lenra.Repo]
 
+# Configure Guardian
+config :lenra, Lenra.Guardian,
+  issuer: "lenra",
+  secret_key: "5oIBVh2Hauo3LT4knNFu29lX9DYu74SWZfjZzYn+gfr0aryxuYIdpjm8xd0qGGqK"
+
+# Configure Guardian DB
+config :guardian, Guardian.DB,
+  repo: Lenra.Repo,
+  schema_name: "guardian_tokens",
+  token_types: ["refresh"],
+  sweep_interval: 60
+
+# Configure bamboo
+config :lenra, Lenra.Mailer,
+  hackney_opts: [
+    recv_timeout: :timer.minutes(1),
+    connect_timeout: :timer.minutes(1)
+  ]
+
 # Configures the endpoint
 config :lenra, LenraWeb.Endpoint,
   url: [host: "localhost"],

@@ -16,6 +16,7 @@ defmodule LenraWeb.ConnCase do
   """
 
   use ExUnit.CaseTemplate
+  alias Ecto.Adapters.SQL.Sandbox
 
   using do
     quote do
@@ -23,6 +24,7 @@ defmodule LenraWeb.ConnCase do
       import Plug.Conn
       import Phoenix.ConnTest
       import LenraWeb.ConnCase
+      import UserTestHelper
 
       alias LenraWeb.Router.Helpers, as: Routes
 
@@ -31,7 +33,30 @@ defmodule LenraWeb.ConnCase do
     end
   end
 
-  setup _tags do
-    {:ok, conn: Phoenix.ConnTest.build_conn()}
+  @john_doe_user_params %{
+    "first_name" => "John",
+    "last_name" => "Doe",
+    "email" => "john.doe@lenra.fr",
+    "password" => "johndoethefirst"
+  }
+
+  setup tags do
+    :ok = Sandbox.checkout(Lenra.Repo)
+
+    conn = Phoenix.ConnTest.build_conn()
+
+    conn =
+      if tags[:user_authentication] do
+        {:ok, %{user: user}} = UserTestHelper.register_user(@john_doe_user_params)
+        {:ok, jwt, _} = Lenra.Guardian.encode_and_sign(user, %{typ: "access", role: user.role})
+
+        conn
+        |> Plug.Conn.put_req_header("accept", "application/json")
+        |> Plug.Conn.put_req_header("authorization", "Bearer " <> jwt)
+      else
+        conn
+      end
+
+    {:ok, conn: conn}
   end
 end

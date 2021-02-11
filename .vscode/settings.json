@@ -1,5 +1,10 @@
 {
-    "elixirLS.projectDir": "server",
-    "editor.formatOnSave": true,
-    "dart.lineLength": 100
+    "files.exclude": {
+        "server": true,
+        "client": true,
+        "documentation": true,
+        "json_validator": true,
+        "k8s": true
+    },
+    "elixirLS.projectDir": "server"
 }

@@ -57,8 +57,7 @@ defmodule LenraServices.TextValidatorTest do
       "value" => 42
     }
 
-    assert {:error,
-            [{"/value", "Type mismatch. Expected String but got Integer.", :object_error}]} ==
+    assert {:error, [{"/value", "Type mismatch. Expected String but got Integer.", :object_error}]} ==
              LenraServices.JsonValidator.validate_json(schema, json)
   end
 end

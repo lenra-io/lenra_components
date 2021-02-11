@@ -63,6 +63,9 @@ defmodule LenraServices.Openfaas do
   end
 
   defp response({:error, %{reason: reason}}) do
-    {:error, "Error : #{reason}"}
+    case reason do
+      :econnrefused -> {:error, :openfaas_not_reachable}
+      _ -> {:error, reason}
+    end
   end
 end

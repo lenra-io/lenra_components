@@ -12,23 +12,20 @@ extension LenraTextfieldExt on LenraTextfield {
     );
   }
 
-  static const Map<String, String> propsTypes = {
-    "value": "String",
-    "listeners": "Map<String, dynamic>"
-  };
+  static const Map<String, String> propsTypes = {"value": "String", "listeners": "Map<String, dynamic>"};
 }
 
-class LenraTextfield extends StatelessLenraComponent
-    implements LenraActionable {
+// ignore: must_be_immutable
+class LenraTextfield extends StatelessLenraComponent implements LenraActionable {
   String value;
   final Map<String, dynamic> listeners;
-  FocusNode _focusNode;
-  TextEditingController _controller;
+  final FocusNode _focusNode;
+  final TextEditingController _controller;
 
-  LenraTextfield({this.value, this.listeners}) : super() {
-    this._controller = TextEditingController(text: this.value);
-    this._focusNode = FocusNode();
-  }
+  LenraTextfield({String value, this.listeners})
+      : this._controller = TextEditingController(text: value),
+        this._focusNode = FocusNode(),
+        super();
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +35,7 @@ class LenraTextfield extends StatelessLenraComponent
         this.value = _controller.text;
         if (this.listeners != null) {
           final Map<String, dynamic> listener = this.listeners['onChange'];
-          LenraOnEditEvent(
-              code: listener['code'],
-              event: {'value': _controller.text}).dispatch(context);
+          LenraOnEditEvent(code: listener['code'], event: {'value': _controller.text}).dispatch(context);
         }
       }
     });
@@ -61,9 +56,7 @@ class LenraTextfield extends StatelessLenraComponent
           if (this.listeners != null) {
             final Map<String, dynamic> listener = this.listeners['onChange'];
             if (listener != null) {
-              LenraOnEditEvent(
-                  code: listener['code'],
-                  event: {'value': _controller.text}).dispatch(context);
+              LenraOnEditEvent(code: listener['code'], event: {'value': _controller.text}).dispatch(context);
             }
           }
         }

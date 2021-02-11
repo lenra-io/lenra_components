@@ -88,11 +88,9 @@ defmodule LenraServices.JsonValidatorTest do
                {"", "The component has incorrect type.", :type_invalid_found},
                {"", "Expected a maximum of 1 properties but got 3", :object_error},
                {"", "Expected a minimum of 5 properties but got 3", :object_error},
-               {"", "Property \"str\" depends on property \"test\" to be present but it was not.",
-                :object_error},
+               {"", "Property \"str\" depends on property \"test\" to be present but it was not.", :object_error},
                {"/str", "Expected value to have a maximum length of 2 but was 4.", :object_error},
-               {"/str", "Expected value to have a minimum length of 10 but was 4.",
-                :object_error},
+               {"/str", "Expected value to have a minimum length of 10 but was 4.", :object_error},
                {"/value", "Expected the value to be < 30", :object_error},
                {"/value", "Expected the value to be > 50", :object_error},
                {"/value", "Expected value to be a multiple of 10.", :object_error}

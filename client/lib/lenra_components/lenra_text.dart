@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fr_lenra_client/app.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_component.dart';
 
 // TODO generate this from annotation on LenraText

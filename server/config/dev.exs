@@ -24,7 +24,8 @@ config :lenra, LenraWeb.Endpoint,
   watchers: []
 
 config :cors_plug,
-  origin: ["*"]
+  origin: ["http://localhost:10000"],
+  methods: ["GET", "POST"]
 
 # ## SSL Support
 #
@@ -68,3 +69,5 @@ config :peerage,
   via: Peerage.Via.List,
   node_list: [:"lenra@127.0.0.1"],
   log_results: false
+
+config :lenra, Lenra.Mailer, sandbox: true

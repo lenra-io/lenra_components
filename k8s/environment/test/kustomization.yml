@@ -7,9 +7,6 @@ resources:
   - ../../../documentation/k8s/base
   - deployment-postgres.yml
   - service-postgres.yml
-  - secret-lenra-server.yml
-  - secret-openfaas.yml
-  - secret-postgres.yml
 
 patches:
   - path: ingressroute-patches.yml

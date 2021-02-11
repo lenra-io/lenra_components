@@ -7,14 +7,24 @@ spec:
     - websecure
   routes:
     - kind: Rule
-      match: Host(`test.lenra.me`) && PathPrefix(`/api`)
+      match: Host(`test.lenra.me`, `test.lenra.io`) && Path(`/laisse-moi-entrer`)
       middlewares:
         - name: basicauth
           namespace: traefik
+        - name: redirect-to-base
+          namespace: traefik
+      services:
+        - kind: Service
+          name: lenra-documentation
+          port: 8080
+      priority: 50
+    - kind: Rule
+      match: Host(`test.lenra.me`) && HeadersRegexp(`Authorization`, `^(Bearer|Basic) `) && PathPrefix(`/api`, `/auth`)
       services:
         - kind: Service
           name: lenra-server
           port: 4000
+      priority: 40
     # Le basic auth ne marche pas sur Safari...
     - kind: Rule
       match: Host(`test.lenra.me`) && PathPrefix(`/socket`)
@@ -22,8 +32,9 @@ spec:
         - kind: Service
           name: lenra-server
           port: 4000
+      priority: 30
     - kind: Rule
-      match: Host(`test.lenra.me`) && PathPrefix(`/`)
+      match: Host(`test.lenra.me`) && HeadersRegexp(`Authorization`, `^Basic `) && PathPrefix(`/`)
       middlewares:
         - name: basicauth
           namespace: traefik
@@ -31,8 +42,9 @@ spec:
         - kind: Service
           name: lenra-client
           port: 8080
+      priority: 20
     - kind: Rule
-      match: Host(`test.lenra.io`)
+      match: Host(`test.lenra.io`) && HeadersRegexp(`Authorization`, `^Basic `)
       middlewares:
         - name: basicauth
           namespace: traefik
@@ -40,5 +52,6 @@ spec:
         - kind: Service
           name: lenra-documentation
           port: 8080
+      priority: 10
   tls:
     certResolver: letsencryptresolver

@@ -16,12 +16,14 @@ defmodule LenraWeb.ChannelCase do
   """
 
   use ExUnit.CaseTemplate
+  alias Ecto.Adapters.SQL.Sandbox
 
   using do
     quote do
       # Import conveniences for testing with channels
       import Phoenix.ChannelTest
       import LenraWeb.ChannelCase
+      import UserTestHelper
 
       # The default endpoint for testing
       @endpoint LenraWeb.Endpoint
@@ -29,6 +31,8 @@ defmodule LenraWeb.ChannelCase do
   end
 
   setup _tags do
+    :ok = Sandbox.checkout(Lenra.Repo)
+
     :ok
   end
 end

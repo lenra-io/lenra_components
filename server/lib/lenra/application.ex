@@ -6,6 +6,8 @@ defmodule Lenra.Application do
   use Application
 
   def start(_type, _args) do
+    Lenra.MigrationHelper.migrate()
+
     children = [
       # Start the ecto repository
       Lenra.Repo,
@@ -15,13 +17,15 @@ defmodule Lenra.Application do
       {Phoenix.PubSub, name: Lenra.PubSub},
       # Start the Endpoint (http/https)
       LenraWeb.Endpoint,
+      # Start guardian Sweeper to delete all expired tokens
+      {Guardian.DB.Token.SweeperServer, []},
       # Start the Cache Storage system (init all tables of storage)
       LenraServers.Storage,
       # Start the json validator server for the UI
       {LenraServers.JsonValidator, "ui_validator.schema.json"},
       # Start the Event Queue
-      LenraService.EventQueue,
-      # Start the HTTP Server
+      {LenraServers.EventQueue, &LenraServices.LoadWorker.load/0},
+      # Start the HTTP Client
       {Finch, name: FaasHttp}
     ]
 

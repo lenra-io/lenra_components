@@ -1,11 +1,5 @@
 {
-  "recommendations": [
-    "marufhassan.flutter",
-    "ms-vscode-remote.remote-containers",
-    "ms-vsliveshare.vsliveshare-pack",
-    "aksharpatel47.vscode-flutter-helper",
-    "kurosh.flutter-mvc-generator",
-    "pflannery.vscode-versionlens",
-    "redhat.vscode-yaml"
-  ]
+    "recommendations": [
+        "dart-code.flutter"
+    ]
 }

@@ -74,10 +74,8 @@ defmodule LenraServices.ButtonValidatorTest do
 
     assert {:error,
             [
-              {"/listeners/onClick/action", "Type mismatch. Expected String but got Integer.",
-               :object_error},
-              {"/listeners/onClick/props", "Type mismatch. Expected Object but got String.",
-               :object_error}
+              {"/listeners/onClick/action", "Type mismatch. Expected String but got Integer.", :object_error},
+              {"/listeners/onClick/props", "Type mismatch. Expected Object but got String.", :object_error}
             ]} ==
              LenraServices.JsonValidator.validate_json(schema, json)
   end
@@ -118,8 +116,7 @@ defmodule LenraServices.ButtonValidatorTest do
       "listeners" => %{}
     }
 
-    assert {:error,
-            [{"/listeners", "Expected a minimum of 1 properties but got 0", :object_error}]} ==
+    assert {:error, [{"/listeners", "Expected a minimum of 1 properties but got 0", :object_error}]} ==
              LenraServices.JsonValidator.validate_json(schema, json)
   end
 

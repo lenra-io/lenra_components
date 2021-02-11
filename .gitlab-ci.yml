@@ -102,14 +102,28 @@ server tests:
     POSTGRES_PASSWORD: "postgres"
     POSTGRES_HOST: "postgres"
   stage: test
+  coverage: '/\[TOTAL\]  (\d+.\d+)%/'
   script:
     - cd $SERVER_WORKDIR
     - mix deps.get
     - mix credo --strict
-    - elixir --erl "+C multi_time_warp" -S mix coveralls
-
+    - mix coveralls
   needs: []
   rules:
+    - if: '$CI_COMMIT_BRANCH == "staging"'
+    - if: "$CI_MERGE_REQUEST_IID"
+
+client tests:
+    image: registry.gitlab.com/lenra/integration/docker-ci-flutter
+    stage: test
+    coverage: '/Total:\|(\d+\.?\d+\%)/'
+    script:
+        - cd $CLIENT_WORKDIR
+        - flutter analyze --no-congratulate
+        - flutter test --coverage
+        - lcov --list coverage/lcov.info
+    needs: []
+    rules:
     - if: '$CI_COMMIT_BRANCH == "staging"'
     - if: "$CI_MERGE_REQUEST_IID"
 
@@ -138,6 +152,7 @@ client dockerize:
   needs:
     - job: client build
       artifacts: true
+    - client tests
 
 documentation dockerize:
   extends: .build docker
@@ -209,6 +224,12 @@ deploy test:
     - kustomize edit add patch --kind Deployment --path gitlab-env.yml
     - kustomize edit add resource secret-gitlab-registry.yml
     - kustomize edit add configmap lenra-host --from-literal LENRA_HOST=${LENRA_HOST} --from-literal LENRA_DOCUMENTATION_HOST=${LENRA_DOCUMENTATION_HOST}
+    - cp $SERVER_ENV ./server.env
+    - kustomize edit add secret lenra-server --from-env-file server.env
+    - cp $FAAS_ENV ./faas.env
+    - kustomize edit add secret openfaas --from-env-file faas.env
+    - cp $POSTGRES_ENV ./postgres.env
+    - kustomize edit add secret lenra-postgres --from-env-file postgres.env
     - eval ${KUBE_INIT}
   needs:
     - client dockerize
@@ -216,7 +237,7 @@ deploy test:
     - documentation dockerize
   environment:
     name: ${CI_COMMIT_REF_SLUG}
-    url: https://${CI_COMMIT_REF_SLUG}.test.lenra.me/
+    url: https://${CI_COMMIT_REF_SLUG}.test.lenra.me/laisse-moi-entrer
     on_stop: stop test env
   rules:
     - if: "$CI_MERGE_REQUEST_IID"
@@ -246,7 +267,7 @@ deploy staging:
     - documentation dockerize
   environment:
     name: staging
-    url: https://staging.lenra.me/
+    url: https://staging.lenra.me/laisse-moi-entrer
   rules:
     - if: '$CI_COMMIT_BRANCH == "staging"'
     - if: '$CI_MERGE_REQUEST_IID && $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /^release\//'

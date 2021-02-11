@@ -10,10 +10,18 @@ dependencies:
     phoenix_wings: ^0.2.1
     json_patch: ^2.0.0
     http: ^0.12.2
+    redux: ^4.0.0+3
+    flutter_redux: ^0.7.0
+    jwt_decoder: ^1.0.3
+    redux_remote_devtools: ^2.0.0
+    redux_dev_tools: ^0.5.2
+    mockito: ^4.1.4
 
 dev_dependencies:
+    pedantic: ^1.9.0
     flutter_test:
         sdk: flutter
+    
 
 flutter:
     uses-material-design: true

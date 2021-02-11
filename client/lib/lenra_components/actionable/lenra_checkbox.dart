@@ -48,7 +48,7 @@ class _LenraCheckboxState extends LenraComponentState {
     };
 
     return CheckboxListTile(
-      value: this.value == 'true',
+      value: this.value,
       onChanged: (bool value) {
         setState(() {
           this.value = value;

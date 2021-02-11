@@ -6,9 +6,5 @@ resources:
   - ../../../server/k8s/base
   - ../../../documentation/k8s/base
   - ingressroute-redirect-https.yml
-
-patches:
-  - path: ingressroute-patches.yml
-    target:
-      kind: IngressRoute
-      name: lenra
+patchesStrategicMerge:
+  - ingressroute.yml

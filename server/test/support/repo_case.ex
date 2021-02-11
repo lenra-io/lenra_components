@@ -16,6 +16,8 @@ defmodule Lenra.RepoCase do
       import Ecto.Query
       import Lenra.RepoCase
 
+      import UserTestHelper
+
       # and any other stuff
     end
   end

@@ -3,12 +3,30 @@ defmodule LenraWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
-    plug CORSPlug
+  end
+
+  pipeline :ensure_auth do
+    plug Lenra.Guardian.EnsureAuthenticatedPipeline
+  end
+
+  pipeline :ensure_auth_refresh do
+    plug Lenra.Guardian.RefreshPipeline
+  end
+
+  scope "/auth", LenraWeb do
+    pipe_through :api
+    post "/register", UserController, :register
+    post "/login", UserController, :login
+
+    pipe_through :ensure_auth_refresh
+    post "/refresh", UserController, :refresh
+    post "/logout", UserController, :logout
+    post "/verify", UserController, :check_registration_code
   end
 
   scope "/api", LenraWeb do
-    pipe_through :api
-    get("/apps", AppsController, :index)
+    pipe_through [:api, :ensure_auth]
+    get "/apps", AppsController, :index
   end
 
   scope "/", LenraWeb do

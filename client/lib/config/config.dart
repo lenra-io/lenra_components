@@ -1,6 +1,6 @@
-import 'config_getter_stub.dart'
-    if (dart.library.io) 'config_getter_io.dart'
-    if (dart.library.js) 'config_getter_web.dart';
+import 'connexion_utils_stub.dart'
+    if (dart.library.io) 'connexion_utils_io.dart'
+    if (dart.library.js) 'connexion_utils_web.dart';
 
 class Config {
   static final Config instance = createInstance();

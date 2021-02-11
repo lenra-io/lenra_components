@@ -3,14 +3,15 @@ defmodule LenraWeb.AppChannelTest do
     Test the `LenraWeb.AppChannel` module
   """
   use LenraWeb.ChannelCase
-  alias LenraWeb.AppStub, as: AppStub
+  alias LenraWeb.AppStub
 
   setup do
-    socket = socket(LenraWeb.UserSocket, "socket_id", %{})
+    {:ok, %{user: user}} = register_john_doe()
+    socket = socket(LenraWeb.UserSocket, "socket_id", %{user_id: user.id})
 
     owstub = AppStub.create_faas_stub()
 
-    %{socket: socket, owstub: owstub}
+    %{socket: socket, owstub: owstub, user: user}
   end
 
   test "No app called, should return an error", %{socket: socket} do
@@ -55,7 +56,7 @@ defmodule LenraWeb.AppChannelTest do
     patch: [%{"op" => "replace", "path" => "/root/children/0/value", "value" => "Hello Bob"}]
   }
 
-  test "Base use case with simple app", %{socket: socket, owstub: owstub} do
+  test "Base use case with simple app", %{socket: socket, owstub: owstub, user: user} do
     # Base use case. Call InitData then MainUI then call the listener
     # and the next MainUI should not be called but taken from cache instead
     owstub
@@ -67,7 +68,7 @@ defmodule LenraWeb.AppChannelTest do
     {:ok, _, socket} = my_subscribe_and_join(socket, %{"app" => @app_name})
 
     # Check that the correct data is stored into the socket
-    assert socket.assigns == %{app_name: @app_name, client_id: "42"}
+    assert socket.assigns == %{app_name: @app_name, user_id: user.id}
 
     # Check that we receive a "ui" event with the final UI
     assert_push "ui", @expected_ui

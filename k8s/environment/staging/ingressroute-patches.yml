@@ -1,12 +1,15 @@
 - op: replace
   path: /spec/routes/0/match
-  value: Host(`staging.lenra.me`) && PathPrefix(`/api`)
+  value: Host(`staging.lenra.me`, `staging.lenra.io`) && Path(`/laisse-moi-entrer`)
 - op: replace
   path: /spec/routes/1/match
-  value: Host(`staging.lenra.me`) && PathPrefix(`/socket`)
+  value: Host(`staging.lenra.me`) && HeadersRegexp(`Authorization`, `^(Bearer|Basic) `) && PathPrefix(`/api`, `/auth`)
 - op: replace
   path: /spec/routes/2/match
-  value: Host(`staging.lenra.me`) && PathPrefix(`/`)
+  value: Host(`staging.lenra.me`) && PathPrefix(`/socket`)
 - op: replace
   path: /spec/routes/3/match
-  value: Host(`staging.lenra.io`)
+  value: Host(`staging.lenra.me`) && HeadersRegexp(`Authorization`, `^Basic `) && PathPrefix(`/`)
+- op: replace
+  path: /spec/routes/4/match
+  value: Host(`staging.lenra.io`) && HeadersRegexp(`Authorization`, `^Basic `)

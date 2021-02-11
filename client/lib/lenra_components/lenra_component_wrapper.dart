@@ -7,7 +7,6 @@ import 'package:fr_lenra_client/lenra_components/actionable/lenra_button.dart';
 import 'package:fr_lenra_client/lenra_components/actionable/lenra_checkbox.dart';
 import 'package:fr_lenra_client/lenra_components/actionable/lenra_textfield.dart';
 import 'package:fr_lenra_client/lenra_components/container/lenra_container.dart';
-import 'package:fr_lenra_client/error/component/component_error.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_image.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_text.dart';
 import 'package:fr_lenra_client/lenra_components/props_parser.dart';
@@ -49,7 +48,7 @@ class LenraComponentWrapper extends StatefulWidget {
         key: UniqueKey(),
       );
     } else {
-      throw LenraJsonMalformedError('No component with type `${props['type']}`');
+      throw 'No component with type `${props['type']}`';
     }
   }
 

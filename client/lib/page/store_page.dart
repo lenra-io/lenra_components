@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:fr_lenra_client/components/lenra_app_list.dart';
+import 'package:fr_lenra_client/components/store_page/app_list_container.dart';
 
 class StorePage extends StatefulWidget {
   static const routeName = '/';
@@ -27,7 +27,7 @@ class _StorePageState extends State<StorePage> {
             alignment: WrapAlignment.spaceEvenly,
             children: [
               Container(
-                child: AppList(),
+                child: AppListContainer(),
               )
             ],
           ),

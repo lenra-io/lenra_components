@@ -7,10 +7,9 @@ defmodule LenraWeb.AppChannel do
   require Logger
 
   def join("app", %{"app" => app_name}, socket) do
-    client_id = "42"
-    socket = assign(socket, app_name: app_name, client_id: client_id)
+    socket = assign(socket, app_name: app_name)
 
-    case LenraServices.ActionBuilder.first_run({client_id, app_name}) do
+    case LenraServices.ActionBuilder.first_run({socket.assigns.user_id, app_name}) do
       {:ok, ui} ->
         send(self(), {:send_ui, ui})
 
@@ -39,9 +38,9 @@ defmodule LenraWeb.AppChannel do
   end
 
   defp handle_run(socket, action_key, event \\ %{}) do
-    %{app_name: app_name, client_id: client_id} = socket.assigns
+    %{app_name: app_name, user_id: user_id} = socket.assigns
 
-    case LenraServices.ActionBuilder.listener_run({client_id, app_name}, action_key, event) do
+    case LenraServices.ActionBuilder.listener_run({user_id, app_name}, action_key, event) do
       {:ok, patch} ->
         push(socket, "patchUi", %{patch: patch})
 

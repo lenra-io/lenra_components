@@ -19,3 +19,5 @@ config :peerage,
   via: Peerage.Via.Dns,
   dns_name: System.fetch_env!("SERVICE_NAME"),
   app_name: "lenra"
+
+config :lenra, Lenra.Mailer, api_key: System.fetch_env!("SENDGRID_API_KEY")

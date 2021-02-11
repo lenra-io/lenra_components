@@ -1,24 +1,23 @@
-defmodule LenraServices.UserTest do
+defmodule UserServicesTest do
   use Lenra.RepoCase
+  alias Lenra.User
+  alias LenraServices.UserServices
 
-  test "sign_up user should succeed with no password field returned" do
-    {:ok, user} =
-      LenraServices.User.sign_up("John", "Doe", "john.doe@lenra.fr", "johndoethefirst")
+  test "register user should succeed" do
+    {:ok, %{user: user, registration_code: registration_code}} = register_john_doe()
 
-    assert %LenraSchema.User{
-             first_name: "John",
-             last_name: "Doe",
-             email: "john.doe@lenra.fr"
-           } = user
+    assert user.first_name == "John"
+    assert user.last_name == "Doe"
+    assert user.email == "john.doe@lenra.fr"
+    assert user.role == User.const_unvalidated_user_role()
 
-    assert not Map.has_key?(user, :password)
+    assert String.length(registration_code.code) == 8
   end
 
-  test "sign_up should fail if email already exists" do
-    {:ok, _} = LenraServices.User.sign_up("John", "Doe", "john@lenra.fr", "johndoethefirst")
+  test "register should fail if email already exists" do
+    {:ok, _} = register_john_doe()
 
-    {:error, changeset} =
-      LenraServices.User.sign_up("John", "Snow", "john@lenra.fr", "johndoethefirst")
+    {:error, _step, changeset, _} = register_john_doe()
 
     assert not changeset.valid?
 
@@ -29,9 +28,8 @@ defmodule LenraServices.UserTest do
            ]
   end
 
-  test "sign_up should fail if email malformated" do
-    {:error, changeset} =
-      LenraServices.User.sign_up("John", "Snow", "johnlenra.fr", "johndoethefirst")
+  test "register should fail if email malformated" do
+    {:error, _step, changeset, _} = register_john_doe(%{"email" => "johnlenra.fr"})
 
     assert not changeset.valid?
 
@@ -40,20 +38,8 @@ defmodule LenraServices.UserTest do
            ]
   end
 
-  test "sign_up should fail if password too short" do
-    {:error, changeset} = LenraServices.User.sign_up("John", "Snow", "john@lenra.fr", "johndoe")
-
-    assert not changeset.valid?
-
-    assert changeset.errors == [
-             password:
-               {"should be at least %{count} character(s)",
-                [{:count, 8}, {:validation, :length}, {:kind, :min}, {:type, :string}]}
-           ]
-  end
-
-  test "sign_up should fail if first_name not specified" do
-    {:error, changeset} = LenraServices.User.sign_up("", "Snow", "john@lenra.fr", "johndoedu59")
+  test "register should fail if first_name not specified" do
+    {:error, _step, changeset, _} = register_john_doe(%{"first_name" => ""})
 
     assert not changeset.valid?
 
@@ -62,8 +48,8 @@ defmodule LenraServices.UserTest do
            ]
   end
 
-  test "sign_up should fail if last_name not specified" do
-    {:error, changeset} = LenraServices.User.sign_up("John", "", "john@lenra.fr", "johndoedu59")
+  test "register should fail if last_name not specified" do
+    {:error, _step, changeset, _} = register_john_doe(%{"last_name" => ""})
 
     assert not changeset.valid?
 
@@ -72,8 +58,8 @@ defmodule LenraServices.UserTest do
            ]
   end
 
-  test "sign_up should fail if email not specified" do
-    {:error, changeset} = LenraServices.User.sign_up("John", "Doe", "", "johndoedu59")
+  test "register should fail if email not specified" do
+    {:error, _step, changeset, _} = register_john_doe(%{"email" => ""})
 
     assert not changeset.valid?
 
@@ -82,31 +68,29 @@ defmodule LenraServices.UserTest do
            ]
   end
 
-  test "sign_in user should succeed with no password field returned event with caps" do
-    {:ok, _} = LenraServices.User.sign_up("John", "Doe", "john.doe@lenra.fr", "johndoethefirst")
+  test "login user should succeed event with caps" do
+    {:ok, _} = register_john_doe()
 
-    {:ok, user} = LenraServices.User.sign_in("John.Doe@Lenra.FR", "johndoethefirst")
+    {:ok, user} = UserServices.login("John.Doe@Lenra.FR", "johndoethefirst")
 
-    assert %LenraSchema.User{
+    assert %User{
              first_name: "John",
              last_name: "Doe",
              email: "john.doe@lenra.fr"
            } = user
-
-    assert not Map.has_key?(user, :password)
   end
 
-  test "sign_in user should fail with no wrong email" do
-    {:ok, _} = LenraServices.User.sign_up("John", "Doe", "john.doe@lenra.fr", "johndoethefirst")
+  test "sign_in user should fail with wrong email" do
+    {:ok, _} = register_john_doe()
 
-    assert {:error, "Email or password incorrect."} ==
-             LenraServices.User.sign_in("John@Lenra.FR", "johndoethefirst")
+    assert {:error, :email_or_password_incorrect} ==
+             UserServices.login("John@Lenra.FR", "johndoethefirst")
   end
 
-  test "sign_in user should fail with no wrong password" do
-    {:ok, _} = LenraServices.User.sign_up("John", "Doe", "john.doe@lenra.fr", "johndoethefirst")
+  test "sign_in user should fail with wrong password" do
+    {:ok, _} = register_john_doe()
 
-    assert {:error, "Email or password incorrect."} ==
-             LenraServices.User.sign_in("John.Doe@Lenra.FR", "johndoethesecond")
+    assert {:error, :email_or_password_incorrect} ==
+             UserServices.login("John.Doe@Lenra.FR", "johndoethesecond")
   end
 end

@@ -42,7 +42,7 @@ extension UILenraOperationStringExtension on String {
     if (this == null) {
       return false;
     }
-    return int.parse(this, onError: (e) => null) != null;
+    return int.tryParse(this) != null;
   }
 }
 

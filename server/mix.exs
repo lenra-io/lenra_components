@@ -36,7 +36,7 @@ defmodule Lenra.MixProject do
   def application do
     [
       mod: {Lenra.Application, []},
-      extra_applications: [:logger, :runtime_tools, :peerage]
+      extra_applications: [:guardian, :logger, :runtime_tools, :peerage, :bamboo]
     ]
   end
 
@@ -62,11 +62,15 @@ defmodule Lenra.MixProject do
       {:ecto_sql, "~> 3.4"},
       {:postgrex, ">= 0.0.0"},
       {:argon2_elixir, "~> 2.0"},
+      {:guardian, "~> 2.1.1"},
+      {:guardian_db, "~> 2.0"},
       {:cowlib, "~> 2.9.1", override: true},
       {:ranch, "~> 1.7.1", override: true},
       {:cors_plug, "~> 2.0"},
       {:honeydew, "~> 1.4.6"},
       {:peerage, "~> 1.0"},
+      {:bamboo, "~> 0.7"},
+      {:bamboo_smtp, "~> 1.2.1"},
       {:bypass, "~> 2.0", only: :test},
       {:ex_doc, "~> 0.22", only: :dev, runtime: false},
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false},

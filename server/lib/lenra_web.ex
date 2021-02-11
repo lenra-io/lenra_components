@@ -21,8 +21,10 @@ defmodule LenraWeb do
     quote do
       use Phoenix.Controller, namespace: LenraWeb
 
+      import LenraWeb.ControllerHelpers
       import Plug.Conn
       alias LenraWeb.Router.Helpers, as: Routes
+      plug :put_view, LenraWeb.BaseView
     end
   end
 
