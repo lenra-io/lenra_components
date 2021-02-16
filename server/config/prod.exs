@@ -1,3 +1,6 @@
+# This is the prod config, loaded on compile time during CI/CD. This is used for staging/test and prod environments.
+# There is NO important data here, all secret/passwords and dynamic config are stored in releases.exs
+
 use Mix.Config
 
 config :lenra, Lenra.Repo, pool_size: 10

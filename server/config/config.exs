@@ -4,6 +4,8 @@
 # This configuration file is loaded before any dependency and
 # is restricted to this project.
 
+# This is the BASE config, loaded at build time and it will be override by other configs
+
 # General application configuration
 use Mix.Config
 

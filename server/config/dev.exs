@@ -1,3 +1,6 @@
+# This is the dev config, loaded only on local on compile time so the secrets are not important.
+# DO NOT USE THESE SECRET ON PRODUCTION !
+
 use Mix.Config
 
 # Configure your database

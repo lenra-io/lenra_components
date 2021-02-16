@@ -1,3 +1,6 @@
+# This file is loaded when the server starts. It is used to load all env variable.
+# This file is used for staging/test and prod environments.
+
 import Config
 
 config :lenra, LenraWeb.Endpoint,
@@ -21,3 +24,5 @@ config :peerage,
   app_name: "lenra"
 
 config :lenra, Lenra.Mailer, api_key: System.fetch_env!("SENDGRID_API_KEY")
+
+config :lenra, Lenra.Guardian, secret_key: System.fetch_env!("GUARDIAN_SECRET_KEY")
