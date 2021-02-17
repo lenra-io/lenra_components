@@ -8,18 +8,18 @@ defmodule LenraWeb.BaseView do
 
   def render("success.json", %{data: data}) do
     %{
-      "ok" => "200",
+      "success" => true,
       "data" => data
     }
   end
 
   def render("success.json", _) do
     %{
-      "ok" => "200"
+      "success" => true
     }
   end
 
   def render("error.json", %{errors: errors}) do
-    %{"errors" => translate_errors(errors)}
+    %{"errors" => translate_errors(errors), "success" => false}
   end
 end

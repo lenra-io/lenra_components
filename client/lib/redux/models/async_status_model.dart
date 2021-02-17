@@ -20,7 +20,7 @@ abstract class AsyncStatusModel<A extends AsyncAction> {
   }
 
   void fetchData({bool force = false, ApiRequest body}) {
-    if (force || status.isNoneOrError) {
+    if (force || !status.isFetching) {
       store.dispatch(createAction(body));
     }
   }

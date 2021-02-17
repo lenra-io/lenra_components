@@ -17,8 +17,6 @@ import 'package:redux/redux.dart';
 import 'package:redux_dev_tools/redux_dev_tools.dart';
 import 'package:redux_remote_devtools/redux_remote_devtools.dart';
 
-class RemoveAccessTokenAction {}
-
 class LenraStore {
   static var _store;
 
@@ -37,14 +35,12 @@ class LenraStore {
     return _store;
   }
 
-  static List<
-          dynamic Function(Store<AppState>, dynamic, dynamic Function(dynamic))>
-      createMiddlewares() {
+  static List<dynamic Function(Store<AppState>, dynamic, dynamic Function(dynamic))> createMiddlewares() {
     return [
       TypedMiddleware<AppState, AsyncAction>(asyncMiddleware),
       TypedMiddleware<AppState, Action>(socketMiddleware),
       TypedMiddleware<AppState, AsyncAction>(refreshTokenMiddleware),
-      authMiddleware,
+      TypedMiddleware<AppState, AsyncAction>(authMiddleware),
       TypedMiddleware<AppState, PushRouteAction>(redirectMiddleware),
       TypedMiddleware<AppState, ShowErrorAction>(errorMiddleware),
     ];
@@ -66,8 +62,7 @@ class LenraStore {
       }
     };
 
-    var remoteDevtools =
-        RemoteDevToolsMiddleware('127.0.0.1:8000', actionDecoder: myDecoder);
+    var remoteDevtools = RemoteDevToolsMiddleware('127.0.0.1:8000', actionDecoder: myDecoder);
 
     var middlewares = LenraStore.createMiddlewares();
     middlewares.add(remoteDevtools);

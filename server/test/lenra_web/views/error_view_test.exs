@@ -9,12 +9,13 @@ defmodule LenraWeb.ErrorViewTest do
 
   test "renders 404.json" do
     assert render(LenraWeb.ErrorView, "404.json", []) == %{
-             "errors" => [%{code: 404, message: "Page not found"}]
+             "errors" => [%{code: 404, message: "Page not found"}],
+             "success" => false
            }
   end
 
   test "renders 500.json" do
     assert render(LenraWeb.ErrorView, "500.json", []) ==
-             %{"errors" => [%{code: 500, message: "Internal Server Error"}]}
+             %{"errors" => [%{code: 500, message: "Internal Server Error"}], "success" => false}
   end
 end

@@ -2,11 +2,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fr_lenra_client/api/request_models/loginRequest.dart';
 import 'package:fr_lenra_client/api/request_models/register_request.dart';
 import 'package:fr_lenra_client/api/request_models/verify_code_request.dart';
+import 'package:fr_lenra_client/page/login_page.dart';
 import 'package:fr_lenra_client/page/store_page.dart';
 import 'package:fr_lenra_client/page/verifiying_code_page.dart';
 import 'package:fr_lenra_client/redux/actions/action.dart';
 import 'package:fr_lenra_client/redux/actions/async_action.dart';
 import 'package:fr_lenra_client/redux/actions/login_action.dart';
+import 'package:fr_lenra_client/redux/actions/logout_action.dart';
 import 'package:fr_lenra_client/redux/actions/push_route_action.dart';
 import 'package:fr_lenra_client/redux/actions/register_action.dart';
 import 'package:fr_lenra_client/redux/actions/verify_code_action.dart';
@@ -29,8 +31,7 @@ void main() {
     verifyNever(store.dispatch(anything));
   }
 
-  void checkCallingDispatchWith<A extends AsyncAction>(
-      store, AsyncAction action, String routeName, bool removeStack) {
+  void checkCallingDispatchWith<A extends AsyncAction>(store, AsyncAction action, String routeName, bool removeStack) {
     action.status = RequestStatus.done;
 
     authMiddleware(store, action, (dynamic a) {
@@ -60,9 +61,7 @@ void main() {
     checkNotCallingDispatch<RegisterAction>(store, action);
   });
 
-  test(
-      'authMiddleware with RegisterAction that is done redirect to Verify code page with stack reset',
-      () {
+  test('authMiddleware with RegisterAction that is done redirect to Verify code page with stack reset', () {
     var store = MockedStore();
     var action = RegisterAction(
       RegisterRequest("email", "firstName", "lastName", "password"),
@@ -108,8 +107,7 @@ void main() {
     checkNotCallingDispatch<VerifyCodeAction>(store, action);
   });
 
-  test('authMiddleware with VerifyCodeAction that is done redirect to Store page with stack reset',
-      () {
+  test('authMiddleware with VerifyCodeAction that is done redirect to Store page with stack reset', () {
     var store = MockedStore();
     var action = VerifyCodeAction(
       VerifyCodeRequest("code"),
@@ -119,6 +117,18 @@ void main() {
       store,
       action,
       StorePage.routeName,
+      true,
+    );
+  });
+
+  test('authMiddleware with LogoutAction that is done redirect to Login page with stack reset', () {
+    var store = MockedStore();
+    var action = LogoutAction();
+
+    checkCallingDispatchWith<LogoutAction>(
+      store,
+      action,
+      LoginPage.routeName,
       true,
     );
   });

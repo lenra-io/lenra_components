@@ -22,14 +22,13 @@ abstract class LenraBaseHttpClient {
     return body != null ? json.encode(body) : null;
   }
 
-  Future<T> _handleResponse<T>(Future<http.Response> futureReponse,
-      {T Function(dynamic) responseMapper}) async {
-    responseMapper = responseMapper == null ? (e) => e : responseMapper;
+  Future<T> _handleResponse<T>(Future<http.Response> futureReponse, {T Function(dynamic) responseMapper}) async {
+    responseMapper = responseMapper ?? (e) => e;
     print("API Call");
     http.Response response = await futureReponse;
     Map<String, dynamic> body = json.decode(response.body);
     print(body);
-    if (body["data"] != null) {
+    if (body["success"]) {
       print("API call succeed !");
       return responseMapper(body["data"]);
     } else {

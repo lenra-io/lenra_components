@@ -2,9 +2,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fr_lenra_client/api/request_models/loginRequest.dart';
 import 'package:fr_lenra_client/api/request_models/register_request.dart';
 import 'package:fr_lenra_client/api/request_models/verify_code_request.dart';
+import 'package:fr_lenra_client/api/response_models/empty_response.dart';
 import 'package:fr_lenra_client/api/response_models/token_response.dart';
 import 'package:fr_lenra_client/redux/actions/async_action.dart';
 import 'package:fr_lenra_client/redux/actions/login_action.dart';
+import 'package:fr_lenra_client/redux/actions/logout_action.dart';
 import 'package:fr_lenra_client/redux/actions/register_action.dart';
 import 'package:fr_lenra_client/redux/actions/verify_code_action.dart';
 import 'package:fr_lenra_client/redux/reducers/auth_reducer.dart';
@@ -43,8 +45,7 @@ void main() {
   );
 
   test('auth reducer register token saved', () {
-    RegisterAction action =
-        RegisterAction(RegisterRequest("email", "firstName", "lastName", "password"));
+    RegisterAction action = RegisterAction(RegisterRequest("email", "firstName", "lastName", "password"));
     action.status = RequestStatus.done;
     action.data = TokenResponse.fromJson({"access_token": "mytoken"});
     AuthState authState = authStateReducer(AuthState(), action);
@@ -64,5 +65,20 @@ void main() {
     action.data = TokenResponse.fromJson({"access_token": "mytoken"});
     AuthState authState = authStateReducer(AuthState(), action);
     expect(authState.tokenResponse.accessToken, "mytoken");
+  });
+
+  test('auth reducer verify remove token after logout', () {
+    AuthState state = AuthState();
+    LoginAction action = LoginAction(LoginRequest("email", "password"));
+    action.status = RequestStatus.done;
+    TokenResponse response = TokenResponse.fromJson({"access_token": "mytoken"});
+    action.data = response;
+    AuthState authState = authStateReducer(state, action);
+    expect(authState.tokenResponse, response);
+    LogoutAction action2 = LogoutAction();
+    action2.status = RequestStatus.done;
+    action2.data = EmptyResponse.fromJson({"success": true});
+    authState = authStateReducer(state, action2);
+    expect(authState.tokenResponse, null);
   });
 }

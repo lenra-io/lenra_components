@@ -12,7 +12,8 @@ defmodule LenraWeb.AppsControllerTest do
       conn = get(conn, Routes.apps_path(conn, :index))
 
       assert json_response(conn, 401) == %{
-               "errors" => [%{"code" => 401, "message" => "You are not authenticated"}]
+               "errors" => [%{"code" => 401, "message" => "You are not authenticated"}],
+               "success" => false
              }
     end
 
@@ -23,7 +24,8 @@ defmodule LenraWeb.AppsControllerTest do
       conn = get(conn, Routes.apps_path(conn, :index))
 
       assert json_response(conn, 200) == %{
-               "errors" => [%{"code" => 1000, "message" => "Openfaas is not accessible"}]
+               "errors" => [%{"code" => 1000, "message" => "Openfaas is not accessible"}],
+               "success" => false
              }
     end
 
@@ -35,7 +37,7 @@ defmodule LenraWeb.AppsControllerTest do
 
       conn = get(conn, Routes.apps_path(conn, :index))
 
-      assert json_response(conn, 200) == %{"data" => %{"apps" => @app_list}, "ok" => "200"}
+      assert json_response(conn, 200) == %{"data" => %{"apps" => @app_list}, "success" => true}
     end
   end
 end

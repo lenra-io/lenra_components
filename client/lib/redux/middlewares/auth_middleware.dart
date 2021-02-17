@@ -1,6 +1,8 @@
+import 'package:fr_lenra_client/page/login_page.dart';
 import 'package:fr_lenra_client/page/store_page.dart';
 import 'package:fr_lenra_client/page/verifiying_code_page.dart';
 import 'package:fr_lenra_client/redux/actions/login_action.dart';
+import 'package:fr_lenra_client/redux/actions/logout_action.dart';
 import 'package:fr_lenra_client/redux/actions/push_route_action.dart';
 import 'package:fr_lenra_client/redux/actions/register_action.dart';
 import 'package:fr_lenra_client/redux/actions/verify_code_action.dart';
@@ -22,5 +24,8 @@ void authMiddleware(
   }
   if ((action is VerifyCodeAction || action is LoginAction) && action.isDone) {
     store.dispatch(PushRouteAction(StorePage.routeName, removeStack: true));
+  }
+  if (action is LogoutAction && action.isDone) {
+    store.dispatch(PushRouteAction(LoginPage.routeName, removeStack: true));
   }
 }

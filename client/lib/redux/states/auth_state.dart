@@ -8,28 +8,33 @@ class AuthState {
   final AsyncStatus registerStatus;
   final AsyncStatus verifyCodeStatus;
   final AsyncStatus loginStatus;
+  final AsyncStatus logoutStatus;
 
   AuthState({
     TokenResponse tokenResponse,
     AsyncStatus registerStatus,
     AsyncStatus verifyCodeStatus,
     AsyncStatus loginStatus,
+    AsyncStatus logoutStatus,
   })  : this.tokenResponse = tokenResponse ?? null,
         this.registerStatus = registerStatus ?? AsyncStatus(),
         this.verifyCodeStatus = verifyCodeStatus ?? AsyncStatus(),
-        this.loginStatus = loginStatus ?? AsyncStatus();
+        this.loginStatus = loginStatus ?? AsyncStatus(),
+        this.logoutStatus = logoutStatus ?? AsyncStatus();
 
   AuthState copyWith({
     TokenResponse tokenResponse,
     AsyncStatus registerStatus,
     AsyncStatus verifyCodeStatus,
     AsyncStatus loginStatus,
+    AsyncStatus logoutStatus,
   }) {
     return AuthState(
       tokenResponse: tokenResponse ?? this.tokenResponse,
       registerStatus: registerStatus ?? this.registerStatus,
       verifyCodeStatus: verifyCodeStatus ?? this.verifyCodeStatus,
       loginStatus: loginStatus ?? this.loginStatus,
+      logoutStatus: logoutStatus ?? this.logoutStatus,
     );
   }
 
@@ -38,6 +43,7 @@ class AuthState {
         "registerStatus": registerStatus.toJson(),
         "verifyCodeStatus": verifyCodeStatus.toJson(),
         "loginStatus": loginStatus.toJson(),
+        "logoutStatus": logoutStatus.toJson(),
       };
 
   static AuthState fromJson(dynamic json) {

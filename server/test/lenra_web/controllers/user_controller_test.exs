@@ -15,7 +15,7 @@ defmodule LenraWeb.UserControllerTest do
   test "register test", %{conn: conn} do
     conn = post(conn, Routes.user_path(conn, :register, @john_doe_user_params))
 
-    assert %{"data" => data, "ok" => "200"} = json_response(conn, 200)
+    assert %{"data" => data, "success" => true} = json_response(conn, 200)
     assert Map.has_key?(data, "access_token")
   end
 
@@ -31,8 +31,7 @@ defmodule LenraWeb.UserControllerTest do
         })
       )
 
-    assert %{"errors" => [%{"code" => 0, "message" => "first_name : can't be blank"}]} =
-             json_response(conn, 200)
+    assert %{"errors" => [%{"code" => 0, "message" => "first_name : can't be blank"}]} = json_response(conn, 200)
   end
 
   test "login test", %{conn: conn} do
@@ -47,7 +46,7 @@ defmodule LenraWeb.UserControllerTest do
         })
       )
 
-    assert %{"data" => data, "ok" => "200"} = json_response(conn, 200)
+    assert %{"data" => data, "success" => true} = json_response(conn, 200)
     assert Map.has_key?(data, "access_token")
   end
 
@@ -63,14 +62,13 @@ defmodule LenraWeb.UserControllerTest do
         })
       )
 
-    assert %{"errors" => [%{"code" => 4, "message" => "Incorrect email or password"}]} =
-             json_response(conn, 200)
+    assert %{"errors" => [%{"code" => 4, "message" => "Incorrect email or password"}]} = json_response(conn, 200)
   end
 
   test "refresh not authenticated test", %{conn: conn} do
     conn = post(conn, Routes.user_path(conn, :refresh))
 
-    assert %{"errors" => [%{"code" => 401, "message" => "You are not authenticated"}]} =
+    assert %{"errors" => [%{"code" => 401, "message" => "You are not authenticated"}], "success" => false} =
              json_response(conn, 401)
   end
 
@@ -79,7 +77,7 @@ defmodule LenraWeb.UserControllerTest do
 
     conn = post(conn_register, Routes.user_path(conn_register, :refresh))
 
-    assert %{"data" => data, "ok" => "200"} = json_response(conn, 200)
+    assert %{"data" => data, "success" => true} = json_response(conn, 200)
     assert Map.has_key?(data, "access_token")
   end
 
@@ -88,7 +86,7 @@ defmodule LenraWeb.UserControllerTest do
 
     conn = post(conn, Routes.user_path(conn, :logout))
 
-    assert %{"ok" => "200"} = json_response(conn, 200)
+    assert %{"success" => true} = json_response(conn, 200)
   end
 
   test "code verification test", %{conn: conn} do
@@ -106,7 +104,7 @@ defmodule LenraWeb.UserControllerTest do
         Routes.user_path(conn, :check_registration_code, %{"code" => user.registration_code.code})
       )
 
-    assert %{"data" => data, "ok" => "200"} = json_response(conn, 200)
+    assert %{"data" => data, "success" => true} = json_response(conn, 200)
     assert Map.has_key?(data, "access_token")
   end
 
@@ -115,7 +113,6 @@ defmodule LenraWeb.UserControllerTest do
 
     conn = post(conn, Routes.user_path(conn, :check_registration_code, %{"code" => "12345678"}))
 
-    assert %{"errors" => [%{"code" => 5, "message" => "No such registration code"}]} =
-             json_response(conn, 200)
+    assert %{"errors" => [%{"code" => 5, "message" => "No such registration code"}]} = json_response(conn, 200)
   end
 end
