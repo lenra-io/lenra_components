@@ -1,6 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/api/request_models/loginRequest.dart';
+import 'package:fr_lenra_client/components/error_list.dart';
+import 'package:fr_lenra_client/components/loading_button.dart';
 import 'package:fr_lenra_client/redux/models/login_model.dart';
 import 'package:fr_lenra_client/services/form_validators_service.dart';
 
@@ -31,17 +33,17 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    if (loginModel.status.isFetching) {
-      return CircularProgressIndicator();
-    }
-
     return Form(
-        key: _formKey,
-        child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: <Widget>[
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
           TextFormField(
             decoration: const InputDecoration(hintText: 'Entrez votre email', labelText: 'Email :'),
             onChanged: (String value) {
-              email = value;
+              setState(() {
+                this.email = value;
+              });
             },
             validator: validator([
               checkNotEmpty(),
@@ -56,7 +58,9 @@ class _LoginFormState extends State<LoginForm> {
             ),
             obscureText: true,
             onChanged: (String value) {
-              password = value;
+              setState(() {
+                this.password = value;
+              });
             },
             validator: validator([
               checkNotEmpty(),
@@ -77,14 +81,20 @@ class _LoginFormState extends State<LoginForm> {
             ),
           ),
           Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState.validate()) {
-                      this.loginModel.fetchData(body: LoginRequest(email, password));
-                    }
-                  },
-                  child: Text('Se Connecter')))
-        ]));
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: LoadingButton(
+              onPressed: () {
+                if (_formKey.currentState.validate()) {
+                  this.loginModel.fetchData(body: LoginRequest(email, password));
+                }
+              },
+              child: Text('Se Connecter'),
+              loading: this.loginModel.status.isFetching,
+            ),
+          ),
+          ErrorList(this.loginModel.errors),
+        ],
+      ),
+    );
   }
 }

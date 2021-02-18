@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fr_lenra_client/components/error_list.dart';
 import 'package:fr_lenra_client/components/store_page/app_button.dart';
 import 'package:fr_lenra_client/page/lenra_app_page.dart';
 import 'package:fr_lenra_client/redux/models/app_list_model.dart';
@@ -10,8 +11,7 @@ class AppList extends StatelessWidget {
 
   Widget build(BuildContext context) {
     if (appListModel.status.hasError) {
-      // TODO : create PrintErrors component
-      return Text("Oups, il y a des erreurs...");
+      return ErrorList(appListModel.errors);
     }
 
     if (appListModel.status.isDone) {

@@ -1,6 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/api/request_models/register_request.dart';
+import 'package:fr_lenra_client/components/error_list.dart';
+import 'package:fr_lenra_client/components/loading_button.dart';
 import 'package:fr_lenra_client/redux/models/register_model.dart';
 import 'package:fr_lenra_client/services/form_validators_service.dart';
 
@@ -38,10 +40,6 @@ class _RegisterFormState extends State<RegisterForm> {
 
   @override
   Widget build(BuildContext context) {
-    if (this.registerModel.status.isFetching) {
-      return CircularProgressIndicator();
-    }
-
     return Form(
       key: _formKey,
       child: Column(
@@ -131,7 +129,7 @@ class _RegisterFormState extends State<RegisterForm> {
           //------Button------
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: ElevatedButton(
+            child: LoadingButton(
               onPressed: () {
                 if (_formKey.currentState.validate()) {
                   this.registerModel.register(
@@ -145,8 +143,10 @@ class _RegisterFormState extends State<RegisterForm> {
                 }
               },
               child: Text('Submit'),
+              loading: this.registerModel.status.isFetching,
             ),
           ),
+          ErrorList(this.registerModel.errors)
         ],
       ),
     );

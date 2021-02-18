@@ -2,7 +2,6 @@ import 'package:fr_lenra_client/page/login_page.dart';
 import 'package:fr_lenra_client/redux/actions/async_action.dart';
 import 'package:fr_lenra_client/redux/actions/push_route_action.dart';
 import 'package:fr_lenra_client/redux/actions/refresh_token_action.dart';
-import 'package:fr_lenra_client/redux/actions/show_error_action.dart';
 import 'package:fr_lenra_client/redux/states/app_state.dart';
 import 'package:redux/redux.dart';
 
@@ -30,7 +29,6 @@ void handle401AsyncAction(
 ) {
   if (action.isRetry) {
     // Seconde try failed. access_token is invalid. We stop there and next the action.
-    store.dispatch(ShowErrorAction(action.errors));
     next(action);
   } else {
     // End of first try. access token is invalid but we can try to refresh it and retry.
@@ -50,7 +48,6 @@ void handleRefreshTokenAction(
   if (action.isError) {
     // The refresh token API returned an error. That means the refresh token is invalid (or at lease we can't get a proper access token.)
     // We redirect the user to the connexion page.
-    store.dispatch(ShowErrorAction(action.errors));
     store.dispatch(PushRouteAction(LoginPage.routeName, removeStack: true));
     next(action);
   } else if (action.isDone) {

@@ -14,7 +14,7 @@ void errorMiddleware(
 ) {
   ScaffoldMessenger.of(navigatorKey.currentContext).showSnackBar(SnackBar(
     content: Text(action.errors.toString()),
-    backgroundColor: Colors.red,
+    backgroundColor: Theme.of(navigatorKey.currentContext).errorColor,
     duration: Duration(seconds: 3),
   ));
 }

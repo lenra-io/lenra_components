@@ -21,7 +21,7 @@ config :lenra, Lenra.Repo,
 config :lenra, LenraWeb.Endpoint,
   http: [port: String.to_integer(System.get_env("PORT", "4000"))],
   secret_key_base: "FuEn07fjnCLaC53BiDoBagPYdsv/S65QTfxWgusKP1BA5NiaFzXGYMHLZ6JAYxt1",
-  debug_errors: true,
+  debug_errors: false,
   code_reloader: true,
   check_origin: false,
   watchers: []
