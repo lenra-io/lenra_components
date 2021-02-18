@@ -55,6 +55,21 @@ config :ex_json_schema,
 config :lenra,
   json_validator_schema: "../../../../../json_validator/"
 
+# Enable sentry configuration. Sentry will catch all errors on staging and production environment.
+# The source file are linked to sentry.
+config :sentry,
+  enable_source_code_context: true,
+  root_source_code_path: File.cwd!(),
+  included_environments: ~w(production staging)
+
+# Add sentry as logger backend (as well as console logging)
+config :logger, backends: [:console, Sentry.LoggerBackend]
+
+# Ask sentry to log Logger.error messages (not only stacktrace)
+config :logger, Sentry.LoggerBackend,
+  level: :error,
+  capture_log_messages: true
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"

@@ -76,7 +76,8 @@ defmodule Lenra.MixProject do
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
       {:sobelow, "~> 0.8", only: :dev},
       {:excoveralls, "~> 0.10", only: :test},
-      {:benchee, "~> 1.0", only: :dev}
+      {:benchee, "~> 1.0", only: :dev},
+      {:sentry, "~> 8.0"}
     ]
   end
 

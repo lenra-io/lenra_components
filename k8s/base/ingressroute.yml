@@ -27,7 +27,7 @@ spec:
       priority: 40
     # Le basic auth ne marche pas sur Safari...
     - kind: Rule
-      match: Host(`test.lenra.me`) && PathPrefix(`/socket`)
+      match: Host(`test.lenra.me`) && (PathPrefix(`/socket`) || Path(`/auth/refresh`))
       services:
         - kind: Service
           name: lenra-server

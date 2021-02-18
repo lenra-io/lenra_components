@@ -225,6 +225,7 @@ deploy test:
     - kustomize edit add resource secret-gitlab-registry.yml
     - kustomize edit add configmap lenra-host --from-literal LENRA_HOST=${LENRA_HOST} --from-literal LENRA_DOCUMENTATION_HOST=${LENRA_DOCUMENTATION_HOST}
     - cp $SERVER_ENV ./server.env
+    - echo -e "\nENVIRONMENT=${KUSTOMIZE_ENV}" >> ./server.env
     - kustomize edit add secret lenra-server --from-env-file server.env
     - cp $FAAS_ENV ./faas.env
     - kustomize edit add secret openfaas --from-env-file faas.env

@@ -1,5 +1,8 @@
 defmodule LenraWeb.Endpoint do
+  use Sentry.PlugCapture
   use Phoenix.Endpoint, otp_app: :lenra
+
+  # Sentry stuff to capture errors
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
@@ -43,6 +46,9 @@ defmodule LenraWeb.Endpoint do
     parsers: [:urlencoded, :multipart, :json],
     pass: ["*/*"],
     json_decoder: Phoenix.json_library()
+
+  # Gather information about the context for sentry
+  plug Sentry.PlugContext
 
   plug Plug.MethodOverride
   plug Plug.Head

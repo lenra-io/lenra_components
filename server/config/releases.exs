@@ -26,3 +26,9 @@ config :peerage,
 config :lenra, Lenra.Mailer, api_key: System.fetch_env!("SENDGRID_API_KEY")
 
 config :lenra, Lenra.Guardian, secret_key: System.fetch_env!("GUARDIAN_SECRET_KEY")
+
+# Set the DSN for sentry and the current environment.
+# Only production and sentry are used. test env are ignored.
+config :sentry,
+  dsn: System.fetch_env!("SENTRY_DSN"),
+  environment_name: System.fetch_env!("ENVIRONMENT")
