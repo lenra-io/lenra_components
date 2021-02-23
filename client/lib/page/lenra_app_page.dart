@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fr_lenra_client/api/response_models/app_response.dart';
 import 'package:fr_lenra_client/apps/lenra_app_data_provider.dart';
-import 'package:fr_lenra_client/apps/lenra_application_info.dart';
 import 'package:fr_lenra_client/lenra_components/actionable/events/lenra_event.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_component_wrapper.dart';
 import 'package:fr_lenra_client/redux/models/app_list_model.dart';
@@ -39,23 +39,22 @@ class _LenraAppPageState extends State<LenraAppPage> {
     this.uiStreamController.close();
   }
 
-  Widget buildThemedApp(Widget app, LenraApplicationInfo appInfo) {
+  Widget buildThemedApp(Widget app, AppResponse appInfo) {
     Widget scaffold = Scaffold(
         body: app,
         appBar: AppBar(
             actionsIconTheme: IconThemeData(),
             title: Text(
               appInfo.name,
-              style: TextStyle(
-                  color: appInfo.color.computeLuminance() > 0.5 ? Colors.black : Colors.white),
+              style: TextStyle(color: appInfo.color.computeLuminance() > 0.5 ? Colors.black : Colors.white),
             ),
             centerTitle: true));
 
     return Theme(
       data: Theme.of(context).copyWith(
         primaryColor: appInfo.color,
-        accentColor: Colors.accents[Colors.primaries.indexOf(appInfo.color)],
-        buttonColor: Colors.accents[Colors.primaries.indexOf(appInfo.color)],
+        accentColor: appInfo.color,
+        buttonColor: appInfo.color,
       ),
       child: scaffold,
     );
@@ -86,8 +85,7 @@ class _LenraAppPageState extends State<LenraAppPage> {
     }
   }
 
-  StreamBuilder<LenraComponentWrapper> getStreamBuilder(
-      Stream<LenraComponentWrapper> stream, LenraApplicationInfo appInfo) {
+  StreamBuilder<LenraComponentWrapper> getStreamBuilder(Stream<LenraComponentWrapper> stream, AppResponse appInfo) {
     return StreamBuilder<LenraComponentWrapper>(
       stream: stream,
       builder: (
@@ -116,7 +114,7 @@ class _LenraAppPageState extends State<LenraAppPage> {
       return CircularProgressIndicator();
     }
 
-    LenraApplicationInfo appInfo = widget.appListModel.getAppInfoByName(widget.appName);
+    AppResponse appInfo = widget.appListModel.getAppInfoByName(widget.appName);
     if (appInfo == null) {
       return Text("Oups !  L'application est introuvable...");
     }

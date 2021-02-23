@@ -1,45 +1,86 @@
 defmodule LenraServers.OpenfaasTest do
-  use ExUnit.Case, async: true
-
-  alias LenraWeb.AppStub, as: AppStub
-
   @moduledoc """
     Test the Errors for some routes
   """
+  use ExUnit.Case, async: false
 
-  setup do
-    faas = AppStub.create_faas_stub()
-    app = AppStub.stub_app(faas, "StubApp")
-    {:ok, %{app: app, faas: faas}}
+  alias LenraWeb.AppStub, as: AppStub
+
+  @john_doe_application %Lenra.LenraApplication{
+    image: "test",
+    name: "test",
+    env_process: "node index.js",
+    color: "FFFFFF",
+    icon: 1
+  }
+
+  describe "applist" do
+    setup do
+      faas = AppStub.create_faas_stub()
+      app = AppStub.stub_app(faas, "StubApp")
+      {:ok, %{app: app, faas: faas}}
+    end
+
+    test "Openfaas correctly handle ok 200 and decode data", %{app: app} do
+      AppStub.stub_action_once(app, "InitData", %{"data" => "any data"})
+
+      assert {:ok, %{"data" => "any data"}} ==
+               LenraServices.Openfaas.run_action("StubApp", "InitData", %{"toto" => "tata"})
+    end
+
+    test "Openfaas correctly handle 404 not found", %{app: app} do
+      AppStub.stub_action_once(app, "InitData", {:error, 404, "Not Found"})
+
+      assert_raise(RuntimeError, "Openfaas error (404) Not Found", fn ->
+        LenraServices.Openfaas.run_action("StubApp", "InitData", %{"toto" => "tata"})
+      end)
+    end
   end
 
-  test "Openfaas correctly handle ok 200 and decode data", %{app: app} do
-    AppStub.stub_action_once(app, "InitData", %{"data" => "any data"})
+  describe "deploy" do
+    test "app but openfaas unreachable" do
+      assert_raise(RuntimeError, "Openfaas could not be reached. It should not happen.", fn ->
+        LenraServices.Openfaas.deploy_app(@john_doe_application)
+      end)
+    end
 
-    assert {:ok, %{"data" => "any data"}} ==
-             LenraServices.Openfaas.run_action("StubApp", "InitData", %{"toto" => "tata"})
+    test "app and openfaas reachable" do
+      AppStub.create_faas_stub()
+      |> AppStub.expect_deploy_app_once(%{"ok" => "200"})
+
+      res = LenraServices.Openfaas.deploy_app(@john_doe_application)
+
+      assert res == {:ok, 200}
+    end
   end
 
-  test "Openfaas correctly handle 404 not found", %{app: app} do
-    AppStub.stub_action_once(app, "InitData", {:error, 404, "Not Found"})
+  describe "delete" do
+    test "app and openfaas reachable" do
+      AppStub.create_faas_stub()
+      |> AppStub.expect_delete_app_once(%{"ok" => "200"})
 
-    assert {:error, "Error (404) Not Found"} ==
-             LenraServices.Openfaas.run_action("StubApp", "InitData", %{"toto" => "tata"})
-  end
+      res = LenraServices.Openfaas.delete_app_openfaas(@john_doe_application)
 
-  test "Openfaas correctly handle 200 OK for app list", %{faas: faas} do
-    app_list = [%{"name" => "Counter"}, %{"name" => "MineSweeper"}]
-    AppStub.expect_app_list_once(faas, app_list)
+      assert res == {:ok, 200}
+    end
 
-    assert {:ok, app_list} ==
-             LenraServices.Openfaas.fetch_app_list()
-  end
+    test "app but openfaas error 400" do
+      AppStub.create_faas_stub()
+      |> AppStub.expect_delete_app_once({:error, 400, "Bad request"})
 
-  test "Openfaas correctly handle 404 not found for app list", %{faas: faas} do
-    app_list = {:error, 404, "Not Found"}
-    AppStub.expect_app_list_once(faas, app_list)
+      assert_raise(RuntimeError, "Openfaas could not delete the application. It should not happen.", fn ->
+        LenraServices.Openfaas.delete_app_openfaas(@john_doe_application)
+      end)
+    end
 
-    assert {:error, "Error (404) Not Found"} ==
-             LenraServices.Openfaas.fetch_app_list()
+    @tag capture_log: true
+    test "app but openfaas error 404" do
+      AppStub.create_faas_stub()
+      |> AppStub.expect_delete_app_once({:error, 404, "Not found"})
+
+      res = LenraServices.Openfaas.delete_app_openfaas(@john_doe_application)
+
+      assert res == {:ok, 404}
+    end
   end
 end

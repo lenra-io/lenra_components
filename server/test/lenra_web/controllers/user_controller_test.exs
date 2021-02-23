@@ -31,7 +31,7 @@ defmodule LenraWeb.UserControllerTest do
         })
       )
 
-    assert %{"errors" => [%{"code" => 0, "message" => "first_name : can't be blank"}]} = json_response(conn, 200)
+    assert %{"errors" => [%{"code" => 0, "message" => "first_name : can't be blank"}]} = json_response(conn, 400)
   end
 
   test "login test", %{conn: conn} do
@@ -91,7 +91,7 @@ defmodule LenraWeb.UserControllerTest do
 
   test "code verification test", %{conn: conn} do
     conn = post(conn, Routes.user_path(conn, :register, @john_doe_user_params))
-    assert_receive({:delivered_email, email})
+    assert_receive({:delivered_email, _email})
 
     email = @john_doe_user_params["email"]
     user = Lenra.Repo.get_by(Lenra.User, email: email)

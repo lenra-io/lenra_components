@@ -13,6 +13,8 @@ defmodule LenraWeb.ErrorHelpers do
     email_or_password_incorrect: %{code: 4, message: "Incorrect email or password"},
     no_such_registration_code: %{code: 5, message: "No such registration code"},
     unhandled_resource_type: %{code: 7, message: "Unknown resource."},
+    error_404: %{code: 404, message: "Not Found."},
+    error_500: %{code: 500, message: "Internal server error."},
     openfaas_not_reachable: %{code: 1000, message: "Openfaas is not accessible"}
   ]
 

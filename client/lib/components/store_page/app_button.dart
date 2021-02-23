@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:fr_lenra_client/apps/lenra_application_info.dart';
+import 'package:fr_lenra_client/api/response_models/app_response.dart';
 
 class AppButton extends StatelessWidget {
   AppButton({Key key, this.appInfo, this.onPressed}) : super(key: key);
 
-  final LenraApplicationInfo appInfo;
+  final AppResponse appInfo;
   final VoidCallback onPressed;
 
   Widget build(BuildContext context) {

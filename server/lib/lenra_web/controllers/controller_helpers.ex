@@ -4,6 +4,23 @@ defmodule LenraWeb.ControllerHelpers do
   """
 
   def assign_error(%Plug.Conn{} = conn, error) do
+    case error do
+      %Ecto.Changeset{valid?: false} ->
+        Plug.Conn.put_status(conn, 400)
+
+      :error_404 ->
+        Plug.Conn.put_status(conn, 404)
+
+      :error_500 ->
+        Plug.Conn.put_status(conn, 500)
+
+      _ ->
+        conn
+    end
+    |> add_error(error)
+  end
+
+  def add_error(%Plug.Conn{} = conn, error) do
     error_list = Map.get(conn.assigns, :errors, [])
     Plug.Conn.assign(conn, :errors, [error | error_list])
   end
@@ -14,10 +31,12 @@ defmodule LenraWeb.ControllerHelpers do
   end
 
   def reply(%Plug.Conn{assigns: %{errors: _}} = conn) do
-    Phoenix.Controller.render(conn, "error.json")
+    conn
+    |> Phoenix.Controller.render("error.json")
   end
 
   def reply(%Plug.Conn{} = conn) do
-    Phoenix.Controller.render(conn, "success.json")
+    conn
+    |> Phoenix.Controller.render("success.json")
   end
 end

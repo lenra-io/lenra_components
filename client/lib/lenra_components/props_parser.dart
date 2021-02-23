@@ -2,6 +2,7 @@ library props_parser;
 
 import 'package:flutter/painting.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_component_wrapper.dart';
+import 'package:fr_lenra_client/utils/color_parser.dart';
 
 extension ParserExt on Parser {
   // TODO : Generate this from annotation on class Parser
@@ -17,11 +18,7 @@ extension ParserExt on Parser {
 
 class Parser {
   static Color parseColor(String color, LenraComponentWrapperState wrapperState) {
-    if (color == null) return null;
-
-    String hex = color.replaceFirst('#', '');
-    int hexb16 = int.parse('FF$hex', radix: 16);
-    return Color(hexb16);
+    return color.parseColor();
   }
 
   static String parseString(dynamic value, LenraComponentWrapperState wrapperState) {
@@ -35,8 +32,7 @@ class Parser {
     return value.toString().toLowerCase() == "true";
   }
 
-  static Map<String, dynamic> parseListeners(
-      Map<String, dynamic> listeners, LenraComponentWrapperState wrapperState) {
+  static Map<String, dynamic> parseListeners(Map<String, dynamic> listeners, LenraComponentWrapperState wrapperState) {
     return listeners;
   }
 
@@ -49,8 +45,7 @@ class Parser {
     return 0;
   }
 
-  static List<LenraComponentWrapper> parseChildren(
-      List<dynamic> children, LenraComponentWrapperState wrapperState) {
+  static List<LenraComponentWrapper> parseChildren(List<dynamic> children, LenraComponentWrapperState wrapperState) {
     int i = 0;
     return children.map((dynamic child) {
       return LenraComponentWrapperState.createChild(
@@ -61,8 +56,8 @@ class Parser {
     }).toList();
   }
 
-  static Map<Symbol, dynamic> parseProps(Map<String, dynamic> props, Map<String, String> propsTypes,
-      LenraComponentWrapperState parent) {
+  static Map<Symbol, dynamic> parseProps(
+      Map<String, dynamic> props, Map<String, String> propsTypes, LenraComponentWrapperState parent) {
     Map<Symbol, dynamic> transformedProps = Map();
 
     props.forEach((key, value) {

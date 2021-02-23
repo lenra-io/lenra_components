@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:fr_lenra_client/apps/lenra_application_info.dart';
+import 'package:fr_lenra_client/api/response_models/app_response.dart';
 import 'package:fr_lenra_client/socket/ui_stream_controller.dart';
 
 class LenraAppDataProvider extends InheritedWidget {
   final UIStreamController uiStreamController;
-  final LenraApplicationInfo appInfo;
+  final AppResponse appInfo;
 
   LenraAppDataProvider({
     @required this.uiStreamController,
@@ -14,8 +14,7 @@ class LenraAppDataProvider extends InheritedWidget {
 
   @override
   bool updateShouldNotify(LenraAppDataProvider oldWidget) {
-    return this.uiStreamController != oldWidget.uiStreamController ||
-        this.appInfo != oldWidget.appInfo;
+    return this.uiStreamController != oldWidget.uiStreamController || this.appInfo != oldWidget.appInfo;
   }
 
   static LenraAppDataProvider of(BuildContext context) {

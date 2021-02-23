@@ -39,33 +39,74 @@ defmodule LenraServices.Openfaas do
 
     Finch.build(:post, url, headers, body)
     |> Finch.request(FaasHttp)
-    |> response()
+    |> response(:get_apps)
   end
 
-  def fetch_app_list do
+  def deploy_app(%Lenra.LenraApplication{} = app) do
     {base_url, headers} = get_http_context()
 
-    Logger.debug("Get Openfaas app list")
+    Logger.debug("Deploy Openfaas application")
 
     url = "#{base_url}/system/functions"
 
-    Finch.build(:get, url, headers)
+    Finch.build(
+      :post,
+      url,
+      headers,
+      Jason.encode!(%{
+        "image" => app.image,
+        "service" => app.name,
+        "envProcess" => app.env_process
+      })
+    )
     |> Finch.request(FaasHttp)
-    |> response()
+    |> response(:deploy_app)
   end
 
-  defp response({:ok, %Finch.Response{status: 200, body: body}}) do
+  def delete_app_openfaas(%Lenra.LenraApplication{} = app) do
+    {base_url, headers} = get_http_context()
+
+    Logger.debug("Remove Openfaas application")
+
+    url = "#{base_url}/system/functions"
+
+    Finch.build(
+      :delete,
+      url,
+      headers,
+      Jason.encode!(%{
+        "functionName" => app.name
+      })
+    )
+    |> Finch.request(FaasHttp)
+    |> response(:delete_app)
+  end
+
+  defp response({:ok, %Finch.Response{status: 200, body: body}}, :get_apps) do
     {:ok, Jason.decode!(body)}
   end
 
-  defp response({:ok, %Finch.Response{status: status_code, body: body}}) do
-    {:error, "Error (#{status_code}) #{body}"}
+  defp response({:ok, %Finch.Response{status: status_code}}, :deploy_app) when status_code in [200, 202] do
+    {:ok, status_code}
   end
 
-  defp response({:error, %{reason: reason}}) do
-    case reason do
-      :econnrefused -> {:error, :openfaas_not_reachable}
-      _ -> {:error, reason}
+  defp response({:ok, %Finch.Response{status: status_code}}, :delete_app) when status_code in [200, 202, 404] do
+    if status_code == 404 do
+      Logger.error("The application was not found in Openfaas. It should not happen.")
     end
+
+    {:ok, status_code}
+  end
+
+  defp response({:ok, %Finch.Response{}}, :delete_app) do
+    raise "Openfaas could not delete the application. It should not happen."
+  end
+
+  defp response({:error, %Mint.TransportError{reason: _}}, _) do
+    raise "Openfaas could not be reached. It should not happen."
+  end
+
+  defp response({:ok, %Finch.Response{status: status_code, body: body}}, _) when status_code not in [200, 202] do
+    raise "Openfaas error (#{status_code}) #{body}"
   end
 end

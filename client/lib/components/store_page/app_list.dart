@@ -15,18 +15,15 @@ class AppList extends StatelessWidget {
     }
 
     if (appListModel.status.isDone) {
-      List<Widget> buttonList = [];
-      appListModel.convertAppListToAppsInfo().forEach((appInfo) {
-        buttonList.add(AppButton(
-          appInfo: appInfo,
-          onPressed: () {
-            Navigator.of(context).pushNamed(LenraAppPage.getRouteName(appInfo.name));
-          },
-        ));
-      });
-
       return Wrap(
-        children: buttonList,
+        children: appListModel.data.apps.map((appInfo) {
+          return AppButton(
+            appInfo: appInfo,
+            onPressed: () {
+              Navigator.of(context).pushNamed(LenraAppPage.getRouteName(appInfo.name));
+            },
+          );
+        }).toList(),
       );
     }
 

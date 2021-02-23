@@ -21,7 +21,7 @@ void main() {
     (state) => state.appListState,
     AppsResponse.fromJson({
       "apps": [
-        {"name": "appName"}
+        {"name": "appName", "icon": 60184, "color": "FFFFFF"}
       ]
     }),
   );

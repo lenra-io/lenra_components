@@ -30,7 +30,7 @@ abstract class LenraBaseHttpClient {
     http.Response response;
     try {
       response = await futureReponse;
-      if (response.statusCode >= 400) {
+      if (response.statusCode == 404) {
         throw ApiErrors.connexionRefusedError();
       }
     } catch (e) {

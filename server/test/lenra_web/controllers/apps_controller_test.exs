@@ -16,28 +16,40 @@ defmodule LenraWeb.AppsControllerTest do
                "success" => false
              }
     end
+  end
 
+  describe "create" do
     @tag :user_authentication
-    test "app controller authenticated but no openfaas", %{conn: conn} do
-      route = Routes.apps_path(conn, :index)
+    test "apps controller authenticated but no openfaas", %{conn: conn} do
+      route = Routes.apps_path(conn, :create)
       assert route == "/api/apps"
-      conn = get(conn, Routes.apps_path(conn, :index))
 
-      assert json_response(conn, 200) == %{
-               "errors" => [%{"code" => 1000, "message" => "Openfaas is not accessible"}],
-               "success" => false
-             }
+      assert_raise(RuntimeError, "Openfaas could not be reached. It should not happen.", fn ->
+        post(conn, Routes.apps_path(conn, :create), %{
+          "image" => "test",
+          "name" => "test",
+          "env_process" => "node index.js",
+          "color" => "FFFFFF",
+          "icon" => 1
+        })
+      end)
     end
 
-    @app_list [%{"name" => "myApp1"}, %{"name" => "myApp2"}]
     @tag :user_authentication
-    test "app controller authenticated with openfaas", %{conn: conn} do
+    test "apps controller authenticated with openfaas", %{conn: conn} do
       AppStub.create_faas_stub()
-      |> AppStub.expect_app_list_once(@app_list)
+      |> AppStub.expect_deploy_app_once(%{"ok" => "200"})
 
-      conn = get(conn, Routes.apps_path(conn, :index))
+      conn =
+        post(conn, Routes.apps_path(conn, :create), %{
+          "image" => "test",
+          "name" => "test",
+          "env_process" => "node index.js",
+          "color" => "FFFFFF",
+          "icon" => 1
+        })
 
-      assert json_response(conn, 200) == %{"data" => %{"apps" => @app_list}, "success" => true}
+      assert json_response(conn, 200) == %{"success" => true}
     end
   end
 end

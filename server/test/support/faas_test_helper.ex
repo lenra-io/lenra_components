@@ -17,21 +17,31 @@ defmodule LenraWeb.AppStub do
   end
 
   def expect_app_list_once(bypass, result) do
+    expect_once("GET", bypass, result)
+  end
+
+  def expect_deploy_app_once(bypass, result) do
+    expect_once("POST", bypass, result)
+  end
+
+  def expect_delete_app_once(bypass, result) do
+    expect_once("DELETE", bypass, result)
+  end
+
+  defp expect_once(http_method, bypass, result) do
     url = "/system/functions"
 
-    Bypass.expect_once(bypass, "GET", url, fn conn ->
+    Bypass.expect_once(bypass, http_method, url, fn conn ->
       case result do
         {:error, code, message} ->
           Plug.Conn.resp(conn, code, message)
 
         any ->
-          Plug.Conn.resp(
-            conn,
-            200,
-            Jason.encode!(any)
-          )
+          Plug.Conn.resp(conn, 200, Jason.encode!(any))
       end
     end)
+
+    bypass
   end
 
   @spec stub_action_once(tuple(), String.t(), map() | {:error, number(), String.t()}) :: tuple()
