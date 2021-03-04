@@ -5,7 +5,7 @@ defmodule LenraServers.ApplicationServicesTest do
   alias LenraWeb.AppStub, as: AppStub
 
   @moduledoc """
-    Test the Errors for applications
+    Test the application services
   """
 
   test "register app" do

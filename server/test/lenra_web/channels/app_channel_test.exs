@@ -57,6 +57,20 @@ defmodule LenraWeb.AppChannelTest do
   }
 
   test "Base use case with simple app", %{socket: socket, owstub: owstub, user: user} do
+    owstub
+    |> AppStub.expect_deploy_app_once(%{"ok" => "200"})
+
+    Ecto.build_assoc(user, :applications)
+    |> Lenra.LenraApplication.changeset(%{
+      image: "test",
+      name: "Counter",
+      env_process: "node index.js",
+      color: "FFFFFF",
+      icon: "60189"
+    })
+    |> LenraServices.ApplicationServices.register_app()
+    |> Lenra.Repo.transaction()
+
     # Base use case. Call InitData then MainUI then call the listener
     # and the next MainUI should not be called but taken from cache instead
     owstub

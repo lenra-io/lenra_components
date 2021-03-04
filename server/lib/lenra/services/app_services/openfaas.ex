@@ -56,7 +56,10 @@ defmodule LenraServices.Openfaas do
       Jason.encode!(%{
         "image" => app.image,
         "service" => app.name,
-        "envProcess" => app.env_process
+        "envProcess" => app.env_process,
+        "secrets" => [
+          "gitlab-registry"
+        ]
       })
     )
     |> Finch.request(FaasHttp)

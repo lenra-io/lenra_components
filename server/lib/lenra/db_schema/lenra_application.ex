@@ -10,6 +10,7 @@ defmodule Lenra.LenraApplication do
 
   schema "applications" do
     belongs_to(:user, Lenra.User)
+    has_many(:datastores, Lenra.Datastore)
     field(:image, :string)
     field(:name, :string)
     field(:env_process, :string)

@@ -21,13 +21,14 @@ defmodule Lenra.User do
 
   @derive {Jason.Encoder, only: [:first_name, :last_name, :email]}
   schema "users" do
-    has_many(:applications, Lenra.LenraApplication)
     field(:first_name, :string)
     field(:last_name, :string)
     field(:email, :string)
     field(:password, :string, redact: true)
     field(:role, :integer)
     has_one(:registration_code, Lenra.RegistrationCode)
+    has_many(:applications, Lenra.LenraApplication)
+    has_many(:datastores, Lenra.Datastore)
     timestamps()
   end
 

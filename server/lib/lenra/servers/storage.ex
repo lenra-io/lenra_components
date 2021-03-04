@@ -6,7 +6,7 @@ defmodule LenraServers.Storage do
   require Logger
 
   @name __MODULE__
-  @tables [:data, :final_ui, :listeners]
+  @tables [:final_ui, :listeners]
 
   # GenServer Callbacks
 
@@ -40,15 +40,15 @@ defmodule LenraServers.Storage do
     Insert the `data` in the given `table` in any of `@tables` using the given `key`
 
     # Examples
-      iex> LenraServers.Storage.insert(:data, "test", "val")
-      iex> LenraServers.Storage.get(:data, "test")
+      iex> LenraServers.Storage.insert(:final_ui, "test", "val")
+      iex> LenraServers.Storage.get(:final_ui, "test")
       "val"
 
     If the given `table` is not in one of `@tables`, raise an ArgumentError
       iex> LenraServers.Storage.insert(:notexists, "truc", "machin")
       ** (ArgumentError) ETS : Unknown table name notexists
   """
-  @spec insert(:data | :final_ui | :listeners | :ui, String.t(), any()) :: {:ok, any()}
+  @spec insert(:final_ui | :listeners | :ui, String.t(), any()) :: {:ok, any()}
   def insert(table, _key, _data) when table not in @tables do
     raise ArgumentError, "ETS : Unknown table name #{table}"
   end
@@ -61,15 +61,15 @@ defmodule LenraServers.Storage do
     Get the data from the given `table` in any of `@tables` for the given `key`
 
     # Examples
-      iex> LenraServers.Storage.insert(:data, "test", "val")
-      iex> LenraServers.Storage.get(:data, "test")
+      iex> LenraServers.Storage.insert(:final_ui, "test", "val")
+      iex> LenraServers.Storage.get(:final_ui, "test")
       "val"
 
     If the given key does not exists, return the given `default` value (nil by default)
-      iex> LenraServers.Storage.get(:data, "hey", "nope")
+      iex> LenraServers.Storage.get(:final_ui, "hey", "nope")
       "nope"
 
-      iex> LenraServers.Storage.get(:data, "hey")
+      iex> LenraServers.Storage.get(:final_ui, "hey")
       nil
 
     If the given `table` is not in one of `@tables`, raise an ArgumentError

@@ -19,7 +19,8 @@ defmodule LenraServices.ActionBuilder do
   """
   @spec first_run(ow_info()) :: {:ok, ui()} | {:error, String.t()}
   def first_run(ow_info) do
-    with {:ok, final_ui} <- run_app_listener(ow_info, "InitData", %{}, %{}, %{}) do
+    with {:ok, data} <- get_data(ow_info),
+         {:ok, final_ui} <- run_app_listener(ow_info, "InitData", data, %{}, %{}) do
       {:ok, final_ui}
     end
   end
@@ -45,9 +46,10 @@ defmodule LenraServices.ActionBuilder do
   end
 
   defp save_data({client_id, app_name}, data) do
-    data_key = Storage.generate_data_key(client_id, app_name)
-    Storage.insert(:data, data_key, data)
-    {:ok, data}
+    case Lenra.Repo.get_by(Lenra.LenraApplication, name: app_name) do
+      nil -> {:error, :no_such_application}
+      application -> {:ok, LenraServices.DatastoreServices.upsert_data(client_id, application.id, data)}
+    end
   end
 
   defp get_last_final_ui({client_id, app_name}) do
@@ -146,11 +148,9 @@ defmodule LenraServices.ActionBuilder do
   end
 
   defp get_data({client_id, app_name}) do
-    with data_key <- Storage.generate_data_key(client_id, app_name) do
-      case Storage.get(:data, data_key) do
-        nil -> {:error, "No data found."}
-        data -> {:ok, data}
-      end
+    case Lenra.Repo.get_by(Lenra.LenraApplication, name: app_name) do
+      nil -> {:error, :no_such_application}
+      application -> {:ok, LenraServices.DatastoreServices.get_datastore_data(client_id, application.id)}
     end
   end
 end

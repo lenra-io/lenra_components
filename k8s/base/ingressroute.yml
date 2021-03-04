@@ -53,5 +53,3 @@ spec:
           name: lenra-documentation
           port: 8080
       priority: 10
-  tls:
-    certResolver: letsencryptresolver
