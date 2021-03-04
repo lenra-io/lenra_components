@@ -14,7 +14,7 @@
             "type": "array",
             "description": "Listeners on the element",
             "items": {
-                "$ref": "components/component_validator.schema.json"
+                "type": "object"
             }
         }
     },

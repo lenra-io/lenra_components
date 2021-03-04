@@ -22,7 +22,7 @@ config :lenra, LenraWeb.Endpoint,
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 config :lenra,
-  json_validator_schema: "priv/static/json_validator/"
+  json_validator_schema_dir: "priv/static/json_validator/"
 
 # Do not print debug messages in production
 config :logger, level: :info

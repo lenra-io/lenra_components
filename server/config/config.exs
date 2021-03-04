@@ -50,10 +50,10 @@ config :phoenix, :json_library, Jason
 # Configure JSON validator
 config :ex_json_schema,
        :remote_schema_resolver,
-       {LenraServices.JsonValidator.SchemaLoader, :load_schema}
+       {UIValidator.JsonSchemata, :read_schema}
 
 config :lenra,
-  json_validator_schema: "../../../../../json_validator/"
+  json_validator_schema_dir: "../../../../../json_validator/"
 
 # Enable sentry configuration. Sentry will catch all errors on staging and production environment.
 # The source file are linked to sentry.

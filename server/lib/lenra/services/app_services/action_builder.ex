@@ -5,7 +5,6 @@ defmodule LenraServices.ActionBuilder do
 
   require Logger
 
-  alias LenraServers.JsonValidator
   alias LenraServers.Storage
   alias LenraServices.Openfaas
 
@@ -131,7 +130,7 @@ defmodule LenraServices.ActionBuilder do
              props: props,
              event: event
            }),
-         {:ok, "Schema valide"} <- JsonValidator.validate_ui(ui),
+         :ok <- UIValidator.validate(ui),
          {:ok, final_ui} <- build_ui(ui),
          {:ok, _} <- save_final_ui(ow_info, final_ui),
          {:ok, _} <- save_data(ow_info, data) do
