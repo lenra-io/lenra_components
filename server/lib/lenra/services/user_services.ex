@@ -4,34 +4,46 @@ defmodule LenraServices.UserServices do
   """
 
   alias Lenra.{Repo, User}
-  alias LenraServices.RegistrationCodeServices
+  alias LenraServices.{RegistrationCodeServices, UserServices}
 
   alias LenraServices.EmailWorker
 
   @doc """
     Register a new user, save him to the database. The email must be unique. The password is hashed before inserted to the database.
   """
-  def register(user_changeset) do
+  def register(params) do
     Ecto.Multi.new()
-    |> Ecto.Multi.insert(:user, user_changeset)
-    |> Ecto.Multi.insert(
-      :registration_code,
-      &RegistrationCodeServices.registration_code_changeset/1
-    )
-    |> Ecto.Multi.run(:add_event, &add_registration_events/2)
+    |> Ecto.Multi.merge(fn _ -> UserServices.create(params) end)
+    |> Ecto.Multi.merge(fn %{inserted_user: user} -> RegistrationCodeServices.create(user) end)
+    |> Ecto.Multi.run(:add_event, fn _repo, %{inserted_registration_code: registration_code, inserted_user: user} ->
+      EmailWorker.add_email_verification_event(user, registration_code.code)
+    end)
+    |> Repo.transaction()
   end
 
-  defp add_registration_events(_repo, %{registration_code: registration_code, user: user}) do
-    EmailWorker.add_email_verification_event(user, registration_code.code)
-  end
-
-  def get_user(id) do
+  def get(id) do
     Repo.get(User, id)
   end
 
-  def update_user(user_changeset) do
+  def create(params) do
     Ecto.Multi.new()
-    |> Ecto.Multi.update(:update_user, user_changeset)
+    |> Ecto.Multi.insert(:inserted_user, User.new(params))
+  end
+
+  def update(user, params) do
+    Ecto.Multi.new()
+    |> Ecto.Multi.update(:updated_user, User.update(user, params))
+  end
+
+  @spec validate_user(any, String.t()) :: Ecto.Multi.t()
+  def validate_user(id, code) do
+    user = UserServices.get(id) |> Repo.preload(:registration_code)
+
+    Ecto.Multi.new()
+    |> Ecto.Multi.run(:check_valid, fn _, _ -> RegistrationCodeServices.check_valid(user.registration_code, code) end)
+    |> Ecto.Multi.merge(fn _ -> RegistrationCodeServices.delete(user.registration_code) end)
+    |> Ecto.Multi.merge(fn _ -> UserServices.update(user, %{role: User.const_user_role()}) end)
+    |> Lenra.Repo.transaction()
   end
 
   @doc """

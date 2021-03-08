@@ -2,26 +2,19 @@ defmodule LenraWeb.UserController do
   use LenraWeb, :controller
 
   alias Lenra.Guardian.Plug
-  alias LenraServices.{RegistrationCodeServices, TokenServices, UserServices}
-  alias Lenra.{Repo, User}
+  alias LenraServices.{TokenServices, UserServices}
 
   def register(conn, params) do
-    res =
-      %User{role: User.const_unvalidated_user_role()}
-      |> User.changeset(params)
-      |> UserServices.register()
-      |> Lenra.Repo.transaction()
-
-    conn
-    |> handle_register(res)
+    UserServices.register(params)
+    |> handle_register(conn)
     |> reply
   end
 
-  defp handle_register(conn, {:error, _, failed_value, _}) do
+  defp handle_register({:error, _, failed_value, _}, conn) do
     assign_error(conn, failed_value)
   end
 
-  defp handle_register(conn, {:ok, %{user: user}}) do
+  defp handle_register({:ok, %{inserted_user: user}}, conn) do
     TokenServices.assign_access_and_refresh_token(conn, user)
   end
 
@@ -50,12 +43,12 @@ defmodule LenraWeb.UserController do
     |> reply
   end
 
-  def check_registration_code(conn, params) do
-    Plug.current_resource(conn)
-    |> RegistrationCodeServices.check_valid_and_delete(params["code"])
-    |> Repo.transaction()
+  def validate_user(conn, params) do
+    user_id = Plug.current_resource(conn)
+
+    UserServices.validate_user(user_id, params["code"])
     |> case do
-      {:ok, %{update_user: updated_user}} ->
+      {:ok, %{updated_user: updated_user}} ->
         conn
         |> TokenServices.revoke_current_refresh()
         |> TokenServices.assign_access_and_refresh_token(updated_user)

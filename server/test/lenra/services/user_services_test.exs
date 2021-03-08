@@ -4,7 +4,7 @@ defmodule UserServicesTest do
   alias LenraServices.UserServices
 
   test "register user should succeed" do
-    {:ok, %{user: user, registration_code: registration_code}} = register_john_doe()
+    {:ok, %{inserted_user: user, inserted_registration_code: registration_code}} = register_john_doe()
 
     assert user.first_name == "John"
     assert user.last_name == "Doe"
@@ -22,9 +22,7 @@ defmodule UserServicesTest do
     assert not changeset.valid?
 
     assert changeset.errors == [
-             {:email,
-              {"has already been taken",
-               [constraint: :unique, constraint_name: "users_email_index"]}}
+             {:email, {"has already been taken", [constraint: :unique, constraint_name: "users_email_index"]}}
            ]
   end
 

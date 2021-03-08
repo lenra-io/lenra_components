@@ -2,47 +2,55 @@ defmodule LenraServers.ApplicationServicesTest do
   use ExUnit.Case, async: false
   use Lenra.RepoCase
 
-  alias LenraWeb.AppStub, as: AppStub
+  alias LenraWeb.AppStub
+  alias LenraServices.LenraApplicationServices
 
   @moduledoc """
     Test the application services
   """
 
-  test "register app" do
+  @tag :register_user
+  test "register app", %{user: user} do
     AppStub.create_faas_stub()
     |> AppStub.expect_deploy_app_once(%{"ok" => "200"})
 
-    %Lenra.LenraApplication{}
-    |> Lenra.LenraApplication.changeset(%{
+    params = %{
       image: "test",
       name: "mine-sweeper",
       env_process: "node index.js",
       color: "FFFFFF",
       icon: "60189"
-    })
-    |> LenraServices.ApplicationServices.register_app()
-    |> Lenra.Repo.transaction()
+    }
+
+    LenraApplicationServices.create_and_deploy(user.id, params)
+    |> case do
+      {:ok, _} -> assert true
+      {:error, _} -> assert false, "adding app failed"
+    end
+
+    assert nil != LenraApplicationServices.get_by(name: "mine-sweeper")
   end
 
-  test "delete app" do
+  @tag :register_user
+  test "delete app", %{user: user} do
     AppStub.create_faas_stub()
     |> AppStub.expect_deploy_app_once(%{"ok" => "200"})
     |> AppStub.expect_delete_app_once(%{"ok" => "200"})
 
-    %Lenra.LenraApplication{}
-    |> Lenra.LenraApplication.changeset(%{
+    params = %{
       image: "test",
       name: "mine-sweeper",
       env_process: "node index.js",
       color: "FFFFFF",
       icon: "60189"
-    })
-    |> LenraServices.ApplicationServices.register_app()
-    |> Lenra.Repo.transaction()
+    }
 
-    app = Enum.at(Lenra.Repo.all(Lenra.LenraApplication), 0)
+    {:ok, %{inserted_application: app}} = LenraApplicationServices.create_and_deploy(user.id, params)
 
-    LenraServices.ApplicationServices.delete_app(app)
-    |> Lenra.Repo.transaction()
+    assert nil != LenraApplicationServices.get_by(name: "mine-sweeper")
+
+    LenraApplicationServices.delete_and_undeploy(app)
+
+    assert nil == LenraApplicationServices.get_by(name: "mine-sweeper")
   end
 end

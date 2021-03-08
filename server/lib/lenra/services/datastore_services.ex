@@ -35,6 +35,9 @@ defmodule LenraServices.DatastoreServices do
   """
   def upsert_data(user_id, application_id, data) do
     Lenra.Datastore.new(user_id, application_id, data)
-    |> Lenra.Repo.insert(on_conflict: [set: [data: data]], conflict_target: [:user_id, :application_id])
+    |> Lenra.Repo.insert(
+      on_conflict: [set: [data: data]],
+      conflict_target: [:user_id, :application_id]
+    )
   end
 end

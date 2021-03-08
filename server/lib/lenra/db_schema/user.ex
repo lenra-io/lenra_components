@@ -4,6 +4,7 @@ defmodule Lenra.User do
   """
   use Ecto.Schema
   import Ecto.Changeset
+  alias Lenra.User
 
   @email_regex ~r/[^@]+@[^\.]+\..+/
 
@@ -52,4 +53,13 @@ defmodule Lenra.User do
   end
 
   defp put_pass_hash(changeset), do: changeset
+
+  def new(params) do
+    %User{role: User.const_unvalidated_user_role()}
+    |> changeset(params)
+  end
+
+  def update(%User{} = user, params) do
+    changeset(user, params)
+  end
 end

@@ -2,7 +2,7 @@ defmodule UserTestHelper do
   @moduledoc """
     Test helper for user
   """
-  alias Lenra.{User, Repo}
+  alias Lenra.Repo
   alias LenraServices.UserServices
 
   @john_doe_user_params %{
@@ -13,10 +13,7 @@ defmodule UserTestHelper do
   }
 
   def register_user(params) do
-    %User{role: User.const_unvalidated_user_role()}
-    |> User.changeset(params)
-    |> UserServices.register()
-    |> Repo.transaction()
+    UserServices.register(params)
   end
 
   def register_john_doe(changes \\ %{}) do

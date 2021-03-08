@@ -5,18 +5,19 @@ defmodule Lenra.Guardian do
 
   use Guardian, otp_app: :lenra
 
-  alias LenraServices.UserServices
-
   require Logger
 
   def subject_for_token(user, _claims) do
     {:ok, to_string(user.id)}
   end
 
-  def resource_from_claims(%{"sub" => id}) do
-    case UserServices.get_user(id) do
-      nil -> {:error, :user_not_found}
-      user -> {:ok, user}
+  def resource_from_claims(%{"sub" => id_string}) do
+    case Integer.parse(id_string) do
+      {id, _} ->
+        {:ok, id}
+
+      :error ->
+        raise "Cannot parse subject from claims"
     end
   end
 

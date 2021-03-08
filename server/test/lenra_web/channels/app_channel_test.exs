@@ -3,11 +3,12 @@ defmodule LenraWeb.AppChannelTest do
     Test the `LenraWeb.AppChannel` module
   """
   use LenraWeb.ChannelCase
-  alias LenraWeb.AppStub
+  alias LenraWeb.{UserSocket, AppStub}
+  alias LenraServices.LenraApplicationServices
 
   setup do
-    {:ok, %{user: user}} = register_john_doe()
-    socket = socket(LenraWeb.UserSocket, "socket_id", %{user_id: user.id})
+    {:ok, %{inserted_user: user}} = register_john_doe()
+    socket = socket(UserSocket, "socket_id", %{user_id: user.id})
 
     owstub = AppStub.create_faas_stub()
 
@@ -60,16 +61,13 @@ defmodule LenraWeb.AppChannelTest do
     owstub
     |> AppStub.expect_deploy_app_once(%{"ok" => "200"})
 
-    Ecto.build_assoc(user, :applications)
-    |> Lenra.LenraApplication.changeset(%{
+    LenraApplicationServices.create_and_deploy(user.id, %{
       image: "test",
       name: "Counter",
       env_process: "node index.js",
       color: "FFFFFF",
       icon: "60189"
     })
-    |> LenraServices.ApplicationServices.register_app()
-    |> Lenra.Repo.transaction()
 
     # Base use case. Call InitData then MainUI then call the listener
     # and the next MainUI should not be called but taken from cache instead

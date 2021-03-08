@@ -101,7 +101,7 @@ defmodule LenraWeb.UserControllerTest do
     conn =
       post(
         conn,
-        Routes.user_path(conn, :check_registration_code, %{"code" => user.registration_code.code})
+        Routes.user_path(conn, :validate_user, %{"code" => user.registration_code.code})
       )
 
     assert %{"data" => data, "success" => true} = json_response(conn, 200)
@@ -111,7 +111,7 @@ defmodule LenraWeb.UserControllerTest do
   test "code verification error test", %{conn: conn} do
     conn = post(conn, Routes.user_path(conn, :register, @john_doe_user_params))
 
-    conn = post(conn, Routes.user_path(conn, :check_registration_code, %{"code" => "12345678"}))
+    conn = post(conn, Routes.user_path(conn, :validate_user, %{"code" => "12345678"}))
 
     assert %{"errors" => [%{"code" => 5, "message" => "No such registration code"}]} = json_response(conn, 200)
   end

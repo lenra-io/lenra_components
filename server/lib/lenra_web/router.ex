@@ -21,7 +21,7 @@ defmodule LenraWeb.Router do
     pipe_through :ensure_auth_refresh
     post "/refresh", UserController, :refresh
     post "/logout", UserController, :logout
-    post "/verify", UserController, :check_registration_code
+    post "/verify", UserController, :validate_user
   end
 
   scope "/api", LenraWeb do

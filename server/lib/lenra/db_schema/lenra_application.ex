@@ -5,12 +5,13 @@ defmodule Lenra.LenraApplication do
 
   use Ecto.Schema
   import Ecto.Changeset
+  alias Lenra.{User, Datastore, LenraApplication}
 
   @hex_regex ~r/[0-9A-Fa-f]{6}/
 
   schema "applications" do
-    belongs_to(:user, Lenra.User)
-    has_many(:datastores, Lenra.Datastore)
+    belongs_to(:user, User)
+    has_many(:datastores, Datastore, foreign_key: :application_id)
     field(:image, :string)
     field(:name, :string)
     field(:env_process, :string)
@@ -25,5 +26,10 @@ defmodule Lenra.LenraApplication do
     |> validate_required([:image, :name, :env_process, :color, :icon])
     |> unique_constraint(:name)
     |> validate_format(:color, @hex_regex)
+  end
+
+  def new(user_id, params) do
+    %LenraApplication{user_id: user_id}
+    |> changeset(params)
   end
 end

@@ -22,4 +22,9 @@ defmodule Lenra.RegistrationCode do
     |> unique_constraint([:user_id, :code])
     |> validate_length(:code, min: 8, max: 8)
   end
+
+  def new(user, code) do
+    Ecto.build_assoc(user, :registration_code)
+    |> changeset(%{code: code})
+  end
 end

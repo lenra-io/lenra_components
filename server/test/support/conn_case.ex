@@ -33,13 +33,6 @@ defmodule LenraWeb.ConnCase do
     end
   end
 
-  @john_doe_user_params %{
-    "first_name" => "John",
-    "last_name" => "Doe",
-    "email" => "john.doe@lenra.fr",
-    "password" => "johndoethefirst"
-  }
-
   setup tags do
     :ok = Sandbox.checkout(Lenra.Repo)
 
@@ -47,7 +40,7 @@ defmodule LenraWeb.ConnCase do
 
     conn =
       if tags[:user_authentication] do
-        {:ok, %{user: user}} = UserTestHelper.register_user(@john_doe_user_params)
+        {:ok, %{inserted_user: user}} = UserTestHelper.register_john_doe()
         {:ok, jwt, _} = Lenra.Guardian.encode_and_sign(user, %{typ: "access", role: user.role})
 
         conn

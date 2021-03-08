@@ -3,7 +3,7 @@ defmodule LenraServers.DatastoreServicesTest do
   use Lenra.RepoCase
 
   alias LenraWeb.AppStub, as: AppStub
-  alias LenraServices.{DatastoreServices, ApplicationServices}
+  alias LenraServices.{DatastoreServices, LenraApplicationServices}
 
   @moduledoc """
     Test the datastore services
@@ -14,27 +14,18 @@ defmodule LenraServers.DatastoreServicesTest do
   end
 
   defp create_and_return_application do
-    {:ok, %{user: user}} =
-      UserTestHelper.register_user(%{
-        "first_name" => "John",
-        "last_name" => "Doe",
-        "email" => "john.doe@lenra.fr",
-        "password" => "johndoethefirst"
-      })
+    {:ok, %{inserted_user: user}} = UserTestHelper.register_john_doe()
 
     AppStub.create_faas_stub()
     |> AppStub.expect_deploy_app_once(%{"ok" => "200"})
 
-    Ecto.build_assoc(user, :applications)
-    |> Lenra.LenraApplication.changeset(%{
+    LenraApplicationServices.create_and_deploy(user.id, %{
       image: "test",
       name: "mine-sweeper",
       env_process: "node index.js",
       color: "FFFFFF",
       icon: "60189"
     })
-    |> ApplicationServices.register_app()
-    |> Lenra.Repo.transaction()
 
     Enum.at(Lenra.Repo.all(Lenra.LenraApplication), 0)
   end
