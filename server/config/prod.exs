@@ -24,6 +24,9 @@ config :lenra, LenraWeb.Endpoint,
 config :lenra,
   json_validator_schema_dir: "priv/static/json_validator/"
 
+config :lenra,
+  faas_secrets: ["gitlab-registry"]
+
 # Do not print debug messages in production
 config :logger, level: :info
 

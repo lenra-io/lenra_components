@@ -55,6 +55,9 @@ config :ex_json_schema,
 config :lenra,
   json_validator_schema_dir: "../../../../../json_validator/"
 
+config :lenra,
+  faas_secrets: []
+
 # Enable sentry configuration. Sentry will catch all errors on staging and production environment.
 # The source file are linked to sentry.
 config :sentry,

@@ -57,9 +57,7 @@ defmodule LenraServices.Openfaas do
         "image" => app.image,
         "service" => app.name,
         "envProcess" => app.env_process,
-        "secrets" => [
-          "gitlab-registry"
-        ]
+        "secrets" => Application.fetch_env!(:lenra, :faas_secrets)
       })
     )
     |> Finch.request(FaasHttp)
