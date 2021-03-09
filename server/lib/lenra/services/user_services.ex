@@ -35,7 +35,6 @@ defmodule LenraServices.UserServices do
     |> Ecto.Multi.update(:updated_user, User.update(user, params))
   end
 
-  @spec validate_user(any, String.t()) :: Ecto.Multi.t()
   def validate_user(id, code) do
     user = UserServices.get(id) |> Repo.preload(:registration_code)
 

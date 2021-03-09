@@ -17,8 +17,8 @@ defmodule LenraWeb.UserSocket do
   # performing token verification on connect.
   @impl true
   def connect(%{"token" => token}, socket, _connect_info) do
-    case Lenra.Guardian.decode_and_verify(token) do
-      {:ok, %{"sub" => user_id}} -> {:ok, assign(socket, :user_id, user_id)}
+    case Lenra.Guardian.resource_from_token(token) do
+      {:ok, user_id, _claims} -> {:ok, assign(socket, :user_id, user_id)}
       _ -> :error
     end
   end

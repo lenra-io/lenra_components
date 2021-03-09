@@ -32,7 +32,7 @@ defmodule LenraWeb.AppsController do
     assign(conn, :openfaas_app, app)
   end
 
-  def delete(conn, %{"name" => app_name}) do
+  def delete(conn, %{"id" => app_name}) do
     res =
       case LenraApplicationServices.get_by(name: app_name) do
         nil ->
@@ -55,7 +55,7 @@ defmodule LenraWeb.AppsController do
     assign_error(conn, reason)
   end
 
-  defp handle_delete(conn, {:ok, %{delete: app}}) do
+  defp handle_delete(conn, {:ok, %{deleted_application: app}}) do
     assign(conn, :deleted_app, app)
   end
 end
