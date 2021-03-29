@@ -19,20 +19,12 @@ spec:
           port: 8080
       priority: 50
     - kind: Rule
-      match: Host(`test.lenra.me`) && HeadersRegexp(`Authorization`, `^(Bearer|Basic) `) && PathPrefix(`/api`, `/auth`)
+      match: Host(`test.lenra.me`) && PathPrefix(`/api`, `/auth`, `/socket`)
       services:
         - kind: Service
           name: lenra-server
           port: 4000
       priority: 40
-    # Le basic auth ne marche pas sur Safari...
-    - kind: Rule
-      match: Host(`test.lenra.me`) && (PathPrefix(`/socket`) || Path(`/auth/refresh`))
-      services:
-        - kind: Service
-          name: lenra-server
-          port: 4000
-      priority: 30
     - kind: Rule
       match: Host(`test.lenra.me`) && HeadersRegexp(`Authorization`, `^Basic `) && PathPrefix(`/`)
       middlewares:
@@ -42,7 +34,7 @@ spec:
         - kind: Service
           name: lenra-client
           port: 8080
-      priority: 20
+      priority: 30
     - kind: Rule
       match: Host(`test.lenra.io`) && HeadersRegexp(`Authorization`, `^Basic `)
       middlewares:
@@ -52,4 +44,4 @@ spec:
         - kind: Service
           name: lenra-documentation
           port: 8080
-      priority: 10
+      priority: 20

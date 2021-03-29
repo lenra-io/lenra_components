@@ -5,8 +5,6 @@ resources:
   - ../../../client/k8s/base
   - ../../../server/k8s/base
   - ../../../documentation/k8s/base
-  - deployment-postgres.yml
-  - service-postgres.yml
 
 patches:
   - path: ingressroute-patches.yml
@@ -16,7 +14,6 @@ patches:
 
 patchesStrategicMerge:
   - deployment-client.yml
-  - deployment-server.yml
   - deployment-documentation.yml
 
 configMapGenerator:

@@ -6,6 +6,9 @@ resources:
   - ../../../server/k8s/base
   - ../../../documentation/k8s/base
 
+patchesStrategicMerge:
+  - statefulset-postgres.yml
+
 patches:
   - path: ingressroute-patches.yml
     target:

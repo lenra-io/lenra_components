@@ -1,0 +1,89 @@
+variables:
+  DOCKER_SUBIMAGES: "client server documentation"
+
+.prepare deployment:
+  before_script:
+    - cat k8s/environment/gitlab-env.yml | envsubst > k8s/environment/${KUSTOMIZE_ENV}/gitlab-env.yml
+    - mv ${GITLAB_REGISTRY_SECRET} k8s/environment/${KUSTOMIZE_ENV}/secret-gitlab-registry.yml
+    - cd k8s/environment/${KUSTOMIZE_ENV}
+    - kustomize edit add patch --kind Deployment --path gitlab-env.yml
+    - kustomize edit add patch --kind StatefulSet --path gitlab-env.yml
+    - kustomize edit add resource secret-gitlab-registry.yml
+    - kustomize edit add configmap lenra-host --from-literal LENRA_HOST=${LENRA_HOST} --from-literal LENRA_DOCUMENTATION_HOST=${LENRA_DOCUMENTATION_HOST}
+    - >
+      for it in 'SERVER:lenra-server' 'FAAS:openfaas' 'POSTGRES:lenra-postgres'; do
+        var=$(echo "$it" | awk -F ":" '{print $1}')
+        name=$(echo "$it" | awk -F ":" '{print $2}')
+        eval "cp \$${var}_ENV ./${name}.env"
+        if [ "$var" = "SERVER" ]; then
+          echo -e "\nENVIRONMENT=${KUSTOMIZE_ENV}" >> ./${name}.env
+          echo -e "\nSERVICE_NAME=lenra-server-headless.${KUBE_NAMESPACE}.svc.cluster.local" >> ./${name}.env
+        fi
+        kustomize edit add secret ${name} --from-env-file ${name}.env
+      done
+    
+
+deploy test:
+  extends: .deploy kustomize force update
+  variables:
+    KUSTOMIZE_ENV: test
+    LENRA_HOST: ${CI_COMMIT_REF_SLUG}.test.lenra.me
+    LENRA_DOCUMENTATION_HOST: ${CI_COMMIT_REF_SLUG}.test.lenra.io
+  before_script:
+    - cat k8s/environment/test/ingressroute-patches.yml | envsubst '${LENRA_HOST} ${LENRA_DOCUMENTATION_HOST}' > tmp.txt
+    - cat tmp.txt > k8s/environment/test/ingressroute-patches.yml
+    - cat k8s/environment/test/add-script.conf | envsubst > tmp.txt
+    - cat tmp.txt > k8s/environment/test/add-script.conf
+    - !reference [.prepare deployment, before_script]
+    - !reference [.kubectl, before_script]
+  environment:
+    name: ${CI_COMMIT_REF_SLUG}
+    url: https://${CI_COMMIT_REF_SLUG}.test.lenra.me/laisse-moi-entrer
+    on_stop: stop test env
+  rules:
+    - if: '$CI_COMMIT_BRANCH != $MAIN_BRANCH && $CI_COMMIT_BRANCH != $STAGING_BRANCH'
+      when: manual
+
+stop test env:
+  extends: .stop dynamic env
+  needs:
+    - deploy test
+  rules: !reference [deploy test, rules]
+
+deploy staging:
+  extends: .deploy kustomize force update
+  variables:
+    LENRA_HOST: staging.lenra.me
+    LENRA_DOCUMENTATION_HOST: staging.lenra.io
+  before_script:
+    - !reference [.prepare deployment, before_script]
+    - !reference [.kubectl, before_script]
+  dependencies:
+    - manage version
+  environment:
+    name: staging
+    url: https://${LENRA_HOST}/laisse-moi-entrer
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $STAGING_BRANCH'
+    - if: '$CI_COMMIT_BRANCH =~ /^release\//'
+      # Pour vérifier que les images sont bien taggées correctement
+      variables:
+        DOCKER_TAG: release-${VERSION}
+
+deploy prod:
+  extends: .deploy kustomize
+  variables:
+    LENRA_HOST: www.lenra.me
+    LENRA_DOCUMENTATION_HOST: www.lenra.io
+    DOCKER_TAG: ${VERSION}
+  before_script:
+    - !reference [.prepare deployment, before_script]
+    - !reference [.kubectl, before_script]
+  dependencies:
+    - manage version
+  environment:
+    name: production
+    url: https://${LENRA_HOST}/
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $MAIN_BRANCH'
+      when: manual

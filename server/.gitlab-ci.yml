@@ -1,0 +1,56 @@
+.server job:
+  extends: .subdir job
+  image: registry.gitlab.com/lenra/integration/docker-ci-elixir
+  variables:
+    WORKDIR: server
+  cache:
+    key: server-test_${CI_COMMIT_BRANCH}
+    paths:
+      - ${WORKDIR}/deps
+      - ${WORKDIR}/_build
+
+server build:
+  extends: .server job
+  stage: build
+  script:
+    - mix deps.get
+    - mix compile
+  artifacts:
+    paths:
+      - ${WORKDIR}/deps
+      - ${WORKDIR}/_build
+
+# Unit test and code analysis for server
+server tests:
+  extends: .server job
+  services:
+    - postgres:12.2-alpine
+  variables:
+    POSTGRES_PASSWORD: "postgres"
+    POSTGRES_HOST: "postgres"
+  stage: test
+  coverage: '/\[TOTAL\]  (\d+.\d+)%/'
+  script:
+    - mix deps.get
+    - mix credo --strict
+    - mix coveralls
+
+server dockerize:
+  extends:
+    - .server job
+    - .build docker
+  variables:
+    DOCKER_IMAGE: $CI_REGISTRY_IMAGE/server
+  before_script:
+    - !reference [.docker, before_script]
+    - mv ../json_validator priv/static/json_validator
+  needs:
+    - job: server build
+      artifacts: true
+    - server tests
+
+tag server:
+  extends: .tag docker image
+  variables:
+    DOCKER_STAGING_TAG: release-${VERSION}
+    DOCKER_IMAGE: $CI_REGISTRY_IMAGE/server

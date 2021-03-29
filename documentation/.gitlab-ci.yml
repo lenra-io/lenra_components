@@ -1,0 +1,35 @@
+.documentation job:
+  extends: .subdir job
+  image: node:10-buster-slim
+  variables:
+    WORKDIR: documentation
+
+documentation build:
+  extends: .documentation job
+  stage: build
+  script:
+    - cd docs
+    - npm install -g @adobe/jsonschema2md
+    - jsonschema2md -d ../../json_validator -o schema
+    - cd ../website
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - ${WORKDIR}/website/build
+
+documentation dockerize:
+  extends: 
+    - .documentation job
+    - .build docker
+  variables:
+    DOCKER_IMAGE: $CI_REGISTRY_IMAGE/documentation
+  needs:
+    - job: documentation build
+      artifacts: true
+
+tag documentation:
+  extends: .tag docker image
+  variables:
+    DOCKER_STAGING_TAG: release-${VERSION}
+    DOCKER_IMAGE: $CI_REGISTRY_IMAGE/documentation

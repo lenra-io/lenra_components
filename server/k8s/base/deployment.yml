@@ -30,12 +30,15 @@ spec:
           env:
             - name: PORT
               value: "4000"
-            - name: SERVICE_NAME
-              value: lenra-server-headless.lenra-test.svc.cluster.local
             - name: HOSTNAME
               valueFrom:
                 fieldRef:
                   fieldPath: status.podIP
+            - name: APP_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: lenra-host
+                  key: LENRA_HOST
           envFrom:
             - secretRef:
                 name: lenra-server

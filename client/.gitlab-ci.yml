@@ -1,0 +1,41 @@
+.client job:
+  extends: .subdir job
+  image: registry.gitlab.com/lenra/integration/docker-ci-flutter
+  variables:
+    WORKDIR: client
+
+client build:
+  extends: .client job
+  stage: build
+  script:
+    - flutter pub get
+    - flutter build web --release --target=./lib/main.dart
+  artifacts:
+    paths:
+      - ${WORKDIR}/build
+
+client tests:
+  extends: .client job
+  stage: test
+  coverage: '/Total:\|(\d+\.?\d+\%)/'
+  script:
+    - flutter analyze --no-congratulate
+    - flutter test --coverage
+    - lcov --list coverage/lcov.info
+
+client dockerize:
+  extends:
+    - .client job
+    - .build docker
+  variables:
+    DOCKER_IMAGE: $CI_REGISTRY_IMAGE/client
+  needs:
+    - job: client build
+      artifacts: true
+    - client tests
+
+tag client:
+  extends: .tag docker image
+  variables:
+    DOCKER_STAGING_TAG: release-${VERSION}
+    DOCKER_IMAGE: $CI_REGISTRY_IMAGE/client
