@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:fr_lenra_client/lenra_components/actionable/events/lenra_on_edit_event.dart';
-import 'package:fr_lenra_client/lenra_components/actionable/lenra_actionable.dart';
-import 'package:fr_lenra_client/lenra_components/lenra_component.dart';
+import 'package:fr_lenra_client/lenra_application/components/actionable/events/lenra_on_edit_event.dart';
+import 'package:fr_lenra_client/lenra_application/components/actionable/lenra_actionable.dart';
+import 'package:fr_lenra_client/lenra_application/components/lenra_component.dart';
+import 'package:fr_lenra_client/lenra_application/lenra_component_builder.dart';
 
 // TODO : generate this from annotation on LenraTextfield
-extension LenraTextfieldExt on LenraTextfield {
-  static LenraTextfield create({value, listeners}) {
+class LenraTextfieldBuilder extends LenraComponentBuilder<LenraTextfield> {
+  LenraTextfield map({value, listeners}) {
     return LenraTextfield(
       value: value,
       listeners: listeners,
     );
   }
 
-  static const Map<String, String> propsTypes = {"value": "String", "listeners": "Map<String, dynamic>"};
+  Map<String, String> get propsTypes {
+    return {
+      "value": "String",
+      "listeners": "Map<String, dynamic>",
+    };
+  }
 }
 
 // ignore: must_be_immutable
@@ -35,7 +41,8 @@ class LenraTextfield extends StatelessLenraComponent implements LenraActionable 
         this.value = _controller.text;
         if (this.listeners != null) {
           final Map<String, dynamic> listener = this.listeners['onChange'];
-          LenraOnEditEvent(code: listener['code'], event: {'value': _controller.text}).dispatch(context);
+          LenraOnEditEvent(code: listener['code'], event: {'value': _controller.text})
+              .dispatch(context);
         }
       }
     });
@@ -56,7 +63,8 @@ class LenraTextfield extends StatelessLenraComponent implements LenraActionable 
           if (this.listeners != null) {
             final Map<String, dynamic> listener = this.listeners['onChange'];
             if (listener != null) {
-              LenraOnEditEvent(code: listener['code'], event: {'value': _controller.text}).dispatch(context);
+              LenraOnEditEvent(code: listener['code'], event: {'value': _controller.text})
+                  .dispatch(context);
             }
           }
         }

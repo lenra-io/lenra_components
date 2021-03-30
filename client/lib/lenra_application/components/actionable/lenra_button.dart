@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:fr_lenra_client/lenra_components/actionable/events/lenra_on_long_press_event.dart';
-import 'package:fr_lenra_client/lenra_components/actionable/events/lenra_on_press_event.dart';
-import 'package:fr_lenra_client/lenra_components/actionable/events/lenra_on_submit_event.dart';
-import 'package:fr_lenra_client/lenra_components/actionable/lenra_actionable.dart';
-import 'package:fr_lenra_client/lenra_components/lenra_component.dart';
+import 'package:fr_lenra_client/lenra_application/components/actionable/events/lenra_on_long_press_event.dart';
+import 'package:fr_lenra_client/lenra_application/components/actionable/events/lenra_on_press_event.dart';
+import 'package:fr_lenra_client/lenra_application/components/actionable/events/lenra_on_submit_event.dart';
+import 'package:fr_lenra_client/lenra_application/components/actionable/lenra_actionable.dart';
+import 'package:fr_lenra_client/lenra_application/components/lenra_component.dart';
+import 'package:fr_lenra_client/lenra_application/lenra_component_builder.dart';
 
 // TODO : generate this from annotation on LenraButton
-extension LenraButtonExt on LenraButton {
-  static LenraButton create({value, listeners}) {
+class LenraButtonBuilder extends LenraComponentBuilder<LenraButton> {
+  LenraButton map({value, listeners}) {
     return LenraButton(value: value, listeners: listeners);
   }
 
-  static const Map<String, String> propsTypes = {
-    "value": "String",
-    "listeners": "Map<String, dynamic>"
-  };
+  Map<String, String> get propsTypes {
+    return {
+      "value": "String",
+      "listeners": "Map<String, dynamic>",
+    };
+  }
 }
 
 class LenraButton extends StatelessLenraComponent implements LenraActionable {
@@ -45,9 +48,8 @@ class LenraButton extends StatelessLenraComponent implements LenraActionable {
 
   @override
   Widget build(BuildContext context) {
-    return OutlineButton(
+    return OutlinedButton(
       child: Text(this.value),
-      borderSide: BorderSide(color: Theme.of(context).buttonColor),
       onPressed: () => this.onPressed(context),
       onLongPress: () => this.onLongPress(context),
     );

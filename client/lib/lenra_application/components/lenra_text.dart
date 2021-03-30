@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:fr_lenra_client/lenra_components/lenra_component.dart';
+import 'package:fr_lenra_client/lenra_application/components/lenra_component.dart';
+import 'package:fr_lenra_client/lenra_application/lenra_component_builder.dart';
 
 // TODO generate this from annotation on LenraText
-extension LenraTextExt on LenraText {
-  static LenraText create({color, backgroundColor, value}) {
+class LenraTextBuilder extends LenraComponentBuilder<LenraText> {
+  LenraText map({color, backgroundColor, value}) {
     return LenraText(color: color, backgroundColor: backgroundColor, value: value);
   }
 
-  static const Map<String, String> propsTypes = {
-    "value": "String",
-    "color": "Color",
-    "backgroundColor": "Color"
-  };
+  Map<String, String> get propsTypes {
+    return {
+      "value": "String",
+      "color": "Color",
+      "backgroundColor": "Color",
+    };
+  }
 }
 
 class LenraText extends StatelessLenraComponent {

@@ -2,20 +2,23 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:fr_lenra_client/lenra_components/lenra_component.dart';
+import 'package:fr_lenra_client/lenra_application/components/lenra_component.dart';
+import 'package:fr_lenra_client/lenra_application/lenra_component_builder.dart';
 
 // TODO : generate this from annotation on LenraImage
-extension LenraImageExt on LenraImage {
-  static LenraImage create({value, backgroundColor, height, width}) {
+class LenraImageBuilder extends LenraComponentBuilder<LenraImage> {
+  LenraImage map({value, backgroundColor, height, width}) {
     return LenraImage(value: value, backgroundColor: backgroundColor, width: width, height: height);
   }
 
-  static const Map<String, String> propsTypes = {
-    "value": "String",
-    "backgroundColor": "Color",
-    "width": "double",
-    "height": "double",
-  };
+  Map<String, String> get propsTypes {
+    return {
+      "value": "String",
+      "backgroundColor": "Color",
+      "width": "double",
+      "height": "double",
+    };
+  }
 }
 
 class LenraImage extends StatelessLenraComponent {

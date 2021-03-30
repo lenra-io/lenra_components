@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:fr_lenra_client/lenra_components/lenra_component.dart';
-import 'package:fr_lenra_client/lenra_components/lenra_component_wrapper.dart';
+import 'package:fr_lenra_client/lenra_application/components/lenra_component.dart';
+import 'package:fr_lenra_client/lenra_application/lenra_component_builder.dart';
 
 // TODO : generate this from annotation on LenraContainer
-extension LenraContainerExt on LenraContainer {
-  static LenraContainer create({children, backgroundColor}) {
+class LenraContainerBuilder extends LenraComponentBuilder<LenraContainer> {
+  @override
+  LenraContainer map({children, backgroundColor}) {
     return LenraContainer(children: children, backgroundColor: backgroundColor);
   }
 
-  static const Map<String, String> propsTypes = {
-    "children": "List<LenraComponentWrapper>",
-    "backgroundColor": "Color"
-  };
+  Map<String, String> get propsTypes {
+    return {
+      "children": "List<Widget>",
+      "backgroundColor": "Color",
+    };
+  }
 }
 
 class LenraContainer extends StatelessLenraComponent {
-  final List<LenraComponentWrapper> children;
+  final List<Widget> children;
   final Color backgroundColor;
 
   LenraContainer({

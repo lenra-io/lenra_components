@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:fr_lenra_client/lenra_components/actionable/events/lenra_on_change_event.dart';
-import 'package:fr_lenra_client/lenra_components/actionable/lenra_actionable.dart';
-import 'package:fr_lenra_client/lenra_components/lenra_component.dart';
+import 'package:fr_lenra_client/lenra_application/components/actionable/events/lenra_on_change_event.dart';
+import 'package:fr_lenra_client/lenra_application/components/actionable/lenra_actionable.dart';
+import 'package:fr_lenra_client/lenra_application/components/lenra_component.dart';
+import 'package:fr_lenra_client/lenra_application/lenra_component_builder.dart';
 
 // TODO : generate this from annotation on LenraCheckbox
-extension LenraCheckboxExt on LenraCheckbox {
-  static LenraCheckbox create({value, listeners, label}) {
+class LenraCheckboxBuilder extends LenraComponentBuilder<LenraCheckbox> {
+  LenraCheckbox map({value, listeners, label}) {
     return LenraCheckbox(value: value, listeners: listeners, label: label);
   }
 
-  static const Map<String, String> propsTypes = {
-    "value": "bool",
-    "listeners": "Map<String, dynamic>",
-    "label": "String"
-  };
+  Map<String, String> get propsTypes {
+    return {
+      "value": "bool",
+      "listeners": "Map<String, dynamic>",
+      "label": "String",
+    };
+  }
 }
 
 class LenraCheckbox extends StatefulLenraComponent implements LenraActionable {
