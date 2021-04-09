@@ -26,7 +26,10 @@ defmodule LenraWeb.Router do
 
   scope "/api", LenraWeb do
     pipe_through [:api, :ensure_auth]
-    resources "/apps", AppsController, only: [:index, :create, :delete]
+    resources "/apps", AppsController, only: [:index, :create, :delete], param: "name"
+    resources "/apps/:app_id/environments", EnvsController, only: [:index, :create]
+    resources "/apps/:app_id/builds", BuildsController, only: [:index, :create, :update]
+    resources "/apps/deployments", DeploymentsController, only: [:create]
   end
 
   scope "/", LenraWeb do

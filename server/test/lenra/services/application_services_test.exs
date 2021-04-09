@@ -2,7 +2,6 @@ defmodule LenraServers.ApplicationServicesTest do
   use ExUnit.Case, async: false
   use Lenra.RepoCase
 
-  alias LenraWeb.AppStub
   alias LenraServices.LenraApplicationServices
 
   @moduledoc """
@@ -10,46 +9,51 @@ defmodule LenraServers.ApplicationServicesTest do
   """
 
   @tag :register_user
-  test "register app", %{user: user} do
-    AppStub.create_faas_stub()
-    |> AppStub.expect_deploy_app_once(%{"ok" => "200"})
-
+  test "get app", %{user: user} do
     params = %{
-      image: "test",
       name: "mine-sweeper",
-      env_process: "node index.js",
+      service_name: "mine-sweeper",
       color: "FFFFFF",
       icon: "60189"
     }
 
-    LenraApplicationServices.create_and_deploy(user.id, params)
+    LenraApplicationServices.create(user.id, params)
     |> case do
-      {:ok, _} -> assert true
+      {:ok, %{inserted_application: app}} -> assert nil != LenraApplicationServices.get(app.id)
       {:error, _} -> assert false, "adding app failed"
     end
+  end
 
-    assert nil != LenraApplicationServices.get_by(name: "mine-sweeper")
+  @tag :register_user
+  test "get app by", %{user: user} do
+    params = %{
+      name: "mine-sweeper",
+      service_name: "mine-sweeper",
+      color: "FFFFFF",
+      icon: "60189"
+    }
+
+    LenraApplicationServices.create(user.id, params)
+    |> case do
+      {:ok, %{inserted_application: app}} -> assert nil != LenraApplicationServices.get_by(name: app.name)
+      {:error, _} -> assert false, "adding app failed"
+    end
   end
 
   @tag :register_user
   test "delete app", %{user: user} do
-    AppStub.create_faas_stub()
-    |> AppStub.expect_deploy_app_once(%{"ok" => "200"})
-    |> AppStub.expect_delete_app_once(%{"ok" => "200"})
-
     params = %{
-      image: "test",
       name: "mine-sweeper",
-      env_process: "node index.js",
+      service_name: "mine-sweeper",
       color: "FFFFFF",
       icon: "60189"
     }
 
-    {:ok, %{inserted_application: app}} = LenraApplicationServices.create_and_deploy(user.id, params)
+    {:ok, %{inserted_application: app}} = LenraApplicationServices.create(user.id, params)
 
     assert nil != LenraApplicationServices.get_by(name: "mine-sweeper")
 
-    LenraApplicationServices.delete_and_undeploy(app)
+    LenraApplicationServices.delete(app)
 
     assert nil == LenraApplicationServices.get_by(name: "mine-sweeper")
   end

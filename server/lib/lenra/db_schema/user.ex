@@ -28,8 +28,11 @@ defmodule Lenra.User do
     field(:password, :string, redact: true)
     field(:role, :integer)
     has_one(:registration_code, Lenra.RegistrationCode)
-    has_many(:applications, Lenra.LenraApplication)
+    has_many(:applications, Lenra.LenraApplication, foreign_key: :creator_id)
     has_many(:datastores, Lenra.Datastore)
+    has_many(:builds, Lenra.Build, foreign_key: :creator_id)
+    has_many(:environments, Lenra.Environment, foreign_key: :creator_id)
+    has_many(:deployments, Lenra.Deployment, foreign_key: :publisher_id)
     timestamps()
   end
 

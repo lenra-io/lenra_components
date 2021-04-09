@@ -2,12 +2,21 @@ defmodule LenraWeb.AppsController do
   use LenraWeb, :controller
   require Logger
 
-  alias Lenra.{Repo, LenraApplication}
   alias LenraServices.LenraApplicationServices
 
   def index(conn, _params) do
-    raw_app_list = Repo.all(LenraApplication)
-    app_list = Enum.map(raw_app_list, fn app -> %{"name" => app.name, "icon" => app.icon, "color" => app.color} end)
+    raw_app_list = LenraApplicationServices.all()
+
+    app_list =
+      Enum.map(raw_app_list, fn app ->
+        %{
+          "id" => app.id,
+          "name" => app.name,
+          "service_name" => app.service_name,
+          "icon" => app.icon,
+          "color" => app.color
+        }
+      end)
 
     conn
     |> assign_data(:apps, app_list)
@@ -17,7 +26,7 @@ defmodule LenraWeb.AppsController do
   def create(conn, params) do
     res =
       Guardian.Plug.current_resource(conn)
-      |> LenraApplicationServices.create_and_deploy(params)
+      |> LenraApplicationServices.create(params)
 
     conn
     |> handle_create(res)
@@ -29,17 +38,17 @@ defmodule LenraWeb.AppsController do
   end
 
   defp handle_create(conn, {:ok, app}) do
-    assign(conn, :openfaas_app, app)
+    assign(conn, :lenra_applications, app)
   end
 
-  def delete(conn, %{"id" => app_name}) do
+  def delete(conn, %{"name" => app_name}) do
     res =
       case LenraApplicationServices.get_by(name: app_name) do
         nil ->
           {:error, :error_404}
 
         app ->
-          LenraApplicationServices.delete_and_undeploy(app)
+          LenraApplicationServices.delete(app)
       end
 
     conn

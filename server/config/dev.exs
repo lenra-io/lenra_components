@@ -66,7 +66,8 @@ config :phoenix, :plug_init_mode, :runtime
 
 config :lenra,
   faas_url: System.get_env("FAAS_URL", "http://localhost:8080"),
-  faas_auth: System.get_env("FAAS_AUTH", "Basic YWRtaW46M2kwREc4NTdLWlVaODQ3R0pheW5qMXAwbQ==")
+  faas_auth: System.get_env("FAAS_AUTH", "Basic YWRtaW46M2kwREc4NTdLWlVaODQ3R0pheW5qMXAwbQ=="),
+  faas_registry: System.get_env("FAAS_REGISTRY", "registry.gitlab.com/lenra/platform/applications")
 
 config :peerage,
   via: Peerage.Via.List,

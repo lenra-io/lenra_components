@@ -42,7 +42,7 @@ defmodule LenraServices.Openfaas do
     |> response(:get_apps)
   end
 
-  def deploy_app(%Lenra.LenraApplication{} = app) do
+  def deploy_app(service_name, build_number) do
     {base_url, headers} = get_http_context()
 
     Logger.debug("Deploy Openfaas application")
@@ -54,9 +54,8 @@ defmodule LenraServices.Openfaas do
       url,
       headers,
       Jason.encode!(%{
-        "image" => app.image,
-        "service" => app.name,
-        "envProcess" => app.env_process,
+        "image" => "#{Application.fetch_env!(:lenra, :faas_registry)}/#{service_name}:#{build_number}",
+        "service" => service_name,
         "secrets" => Application.fetch_env!(:lenra, :faas_secrets)
       })
     )
@@ -64,7 +63,7 @@ defmodule LenraServices.Openfaas do
     |> response(:deploy_app)
   end
 
-  def delete_app_openfaas(%Lenra.LenraApplication{} = app) do
+  def delete_app_openfaas(service_name) do
     {base_url, headers} = get_http_context()
 
     Logger.debug("Remove Openfaas application")
@@ -76,7 +75,7 @@ defmodule LenraServices.Openfaas do
       url,
       headers,
       Jason.encode!(%{
-        "functionName" => app.name
+        "functionName" => service_name
       })
     )
     |> Finch.request(FaasHttp)

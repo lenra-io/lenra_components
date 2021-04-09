@@ -7,11 +7,17 @@ defmodule LenraServers.OpenfaasTest do
   alias LenraWeb.AppStub, as: AppStub
 
   @john_doe_application %Lenra.LenraApplication{
-    image: "test",
     name: "test",
-    env_process: "node index.js",
+    service_name: "test_service",
     color: "FFFFFF",
     icon: 1
+  }
+
+  @john_doe_build %Lenra.Build{
+    commit_hash: "abcdef",
+    build_number: 1,
+    status: "pending",
+    application: @john_doe_application
   }
 
   describe "applist" do
@@ -40,7 +46,7 @@ defmodule LenraServers.OpenfaasTest do
   describe "deploy" do
     test "app but openfaas unreachable" do
       assert_raise(RuntimeError, "Openfaas could not be reached. It should not happen.", fn ->
-        LenraServices.Openfaas.deploy_app(@john_doe_application)
+        LenraServices.Openfaas.deploy_app(@john_doe_application.service_name, @john_doe_build.build_number)
       end)
     end
 
@@ -48,7 +54,7 @@ defmodule LenraServers.OpenfaasTest do
       AppStub.create_faas_stub()
       |> AppStub.expect_deploy_app_once(%{"ok" => "200"})
 
-      res = LenraServices.Openfaas.deploy_app(@john_doe_application)
+      res = LenraServices.Openfaas.deploy_app(@john_doe_application.service_name, @john_doe_build.build_number)
 
       assert res == {:ok, 200}
     end
@@ -59,7 +65,7 @@ defmodule LenraServers.OpenfaasTest do
       AppStub.create_faas_stub()
       |> AppStub.expect_delete_app_once(%{"ok" => "200"})
 
-      res = LenraServices.Openfaas.delete_app_openfaas(@john_doe_application)
+      res = LenraServices.Openfaas.delete_app_openfaas(@john_doe_application.service_name)
 
       assert res == {:ok, 200}
     end
@@ -69,7 +75,7 @@ defmodule LenraServers.OpenfaasTest do
       |> AppStub.expect_delete_app_once({:error, 400, "Bad request"})
 
       assert_raise(RuntimeError, "Openfaas could not delete the application. It should not happen.", fn ->
-        LenraServices.Openfaas.delete_app_openfaas(@john_doe_application)
+        LenraServices.Openfaas.delete_app_openfaas(@john_doe_application.service_name)
       end)
     end
 
@@ -78,7 +84,7 @@ defmodule LenraServers.OpenfaasTest do
       AppStub.create_faas_stub()
       |> AppStub.expect_delete_app_once({:error, 404, "Not found"})
 
-      res = LenraServices.Openfaas.delete_app_openfaas(@john_doe_application)
+      res = LenraServices.Openfaas.delete_app_openfaas(@john_doe_application.service_name)
 
       assert res == {:ok, 404}
     end

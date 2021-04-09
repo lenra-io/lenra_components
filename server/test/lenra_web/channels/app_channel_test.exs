@@ -58,13 +58,12 @@ defmodule LenraWeb.AppChannelTest do
   }
 
   test "Base use case with simple app", %{socket: socket, owstub: owstub, user: user} do
-    owstub
-    |> AppStub.expect_deploy_app_once(%{"ok" => "200"})
+    # owstub
+    # |> AppStub.expect_deploy_app_once(%{"ok" => "200"})
 
-    LenraApplicationServices.create_and_deploy(user.id, %{
-      image: "test",
+    LenraApplicationServices.create(user.id, %{
       name: "Counter",
-      env_process: "node index.js",
+      service_name: "counter",
       color: "FFFFFF",
       icon: "60189"
     })

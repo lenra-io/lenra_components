@@ -6,9 +6,11 @@ defmodule Lenra.Datastore do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Lenra.{User, LenraApplication, Datastore}
+
   schema "datastores" do
-    belongs_to(:user, Lenra.User)
-    belongs_to(:application, Lenra.LenraApplication, foreign_key: :application_id)
+    belongs_to(:user, User)
+    belongs_to(:application, LenraApplication)
     field(:data, :map)
     timestamps()
   end
@@ -21,7 +23,7 @@ defmodule Lenra.Datastore do
   end
 
   def new(user_id, application_id, data) do
-    %Lenra.Datastore{user_id: user_id, application_id: application_id}
-    |> Lenra.Datastore.changeset(%{"data" => data})
+    %Datastore{user_id: user_id, application_id: application_id}
+    |> Datastore.changeset(%{"data" => data})
   end
 end

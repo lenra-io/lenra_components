@@ -12,7 +12,8 @@ config :logger, level: :warn
 # Used to "mock" with Bypass
 config :lenra,
   faas_url: "http://localhost:1234",
-  faas_auth: "Basic YWRtaW46M2kwREc4NTdLWlVaODQ3R0pheW5qMXAwbQ=="
+  faas_auth: "Basic YWRtaW46M2kwREc4NTdLWlVaODQ3R0pheW5qMXAwbQ==",
+  faas_registry: "registry.gitlab.com/lenra/platform/applications"
 
 config :lenra, Lenra.Repo,
   username: "postgres",
