@@ -3,6 +3,7 @@ defmodule LenraServers.OpenfaasTest do
     Test the Errors for some routes
   """
   use ExUnit.Case, async: false
+  use Lenra.RepoCase
 
   alias LenraWeb.AppStub, as: AppStub
 
@@ -31,14 +32,14 @@ defmodule LenraServers.OpenfaasTest do
       AppStub.stub_action_once(app, "InitData", %{"data" => "any data"})
 
       assert {:ok, %{"data" => "any data"}} ==
-               LenraServices.Openfaas.run_action("StubApp", "InitData", %{"toto" => "tata"})
+               LenraServices.Openfaas.run_action(1, "StubApp", "InitData", %{"toto" => "tata"})
     end
 
     test "Openfaas correctly handle 404 not found", %{app: app} do
       AppStub.stub_action_once(app, "InitData", {:error, 404, "Not Found"})
 
       assert_raise(RuntimeError, "Openfaas error (404) Not Found", fn ->
-        LenraServices.Openfaas.run_action("StubApp", "InitData", %{"toto" => "tata"})
+        LenraServices.Openfaas.run_action(1, "StubApp", "InitData", %{"toto" => "tata"})
       end)
     end
   end

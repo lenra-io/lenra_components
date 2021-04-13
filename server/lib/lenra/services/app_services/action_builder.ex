@@ -123,9 +123,9 @@ defmodule LenraServices.ActionBuilder do
     )
   end
 
-  defp run_app_listener({_client_id, app_name} = ow_info, action_code, old_data, props, event) do
+  defp run_app_listener({client_id, app_name} = ow_info, action_code, old_data, props, event) do
     with {:ok, %{"data" => data, "ui" => ui}} <-
-           Openfaas.run_action(app_name, action_code, %{
+           Openfaas.run_action(client_id, app_name, action_code, %{
              data: old_data,
              props: props,
              event: event

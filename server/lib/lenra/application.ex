@@ -7,6 +7,7 @@ defmodule Lenra.Application do
 
   def start(_type, _args) do
     Lenra.MigrationHelper.migrate()
+    Lenra.Monitor.setup()
 
     children = [
       # Start the ecto repository

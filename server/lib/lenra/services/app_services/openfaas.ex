@@ -18,8 +18,9 @@ defmodule LenraServices.Openfaas do
     Returns `{:ok, decoded_body}` if the HTTP Post succeed
     Returns `{:error, reason}` if the HTTP Post fail
   """
-  @spec run_action(String.t(), String.t(), map) :: {:error, String.t()} | {:ok, map}
+  @spec run_action(Integer.t(), String.t(), String.t(), map) :: {:error, String.t()} | {:ok, map}
   def run_action(
+        client_id,
         app_name,
         action_code,
         params
@@ -37,9 +38,16 @@ defmodule LenraServices.Openfaas do
 
     Logger.info("Run app #{app_name} with action #{action_code}")
 
-    Finch.build(:post, url, headers, body)
-    |> Finch.request(FaasHttp)
-    |> response(:get_apps)
+    start_time = Lenra.Telemetry.start(:openfaas_runaction)
+
+    response =
+      Finch.build(:post, url, headers, body)
+      |> Finch.request(FaasHttp)
+      |> response(:get_apps)
+
+    Lenra.Telemetry.stop(:openfaas_runaction, start_time, %{application_name: app_name, user_id: client_id})
+
+    response
   end
 
   def deploy_app(service_name, build_number) do
@@ -86,11 +94,13 @@ defmodule LenraServices.Openfaas do
     {:ok, Jason.decode!(body)}
   end
 
-  defp response({:ok, %Finch.Response{status: status_code}}, :deploy_app) when status_code in [200, 202] do
+  defp response({:ok, %Finch.Response{status: status_code}}, :deploy_app)
+       when status_code in [200, 202] do
     {:ok, status_code}
   end
 
-  defp response({:ok, %Finch.Response{status: status_code}}, :delete_app) when status_code in [200, 202, 404] do
+  defp response({:ok, %Finch.Response{status: status_code}}, :delete_app)
+       when status_code in [200, 202, 404] do
     if status_code == 404 do
       Logger.error("The application was not found in Openfaas. It should not happen.")
     end
@@ -106,7 +116,8 @@ defmodule LenraServices.Openfaas do
     raise "Openfaas could not be reached. It should not happen."
   end
 
-  defp response({:ok, %Finch.Response{status: status_code, body: body}}, _) when status_code not in [200, 202] do
+  defp response({:ok, %Finch.Response{status: status_code, body: body}}, _)
+       when status_code not in [200, 202] do
     raise "Openfaas error (#{status_code}) #{body}"
   end
 end
