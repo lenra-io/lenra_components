@@ -3,53 +3,53 @@ description: A new Flutter project.
 publish_to: none
 version: 0.1.0+alpha.0
 environment:
-    sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.7.0 <3.0.0"
 dependencies:
-    flutter:
-        sdk: flutter
-    phoenix_wings: ^0.2.1
-    json_patch: ^2.0.0
-    http: ^0.12.2
-    redux: ^4.0.0+3
-    flutter_redux: ^0.7.0
-    redux_remote_devtools: ^2.0.0
-    redux_dev_tools: ^0.5.2
-    mockito: ^4.1.4
+  flutter:
+    sdk: flutter
+  phoenix_wings: ^0.2.1
+  json_patch: ^2.0.0
+  http: ^0.13.0
+  redux: ^4.0.0+3
+  flutter_redux: ^0.7.0
+  redux_remote_devtools: ^2.0.0
+  redux_dev_tools: ^0.5.2
+  mockito: ^4.1.4
+  sentry_flutter: ^5.0.0
 
 dev_dependencies:
-    pedantic: ^1.9.0
-    flutter_test:
-        sdk: flutter
-    
+  pedantic: ^1.9.0
+  flutter_test:
+    sdk: flutter
 
 flutter:
-    uses-material-design: true
-    assets:
-        - assets/api/ui.json
-    # To add assets to your application, add an assets section, like this:
-    # assets:
-    #  - images/a_dot_burr.jpeg
-    #  - images/a_dot_ham.jpeg
-    # An image asset can refer to one or more resolution-specific "variants", see
-    # https://flutter.dev/assets-and-images/#resolution-aware.
-    # For details regarding adding assets from package dependencies, see
-    # https://flutter.dev/assets-and-images/#from-packages
-    # To add custom fonts to your application, add a fonts section here,
-    # in this "flutter" section. Each entry in this list should have a
-    # "family" key with the font family name, and a "fonts" key with a
-    # list giving the asset and other descriptors for the font. For
-    # example:
-    # fonts:
-    #   - family: Schyler
-    #     fonts:
-    #       - asset: fonts/Schyler-Regular.ttf
-    #       - asset: fonts/Schyler-Italic.ttf
-    #         style: italic
-    #   - family: Trajan Pro
-    #     fonts:
-    #       - asset: fonts/TrajanPro.ttf
-    #       - asset: fonts/TrajanPro_Bold.ttf
-    #         weight: 700
-    #
-    # For details regarding fonts from package dependencies,
-    # see https://flutter.dev/custom-fonts/#from-packages
+  uses-material-design: true
+  assets:
+    - assets/api/ui.json
+  # To add assets to your application, add an assets section, like this:
+  # assets:
+  #  - images/a_dot_burr.jpeg
+  #  - images/a_dot_ham.jpeg
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/assets-and-images/#resolution-aware.
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/assets-and-images/#from-packages
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages

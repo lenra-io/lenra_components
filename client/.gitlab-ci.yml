@@ -9,7 +9,7 @@ client build:
   stage: build
   script:
     - flutter pub get
-    - flutter build web --release --target=./lib/main.dart
+    - flutter build web --release --target=./lib/main.dart --dart-define=SENTRY_CLIENT_DSN=${env:SENTRY_CLIENT_DSN} --dart-define=ENVIRONMENT=${env:CI_ENVIRONMENT_SLUG}
   artifacts:
     paths:
       - ${WORKDIR}/build

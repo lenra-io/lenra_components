@@ -5,6 +5,7 @@ import 'package:fr_lenra_client/components/error_list.dart';
 import 'package:fr_lenra_client/components/loading_button.dart';
 import 'package:fr_lenra_client/redux/models/login_model.dart';
 import 'package:fr_lenra_client/services/form_validators_service.dart';
+import 'package:sentry/sentry.dart';
 
 class LoginForm extends StatefulWidget {
   final LoginModel loginModel;
@@ -29,6 +30,23 @@ class _LoginFormState extends State<LoginForm> {
   @override
   void initState() {
     super.initState();
+    //Sentry Test
+    sentryTest();
+  }
+
+  void sentryTest() async {
+    const env = String.fromEnvironment('ENVIRONMENT');
+
+    if (env == "production" || env == "staging") {
+      try {
+        throw ("Error test");
+      } catch (exception, stackTrace) {
+        await Sentry.captureException(
+          exception,
+          stackTrace: stackTrace,
+        );
+      }
+    }
   }
 
   @override

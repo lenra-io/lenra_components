@@ -47,7 +47,7 @@ abstract class LenraBaseHttpClient {
 
   Future<T> get<T>(String url, {ResponseMapper<T> responseMapper}) {
     Future<http.Response> response = client.get(
-      "$_apiUrl$url",
+      Uri.parse("$_apiUrl$url"),
       headers: _headers,
     );
     return _handleResponse(response, responseMapper: responseMapper);
@@ -56,7 +56,7 @@ abstract class LenraBaseHttpClient {
   Future<T> post<T>(String url, {ResponseMapper<T> responseMapper, dynamic body}) {
     print("API Call POST on $_apiUrl$url");
     Future<http.Response> response = client.post(
-      "$_apiUrl$url",
+      Uri.parse("$_apiUrl$url"),
       body: encodeBody(body),
       headers: _headers,
     );
@@ -65,7 +65,7 @@ abstract class LenraBaseHttpClient {
 
   Future<T> put<T>(String url, {ResponseMapper<T> responseMapper, dynamic body}) {
     Future<http.Response> response = client.put(
-      "$_apiUrl$url",
+      Uri.parse("$_apiUrl$url"),
       body: encodeBody(body),
       headers: _headers,
     );
@@ -74,7 +74,7 @@ abstract class LenraBaseHttpClient {
 
   Future<T> delete<T>(String url, {ResponseMapper<T> responseMapper, dynamic body}) {
     Future<http.Response> response = client.delete(
-      "$_apiUrl$url",
+      Uri.parse("$_apiUrl$url"),
       headers: _headers,
     );
     return _handleResponse(response, responseMapper: responseMapper);
