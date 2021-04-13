@@ -18,7 +18,7 @@ defmodule LenraWeb.AppChannelTest do
   test "No app called, should return an error", %{socket: socket} do
     res = my_subscribe_and_join(socket)
     assert {:error, %{reason: "No App Name"}} == res
-    refute_push "ui", _
+    refute_push("ui", _)
   end
 
   @app_name "Counter"
@@ -82,13 +82,21 @@ defmodule LenraWeb.AppChannelTest do
     assert socket.assigns == %{app_name: @app_name, user_id: user.id}
 
     # Check that we receive a "ui" event with the final UI
-    assert_push "ui", @expected_ui
+    assert_push("ui", @expected_ui)
 
     # We simulate an event from the UI
     push(socket, "run", %{"code" => @listener_code})
 
     # Check that we receive a "patchUi" event with corresponding patch
-    assert_push "patchUi", @expected_patch_ui
+    assert_push("patchUi", @expected_patch_ui)
+
+    Process.unlink(socket.channel_pid)
+    ref = leave(socket)
+
+    assert_reply(ref, :ok)
+
+    # Waiting for monitor to write measurements in db
+    :timer.sleep(500)
   end
 
   defp my_subscribe_and_join(socket, params \\ %{}) do

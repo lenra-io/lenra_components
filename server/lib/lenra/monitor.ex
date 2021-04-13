@@ -29,7 +29,8 @@ defmodule Lenra.Monitor do
 
   def setup do
     events = [
-      [:lenra, :openfaas_runaction, :stop]
+      [:lenra, :openfaas_runaction, :stop],
+      [:lenra, :client_app_channel, :stop]
     ]
 
     :telemetry.attach_many("lenra.monitor", events, &handle_event/4, nil)
@@ -43,6 +44,15 @@ defmodule Lenra.Monitor do
       user_id,
       %{application_name: application_name, duration: System.convert_time_unit(duration, :native, :nanosecond)}
     )
+  end
+
+  def handle_event([:lenra, :client_app_channel, :stop], measurements, metadata, _config) do
+    duration = System.convert_time_unit(measurements.duration, :native, :nanosecond)
+
+    LenraServices.ClientAppMeasurementServices.create(metadata.user_id, %{
+      application_name: metadata.application_name,
+      duration: duration
+    })
   end
 
   def handle_event(_, _measurements, _metadata, _config) do

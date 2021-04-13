@@ -33,6 +33,8 @@ defmodule LenraWeb.ChannelCase do
   setup _tags do
     :ok = Sandbox.checkout(Lenra.Repo)
 
+    Sandbox.mode(Lenra.Repo, {:shared, self()})
+
     :ok
   end
 end

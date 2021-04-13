@@ -7,6 +7,8 @@ defmodule LenraWeb.AppChannel do
   require Logger
 
   def join("app", %{"app" => app_name}, socket) do
+    AppChannelMonitor.monitor(self(), %{user_id: socket.assigns.user_id, application_name: app_name})
+
     socket = assign(socket, app_name: app_name)
 
     case LenraServices.ActionBuilder.first_run({socket.assigns.user_id, app_name}) do

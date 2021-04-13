@@ -27,7 +27,8 @@ defmodule Lenra.Application do
       # Start the Event Queue
       {LenraServers.EventQueue, &LenraServices.LoadWorker.load/0},
       # Start the HTTP Client
-      {Finch, name: FaasHttp}
+      {Finch, name: FaasHttp},
+      AppChannelMonitor
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
