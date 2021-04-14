@@ -3,7 +3,7 @@
 
 import Config
 
-config :lenra, LenraWeb.Endpoint,
+config :lenra_web, LenraWeb.Endpoint,
   http: [port: System.fetch_env!("PORT")],
   secret_key_base: System.fetch_env!("SECRET_KEY_BASE"),
   url: [host: {:system, "APP_HOST"}, port: {:system, "PORT"}]

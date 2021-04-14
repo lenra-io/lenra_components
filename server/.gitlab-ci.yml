@@ -33,7 +33,7 @@ server tests:
   script:
     - mix deps.get
     - mix credo --strict
-    - mix coveralls
+    - mix coveralls --umbrella
 
 server dockerize:
   extends:
@@ -43,7 +43,8 @@ server dockerize:
     DOCKER_IMAGE: $CI_REGISTRY_IMAGE/server
   before_script:
     - !reference [.docker, before_script]
-    - mv ../json_validator priv/static/json_validator
+    - mkdir -p apps/ui_validator/priv/static
+    - mv ../json_validator apps/ui_validator/priv/static/json_validator
   needs:
     - job: server build
       artifacts: true

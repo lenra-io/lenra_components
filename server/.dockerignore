@@ -2,6 +2,5 @@
 !mix.exs
 !mix.lock
 !config
-!priv
-!lib
+!apps
 !rel

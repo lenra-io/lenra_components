@@ -18,7 +18,7 @@ config :lenra, Lenra.Repo,
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
-config :lenra, LenraWeb.Endpoint,
+config :lenra_web, LenraWeb.Endpoint,
   http: [port: String.to_integer(System.get_env("PORT", "4000"))],
   secret_key_base: "FuEn07fjnCLaC53BiDoBagPYdsv/S65QTfxWgusKP1BA5NiaFzXGYMHLZ6JAYxt1",
   debug_errors: false,

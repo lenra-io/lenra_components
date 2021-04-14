@@ -1,8 +1,12 @@
-# This file is responsible for configuring your application
-# and its dependencies with the aid of the Mix.Config module.
+# This file is responsible for configuring your umbrella
+# and **all applications** and their dependencies with the
+# help of the Config module.
 #
-# This configuration file is loaded before any dependency and
-# is restricted to this project.
+# Note that all applications in your umbrella share the
+# same configuration and dependencies, which is why they
+# all use the same configuration file. If you want different
+# configurations or dependencies per app, it is best to
+# move said applications out of the umbrella.
 
 # This is the BASE config, loaded at build time and it will be override by other configs
 
@@ -33,7 +37,7 @@ config :lenra, Lenra.Mailer,
   ]
 
 # Configures the endpoint
-config :lenra, LenraWeb.Endpoint,
+config :lenra_web, LenraWeb.Endpoint,
   url: [host: "localhost"],
   http: [port: {:system, "PORT"}],
   render_errors: [view: LenraWeb.ErrorView, accepts: ~w(json), layout: false],
@@ -52,7 +56,7 @@ config :ex_json_schema,
        :remote_schema_resolver,
        {UIValidator.JsonSchemata, :read_schema}
 
-config :lenra,
+config :ui_validator,
   json_validator_schema_dir: "../../../../../json_validator/"
 
 config :lenra,

@@ -17,8 +17,8 @@ Vérification de qualité de code :
   * Vérification de syntaxe/règles de code `mix credo --strict`
   * Vérification de sécurité `mix sobelow`
   * lancer les tests `mix test`
-  * Test + couverture de code `mix coveralls`
-  * Test + couverture de code + rapport html `mix coveralls.html`
+  * Test + couverture de code `mix coveralls [--umbrella]`
+  * Test + couverture de code + rapport html `mix coveralls.html [--umbrella]`
 
 ## Liens utiles
 
