@@ -1,4 +1,4 @@
-import 'package:fr_lenra_client/page/login_page.dart';
+import 'package:fr_lenra_client/components/page/login_page.dart';
 import 'package:fr_lenra_client/redux/actions/async_action.dart';
 import 'package:fr_lenra_client/redux/actions/push_route_action.dart';
 import 'package:fr_lenra_client/redux/actions/refresh_token_action.dart';

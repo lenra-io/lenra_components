@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fr_lenra_client/page/lenra_app_page.dart';
+import 'package:fr_lenra_client/components/page/lenra_app_page.dart';
 import 'package:fr_lenra_client/redux/models/app_list_model.dart';
 import 'package:fr_lenra_client/redux/states/app_state.dart';
 

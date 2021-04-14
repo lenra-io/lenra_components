@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:fr_lenra_client/page/lenra_app_page.dart';
-import 'package:fr_lenra_client/page/lenra_app_page_container.dart';
-import 'package:fr_lenra_client/page/login_page.dart';
-import 'package:fr_lenra_client/page/register_page.dart';
-import 'package:fr_lenra_client/page/store_page.dart';
-import 'package:fr_lenra_client/page/verifiying_code_page.dart';
+import 'package:fr_lenra_client/components/page/lenra_app_page.dart';
+import 'package:fr_lenra_client/components/page/lenra_app_page_container.dart';
+import 'package:fr_lenra_client/components/page/lenra_components_showcase.dart';
+import 'package:fr_lenra_client/components/page/login_page.dart';
+import 'package:fr_lenra_client/components/page/register_page.dart';
+import 'package:fr_lenra_client/components/page/store_page.dart';
+import 'package:fr_lenra_client/components/page/verifiying_code_page.dart';
 
 typedef CustomRouteBuilder = Widget Function(BuildContext) Function(Map<String, String>);
 
@@ -25,12 +26,12 @@ class RouteData {
 
 final Map<String, CustomRouteBuilder> routes = {
   LoginPage.routeName: (Map<String, String> params) => (BuildContext context) => LoginPage(),
-  VerifyingCodePage.routeName: (Map<String, String> params) =>
-      (BuildContext context) => VerifyingCodePage(),
+  VerifyingCodePage.routeName: (Map<String, String> params) => (BuildContext context) => VerifyingCodePage(),
   RegisterPage.routeName: (Map<String, String> params) => (BuildContext context) => RegisterPage(),
   StorePage.routeName: (Map<String, String> params) => (BuildContext context) => StorePage(),
   LenraAppPage.routeName: (Map<String, String> params) =>
       (BuildContext context) => LenraAppPageContainer(appName: params["appName"]),
+  LenraComponentsShowcase.routeName: (Map<String, String> params) => (BuildContext context) => LenraComponentsShowcase()
 };
 
 RouteData getRouteDataForRoutes(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/api/request_models/verify_code_request.dart';
 import 'package:fr_lenra_client/redux/models/verify_code_model.dart';
-import 'package:fr_lenra_client/services/form_validators_service.dart';
+import 'package:fr_lenra_client/utils/form_validators.dart';
 
 class VerifyCodeForm extends StatefulWidget {
   final VerifyCodeModel verifyCodeModel;
@@ -65,12 +65,10 @@ class _VerifyCodeFormState extends State<VerifyCodeForm> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            this.buildTextInput(context),
-            this.buildButton(context),
-          ]),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: <Widget>[
+        this.buildTextInput(context),
+        this.buildButton(context),
+      ]),
     );
   }
 }

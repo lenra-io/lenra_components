@@ -1,6 +1,6 @@
-import 'package:fr_lenra_client/page/login_page.dart';
-import 'package:fr_lenra_client/page/store_page.dart';
-import 'package:fr_lenra_client/page/verifiying_code_page.dart';
+import 'package:fr_lenra_client/components/page/login_page.dart';
+import 'package:fr_lenra_client/components/page/store_page.dart';
+import 'package:fr_lenra_client/components/page/verifiying_code_page.dart';
 import 'package:fr_lenra_client/redux/actions/login_action.dart';
 import 'package:fr_lenra_client/redux/actions/logout_action.dart';
 import 'package:fr_lenra_client/redux/actions/push_route_action.dart';

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fr_lenra_client/components/page/store_page.dart';
 import 'package:fr_lenra_client/components/store_page/app_list_container.dart';
-import 'package:fr_lenra_client/page/store_page.dart';
 import 'package:fr_lenra_client/redux/states/app_state.dart';
 import 'package:redux/redux.dart';
 

@@ -4,7 +4,7 @@ import 'package:fr_lenra_client/api/request_models/loginRequest.dart';
 import 'package:fr_lenra_client/components/error_list.dart';
 import 'package:fr_lenra_client/components/loading_button.dart';
 import 'package:fr_lenra_client/redux/models/login_model.dart';
-import 'package:fr_lenra_client/services/form_validators_service.dart';
+import 'package:fr_lenra_client/utils/form_validators.dart';
 import 'package:sentry/sentry.dart';
 
 class LoginForm extends StatefulWidget {

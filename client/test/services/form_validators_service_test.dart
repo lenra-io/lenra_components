@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fr_lenra_client/services/form_validators_service.dart';
+import 'package:fr_lenra_client/utils/form_validators.dart';
 
 void main() {
   test('checkLength valid if value length between min and max', () {
