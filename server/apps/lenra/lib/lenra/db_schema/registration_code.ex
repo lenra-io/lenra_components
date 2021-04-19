@@ -1,6 +1,6 @@
 defmodule Lenra.RegistrationCode do
   @moduledoc """
-    The registration_code shema.
+    The registration_code schema.
   """
   use Ecto.Schema
   import Ecto.Changeset
@@ -19,7 +19,7 @@ defmodule Lenra.RegistrationCode do
     registration_code
     |> cast(params, [:code])
     |> validate_required([:code])
-    |> unique_constraint([:user_id, :code])
+    |> unique_constraint([:user_id])
     |> validate_length(:code, min: 8, max: 8)
   end
 

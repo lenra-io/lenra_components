@@ -12,8 +12,11 @@ defmodule LenraWeb.ErrorHelpers do
     },
     email_or_password_incorrect: %{code: 4, message: "Incorrect email or password"},
     no_such_registration_code: %{code: 5, message: "No such registration code"},
+    no_such_password_code: %{code: 6, message: "No such password lost code"},
     unhandled_resource_type: %{code: 7, message: "Unknown resource."},
-    wrong_environment: %{code: 8, message: "Deployment env not equals to build env"},
+    password_already_used: %{code: 8, message: "Your password cannot be equal to the last 3."},
+    email_incorrect: %{code: 9, message: "Incorrect email"},
+    wrong_environment: %{code: 10, message: "Deployment env not equals to build env"},
     error_404: %{code: 404, message: "Not Found."},
     error_500: %{code: 500, message: "Internal server error."},
     openfaas_not_reachable: %{code: 1000, message: "Openfaas is not accessible"}

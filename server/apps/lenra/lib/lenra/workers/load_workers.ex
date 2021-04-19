@@ -6,5 +6,6 @@ defmodule LenraServices.LoadWorker do
 
   def load do
     EventQueue.add_worker(EmailWorker, :email_verification)
+    EventQueue.add_worker(EmailWorker, :email_password_lost)
   end
 end

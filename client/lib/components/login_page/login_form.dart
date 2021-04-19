@@ -98,6 +98,19 @@ class _LoginFormState extends State<LoginForm> {
               ),
             ),
           ),
+          Container(
+            padding: EdgeInsets.only(top: 10.0),
+            child: RichText(
+              text: new TextSpan(
+                text: "Mot de passe oublié ?",
+                style: new TextStyle(color: Colors.blue),
+                recognizer: new TapGestureRecognizer()
+                  ..onTap = () {
+                    Navigator.pushNamed(context, '/recovery');
+                  },
+              ),
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: LoadingButton(

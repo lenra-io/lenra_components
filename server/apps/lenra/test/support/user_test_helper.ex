@@ -2,14 +2,15 @@ defmodule UserTestHelper do
   @moduledoc """
     Test helper for user
   """
-  alias Lenra.Repo
+
   alias LenraServices.UserServices
 
   @john_doe_user_params %{
     "first_name" => "John",
     "last_name" => "Doe",
     "email" => "john.doe@lenra.fr",
-    "password" => "johndoethefirst"
+    "password" => "johndoethefirst",
+    "password_confirmation" => "johndoethefirst"
   }
 
   def register_user(params) do

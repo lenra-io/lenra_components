@@ -28,7 +28,7 @@ config :lenra_web, LenraWeb.Endpoint,
 
 config :cors_plug,
   origin: ["http://localhost:10000"],
-  methods: ["GET", "POST"]
+  methods: ["GET", "POST", "PUT"]
 
 # ## SSL Support
 #

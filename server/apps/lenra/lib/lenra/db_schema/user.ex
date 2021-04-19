@@ -25,11 +25,12 @@ defmodule Lenra.User do
     field(:first_name, :string)
     field(:last_name, :string)
     field(:email, :string)
-    field(:password, :string, redact: true)
+    has_many(:password, Lenra.Password)
     field(:role, :integer)
     has_one(:registration_code, Lenra.RegistrationCode)
     has_many(:applications, Lenra.LenraApplication, foreign_key: :creator_id)
     has_many(:datastores, Lenra.Datastore)
+    has_one(:password_code, Lenra.PasswordCode)
     has_many(:builds, Lenra.Build, foreign_key: :creator_id)
     has_many(:environments, Lenra.Environment, foreign_key: :creator_id)
     has_many(:deployments, Lenra.Deployment, foreign_key: :publisher_id)
@@ -38,27 +39,18 @@ defmodule Lenra.User do
 
   def changeset(user, params \\ %{}) do
     user
-    |> cast(params, [:first_name, :last_name, :email, :password, :role])
-    |> validate_required([:email, :password, :first_name, :last_name, :role])
+    |> cast(params, [:first_name, :last_name, :email, :role])
+    |> validate_required([:email, :first_name, :last_name, :role])
     |> validate_length(:first_name, min: 2, max: 256)
     |> validate_length(:last_name, min: 2, max: 256)
     |> update_change(:email, &String.downcase/1)
     |> validate_format(:email, @email_regex)
     |> unique_constraint(:email)
-    |> validate_length(:password, min: 8, max: 64)
-    |> validate_confirmation(:password)
     |> validate_inclusion(:role, @all_roles)
-    |> put_pass_hash()
   end
 
-  defp put_pass_hash(%Ecto.Changeset{valid?: true, changes: %{password: password}} = changeset) do
-    change(changeset, Argon2.add_hash(password, hash_key: :password))
-  end
-
-  defp put_pass_hash(changeset), do: changeset
-
-  def new(params) do
-    %User{role: User.const_unvalidated_user_role()}
+  def new(user_schema, params) do
+    user_schema
     |> changeset(params)
   end
 

@@ -17,6 +17,8 @@ defmodule LenraWeb.Router do
     pipe_through :api
     post "/register", UserController, :register
     post "/login", UserController, :login
+    post "/password/lost", UserController, :password_lost_code
+    put "/password/lost", UserController, :password_lost_modification
 
     pipe_through :ensure_auth_refresh
     post "/refresh", UserController, :refresh
@@ -30,6 +32,7 @@ defmodule LenraWeb.Router do
     resources "/apps/:app_id/environments", EnvsController, only: [:index, :create]
     resources "/apps/:app_id/builds", BuildsController, only: [:index, :create, :update]
     resources "/apps/deployments", DeploymentsController, only: [:create]
+    put "/password", UserController, :password_modification
   end
 
   scope "/", LenraWeb do

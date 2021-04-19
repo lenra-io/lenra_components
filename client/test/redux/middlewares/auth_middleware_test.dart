@@ -1,15 +1,22 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fr_lenra_client/api/request_models/change_lost_password_request.dart';
+import 'package:fr_lenra_client/api/request_models/change_password_request.dart';
 import 'package:fr_lenra_client/api/request_models/loginRequest.dart';
+import 'package:fr_lenra_client/api/request_models/recovery_request.dart';
 import 'package:fr_lenra_client/api/request_models/register_request.dart';
 import 'package:fr_lenra_client/api/request_models/verify_code_request.dart';
+import 'package:fr_lenra_client/components/page/change_lost_password_page.dart';
 import 'package:fr_lenra_client/components/page/login_page.dart';
 import 'package:fr_lenra_client/components/page/store_page.dart';
 import 'package:fr_lenra_client/components/page/verifiying_code_page.dart';
 import 'package:fr_lenra_client/redux/actions/action.dart';
 import 'package:fr_lenra_client/redux/actions/async_action.dart';
+import 'package:fr_lenra_client/redux/actions/change_lost_password_action.dart';
+import 'package:fr_lenra_client/redux/actions/change_password_action.dart';
 import 'package:fr_lenra_client/redux/actions/login_action.dart';
 import 'package:fr_lenra_client/redux/actions/logout_action.dart';
 import 'package:fr_lenra_client/redux/actions/push_route_action.dart';
+import 'package:fr_lenra_client/redux/actions/recovery_action.dart';
 import 'package:fr_lenra_client/redux/actions/register_action.dart';
 import 'package:fr_lenra_client/redux/actions/verify_code_action.dart';
 import 'package:fr_lenra_client/redux/middlewares/auth_middleware.dart';
@@ -129,6 +136,43 @@ void main() {
       store,
       action,
       LoginPage.routeName,
+      true,
+    );
+  });
+
+  test('authMiddleware with RecoveryAction that is done redirect to password lost Modification page with stack reset',
+      () {
+    var store = MockedStore();
+    var action = RecoveryAction(RecoveryRequest("email"));
+
+    checkCallingDispatchWith<RecoveryAction>(
+      store,
+      action,
+      ChangeLostPasswordPage.routeName,
+      true,
+    );
+  });
+
+  test('authMiddleware with ChangeLostPasswordAction that is done redirect to password login with stack reset', () {
+    var store = MockedStore();
+    var action = ChangeLostPasswordAction(ChangeLostPasswordRequest("email", "code", "password", "password"));
+
+    checkCallingDispatchWith<ChangeLostPasswordAction>(
+      store,
+      action,
+      LoginPage.routeName,
+      true,
+    );
+  });
+
+  test('authMiddleware with ChangePasswordAction that is done redirect to store page with stack reset', () {
+    var store = MockedStore();
+    var action = ChangePasswordAction(ChangePasswordRequest("oldPassword", "password", "password"));
+
+    checkCallingDispatchWith<ChangePasswordAction>(
+      store,
+      action,
+      StorePage.routeName,
       true,
     );
   });
