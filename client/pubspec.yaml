@@ -26,6 +26,13 @@ flutter:
   uses-material-design: true
   assets:
     - assets/api/ui.json
+  fonts:
+    - family: Source Sans Pro
+      fonts: 
+        - asset: fonts/Source_Sans_Pro/SourceSansPro-Regular.ttf
+        - asset: fonts/Source_Sans_Pro/SourceSansPro-SemiBold.ttf
+        - asset: fonts/Source_Sans_Pro/SourceSansPro-Bold.ttf
+
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg

@@ -1,6 +1,28 @@
-import 'package:flutter/painting.dart';
+import 'package:fr_lenra_client/lenra_components/theme/lenra_border_theme_data.dart';
+import 'package:fr_lenra_client/lenra_components/theme/lenra_button_theme_data.dart';
+import 'package:fr_lenra_client/lenra_components/theme/lenra_color_theme_data.dart';
+import 'package:fr_lenra_client/lenra_components/theme/lenra_text_theme_data.dart';
 
 class LenraThemeData {
-  Color primaryColor = Color(0x1269ED);
-  Color hoverColor = Color(0x0D4DAE);
+  LenraColorThemeData lenraColorThemeData;
+  LenraTextThemeData lenraTextThemeData;
+  LenraBorderThemeData lenraBorderThemeData;
+  LenraButtonThemeData lenraButtonThemeData;
+
+  LenraThemeData({
+    LenraColorThemeData lenraColorThemeData,
+    LenraTextThemeData lenraTextThemeData,
+    LenraBorderThemeData lenraBorderThemeData,
+    LenraButtonThemeData lenraButtonThemeData,
+  }) {
+    this.lenraColorThemeData = lenraColorThemeData ?? LenraColorThemeData();
+    this.lenraTextThemeData = lenraTextThemeData ?? LenraTextThemeData();
+    this.lenraBorderThemeData = lenraBorderThemeData ?? LenraBorderThemeData();
+    this.lenraButtonThemeData = lenraButtonThemeData ??
+        LenraButtonThemeData(
+          colorTheme: this.lenraColorThemeData,
+          textStyle: this.lenraTextThemeData.bodyText,
+          border: this.lenraBorderThemeData,
+        );
+  }
 }
