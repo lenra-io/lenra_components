@@ -1,5 +1,6 @@
 import 'package:fr_lenra_client/lenra_components/theme/lenra_border_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_button_theme_data.dart';
+import 'package:fr_lenra_client/lenra_components/theme/lenra_checkbox_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_color_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_radio_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_text_theme_data.dart';
@@ -10,6 +11,7 @@ class LenraThemeData {
   LenraBorderThemeData lenraBorderThemeData;
   LenraButtonThemeData lenraButtonThemeData;
   LenraRadioThemeData lenraRadioThemeData;
+  LenraCheckboxThemeData lenraCheckboxThemeData;
 
   LenraThemeData({
     LenraColorThemeData lenraColorThemeData,
@@ -17,6 +19,7 @@ class LenraThemeData {
     LenraBorderThemeData lenraBorderThemeData,
     LenraButtonThemeData lenraButtonThemeData,
     LenraRadioThemeData lenraRadioThemeData,
+    LenraCheckboxThemeData lenraCheckboxThemeData,
   }) {
     this.lenraColorThemeData = lenraColorThemeData ?? LenraColorThemeData();
     this.lenraTextThemeData = lenraTextThemeData ?? LenraTextThemeData();
@@ -30,6 +33,10 @@ class LenraThemeData {
     this.lenraRadioThemeData = lenraRadioThemeData ??
         LenraRadioThemeData(
           border: this.lenraBorderThemeData,
+        );
+    this.lenraCheckboxThemeData = lenraCheckboxThemeData ??
+        LenraCheckboxThemeData(
+          lenraTextThemeData: this.lenraTextThemeData,
         );
   }
 }

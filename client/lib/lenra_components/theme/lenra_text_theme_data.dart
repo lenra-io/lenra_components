@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fr_lenra_client/lenra_components/theme/lenra_color_theme_data.dart';
 
 class LenraTextThemeData {
   TextStyle headline1;
@@ -9,6 +10,8 @@ class LenraTextThemeData {
   TextStyle bodyText;
   TextStyle subtext;
 
+  TextStyle disabledBodyText;
+
   LenraTextThemeData({
     TextStyle headline1,
     TextStyle headline2,
@@ -17,48 +20,63 @@ class LenraTextThemeData {
     TextStyle headlineBody,
     TextStyle bodyText,
     TextStyle subtext,
+    TextStyle disabledBodyText,
   }) {
     this.headline1 = headline1 ??
         TextStyle(
           fontFamily: "Source Sans Pro",
           fontSize: 24.0,
           fontWeight: FontWeight.w700,
+          color: LenraColorThemeData.LENRA_BLACK,
         );
     this.headline2 = headline2 ??
         TextStyle(
           fontFamily: "Source Sans Pro",
           fontSize: 20.0,
           fontWeight: FontWeight.w700,
+          color: LenraColorThemeData.LENRA_BLACK,
         );
     this.headline3 = headline3 ??
         TextStyle(
           fontFamily: "Source Sans Pro",
           fontSize: 16.0,
           fontWeight: FontWeight.w700,
+          color: LenraColorThemeData.LENRA_BLACK,
         );
     this.headline4 = headline4 ??
         TextStyle(
           fontFamily: "Source Sans Pro",
           fontSize: 14.0,
           fontWeight: FontWeight.w700,
+          color: LenraColorThemeData.LENRA_BLACK,
         );
     this.headlineBody = headlineBody ??
         TextStyle(
           fontFamily: "Source Sans Pro",
           fontSize: 14.0,
           fontWeight: FontWeight.w600,
+          color: LenraColorThemeData.LENRA_BLACK,
         );
     this.bodyText = bodyText ??
         TextStyle(
           fontFamily: "Source Sans Pro",
           fontSize: 14.0,
           fontWeight: FontWeight.w400,
+          color: LenraColorThemeData.LENRA_BLACK,
         );
     this.subtext = subtext ??
         TextStyle(
           fontFamily: "Source Sans Pro",
           fontSize: 12.0,
           fontWeight: FontWeight.w400,
+          color: LenraColorThemeData.LENRA_BLACK,
+        );
+    this.disabledBodyText = disabledBodyText ??
+        TextStyle(
+          fontFamily: "Source Sans Pro",
+          fontSize: 14.0,
+          fontWeight: FontWeight.w400,
+          color: LenraColorThemeData.LENRA_DISABLED_GRAY,
         );
   }
 

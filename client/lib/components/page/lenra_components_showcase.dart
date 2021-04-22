@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_button.dart';
+import 'package:fr_lenra_client/lenra_components/lenra_checkbox.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_radio.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_radio_container.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_button_theme_data.dart';
+import 'package:fr_lenra_client/lenra_components/theme/lenra_checkbox_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_color_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_radio_theme_data.dart';
+import 'package:fr_lenra_client/lenra_components/theme/lenra_text_theme_data.dart';
 
 class LenraComponentsShowcase extends StatelessWidget {
   static const routeName = "/showcase";
@@ -108,7 +111,46 @@ class LenraComponentsShowcase extends StatelessWidget {
               ),
             )
           ],
-        )
+        ),
+        new Row(
+          children: [
+            LenraCheckbox(
+              value: true,
+              onChanged: (value) => false,
+              text: "text",
+            ),
+            LenraCheckbox(
+              value: false,
+              onChanged: (value) => false,
+              text: "textstyle",
+              lenraCheckboxThemeData: LenraCheckboxThemeData(
+                lenraTextThemeData: LenraTextThemeData(
+                  bodyText: TextStyle(color: Colors.red),
+                ),
+              ),
+            ),
+            LenraCheckbox(
+              value: true,
+              disabled: true,
+              text: "disabled",
+            ),
+            LenraCheckbox(
+              value: true,
+              disabled: true,
+            ),
+            LenraCheckbox(
+              value: false,
+              text: "onChanged",
+              onChanged: (value) => print(value),
+            ),
+            LenraCheckbox(
+              value: null,
+              tristate: true,
+              text: "tristate",
+              onChanged: (value) => print(value),
+            ),
+          ],
+        ),
       ]),
     );
   }

@@ -5,6 +5,8 @@ class LenraColorThemeData {
   static const LENRA_BLUE = Color(0xFF1269ED);
   static const LENRA_BLUE_UNAVAILABLE = Color(0xFFD0E1FB);
   static const LENRA_PRIMARY_BLUE_HOVER = Color(0xFF0D4DAE);
+  static const LENRA_DISABLED_GRAY = Color(0xFFA9B2C4);
+  static const LENRA_BLACK = Color(0xFF1E232C);
 
   Color primaryBackgroundColor;
   Color primaryBackgroundHoverColor;
