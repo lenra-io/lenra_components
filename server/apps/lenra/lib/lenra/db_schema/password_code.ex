@@ -4,10 +4,11 @@ defmodule Lenra.PasswordCode do
   """
   use Ecto.Schema
   import Ecto.Changeset
+  alias Lenra.User
 
   schema "password_codes" do
     field(:code, :string, null: false)
-    belongs_to(:user, Lenra.User)
+    belongs_to(:user, User)
     timestamps()
   end
 

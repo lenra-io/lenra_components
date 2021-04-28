@@ -2,41 +2,30 @@ defmodule LenraWeb.UserController do
   use LenraWeb, :controller
 
   alias Lenra.Guardian.Plug
-  alias LenraServices.{UserServices, PasswordServices}
   alias LenraWeb.TokenHelper
-  alias Lenra.{Repo, User}
+  alias Lenra.{Repo, User, UserServices, PasswordServices}
 
   def register(conn, params) do
-    conn
-    |> handle_register(UserServices.register(params))
-    |> reply
-  end
-
-  defp handle_register(conn, {:error, _, failed_value, _}) do
-    assign_error(conn, failed_value)
-  end
-
-  defp handle_register(conn, {:ok, %{inserted_user: user}}) do
-    TokenHelper.assign_access_and_refresh_token(conn, user)
+    with {:ok, %{inserted_user: user}} <- UserServices.register(params) do
+      conn
+      |> TokenHelper.assign_access_and_refresh_token(user)
+      |> reply
+    end
   end
 
   def login(conn, params) do
-    conn
-    |> handle_login(UserServices.login(params["email"], params["password"]))
-    |> reply
-  end
-
-  defp handle_login(conn, {:error, reason}) do
-    assign_error(conn, reason)
-  end
-
-  defp handle_login(conn, {:ok, user}) do
-    TokenHelper.assign_access_and_refresh_token(conn, user)
+    with {:ok, user} <- UserServices.login(params["email"], params["password"]) do
+      conn
+      |> TokenHelper.assign_access_and_refresh_token(user)
+      |> reply
+    end
   end
 
   def refresh(conn, _params) do
-    refresh_token = Plug.current_token(conn)
-    access_token = TokenHelper.create_access_token(refresh_token)
+    access_token =
+      conn
+      |> Plug.current_token()
+      |> TokenHelper.create_access_token()
 
     conn
     |> TokenHelper.assign_access_token(access_token)
@@ -44,20 +33,12 @@ defmodule LenraWeb.UserController do
   end
 
   def validate_user(conn, params) do
-    user_id = Plug.current_resource(conn)
-
-    UserServices.validate_user(user_id, params["code"])
-    |> case do
-      {:ok, %{updated_user: updated_user}} ->
-        conn
-        |> TokenHelper.revoke_current_refresh()
-        |> TokenHelper.assign_access_and_refresh_token(updated_user)
-        |> reply
-
-      {:error, _, failed_value, _} ->
-        conn
-        |> assign_error(failed_value)
-        |> reply
+    with user <- Plug.current_resource(conn),
+         {:ok, %{updated_user: updated_user}} <- UserServices.validate_user(user.id, params["code"]) do
+      conn
+      |> TokenHelper.revoke_current_refresh()
+      |> TokenHelper.assign_access_and_refresh_token(updated_user)
+      |> reply
     end
   end
 
@@ -69,70 +50,33 @@ defmodule LenraWeb.UserController do
   end
 
   def password_modification(conn, params) do
-    Plug.current_resource(conn)
-    |> PasswordServices.update_password(params)
-    |> case do
-      {:error, reason} ->
-        conn
-        |> assign_error(reason)
-        |> reply()
-
-      {:ok, _password} ->
-        conn
-        |> reply()
+    with user <- Plug.current_resource(conn),
+         {:ok, _} <- PasswordServices.update_password(user, params) do
+      reply(conn)
     end
   end
 
-  defp handle_user_email(params) do
-    case params["email"] do
-      nil ->
-        {:error, :email_incorrect}
+  defp get_user_with_email(nil), do: {:error, :email_incorrect}
 
-      _ ->
-        User
-        |> Repo.get_by(email: String.downcase(params["email"]))
+  defp get_user_with_email(email) do
+    case Repo.get_by(User, email: String.downcase(email)) do
+      nil -> {:error, :email_incorrect}
+      user -> {:ok, user}
     end
   end
 
   def password_lost_modification(conn, params) do
-    with %User{} = user <- handle_user_email(params),
+    with {:ok, user} <- get_user_with_email(params["email"]),
          {:ok, _} <- PasswordServices.check_password_code_valid(user, params["code"]),
          {:ok, _password} <- PasswordServices.update_lost_password(user, params) do
-      conn
-      |> reply()
-    else
-      {:error, reason} ->
-        conn
-        |> assign_error(reason)
-        |> reply()
-
-      nil ->
-        conn
-        |> assign_error(:email_incorrect)
-        |> reply()
+      reply(conn)
     end
   end
 
   def password_lost_code(conn, params) do
-    with %User{} = user <- handle_user_email(params),
+    with {:ok, user} <- get_user_with_email(params["email"]),
          {:ok, _} <- PasswordServices.send_password_code(user) do
-      conn
-      |> reply
-    else
-      {:error, _, failed_value, _} ->
-        conn
-        |> assign_error(failed_value)
-        |> reply
-
-      {:error, failed_value} ->
-        conn
-        |> assign_error(failed_value)
-        |> reply
-
-      nil ->
-        conn
-        |> assign_error(:email_incorrect)
-        |> reply()
+      reply(conn)
     end
   end
 end

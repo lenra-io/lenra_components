@@ -8,6 +8,8 @@ defmodule Lenra.Deployment do
 
   alias Lenra.{Environment, Build, User, Deployment}
 
+  @derive {Jason.Encoder, only: [:id, :application_id, :environment_id, :build_id, :publisher_id]}
+
   schema "deployments" do
     field(:application_id, :integer)
     belongs_to(:environment, Environment)

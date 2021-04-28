@@ -8,6 +8,7 @@ defmodule Lenra.Environment do
 
   alias Lenra.{LenraApplication, User, Build, Environment}
 
+  @derive {Jason.Encoder, only: [:id, :name, :is_ephemeral, :application_id, :creator_id, :deployed_build_id]}
   schema "environments" do
     field(:name, :string)
     field(:is_ephemeral, :boolean)
@@ -29,7 +30,11 @@ defmodule Lenra.Environment do
   end
 
   def new(application_id, creator_id, deployed_build_id, params) do
-    %Environment{application_id: application_id, creator_id: creator_id, deployed_build_id: deployed_build_id}
+    %Environment{
+      application_id: application_id,
+      creator_id: creator_id,
+      deployed_build_id: deployed_build_id
+    }
     |> Environment.changeset(params)
   end
 end

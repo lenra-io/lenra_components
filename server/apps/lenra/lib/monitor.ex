@@ -27,6 +27,8 @@ defmodule Lenra.Monitor do
 
   """
 
+  alias Lenra.{OpenfaasRunActionMeasurementServices, ClientAppMeasurementServices}
+
   def setup do
     events = [
       [:lenra, :openfaas_runaction, :stop],
@@ -40,7 +42,7 @@ defmodule Lenra.Monitor do
     %{user_id: user_id, application_name: application_name} = metadata
     %{duration: duration} = measurements
 
-    LenraServices.OpenfaasRunActionMeasurementServices.create(
+    OpenfaasRunActionMeasurementServices.create(
       user_id,
       %{application_name: application_name, duration: System.convert_time_unit(duration, :native, :nanosecond)}
     )
@@ -49,7 +51,7 @@ defmodule Lenra.Monitor do
   def handle_event([:lenra, :client_app_channel, :stop], measurements, metadata, _config) do
     duration = System.convert_time_unit(measurements.duration, :native, :nanosecond)
 
-    LenraServices.ClientAppMeasurementServices.create(metadata.user_id, %{
+    ClientAppMeasurementServices.create(metadata.user_id, %{
       application_name: metadata.application_name,
       duration: duration
     })

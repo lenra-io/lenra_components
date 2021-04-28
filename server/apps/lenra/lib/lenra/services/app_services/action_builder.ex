@@ -1,4 +1,4 @@
-defmodule LenraServices.ActionBuilder do
+defmodule Lenra.ActionBuilder do
   @moduledoc """
     The service to build an app based on a listener.
   """
@@ -6,7 +6,7 @@ defmodule LenraServices.ActionBuilder do
   require Logger
 
   alias LenraServers.Storage
-  alias LenraServices.Openfaas
+  alias Lenra.{Repo, Openfaas, DatastoreServices, LenraApplication}
 
   @type ow_info :: {String.t(), String.t()}
   @type event :: map()
@@ -45,9 +45,9 @@ defmodule LenraServices.ActionBuilder do
   end
 
   defp save_data({client_id, app_name}, data) do
-    case Lenra.Repo.get_by(Lenra.LenraApplication, name: app_name) do
+    case Repo.get_by(LenraApplication, name: app_name) do
       nil -> {:error, :no_such_application}
-      application -> {:ok, LenraServices.DatastoreServices.upsert_data(client_id, application.id, data)}
+      application -> {:ok, DatastoreServices.upsert_data(client_id, application.id, data)}
     end
   end
 
@@ -147,9 +147,9 @@ defmodule LenraServices.ActionBuilder do
   end
 
   defp get_data({client_id, app_name}) do
-    case Lenra.Repo.get_by(Lenra.LenraApplication, name: app_name) do
+    case Repo.get_by(LenraApplication, name: app_name) do
       nil -> {:error, :no_such_application}
-      application -> {:ok, LenraServices.DatastoreServices.get_datastore_data(client_id, application.id)}
+      application -> {:ok, DatastoreServices.get_datastore_data(client_id, application.id)}
     end
   end
 end

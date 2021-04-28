@@ -1,4 +1,4 @@
-defmodule LenraServices.EnvironmentServices do
+defmodule Lenra.EnvironmentServices do
   @moduledoc """
     The service that manages the different possible actions on an environment.
   """
@@ -6,7 +6,7 @@ defmodule LenraServices.EnvironmentServices do
 
   import Ecto.Query
 
-  alias Lenra.{Environment, Repo}
+  alias Lenra.{Repo, Environment}
 
   def all(app_id) do
     Repo.all(from(e in Environment, where: e.application_id == ^app_id))
@@ -16,14 +16,18 @@ defmodule LenraServices.EnvironmentServices do
     Repo.get(Environment, env_id)
   end
 
-  def get_by(clauses) do
-    Repo.get_by(Environment, clauses)
+  def fetch(env_id) do
+    Repo.fetch(Environment, env_id)
+  end
+
+  def fetch_by(clauses) do
+    Repo.fetch_by(Environment, clauses)
   end
 
   def create(application_id, creator_id, params) do
     Ecto.Multi.new()
     |> Ecto.Multi.insert(:inserted_env, Environment.new(application_id, creator_id, nil, params))
-    |> Lenra.Repo.transaction()
+    |> Repo.transaction()
   end
 
   def delete(env) do

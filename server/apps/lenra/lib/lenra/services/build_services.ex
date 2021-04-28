@@ -1,4 +1,4 @@
-defmodule LenraServices.BuildServices do
+defmodule Lenra.BuildServices do
   @moduledoc """
     The service that manages the different possible actions on a build.
   """
@@ -16,8 +16,12 @@ defmodule LenraServices.BuildServices do
     Repo.get(Build, build_id)
   end
 
-  def get_by(clauses) do
-    Repo.get_by(Build, clauses)
+  def fetch(build_id) do
+    Repo.fetch(Build, build_id)
+  end
+
+  def fetch_by(clauses) do
+    Repo.fetch_by(Build, clauses)
   end
 
   def create(creator_id, app_id, params) do
@@ -26,13 +30,13 @@ defmodule LenraServices.BuildServices do
 
     Ecto.Multi.new()
     |> Ecto.Multi.insert(:inserted_build, Build.new(creator_id, app_id, build_number, params))
-    |> Lenra.Repo.transaction()
+    |> Repo.transaction()
   end
 
   def update(build, params) do
     Ecto.Multi.new()
     |> Ecto.Multi.update(:updated_build, Build.update(build, params))
-    |> Lenra.Repo.transaction()
+    |> Repo.transaction()
   end
 
   def delete(build) do

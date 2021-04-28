@@ -1,4 +1,4 @@
-defmodule LenraServices.ButtonValidatorTest do
+defmodule UiValidator.ButtonValidatorTest do
   use ExUnit.Case, async: true
 
   @moduledoc """

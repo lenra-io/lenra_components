@@ -8,6 +8,7 @@ defmodule Lenra.ApplicationMainEnv do
 
   alias Lenra.{Environment, ApplicationMainEnv, LenraApplication}
 
+  @derive {Jason.Encoder, only: [:id, :application_id, :environment_id]}
   schema "application_main_environment" do
     belongs_to(:application, LenraApplication)
     belongs_to(:environment, Environment)

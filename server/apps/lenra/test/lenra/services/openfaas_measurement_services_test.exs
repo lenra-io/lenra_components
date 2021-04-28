@@ -1,9 +1,7 @@
 defmodule LenraServers.OpenfaasMeasurementServicesTest do
-  use ExUnit.Case
-  use Lenra.RepoCase
+  use Lenra.RepoCase, async: true
 
-  alias LenraServices.OpenfaasRunActionMeasurementServices
-  alias Lenra.OpenfaasRunActionMeasurement
+  alias Lenra.{OpenfaasRunActionMeasurement, OpenfaasRunActionMeasurementServices}
 
   @moduledoc """
     Test the openfaas measurement services

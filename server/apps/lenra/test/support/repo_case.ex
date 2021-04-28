@@ -1,7 +1,7 @@
 defmodule Lenra.RepoCase do
   @moduledoc """
     Setup the repo case test. Use it in new module test like that :
-      defmodule LenraServices.UserTest do
+      defmodule Lenra.UserTest do
         use Lenra.RepoCase
       end
   """

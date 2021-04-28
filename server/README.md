@@ -51,7 +51,7 @@ defmodule LenraWeb.PostController do
   use LenraWeb, :controller
 
   alias Lenra.Guardian.Plug
-  alias LenraServices.{PostServices}
+  alias Lenra.{PostServices}
   alias Lenra.{Repo}
 
   def index(conn, _params) do
@@ -174,9 +174,9 @@ end
 #### Exemple
 Exemple simplifié de service "de base" : 
 ```elixir
-defmodule PostServices do
+defmodule Lenra.PostServices do
   alias Lenra.{Repo, Post}
-  alias LenraServices.{UserServices, PostServices}
+  alias Lenra.{UserServices, PostServices}
   
   def get(id) do
     Repo.get(Post, id)

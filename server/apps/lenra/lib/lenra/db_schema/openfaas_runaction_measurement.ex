@@ -6,10 +6,10 @@ defmodule Lenra.OpenfaasRunActionMeasurement do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias Lenra.OpenfaasRunActionMeasurement
+  alias Lenra.{User, OpenfaasRunActionMeasurement}
 
   schema "openfaas_runaction_measurements" do
-    belongs_to(:user, Lenra.User)
+    belongs_to(:user, User)
     field(:application_name, :string)
     field(:duration, :integer)
 

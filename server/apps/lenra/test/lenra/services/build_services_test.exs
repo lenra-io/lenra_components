@@ -2,11 +2,9 @@ defmodule LenraServers.BuildServicesTest do
   @moduledoc """
     Test the build services
   """
-  use ExUnit.Case, async: false
-  use Lenra.RepoCase
+  use Lenra.RepoCase, async: true
 
-  alias LenraServices.{BuildServices, LenraApplicationServices}
-  alias Lenra.{Build, Repo}
+  alias Lenra.{Repo, LenraApplication, Build, BuildServices, LenraApplicationServices}
 
   setup do
     {:ok, app: create_and_return_application()}
@@ -22,7 +20,7 @@ defmodule LenraServers.BuildServicesTest do
       icon: "60189"
     })
 
-    Enum.at(Lenra.Repo.all(Lenra.LenraApplication), 0)
+    Enum.at(Repo.all(LenraApplication), 0)
   end
 
   describe "get" do
@@ -47,7 +45,7 @@ defmodule LenraServers.BuildServicesTest do
         commit_hash: "abcdef"
       })
 
-      assert %Lenra.Build{commit_hash: "abcdef", status: :pending} = BuildServices.get_by(%{build_number: 1})
+      assert {:ok, %Build{commit_hash: "abcdef", status: :pending}} = BuildServices.fetch_by(%{build_number: 1})
     end
   end
 

@@ -1,36 +1,22 @@
-defmodule LenraServices.PasswordServices do
+defmodule Lenra.PasswordServices do
   @moduledoc """
     The password service.
   """
   import Ecto.Query, only: [from: 2]
 
-  alias Lenra.{Repo, User, Password, PasswordCode}
-  alias LenraServices.{UserServices, RegistrationCodeServices, EmailWorker}
+  alias Lenra.{Repo, User, Password, PasswordCode, UserServices, RegistrationCodeServices, EmailWorker}
 
   @doc """
     Create a new password.
   """
 
-  # def create_password(%User{} = user, params) do
-  #  Ecto.build_assoc(user, :password)
-  #  |> Password.changeset(%{
-  #    password: params["password"],
-  #    password_confirmation: params["password_confirmation"]
-  #  })
-  # end
-
   def update_password(
-        user_id,
+        user,
         params
       ) do
-    user_loaded = UserServices.get(user_id) |> Repo.preload(:password)
-
-    with {:ok, _user} <- UserServices.check_password(user_loaded, params["old_password"]),
-         {:ok, _user} <- check_old_password(user_loaded, params) do
-      Repo.insert(Password.new(user_loaded, params))
-    else
-      {:error, reason} -> {:error, reason}
-      true -> {:error, :password_already_used}
+    with {:ok, _user} <- UserServices.check_password(user, params["old_password"]),
+         :ok <- check_old_password(user, params) do
+      Repo.insert(Password.new(user, params))
     end
   end
 
@@ -38,33 +24,21 @@ defmodule LenraServices.PasswordServices do
         %User{} = user,
         params
       ) do
-    user_loaded = Repo.preload(user, :password)
-
-    case check_old_password(user_loaded, params) do
-      {:ok, _user} -> Repo.insert(Password.new(user_loaded, params))
-      {:error, reason} -> {:error, reason}
+    with :ok <- check_old_password(user, params) do
+      Repo.insert(Password.new(user, params))
     end
   end
 
   defp check_old_password(user, params) do
-    password =
-      Repo.all(
-        from(u in User,
-          join: p in assoc(u, :password),
-          where: u.id == ^user.id,
-          order_by: [desc: p.inserted_at],
-          limit: 3,
-          select: p
-        )
-      )
+    user = Repo.preload(user, password: from(p in Password, order_by: [desc: p.id], limit: 3))
 
-    password
+    user.password
     |> Enum.any?(fn x ->
       Argon2.verify_pass(params["password"], x.password)
     end)
     |> case do
       true -> {:error, :password_already_used}
-      false -> {:ok, user}
+      false -> :ok
     end
   end
 

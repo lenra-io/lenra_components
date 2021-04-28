@@ -1,8 +1,17 @@
 defmodule LenraWeb.EnvironmentControllerTest do
-  use LenraWeb.ConnCase
+  use LenraWeb.ConnCase, async: true
 
   setup %{conn: conn} do
     {:ok, conn: conn}
+  end
+
+  defp create_app(conn) do
+    post(conn, Routes.apps_path(conn, :create), %{
+      "name" => "test",
+      "service_name" => "test",
+      "color" => "ffffff",
+      "icon" => 12
+    })
   end
 
   describe "index" do
@@ -15,27 +24,25 @@ defmodule LenraWeb.EnvironmentControllerTest do
              }
     end
 
-    @tag :user_authentication
-    test "environment controller authenticated", %{conn: conn} do
-      conn =
-        post(conn, Routes.apps_path(conn, :create), %{
-          "name" => "test",
-          "service_name" => "test",
-          "color" => "ffffff",
-          "icon" => 12
-        })
+    @tag auth_users: [:dev, :user, :dev, :admin]
+    test "get environment check authorizations", %{users: [creator, user, other_dev, admin]} do
+      creator = create_app(creator)
 
-      {:ok, app} = Enum.fetch(Lenra.Repo.all(Lenra.LenraApplication), 0)
+      assert %{"success" => true, "data" => %{"app" => app}} = json_response(creator, 200)
 
-      conn =
-        post(conn, Routes.envs_path(conn, :create, app.id), %{
+      creator =
+        post(creator, Routes.envs_path(creator, :create, app["id"]), %{
           "name" => "test",
           "is_ephemeral" => false
         })
 
-      assert nil != LenraServices.EnvironmentServices.get_by(name: "test")
+      assert %{"success" => true} = json_response(creator, 200)
 
-      conn = get(conn, Routes.envs_path(conn, :index, app.id))
+      get_route_name = Routes.envs_path(creator, :index, app["id"])
+      user = get(user, get_route_name)
+      other_dev = get(other_dev, get_route_name)
+      admin = get(admin, get_route_name)
+      creator = get(creator, get_route_name)
 
       assert %{
                "data" => %{
@@ -59,45 +66,90 @@ defmodule LenraWeb.EnvironmentControllerTest do
                  ]
                },
                "success" => true
-             } = json_response(conn, 200)
+             } = json_response(creator, 200)
+
+      assert %{
+               "data" => %{
+                 "envs" => [
+                   %{
+                     "is_ephemeral" => false,
+                     "name" => "live",
+                     "application_id" => _,
+                     "creator_id" => _,
+                     "deployed_build_id" => _,
+                     "id" => _
+                   },
+                   %{
+                     "is_ephemeral" => false,
+                     "name" => "test",
+                     "application_id" => _,
+                     "creator_id" => _,
+                     "deployed_build_id" => _,
+                     "id" => _
+                   }
+                 ]
+               },
+               "success" => true
+             } = json_response(admin, 200)
+
+      assert %{
+               "success" => false,
+               "errors" => [%{"code" => 403, "message" => "Forbidden"}]
+             } = json_response(user, 403)
+
+      assert %{
+               "success" => false,
+               "errors" => [%{"code" => 403, "message" => "Forbidden"}]
+             } = json_response(other_dev, 403)
     end
   end
 
   describe "create" do
-    @tag :user_authentication
-    test "environment controller authenticated", %{conn: conn} do
-      conn =
-        post(conn, Routes.apps_path(conn, :create), %{
-          "name" => "test",
-          "service_name" => "test",
-          "color" => "ffffff",
-          "icon" => 12
+    @tag auth_users: [:dev, :user, :dev, :admin]
+    test "environment controller authenticated", %{users: [creator, user, other_dev, admin]} do
+      creator = create_app(creator)
+      assert %{"success" => true, "data" => %{"app" => app}} = json_response(creator, 200)
+
+      create_env_path = Routes.envs_path(creator, :create, app["id"])
+
+      creator =
+        post(creator, create_env_path, %{
+          "name" => "test_creator",
+          "is_ephemeral" => false
         })
 
-      {:ok, app} = Enum.fetch(Lenra.Repo.all(Lenra.LenraApplication), 0)
+      admin =
+        post(admin, create_env_path, %{
+          "name" => "test_admin",
+          "is_ephemeral" => false
+        })
 
-      post(conn, Routes.envs_path(conn, :create, app.id), %{
-        "name" => "test",
-        "is_ephemeral" => false
-      })
+      user =
+        post(user, create_env_path, %{
+          "name" => "test_user",
+          "is_ephemeral" => false
+        })
 
-      assert nil != LenraServices.EnvironmentServices.get_by(name: "test")
+      other_dev =
+        post(other_dev, create_env_path, %{
+          "name" => "test_other_dev",
+          "is_ephemeral" => false
+        })
+
+      assert %{"success" => true} = json_response(creator, 200)
+      assert %{"success" => true} = json_response(admin, 200)
+      assert %{"success" => false} = json_response(user, 403)
+      assert %{"success" => false} = json_response(other_dev, 403)
     end
 
-    @tag :user_authentication
+    @tag auth_user: :dev
     test "environment controller authenticated but invalid params", %{conn: conn} do
-      conn =
-        post(conn, Routes.apps_path(conn, :create), %{
-          "name" => "test",
-          "service_name" => "test",
-          "color" => "ffffff",
-          "icon" => 12
-        })
+      conn = create_app(conn)
 
-      {:ok, app} = Enum.fetch(Lenra.Repo.all(Lenra.LenraApplication), 0)
+      assert %{"success" => true, "data" => %{"app" => app}} = json_response(conn, 200)
 
       conn =
-        post(conn, Routes.envs_path(conn, :create, app.id), %{
+        post(conn, Routes.envs_path(conn, :create, app["id"]), %{
           "name" => 1234,
           "is_ephemeral" => "false"
         })

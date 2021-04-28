@@ -42,9 +42,11 @@ defmodule Lenra.MixProject do
       {:argon2_elixir, "~> 2.0"},
       {:bamboo, "~> 1.7.1"},
       {:bamboo_smtp, "~> 3.1.3"},
+      {:sentry, "~> 8.0"},
       {:bypass, "~> 2.0", only: :test},
       {:ui_validator, in_umbrella: true},
-      {:event_queue, in_umbrella: true}
+      {:event_queue, in_umbrella: true},
+      {:utilities, in_umbrella: true}
     ]
   end
 end

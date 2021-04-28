@@ -8,6 +8,7 @@ defmodule Lenra.Build do
 
   alias Lenra.{User, Build, LenraApplication}
 
+  @derive {Jason.Encoder, only: [:id, :commit_hash, :build_number, :status, :creator_id, :application_id]}
   schema "builds" do
     field(:commit_hash, :string)
     field(:build_number, :integer)

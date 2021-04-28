@@ -1,15 +1,14 @@
 defmodule LenraServers.ApplicationServicesTest do
-  use ExUnit.Case, async: false
-  use Lenra.RepoCase
+  use Lenra.RepoCase, async: true
 
-  alias LenraServices.LenraApplicationServices
+  alias Lenra.LenraApplicationServices
 
   @moduledoc """
     Test the application services
   """
 
   @tag :register_user
-  test "get app", %{user: user} do
+  test "fetch app", %{user: user} do
     params = %{
       name: "mine-sweeper",
       service_name: "mine-sweeper",
@@ -19,13 +18,13 @@ defmodule LenraServers.ApplicationServicesTest do
 
     LenraApplicationServices.create(user.id, params)
     |> case do
-      {:ok, %{inserted_application: app}} -> assert nil != LenraApplicationServices.get(app.id)
+      {:ok, %{inserted_application: app}} -> assert {:ok, _app} = LenraApplicationServices.fetch(app.id)
       {:error, _} -> assert false, "adding app failed"
     end
   end
 
   @tag :register_user
-  test "get app by", %{user: user} do
+  test "fetch app by", %{user: user} do
     params = %{
       name: "mine-sweeper",
       service_name: "mine-sweeper",
@@ -35,7 +34,7 @@ defmodule LenraServers.ApplicationServicesTest do
 
     LenraApplicationServices.create(user.id, params)
     |> case do
-      {:ok, %{inserted_application: app}} -> assert nil != LenraApplicationServices.get_by(name: app.name)
+      {:ok, %{inserted_application: app}} -> assert {:ok, _value} = LenraApplicationServices.fetch_by(name: app.name)
       {:error, _} -> assert false, "adding app failed"
     end
   end
@@ -51,10 +50,10 @@ defmodule LenraServers.ApplicationServicesTest do
 
     {:ok, %{inserted_application: app}} = LenraApplicationServices.create(user.id, params)
 
-    assert nil != LenraApplicationServices.get_by(name: "mine-sweeper")
+    assert {:ok, _app} = LenraApplicationServices.fetch_by(name: "mine-sweeper")
 
     LenraApplicationServices.delete(app)
 
-    assert nil == LenraApplicationServices.get_by(name: "mine-sweeper")
+    assert {:error, :error_404} == LenraApplicationServices.fetch_by(name: "mine-sweeper")
   end
 end

@@ -1,7 +1,6 @@
-defmodule LenraServices.EmailService do
+defmodule Lenra.EmailService do
   @moduledoc false
 
-  use Bamboo.Phoenix, view: LenraWeb.EmailView
   import Bamboo.Email
 
   def welcome_text_email(email_address, user_name, code) do

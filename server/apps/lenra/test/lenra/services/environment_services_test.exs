@@ -2,11 +2,9 @@ defmodule LenraServers.EnvironmentServicesTest do
   @moduledoc """
     Test the environment services
   """
-  use ExUnit.Case, async: false
-  use Lenra.RepoCase
+  use Lenra.RepoCase, async: true
 
-  alias LenraServices.{EnvironmentServices, LenraApplicationServices}
-  alias Lenra.{Environment, Repo, LenraApplication}
+  alias Lenra.{Repo, User, Environment, LenraApplication, EnvironmentServices, LenraApplicationServices}
 
   setup do
     {:ok, app: create_and_return_application()}
@@ -37,19 +35,19 @@ defmodule LenraServers.EnvironmentServicesTest do
     end
   end
 
-  describe "get by" do
+  describe "fetch by" do
     test "name", %{app: _app} do
-      assert nil != EnvironmentServices.get_by(name: "live")
+      assert {:ok, _env} = EnvironmentServices.fetch_by(name: "live")
     end
 
     test "ephemeral", %{app: _app} do
-      assert nil != EnvironmentServices.get_by(is_ephemeral: false)
+      assert {:ok, _env} = EnvironmentServices.fetch_by(is_ephemeral: false)
     end
   end
 
   describe "create" do
     test "environment successfully", %{app: app} do
-      {:ok, user} = Enum.fetch(Repo.all(Lenra.User), 0)
+      {:ok, user} = Enum.fetch(Repo.all(User), 0)
 
       EnvironmentServices.create(app.id, user.id, %{
         name: "test_env",
@@ -60,7 +58,7 @@ defmodule LenraServers.EnvironmentServicesTest do
     end
 
     test "environment but invalid params", %{app: app} do
-      {:ok, user} = Enum.fetch(Repo.all(Lenra.User), 0)
+      {:ok, user} = Enum.fetch(Repo.all(User), 0)
 
       error =
         EnvironmentServices.create(app.id, user.id, %{
@@ -74,14 +72,12 @@ defmodule LenraServers.EnvironmentServicesTest do
 
   describe "delete" do
     test "environment successfully", %{app: _app} do
-      env = EnvironmentServices.get_by(name: "live")
-
-      assert nil != env
+      assert {:ok, env} = EnvironmentServices.fetch_by(name: "live")
 
       EnvironmentServices.delete(env)
       |> Repo.transaction()
 
-      assert nil == EnvironmentServices.get_by(name: "live")
+      assert {:error, :error_404} == EnvironmentServices.fetch_by(name: "live")
     end
   end
 end

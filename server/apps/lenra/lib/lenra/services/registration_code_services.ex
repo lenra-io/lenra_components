@@ -1,4 +1,4 @@
-defmodule LenraServices.RegistrationCodeServices do
+defmodule Lenra.RegistrationCodeServices do
   @moduledoc """
     The user service.
   """

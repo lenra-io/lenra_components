@@ -22,7 +22,7 @@ defmodule Lenra.Application do
       # Start the json validator server for the UI
       UIValidator.JsonSchemata,
       # Start the Event Queue
-      {EventQueue, &LenraServices.LoadWorker.load/0},
+      {EventQueue, &Lenra.LoadWorker.load/0},
       # Start the HTTP Client
       {Finch, name: FaasHttp},
       AppChannelMonitor

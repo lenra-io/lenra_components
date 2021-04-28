@@ -1,8 +1,8 @@
 defmodule EventQueue do
   @moduledoc """
     Module principal de l'EventQueue.
-    Permet d'ajouter des worker avec `LenraServices.EventQueue.add_worker/2`.
-    Permet d'envoyer des évennements avec `LenraServices.EventQueue.add_event/2`
+    Permet d'ajouter des worker avec `EventQueue.add_worker/2`.
+    Permet d'envoyer des évennements avec `EventQueue.add_event/2`
   """
   use GenServer
 

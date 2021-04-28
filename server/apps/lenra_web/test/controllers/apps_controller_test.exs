@@ -1,8 +1,22 @@
 defmodule LenraWeb.AppsControllerTest do
-  use LenraWeb.ConnCase
+  use LenraWeb.ConnCase, async: true
+
+  alias Lenra.{Repo, LenraApplication}
 
   setup %{conn: conn} do
     {:ok, conn: conn}
+  end
+
+  defp create_app_test(conn) do
+    post(
+      conn,
+      Routes.apps_path(conn, :create, %{
+        "name" => "test",
+        "service_name" => "test",
+        "color" => "ffffff",
+        "icon" => 31
+      })
+    )
   end
 
   describe "index" do
@@ -15,18 +29,10 @@ defmodule LenraWeb.AppsControllerTest do
              }
     end
 
-    @tag :user_authentication
+    @tag auth_user: :dev
     test "apps controller authenticated", %{conn: conn} do
-      conn =
-        post(
-          conn,
-          Routes.apps_path(conn, :create, %{
-            "name" => "test",
-            "service_name" => "test",
-            "color" => "ffffff",
-            "icon" => 31
-          })
-        )
+      conn = create_app_test(conn)
+      assert %{"success" => true} = json_response(conn, 200)
 
       conn = get(conn, Routes.apps_path(conn, :index))
 
@@ -48,32 +54,23 @@ defmodule LenraWeb.AppsControllerTest do
   end
 
   describe "create" do
-    @tag :user_authentication
+    @tag auth_user: :dev
     test "apps controller authenticated", %{conn: conn} do
-      route = Routes.apps_path(conn, :create)
-      assert route == "/api/apps"
+      conn = create_app_test(conn)
+      assert %{"success" => true, "data" => %{"app" => app}} = json_response(conn, 200)
 
-      conn =
-        post(conn, route, %{
-          "name" => "test",
-          "service_name" => "test",
-          "color" => "FFFFFF",
-          "icon" => 1
-        })
+      user_id = Guardian.Plug.current_resource(conn).id
 
-      {:ok, app} = Enum.fetch(Lenra.Repo.all(Lenra.LenraApplication), 0)
-
-      assert %Lenra.LenraApplication{
-               color: "FFFFFF",
-               icon: 1,
-               name: "test",
-               service_name: "test"
+      assert %{
+               "color" => "ffffff",
+               "icon" => 31,
+               "name" => "test",
+               "service_name" => "test",
+               "creator_id" => ^user_id
              } = app
-
-      assert app.creator_id == Guardian.Plug.current_resource(conn)
     end
 
-    @tag :user_authentication
+    @tag auth_user: :dev
     test "apps controller authenticated but incorrect params", %{conn: conn} do
       conn =
         post(conn, Routes.apps_path(conn, :create), %{
@@ -88,29 +85,20 @@ defmodule LenraWeb.AppsControllerTest do
   end
 
   describe "delete" do
-    @tag :user_authentication
+    @tag auth_user: :dev
     test "apps controller authenticated", %{conn: conn} do
-      conn =
-        post(conn, Routes.apps_path(conn, :create), %{
-          "name" => "test",
-          "service_name" => "test",
-          "color" => "FFFFFF",
-          "icon" => 1
-        })
+      conn = create_app_test(conn)
 
-      {:ok, app} = Enum.fetch(Lenra.Repo.all(Lenra.LenraApplication), 0)
+      assert %{"success" => true, "data" => %{"app" => app}} = json_response(conn, 200)
 
-      route = Routes.apps_path(conn, :delete, app.service_name)
-      assert route == "/api/apps/#{app.service_name}"
-
-      conn = delete(conn, route)
+      conn = delete(conn, Routes.apps_path(conn, :delete, app["service_name"]))
 
       assert %{"success" => true} == json_response(conn, 200)
 
-      assert [] == Lenra.Repo.all(Lenra.LenraApplication)
+      assert [] == Repo.all(LenraApplication)
     end
 
-    @tag :user_authentication
+    @tag auth_user: :dev
     test "apps controller authenticated but app does not exist", %{conn: conn} do
       route = Routes.apps_path(conn, :delete, "test")
 
@@ -118,6 +106,49 @@ defmodule LenraWeb.AppsControllerTest do
 
       assert %{"errors" => [%{"code" => 404, "message" => "Not Found."}], "success" => false} ==
                json_response(conn, 404)
+    end
+
+    @tag auth_user: :user
+    test "create app user authenticated but not a dev or admin", %{conn: conn} do
+      conn = create_app_test(conn)
+
+      assert %{"success" => false, "errors" => [%{"code" => 403, "message" => "Forbidden"}]} = json_response(conn, 403)
+    end
+
+    @tag auth_user: :dev
+    test "create app user authenticated and is a dev", %{conn: conn} do
+      conn = create_app_test(conn)
+
+      assert %{"success" => true} = json_response(conn, 200)
+    end
+
+    @tag auth_user: :admin
+    test "create app user authenticated and is admin", %{conn: conn} do
+      conn = create_app_test(conn)
+
+      assert %{"success" => true} = json_response(conn, 200)
+    end
+
+    @tag auth_users: [:dev, :dev]
+    test "delete app not same user", %{users: [conn1, conn2]} do
+      conn1 = create_app_test(conn1)
+
+      assert %{"success" => true} = json_response(conn1, 200)
+
+      conn2 = delete(conn2, Routes.apps_path(conn2, :delete, "test"))
+      assert %{"success" => false, "errors" => [%{"code" => 403, "message" => "Forbidden"}]} = json_response(conn2, 403)
+
+      conn1 = delete(conn1, Routes.apps_path(conn1, :delete, "test"))
+      assert %{"success" => true} = json_response(conn1, 200)
+    end
+
+    @tag auth_users: [:dev, :admin]
+    test "delete app not same user but is admin", %{users: [conn1, conn2]} do
+      conn1 = create_app_test(conn1)
+      assert %{"success" => true} = json_response(conn1, 200)
+
+      conn2 = delete(conn2, Routes.apps_path(conn2, :delete, "test"))
+      assert %{"success" => true} = json_response(conn2, 200)
     end
   end
 end

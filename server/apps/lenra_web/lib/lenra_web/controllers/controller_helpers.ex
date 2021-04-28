@@ -14,6 +14,9 @@ defmodule LenraWeb.ControllerHelpers do
       :error_500 ->
         Plug.Conn.put_status(conn, 500)
 
+      :forbidden ->
+        Plug.Conn.put_status(conn, 403)
+
       _ ->
         conn
     end

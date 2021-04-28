@@ -1,16 +1,18 @@
 defmodule LenraWeb.Router do
   use LenraWeb, :router
 
+  alias Lenra.Guardian.{EnsureAuthenticatedPipeline, RefreshPipeline}
+
   pipeline :api do
     plug :accepts, ["json"]
   end
 
   pipeline :ensure_auth do
-    plug Lenra.Guardian.EnsureAuthenticatedPipeline
+    plug EnsureAuthenticatedPipeline
   end
 
   pipeline :ensure_auth_refresh do
-    plug Lenra.Guardian.RefreshPipeline
+    plug RefreshPipeline
   end
 
   scope "/auth", LenraWeb do

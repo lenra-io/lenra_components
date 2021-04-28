@@ -6,10 +6,10 @@ defmodule Lenra.ClientAppMeasurement do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias Lenra.ClientAppMeasurement
+  alias Lenra.{User, ClientAppMeasurement}
 
   schema "client_app_measurements" do
-    belongs_to(:user, Lenra.User)
+    belongs_to(:user, User)
     field(:application_name, :string)
     field(:duration, :integer)
 

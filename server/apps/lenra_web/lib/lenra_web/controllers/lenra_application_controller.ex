@@ -1,70 +1,49 @@
 defmodule LenraWeb.AppsController do
   use LenraWeb, :controller
-  require Logger
 
-  alias LenraServices.LenraApplicationServices
+  use LenraWeb.Policy,
+    module: LenraWeb.AppsController.Policy
+
+  require(Logger)
+
+  alias Lenra.LenraApplicationServices
+  alias Lenra.Guardian.Plug
 
   def index(conn, _params) do
-    raw_app_list = LenraApplicationServices.all()
-
-    app_list =
-      Enum.map(raw_app_list, fn app ->
-        %{
-          "id" => app.id,
-          "name" => app.name,
-          "service_name" => app.service_name,
-          "icon" => app.icon,
-          "color" => app.color
-        }
-      end)
-
-    conn
-    |> assign_data(:apps, app_list)
-    |> reply
+    with :ok <- allow(conn),
+         apps <- LenraApplicationServices.all() do
+      conn
+      |> assign_data(:apps, apps)
+      |> reply
+    end
   end
 
   def create(conn, params) do
-    res =
-      Guardian.Plug.current_resource(conn)
-      |> LenraApplicationServices.create(params)
-
-    conn
-    |> handle_create(res)
-    |> reply
-  end
-
-  defp handle_create(conn, {:error, _, failed_value, _}) do
-    assign_error(conn, failed_value)
-  end
-
-  defp handle_create(conn, {:ok, app}) do
-    assign(conn, :lenra_applications, app)
+    with :ok <- allow(conn),
+         user <- Plug.current_resource(conn),
+         {:ok, %{inserted_application: app}} <- LenraApplicationServices.create(user.id, params) do
+      conn
+      |> assign_data(:app, app)
+      |> reply
+    end
   end
 
   def delete(conn, %{"name" => app_name}) do
-    res =
-      case LenraApplicationServices.get_by(name: app_name) do
-        nil ->
-          {:error, :error_404}
-
-        app ->
-          LenraApplicationServices.delete(app)
-      end
-
-    conn
-    |> handle_delete(res)
-    |> reply
+    with {:ok, app} <- LenraApplicationServices.fetch_by(name: app_name),
+         :ok <- allow(conn, app),
+         {:ok, _} <- LenraApplicationServices.delete(app) do
+      reply(conn)
+    end
   end
+end
 
-  defp handle_delete(conn, {:error, _, reason, _}) do
-    assign_error(conn, reason)
-  end
+defmodule LenraWeb.AppsController.Policy do
+  alias Lenra.{User, LenraApplication}
 
-  defp handle_delete(conn, {:error, reason}) do
-    assign_error(conn, reason)
-  end
+  @impl Bouncer.Policy
+  def authorize(:index, _, _), do: true
+  def authorize(:create, %User{role: :dev}, _), do: true
+  def authorize(:delete, %User{id: user_id}, %LenraApplication{creator_id: user_id}), do: true
 
-  defp handle_delete(conn, {:ok, %{deleted_application: app}}) do
-    assign(conn, :deleted_app, app)
-  end
+  use LenraWeb.Policy.Default
 end

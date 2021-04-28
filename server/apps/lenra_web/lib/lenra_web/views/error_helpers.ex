@@ -19,7 +19,8 @@ defmodule LenraWeb.ErrorHelpers do
     wrong_environment: %{code: 10, message: "Deployment env not equals to build env"},
     error_404: %{code: 404, message: "Not Found."},
     error_500: %{code: 500, message: "Internal server error."},
-    openfaas_not_reachable: %{code: 1000, message: "Openfaas is not accessible"}
+    openfaas_not_reachable: %{code: 1000, message: "Openfaas is not accessible"},
+    forbidden: %{code: 403, message: "Forbidden"}
   ]
 
   def translate_errors([]), do: []

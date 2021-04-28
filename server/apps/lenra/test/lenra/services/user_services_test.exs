@@ -1,7 +1,6 @@
 defmodule UserServicesTest do
-  use Lenra.RepoCase
-  alias Lenra.User
-  alias LenraServices.UserServices
+  use Lenra.RepoCase, async: true
+  alias Lenra.{User, UserServices}
 
   test "register user should succeed" do
     {:ok, %{inserted_user: user, inserted_registration_code: registration_code}} = register_john_doe()
@@ -9,7 +8,7 @@ defmodule UserServicesTest do
     assert user.first_name == "John"
     assert user.last_name == "Doe"
     assert user.email == "john.doe@lenra.fr"
-    assert user.role == User.const_unvalidated_user_role()
+    assert user.role == :unverified_user
 
     assert String.length(registration_code.code) == 8
   end

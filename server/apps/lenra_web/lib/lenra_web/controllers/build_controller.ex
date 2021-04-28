@@ -1,61 +1,50 @@
 defmodule LenraWeb.BuildsController do
   use LenraWeb, :controller
 
-  def index(conn, params) do
-    raw_build_list = LenraServices.BuildServices.all(params["app_id"])
+  use LenraWeb.Policy,
+    module: LenraWeb.BuildsController.Policy
 
-    build_list =
-      Enum.map(raw_build_list, fn build ->
-        %{
-          "id" => build.id,
-          "commit_hash" => build.commit_hash,
-          "build_number" => build.build_number,
-          "status" => build.status,
-          "creator_id" => build.creator_id,
-          "application_id" => build.application_id
-        }
-      end)
+  alias Lenra.{LenraApplicationServices, BuildServices}
 
-    conn
-    |> assign_data(:builds, build_list)
-    |> reply
+  def index(conn, %{"app_id" => app_id}) do
+    with {:ok, app} <- LenraApplicationServices.fetch(app_id),
+         :ok <- allow(conn, app) do
+      conn
+      |> assign_data(:builds, BuildServices.all(app.id))
+      |> reply
+    end
   end
 
-  def update(conn, params) do
-    build = LenraServices.BuildServices.get(params["id"])
-
-    res = LenraServices.BuildServices.update(build, params)
-
-    conn
-    |> handle_update(res)
-    |> reply
+  def update(conn, %{"id" => build_id} = params) do
+    with {:ok, build} <- BuildServices.fetch(build_id),
+         :ok <- allow(conn, build),
+         {:ok, %{updated_build: updated_build}} <- BuildServices.update(build, params) do
+      conn
+      |> assign_data(:build, updated_build)
+      |> reply
+    end
   end
 
-  defp handle_update(conn, {:ok, %{updated_build: build}}) do
-    assign(conn, :updated_build, build)
+  def create(conn, %{"app_id" => app_id_str} = params) do
+    with {app_id, _} <- Integer.parse(app_id_str),
+         user <- Guardian.Plug.current_resource(conn),
+         {:ok, app} <- LenraApplicationServices.fetch(app_id),
+         :ok <- allow(conn, app),
+         {:ok, %{inserted_build: build}} <- BuildServices.create(user.id, app.id, params) do
+      conn
+      |> assign_data(:build, build)
+      |> reply
+    end
   end
+end
 
-  defp handle_update(conn, {:error, _, failed_value, _}) do
-    assign_error(conn, failed_value)
-  end
+defmodule LenraWeb.BuildsController.Policy do
+  alias Lenra.{User, Build, LenraApplication}
 
-  def create(conn, params) do
-    {app_id, _} = Integer.parse(params["app_id"])
+  @impl Bouncer.Policy
+  def authorize(:index, %User{id: user_id}, %LenraApplication{creator_id: user_id}), do: true
+  def authorize(:create, %User{id: user_id}, %LenraApplication{creator_id: user_id}), do: true
+  def authorize(:update, %User{id: user_id}, %Build{creator_id: user_id}), do: true
 
-    res =
-      Guardian.Plug.current_resource(conn)
-      |> LenraServices.BuildServices.create(app_id, params)
-
-    conn
-    |> handle_create(res)
-    |> reply
-  end
-
-  defp handle_create(conn, {:error, _, failed_value, _}) do
-    assign_error(conn, failed_value)
-  end
-
-  defp handle_create(conn, {:ok, %{inserted_build: build}}) do
-    assign(conn, :inserted_build, build)
-  end
+  use LenraWeb.Policy.Default
 end

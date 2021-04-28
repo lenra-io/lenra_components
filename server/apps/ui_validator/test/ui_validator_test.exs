@@ -1,4 +1,4 @@
-defmodule LenraServices.UIValidatorTest do
+defmodule UiValidator.UIValidatorTest do
   use ExUnit.Case, async: true
 
   @moduledoc """

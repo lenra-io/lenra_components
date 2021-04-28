@@ -20,6 +20,14 @@ defmodule LenraWeb.ErrorView do
     %{"errors" => [%{code: 401, message: "Unauthorized"}], "success" => false}
   end
 
+  def render("403.json", %{message: message}) do
+    %{"errors" => [%{code: 403, message: message}], "success" => false}
+  end
+
+  def render("403.json", _assigns) do
+    %{"errors" => [%{code: 403, message: "Forbidden"}], "success" => false}
+  end
+
   # By default, Phoenix returns the status message from
   # the template name. For example, "404.json" becomes
   # "Not Found".

@@ -1,8 +1,7 @@
 defmodule LenraServers.DatastoreServicesTest do
-  use ExUnit.Case
-  use Lenra.RepoCase
+  use Lenra.RepoCase, async: true
 
-  alias LenraServices.{DatastoreServices, LenraApplicationServices}
+  alias Lenra.{Repo, Datastore, DatastoreServices, LenraApplicationServices, LenraApplication}
 
   @moduledoc """
     Test the datastore services
@@ -22,7 +21,7 @@ defmodule LenraServers.DatastoreServicesTest do
       icon: "60189"
     })
 
-    Enum.at(Lenra.Repo.all(Lenra.LenraApplication), 0)
+    Enum.at(Repo.all(LenraApplication), 0)
   end
 
   describe "get" do
@@ -32,14 +31,15 @@ defmodule LenraServers.DatastoreServicesTest do
 
     test "data from existing datastore", %{app: app} do
       DatastoreServices.upsert_data(app.creator_id, app.id, %{"data" => "test data"})
-      assert %{"data" => "test data"} == DatastoreServices.get_datastore_data(app.creator_id, app.id)
+
+      assert %{"data" => "test data"} ==
+               DatastoreServices.get_datastore_data(app.creator_id, app.id)
     end
 
     test "datastore", %{app: app} do
       DatastoreServices.upsert_data(app.creator_id, app.id, %{"data" => "test data"})
 
-      assert (%Lenra.Datastore{} = datastore) =
-               DatastoreServices.get_by(user_id: app.creator_id, application_id: app.id)
+      assert (%Datastore{} = datastore) = DatastoreServices.get_by(user_id: app.creator_id, application_id: app.id)
 
       assert datastore.user_id == app.creator_id
       assert datastore.application_id == app.id
@@ -54,12 +54,11 @@ defmodule LenraServers.DatastoreServicesTest do
   describe "insert" do
     test "data", %{app: app} do
       assert {:ok,
-              %Lenra.Datastore{
+              %Datastore{
                 data: %{"data" => "test data"}
               }} = DatastoreServices.upsert_data(app.creator_id, app.id, %{"data" => "test data"})
 
-      assert (%Lenra.Datastore{} = datastore) =
-               Lenra.Repo.get_by(Lenra.Datastore, user_id: app.creator_id, application_id: app.id)
+      assert (%Datastore{} = datastore) = Repo.get_by(Datastore, user_id: app.creator_id, application_id: app.id)
 
       assert datastore.data == %{"data" => "test data"}
     end
@@ -67,11 +66,10 @@ defmodule LenraServers.DatastoreServicesTest do
     test "and check updated data", %{app: app} do
       DatastoreServices.upsert_data(app.creator_id, app.id, %{"data" => "test data"})
 
-      assert {:ok, %Lenra.Datastore{data: %{"data" => "test new data"}}} =
+      assert {:ok, %Datastore{data: %{"data" => "test new data"}}} =
                DatastoreServices.upsert_data(app.creator_id, app.id, %{"data" => "test new data"})
 
-      assert (%Lenra.Datastore{} = datastore) =
-               Lenra.Repo.get_by(Lenra.Datastore, user_id: app.creator_id, application_id: app.id)
+      assert (%Datastore{} = datastore) = Repo.get_by(Datastore, user_id: app.creator_id, application_id: app.id)
 
       assert datastore.data == %{"data" => "test new data"}
     end

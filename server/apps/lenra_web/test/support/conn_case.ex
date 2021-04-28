@@ -36,20 +36,56 @@ defmodule LenraWeb.ConnCase do
   setup tags do
     :ok = Sandbox.checkout(Lenra.Repo)
 
-    conn = Phoenix.ConnTest.build_conn()
+    unless tags[:async] do
+      Sandbox.mode(Lenra.Repo, {:shared, self()})
+    end
 
-    conn =
-      if tags[:user_authentication] do
-        {:ok, %{inserted_user: user}} = UserTestHelper.register_john_doe()
-        {:ok, jwt, _} = Lenra.Guardian.encode_and_sign(user, %{typ: "access", role: user.role})
+    map = %{conn: Phoenix.ConnTest.build_conn()}
 
-        conn
-        |> Plug.Conn.put_req_header("accept", "application/json")
-        |> Plug.Conn.put_req_header("authorization", "Bearer " <> jwt)
-      else
-        conn
-      end
+    map = auth_user(map, tags)
 
-    {:ok, conn: conn}
+    map = auth_users(map, tags)
+
+    {:ok, map}
+  end
+
+  defp auth_users(map, tags) do
+    case tags[:auth_users] do
+      roles when is_list(roles) -> Map.put(map, :users, auth_users(roles))
+      _ -> Map.put(map, :users, [])
+    end
+  end
+
+  defp auth_user(%{conn: conn} = map, tags) do
+    case tags[:auth_user] do
+      false -> map
+      nil -> map
+      true -> Map.put(map, :conn, auth_john_doe(conn))
+      role -> Map.put(map, :conn, auth_john_doe(conn, %{"role" => role}))
+    end
+  end
+
+  defp auth_users(users_role) do
+    users_role
+    |> Enum.with_index()
+    |> Enum.map(fn {role, idx} ->
+      conn = Phoenix.ConnTest.build_conn()
+      {:ok, %{inserted_user: user}} = UserTestHelper.register_user_nb(idx, role)
+      conn_user(conn, user)
+    end)
+  end
+
+  defp auth_john_doe(conn, params \\ %{}) do
+    {:ok, %{inserted_user: user}} = UserTestHelper.register_john_doe(params)
+    conn_user(conn, user)
+  end
+
+  defp conn_user(conn, user) do
+    {:ok, jwt, _} = Lenra.Guardian.encode_and_sign(user, %{typ: "access", role: user.role})
+
+    conn
+    |> Plug.Conn.put_req_header("accept", "application/json")
+    |> Plug.Conn.put_req_header("authorization", "Bearer " <> jwt)
+    |> Plug.Conn.assign(:user, user)
   end
 end

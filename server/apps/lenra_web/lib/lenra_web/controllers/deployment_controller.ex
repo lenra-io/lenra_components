@@ -1,21 +1,29 @@
 defmodule LenraWeb.DeploymentsController do
   use LenraWeb, :controller
 
-  def create(conn, params) do
-    publisher_id = Guardian.Plug.current_resource(conn)
+  use LenraWeb.Policy,
+    module: LenraWeb.DeploymentsController.Policy
 
-    res = LenraServices.DeploymentServices.create(params["environment_id"], params["build_id"], publisher_id, params)
+  alias Lenra.{DeploymentServices, EnvironmentServices}
 
-    conn
-    |> handle_create(res)
-    |> reply
+  def create(conn, %{"environment_id" => env_id, "build_id" => build_id} = params) do
+    with user <- Guardian.Plug.current_resource(conn),
+         {:ok, environment} <- EnvironmentServices.fetch(env_id),
+         :ok <- allow(conn, environment),
+         {:ok, %{inserted_deployment: deployment}} <-
+           DeploymentServices.create(env_id, build_id, user.id, params) do
+      conn
+      |> assign_data(:deployment, deployment)
+      |> reply
+    end
   end
+end
 
-  defp handle_create(conn, {:ok, %{inserted_deployment: deployment}}) do
-    assign(conn, :inserted_deployment, deployment)
-  end
+defmodule LenraWeb.DeploymentsController.Policy do
+  alias Lenra.{User, Environment}
 
-  defp handle_create(conn, {:error, _, failed_value, _}) do
-    assign_error(conn, failed_value)
-  end
+  @impl Bouncer.Policy
+  def authorize(:create, %User{id: user_id}, %Environment{creator_id: user_id}), do: true
+
+  use LenraWeb.Policy.Default
 end

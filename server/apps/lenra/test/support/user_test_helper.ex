@@ -3,7 +3,7 @@ defmodule UserTestHelper do
     Test helper for user
   """
 
-  alias LenraServices.UserServices
+  alias Lenra.UserServices
 
   @john_doe_user_params %{
     "first_name" => "John",
@@ -13,23 +13,27 @@ defmodule UserTestHelper do
     "password_confirmation" => "johndoethefirst"
   }
 
+  def param_user(idx) do
+    %{
+      "first_name" => "John #{idx}",
+      "last_name" => "Doe #{idx}",
+      "email" => "john.doe#{idx}@lenra.fr",
+      "password" => "johndoethefirst",
+      "password_confirmation" => "johndoethefirst"
+    }
+  end
+
   def register_user(params) do
-    UserServices.register(params)
+    UserServices.register(params, params["role"])
+  end
+
+  def register_user_nb(idx, role) do
+    UserServices.register(param_user(idx), role)
   end
 
   def register_john_doe(changes \\ %{}) do
     @john_doe_user_params
     |> Map.merge(changes)
     |> register_user()
-  end
-
-  def get_john_doe_access_token do
-    {:ok, %{user: user}} = register_john_doe()
-    get_access_token(user)
-  end
-
-  def get_access_token(user) do
-    {:ok, token, _} = Lenra.Guardian.encode_and_sign(user)
-    token
   end
 end

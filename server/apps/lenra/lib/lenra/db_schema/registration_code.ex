@@ -5,9 +5,11 @@ defmodule Lenra.RegistrationCode do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Lenra.User
+
   schema "registration_codes" do
     field(:code, :string)
-    belongs_to(:user, Lenra.User)
+    belongs_to(:user, User)
     timestamps()
   end
 

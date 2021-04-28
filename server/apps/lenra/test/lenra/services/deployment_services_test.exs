@@ -2,12 +2,20 @@ defmodule LenraServers.DeploymentServicesTest do
   @moduledoc """
     Test the deployment services
   """
-  use ExUnit.Case, async: false
-  use Lenra.RepoCase
+  use Lenra.RepoCase, async: true
 
   alias Lenra.FaasStub, as: AppStub
-  alias LenraServices.{BuildServices, LenraApplicationServices, DeploymentServices}
-  alias Lenra.{Build, Repo, Environment, Deployment}
+
+  alias Lenra.{
+    Repo,
+    Build,
+    Environment,
+    Deployment,
+    LenraApplication,
+    BuildServices,
+    LenraApplicationServices,
+    DeploymentServices
+  }
 
   setup do
     {:ok, app: create_and_return_application()}
@@ -23,7 +31,7 @@ defmodule LenraServers.DeploymentServicesTest do
       icon: "60189"
     })
 
-    app = Enum.at(Lenra.Repo.all(Lenra.LenraApplication), 0)
+    app = Enum.at(Repo.all(LenraApplication), 0)
 
     BuildServices.create(app.creator_id, app.id, %{
       commit_hash: "abcdef"
@@ -41,8 +49,8 @@ defmodule LenraServers.DeploymentServicesTest do
       AppStub.create_faas_stub()
       |> AppStub.expect_deploy_app_once(%{"ok" => "200"})
 
-      env = Enum.at(Lenra.Repo.all(Environment), 0)
-      build = Enum.at(Lenra.Repo.all(Build), 0)
+      env = Enum.at(Repo.all(Environment), 0)
+      build = Enum.at(Repo.all(Build), 0)
 
       DeploymentServices.create(env.id, build.id, app.creator_id)
 
@@ -57,8 +65,8 @@ defmodule LenraServers.DeploymentServicesTest do
       AppStub.create_faas_stub()
       |> AppStub.expect_deploy_app_once(%{"ok" => "200"})
 
-      env = Enum.at(Lenra.Repo.all(Environment), 0)
-      build = Enum.at(Lenra.Repo.all(Build), 0)
+      env = Enum.at(Repo.all(Environment), 0)
+      build = Enum.at(Repo.all(Build), 0)
 
       DeploymentServices.create(env.id, build.id, app.creator_id)
 
@@ -73,8 +81,8 @@ defmodule LenraServers.DeploymentServicesTest do
       AppStub.create_faas_stub()
       |> AppStub.expect_deploy_app_once(%{"ok" => "200"})
 
-      env = Enum.at(Lenra.Repo.all(Environment), 0)
-      build = Enum.at(Lenra.Repo.all(Build), 0)
+      env = Enum.at(Repo.all(Environment), 0)
+      build = Enum.at(Repo.all(Build), 0)
 
       DeploymentServices.create(env.id, build.id, app.creator_id)
 
@@ -91,7 +99,7 @@ defmodule LenraServers.DeploymentServicesTest do
           icon: "60189"
         })
 
-      build = Enum.at(Lenra.Repo.all(Build), 0)
+      build = Enum.at(Repo.all(Build), 0)
       error = DeploymentServices.create(wrong_env.id, build.id, app.creator_id)
 
       assert {:error, :inserted_deployment, _, _} = error
@@ -104,8 +112,8 @@ defmodule LenraServers.DeploymentServicesTest do
       AppStub.create_faas_stub()
       |> AppStub.expect_deploy_app_once(%{"ok" => "200"})
 
-      env = Enum.at(Lenra.Repo.all(Environment), 0)
-      build = Enum.at(Lenra.Repo.all(Build), 0)
+      env = Enum.at(Repo.all(Environment), 0)
+      build = Enum.at(Repo.all(Build), 0)
 
       DeploymentServices.create(env.id, build.id, app.creator_id)
 

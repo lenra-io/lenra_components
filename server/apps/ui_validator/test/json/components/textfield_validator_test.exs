@@ -1,4 +1,4 @@
-defmodule LenraServices.TextfieldValidatorTest do
+defmodule UiValidator.TextfieldValidatorTest do
   use ExUnit.Case, async: true
 
   @moduledoc """

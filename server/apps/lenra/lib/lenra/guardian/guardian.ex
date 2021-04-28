@@ -7,17 +7,19 @@ defmodule Lenra.Guardian do
 
   require Logger
 
+  alias Lenra.UserServices
+
   def subject_for_token(user, _claims) do
     {:ok, to_string(user.id)}
   end
 
   def resource_from_claims(%{"sub" => id_string}) do
-    case Integer.parse(id_string) do
-      {id, _} ->
-        {:ok, id}
-
-      :error ->
+    case UserServices.get(id_string) do
+      nil ->
         raise "Cannot parse subject from claims"
+
+      user ->
+        {:ok, user}
     end
   end
 

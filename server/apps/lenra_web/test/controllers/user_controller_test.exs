@@ -5,6 +5,8 @@ defmodule LenraWeb.UserControllerTest do
   use LenraWeb.ConnCase
   use Bamboo.Test, shared: true
 
+  alias Lenra.{Repo, User, PasswordCode}
+
   @john_doe_user_params %{
     "first_name" => "John",
     "last_name" => "Doe",
@@ -69,8 +71,10 @@ defmodule LenraWeb.UserControllerTest do
   test "refresh not authenticated test", %{conn: conn} do
     conn = post(conn, Routes.user_path(conn, :refresh))
 
-    assert %{"errors" => [%{"code" => 401, "message" => "You are not authenticated"}], "success" => false} =
-             json_response(conn, 401)
+    assert %{
+             "errors" => [%{"code" => 401, "message" => "You are not authenticated"}],
+             "success" => false
+           } = json_response(conn, 401)
   end
 
   test "refresh authenticated test", %{conn: conn} do
@@ -95,9 +99,9 @@ defmodule LenraWeb.UserControllerTest do
     assert_receive({:delivered_email, _email})
 
     email = @john_doe_user_params["email"]
-    user = Lenra.Repo.get_by(Lenra.User, email: email)
+    user = Repo.get_by(User, email: email)
 
-    user = Lenra.Repo.preload(user, :registration_code)
+    user = Repo.preload(user, :registration_code)
 
     conn =
       post(
@@ -117,18 +121,21 @@ defmodule LenraWeb.UserControllerTest do
     assert %{"errors" => [%{"code" => 5, "message" => "No such registration code"}]} = json_response(conn, 200)
   end
 
-  @tag :user_authentication
+  @tag :auth_user
   test "change password test", %{conn: conn} do
     new_password = "newpassword"
 
-    put(
-      conn,
-      Routes.user_path(conn, :password_modification, %{
-        "old_password" => "johndoethefirst",
-        "password" => new_password,
-        "password_confirmation" => new_password
-      })
-    )
+    conn2 =
+      put(
+        conn,
+        Routes.user_path(conn, :password_modification, %{
+          "old_password" => "johndoethefirst",
+          "password" => new_password,
+          "password_confirmation" => new_password
+        })
+      )
+
+    assert %{"success" => true} = json_response(conn2, 200)
 
     conn =
       post(
@@ -143,7 +150,7 @@ defmodule LenraWeb.UserControllerTest do
     assert Map.has_key?(data, "access_token")
   end
 
-  @tag :user_authentication
+  @tag :auth_user
   test "change password error test", %{conn: conn} do
     conn =
       put(
@@ -157,14 +164,15 @@ defmodule LenraWeb.UserControllerTest do
 
     assert %{
              "success" => false,
-             "errors" => [%{"code" => 8, "message" => "Your password cannot be equal to the last 3."}]
+             "errors" => [
+               %{"code" => 8, "message" => "Your password cannot be equal to the last 3."}
+             ]
            } = json_response(conn, 200)
   end
 
+  @tag :auth_user
   test "change lost password test", %{conn: conn} do
     new_password = "new_password"
-
-    conn = post(conn, Routes.user_path(conn, :register, @john_doe_user_params))
 
     conn =
       post(
@@ -174,8 +182,8 @@ defmodule LenraWeb.UserControllerTest do
         })
       )
 
-    [user | _tails] = Lenra.Repo.all(Lenra.User)
-    password_code = Lenra.Repo.get_by(Lenra.PasswordCode, user_id: user.id)
+    user = Repo.get_by(User, email: @john_doe_user_params["email"])
+    password_code = Repo.get_by(PasswordCode, user_id: user.id)
 
     conn =
       put(
@@ -226,8 +234,10 @@ defmodule LenraWeb.UserControllerTest do
         })
       )
 
-    assert %{"success" => false, "errors" => [%{"code" => 6, "message" => "No such password lost code"}]} =
-             json_response(conn, 200)
+    assert %{
+             "success" => false,
+             "errors" => [%{"code" => 6, "message" => "No such password lost code"}]
+           } = json_response(conn, 200)
   end
 
   test "change lost password error password test", %{conn: conn} do
@@ -235,8 +245,8 @@ defmodule LenraWeb.UserControllerTest do
 
     post(conn, Routes.user_path(conn, :password_lost_code, @john_doe_user_params))
 
-    [user | _tails] = Lenra.Repo.all(Lenra.User)
-    password_code = Lenra.Repo.get_by(Lenra.PasswordCode, user_id: user.id)
+    [user | _tails] = Repo.all(User)
+    password_code = Repo.get_by(PasswordCode, user_id: user.id)
 
     conn =
       put(
@@ -251,11 +261,13 @@ defmodule LenraWeb.UserControllerTest do
 
     assert %{
              "success" => false,
-             "errors" => [%{"code" => 8, "message" => "Your password cannot be equal to the last 3."}]
+             "errors" => [
+               %{"code" => 8, "message" => "Your password cannot be equal to the last 3."}
+             ]
            } = json_response(conn, 200)
   end
 
-  @tag :user_authentication
+  @tag :auth_user
   test "change password code 4 time with password 1 test", %{conn: conn} do
     new_password = "newpassword"
     new_password_2 = "newpassword2"

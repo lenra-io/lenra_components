@@ -1,8 +1,10 @@
-defmodule LenraServices.Openfaas do
+defmodule Lenra.Openfaas do
   @moduledoc """
     The service that manage calls to an Openfaas action with `run_action/3`
   """
   require Logger
+
+  alias Lenra.Telemetry
 
   defp get_http_context do
     base_url = Application.fetch_env!(:lenra, :faas_url)
@@ -38,14 +40,14 @@ defmodule LenraServices.Openfaas do
 
     Logger.info("Run app #{app_name} with action #{action_code}")
 
-    start_time = Lenra.Telemetry.start(:openfaas_runaction)
+    start_time = Telemetry.start(:openfaas_runaction)
 
     response =
       Finch.build(:post, url, headers, body)
       |> Finch.request(FaasHttp)
       |> response(:get_apps)
 
-    Lenra.Telemetry.stop(:openfaas_runaction, start_time, %{application_name: app_name, user_id: client_id})
+    Telemetry.stop(:openfaas_runaction, start_time, %{application_name: app_name, user_id: client_id})
 
     response
   end

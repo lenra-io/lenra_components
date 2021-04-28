@@ -5,6 +5,8 @@ defmodule AppChannelMonitor do
 
   use GenServer
 
+  alias Lenra.Telemetry
+
   def monitor(pid, metadata) do
     GenServer.call(__MODULE__, {:monitor, pid, metadata})
   end
@@ -20,7 +22,7 @@ defmodule AppChannelMonitor do
   def handle_call({:monitor, pid, metadata}, _from, state) do
     Process.monitor(pid)
 
-    start_time = Lenra.Telemetry.start(:client_app_channel)
+    start_time = Telemetry.start(:client_app_channel)
 
     {:reply, :ok, Map.put(state, pid, {start_time, metadata})}
   end
@@ -28,7 +30,7 @@ defmodule AppChannelMonitor do
   def handle_info({:DOWN, _ref, :process, pid, _reason}, state) do
     {{start_time, metadata}, new_state} = Map.pop(state, pid)
 
-    Lenra.Telemetry.stop(:client_app_channel, start_time, metadata)
+    Telemetry.stop(:client_app_channel, start_time, metadata)
 
     {:noreply, new_state}
   end

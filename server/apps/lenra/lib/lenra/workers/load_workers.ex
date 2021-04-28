@@ -1,8 +1,8 @@
-defmodule LenraServices.LoadWorker do
+defmodule Lenra.LoadWorker do
   @moduledoc """
     function to load worker in eventQueue
   """
-  alias LenraServices.EmailWorker
+  alias Lenra.EmailWorker
 
   def load do
     EventQueue.add_worker(EmailWorker, :email_verification)

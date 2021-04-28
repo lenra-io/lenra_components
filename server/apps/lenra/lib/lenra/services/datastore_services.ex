@@ -1,8 +1,10 @@
-defmodule LenraServices.DatastoreServices do
+defmodule Lenra.DatastoreServices do
   @moduledoc """
     The service that manages the different possible actions on a datastore.
   """
   require Logger
+
+  alias Lenra.{Repo, Datastore}
 
   @doc """
     Gets the datastore.
@@ -11,7 +13,7 @@ defmodule LenraServices.DatastoreServices do
     Returns a `Lenra.Datastore` if the datastore exists.
   """
   def get_by(clauses) do
-    Lenra.Repo.get_by(Lenra.Datastore, clauses)
+    Repo.get_by(Datastore, clauses)
   end
 
   @doc """
@@ -34,8 +36,8 @@ defmodule LenraServices.DatastoreServices do
   Returns `{:error, changeset}` if the data could not be inserted or updated.
   """
   def upsert_data(user_id, application_id, data) do
-    Lenra.Datastore.new(user_id, application_id, data)
-    |> Lenra.Repo.insert(
+    Datastore.new(user_id, application_id, data)
+    |> Repo.insert(
       on_conflict: [set: [data: data]],
       conflict_target: [:user_id, :application_id]
     )

@@ -1,9 +1,7 @@
 defmodule LenraServers.ClientAppMeasurementServicesTest do
-  use ExUnit.Case
-  use Lenra.RepoCase
+  use Lenra.RepoCase, async: true
 
-  alias LenraServices.ClientAppMeasurementServices
-  alias Lenra.ClientAppMeasurement
+  alias Lenra.{ClientAppMeasurement, ClientAppMeasurementServices}
 
   @moduledoc """
     Test the client app measurement services

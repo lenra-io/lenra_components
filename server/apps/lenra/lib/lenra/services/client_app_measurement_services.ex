@@ -1,11 +1,10 @@
-defmodule LenraServices.ClientAppMeasurementServices do
+defmodule Lenra.ClientAppMeasurementServices do
   @moduledoc """
     The service that manages the client's applications measurements.
   """
   require Logger
 
-  alias Lenra.ClientAppMeasurement
-  alias Lenra.Repo
+  alias Lenra.{Repo, ClientAppMeasurement}
 
   def get(id) do
     Repo.get(ClientAppMeasurement, id)

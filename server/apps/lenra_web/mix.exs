@@ -11,7 +11,7 @@ defmodule LenraWeb.MixProject do
       lockfile: "../../mix.lock",
       elixir: "~> 1.11",
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: [:phoenix] ++ Mix.compilers,
+      compilers: [:phoenix] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
       deps: deps()
@@ -41,7 +41,9 @@ defmodule LenraWeb.MixProject do
       {:phoenix_ecto, "~> 4.1"},
       {:cors_plug, "~> 2.0"},
       {:sentry, "~> 8.0"},
-      {:lenra, in_umbrella: true}
+      {:peerage, "~> 1.0"},
+      {:lenra, in_umbrella: true},
+      {:utilities, in_umbrella: true}
     ]
   end
 end

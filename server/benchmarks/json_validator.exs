@@ -1,4 +1,4 @@
-alias LenraServices.JsonValidator
+alias UiValidator.JsonValidator
 
 schema = JsonValidator.resolve_schema("ui_validator.schema.json")
 

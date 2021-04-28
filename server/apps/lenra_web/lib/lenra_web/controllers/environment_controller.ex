@@ -1,42 +1,44 @@
 defmodule LenraWeb.EnvsController do
   use LenraWeb, :controller
 
+  use LenraWeb.Policy,
+    module: LenraWeb.EnvsController.Policy
+
+  alias Lenra.{EnvironmentServices, LenraApplicationServices}
+
+  defp get_app_and_allow(conn, %{"app_id" => app_id_str}) do
+    with {app_id, _} <- Integer.parse(app_id_str),
+         {:ok, app} <- LenraApplicationServices.fetch(app_id),
+         :ok <- allow(conn, app) do
+      {:ok, app}
+    end
+  end
+
   def index(conn, params) do
-    raw_env_list = LenraServices.EnvironmentServices.all(params["app_id"])
-
-    env_list =
-      Enum.map(raw_env_list, fn env ->
-        %{
-          "id" => env.id,
-          "name" => env.name,
-          "is_ephemeral" => env.is_ephemeral,
-          "application_id" => env.application_id,
-          "creator_id" => env.creator_id,
-          "deployed_build_id" => env.deployed_build_id
-        }
-      end)
-
-    conn
-    |> assign_data(:envs, env_list)
-    |> reply
+    with {:ok, app} <- get_app_and_allow(conn, params) do
+      conn
+      |> assign_data(:envs, EnvironmentServices.all(app.id))
+      |> reply
+    end
   end
 
   def create(conn, params) do
-    {app_id, _} = Integer.parse(params["app_id"])
-    user_id = Guardian.Plug.current_resource(conn)
-
-    res = LenraServices.EnvironmentServices.create(app_id, user_id, params)
-
-    conn
-    |> handle_create(res)
-    |> reply
+    with {:ok, app} <- get_app_and_allow(conn, params),
+         user <- Guardian.Plug.current_resource(conn),
+         {:ok, %{inserted_env: env}} <- EnvironmentServices.create(app.id, user.id, params) do
+      conn
+      |> assign_data(:inserted_env, env)
+      |> reply
+    end
   end
+end
 
-  defp handle_create(conn, {:error, _, failed_value, _}) do
-    assign_error(conn, failed_value)
-  end
+defmodule LenraWeb.EnvsController.Policy do
+  alias Lenra.{User, LenraApplication}
 
-  defp handle_create(conn, {:ok, %{inserted_env: env}}) do
-    assign(conn, :inserted_env, env)
-  end
+  @impl Bouncer.Policy
+  def authorize(:index, %User{id: user_id}, %LenraApplication{creator_id: user_id}), do: true
+  def authorize(:create, %User{id: user_id}, %LenraApplication{creator_id: user_id}), do: true
+
+  use LenraWeb.Policy.Default
 end

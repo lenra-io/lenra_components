@@ -5,7 +5,7 @@ defmodule LenraWeb.AppChannelTest do
   use LenraWeb.ChannelCase
   alias LenraWeb.UserSocket
   alias Lenra.FaasStub, as: AppStub
-  alias LenraServices.LenraApplicationServices
+  alias Lenra.LenraApplicationServices
 
   setup do
     {:ok, %{inserted_user: user}} = register_john_doe()
