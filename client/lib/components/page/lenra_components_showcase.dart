@@ -3,6 +3,8 @@ import 'package:fr_lenra_client/lenra_components/lenra_button.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_checkbox.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_radio.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_radio_container.dart';
+import 'package:fr_lenra_client/lenra_components/lenra_table.dart';
+import 'package:fr_lenra_client/lenra_components/lenra_table_row.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_button_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_checkbox_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_color_theme_data.dart';
@@ -56,102 +58,139 @@ class LenraComponentsShowcase extends StatelessWidget {
     ],
   );
 
-  SingleChildScrollView buildButton(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Column(children: [
-        new Row(
-          children: [
-            LenraButton(onPressed: () => false, text: "Test d'un bouton très long"),
-            LenraButton(disabled: true, onPressed: () => false, text: "Test"),
-            LenraButton(onPressed: () => false, text: "Large", size: LenraButtonSize.Large),
-            LenraButton(onPressed: () => false, text: "Small", size: LenraButtonSize.Small),
-            LenraButton(onPressed: () => false, text: "Label"),
-            LenraButton(
-              onPressed: () => false,
-              text: "Label",
-              leftIcon: Icon(Icons.keyboard_arrow_down),
+  Column buildButton(BuildContext context) {
+    return Column(
+      children: [
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Column(children: [
+            new Row(
+              children: [
+                LenraButton(onPressed: () => false, text: "Test d'un bouton très long"),
+                LenraButton(disabled: true, onPressed: () => false, text: "Test"),
+                LenraButton(onPressed: () => false, text: "Large", size: LenraButtonSize.Large),
+                LenraButton(onPressed: () => false, text: "Small", size: LenraButtonSize.Small),
+                LenraButton(onPressed: () => false, text: "Label"),
+                LenraButton(
+                  onPressed: () => false,
+                  text: "Label",
+                  leftIcon: Icon(Icons.keyboard_arrow_down),
+                ),
+                LenraButton(
+                  onPressed: () => false,
+                  text: "Label",
+                  rightIcon: Icon(Icons.keyboard_arrow_down),
+                ),
+                LenraButton(
+                  onPressed: () => false,
+                  text: "Label",
+                  leftIcon: Icon(Icons.keyboard_arrow_down),
+                  rightIcon: Icon(Icons.keyboard_arrow_down),
+                ),
+                LenraButton(onPressed: () => false, text: "Secondary", type: LenraButtonType.Secondary),
+                LenraButton(
+                    onPressed: () => false, text: "SecondaryDisabled", type: LenraButtonType.Secondary, disabled: true),
+                LenraButton(onPressed: () => false, text: "Tertiary", type: LenraButtonType.Tertiary),
+                LenraButton(
+                    onPressed: () => false, text: "TertiaryDisabled", type: LenraButtonType.Tertiary, disabled: true),
+                LenraButton(
+                  onPressed: () => false,
+                  text: "Red Background",
+                  type: LenraButtonType.Primary,
+                  lenraButtonThemeData: LenraButtonThemeData(
+                    colorTheme: LenraColorThemeData(primaryBackgroundColor: Colors.red),
+                  ),
+                ),
+              ],
             ),
-            LenraButton(
-              onPressed: () => false,
-              text: "Label",
-              rightIcon: Icon(Icons.keyboard_arrow_down),
+            new Row(
+              children: [
+                radioContainer,
+                TextButton(
+                  onPressed: () => {print(radioContainer.key.currentState.getValue())},
+                  child: Row(
+                    children: [
+                      Text("show"),
+                    ],
+                  ),
+                )
+              ],
             ),
-            LenraButton(
-              onPressed: () => false,
-              text: "Label",
-              leftIcon: Icon(Icons.keyboard_arrow_down),
-              rightIcon: Icon(Icons.keyboard_arrow_down),
+            new Row(
+              children: [
+                LenraCheckbox(
+                  value: true,
+                  onChanged: (value) => false,
+                  text: "text",
+                ),
+                LenraCheckbox(
+                  value: false,
+                  onChanged: (value) => false,
+                  text: "textstyle",
+                  lenraCheckboxThemeData: LenraCheckboxThemeData(
+                    lenraTextThemeData: LenraTextThemeData(
+                      bodyText: TextStyle(color: Colors.red),
+                    ),
+                  ),
+                ),
+                LenraCheckbox(
+                  value: true,
+                  disabled: true,
+                  text: "disabled",
+                ),
+                LenraCheckbox(
+                  value: true,
+                  disabled: true,
+                ),
+                LenraCheckbox(
+                  value: false,
+                  text: "onChanged",
+                  onChanged: (value) => print(value),
+                ),
+                LenraCheckbox(
+                  value: null,
+                  tristate: true,
+                  text: "tristate",
+                  onChanged: (value) => print(value),
+                ),
+              ],
             ),
-            LenraButton(onPressed: () => false, text: "Secondary", type: LenraButtonType.Secondary),
-            LenraButton(
-                onPressed: () => false, text: "SecondaryDisabled", type: LenraButtonType.Secondary, disabled: true),
-            LenraButton(onPressed: () => false, text: "Tertiary", type: LenraButtonType.Tertiary),
-            LenraButton(
-                onPressed: () => false, text: "TertiaryDisabled", type: LenraButtonType.Tertiary, disabled: true),
-            LenraButton(
-              onPressed: () => false,
-              text: "Red Background",
-              type: LenraButtonType.Primary,
-              lenraButtonThemeData: LenraButtonThemeData(
-                colorTheme: LenraColorThemeData(primaryBackgroundColor: Colors.red),
-              ),
-            ),
-          ],
+          ]),
         ),
-        new Row(
-          children: [
-            radioContainer,
-            TextButton(
-              onPressed: () => {print(radioContainer.key.currentState.getValue())},
-              child: Row(
+        new Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: LenraTable(
+            border: true,
+            centerChildren: true,
+            children: [
+              LenraTableRow(
                 children: [
-                  Text("show"),
+                  Text("Row1Cell1"),
+                  Text("Row1Cell2"),
+                  Icon(Icons.keyboard_arrow_down),
+                  LenraButton(
+                    text: "Row1",
+                    onPressed: () => false,
+                  ),
+                  Text("Alone"),
                 ],
               ),
-            )
-          ],
-        ),
-        new Row(
-          children: [
-            LenraCheckbox(
-              value: true,
-              onChanged: (value) => false,
-              text: "text",
-            ),
-            LenraCheckbox(
-              value: false,
-              onChanged: (value) => false,
-              text: "textstyle",
-              lenraCheckboxThemeData: LenraCheckboxThemeData(
-                lenraTextThemeData: LenraTextThemeData(
-                  bodyText: TextStyle(color: Colors.red),
-                ),
+              LenraTableRow(
+                children: [
+                  Text("Row2Cell1"),
+                  Text("Row2Cell2"),
+                  Icon(Icons.keyboard_arrow_up),
+                  LenraButton(
+                    text: "Row2",
+                    onPressed: () => false,
+                  ),
+                  null,
+                ],
               ),
-            ),
-            LenraCheckbox(
-              value: true,
-              disabled: true,
-              text: "disabled",
-            ),
-            LenraCheckbox(
-              value: true,
-              disabled: true,
-            ),
-            LenraCheckbox(
-              value: false,
-              text: "onChanged",
-              onChanged: (value) => print(value),
-            ),
-            LenraCheckbox(
-              value: null,
-              tristate: true,
-              text: "tristate",
-              onChanged: (value) => print(value),
-            ),
-          ],
+            ],
+          ),
         ),
-      ]),
+      ],
     );
   }
 
