@@ -3,6 +3,7 @@ import 'package:fr_lenra_client/lenra_components/theme/lenra_button_theme_data.d
 import 'package:fr_lenra_client/lenra_components/theme/lenra_checkbox_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_color_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_radio_theme_data.dart';
+import 'package:fr_lenra_client/lenra_components/theme/lenra_text_field_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_text_theme_data.dart';
 
 class LenraThemeData {
@@ -12,6 +13,7 @@ class LenraThemeData {
   LenraButtonThemeData lenraButtonThemeData;
   LenraRadioThemeData lenraRadioThemeData;
   LenraCheckboxThemeData lenraCheckboxThemeData;
+  LenraTextFieldThemeData lenraTextFieldThemeData;
 
   LenraThemeData({
     LenraColorThemeData lenraColorThemeData,
@@ -20,6 +22,7 @@ class LenraThemeData {
     LenraButtonThemeData lenraButtonThemeData,
     LenraRadioThemeData lenraRadioThemeData,
     LenraCheckboxThemeData lenraCheckboxThemeData,
+    LenraTextFieldThemeData lenraTextFieldThemeData,
   }) {
     this.lenraColorThemeData = lenraColorThemeData ?? LenraColorThemeData();
     this.lenraTextThemeData = lenraTextThemeData ?? LenraTextThemeData();
@@ -38,5 +41,6 @@ class LenraThemeData {
         LenraCheckboxThemeData(
           lenraTextThemeData: this.lenraTextThemeData,
         );
+    this.lenraTextFieldThemeData = lenraTextFieldThemeData ?? LenraTextFieldThemeData();
   }
 }
