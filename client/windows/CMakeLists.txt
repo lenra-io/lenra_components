@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 project(lenra_client LANGUAGES CXX)
 
-set(BINARY_NAME "lenra_client")
+set(BINARY_NAME "Lenra")
 
 cmake_policy(SET CMP0063 NEW)
 

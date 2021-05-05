@@ -1,21 +1,28 @@
 {
-    "name": "lenra_client",
-    "short_name": "lenra_client",
+    "name": "Lenra",
+    "short_name": "Lenra",
     "start_url": ".",
-    "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "display": "fullscreen",
+    "background_color": "white",
+    "theme_color": "#1E232C",
+    "description": "Plateforme d'applications dans le Cloud",
+    "lang": "fr",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
         {
-            "src": "icons/Icon-192.png",
+            "src": "img/appicon.png",
             "sizes": "192x192",
             "type": "image/png"
         },
         {
-            "src": "icons/Icon-512.png",
+            "src": "img/appicon-maskable.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "img/appicon-512.png",
             "sizes": "512x512",
             "type": "image/png"
         }
