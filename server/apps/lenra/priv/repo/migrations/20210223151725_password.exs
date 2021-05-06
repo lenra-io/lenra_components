@@ -19,7 +19,7 @@ defmodule Lenra.Repo.Migrations.Password do
     create(unique_index(:password_codes, [:user_id]))
 
     execute(
-      "INSERT INTO passwords(user_id, password) SELECT id, password FROM users;",
+      "INSERT INTO passwords(user_id, password, inserted_at, updated_at) SELECT id, password, current_timestamp, current_timestamp FROM users;",
       "INSERT INTO users(password) SELECT passwords.password FROM passwords, users WHERE users.id=passwords.user_id;"
     )
 
