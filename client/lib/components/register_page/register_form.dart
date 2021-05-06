@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/api/request_models/register_request.dart';
 import 'package:fr_lenra_client/components/error_list.dart';
 import 'package:fr_lenra_client/components/loading_button.dart';
+import 'package:fr_lenra_client/components/page/login_page.dart';
 import 'package:fr_lenra_client/redux/models/register_model.dart';
 import 'package:fr_lenra_client/utils/form_validators.dart';
 
@@ -121,7 +122,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 style: new TextStyle(color: Colors.blue),
                 recognizer: new TapGestureRecognizer()
                   ..onTap = () {
-                    Navigator.pushNamed(context, '/login');
+                    Navigator.pushReplacementNamed(context, LoginPage.routeName);
                   },
               ),
             ),

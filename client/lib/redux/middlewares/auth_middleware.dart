@@ -23,6 +23,9 @@ void authMiddleware(
 ) {
   next(action);
 
+  // TODO: gérer le code d'activation à la connexion aussi si il n'est pas validé
+  // TODO: gérer le code de passage au rôle dev si l'utilisateur n'a pas le rôle dev (backoffice uniquement)
+  // TODO: après l'inscription ou la connexion complète (validation des codes) rediriger vers la page à laquelle voulait accéder l'utilisateur. Si il ne voulais pas accéder à une page particulière, rediriger vers la base : /
   if (action is RegisterAction && action.isDone) {
     store.dispatch(PushRouteAction(VerifyingCodePage.routeName, removeStack: true));
   }
@@ -33,7 +36,8 @@ void authMiddleware(
     store.dispatch(PushRouteAction(LoginPage.routeName, removeStack: true));
   }
   if (action is RecoveryAction && action.isDone) {
-    store.dispatch(PushRouteAction(ChangeLostPasswordPage.routeName, arguments: action.email, removeStack: true));
+    store.dispatch(PushRouteAction(ChangeLostPasswordPage.routeName,
+        arguments: action.email, removeStack: true));
   }
   if (action is ChangePasswordAction && action.isDone) {
     store.dispatch(PushRouteAction(StorePage.routeName, removeStack: true));

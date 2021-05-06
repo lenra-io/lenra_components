@@ -9,7 +9,7 @@ variables:
     - kustomize edit add patch --kind Deployment --path gitlab-env.yml
     - kustomize edit add patch --kind StatefulSet --path gitlab-env.yml
     - kustomize edit add resource secret-gitlab-registry.yml
-    - kustomize edit add configmap lenra-host --from-literal LENRA_HOST=${LENRA_HOST} --from-literal LENRA_DOCUMENTATION_HOST=${LENRA_DOCUMENTATION_HOST}
+    - kustomize edit add configmap lenra-host --from-literal LENRA_HOST=${LENRA_HOST} --from-literal LENRA_DEV_HOST=${LENRA_DEV_HOST} --from-literal LENRA_DOCUMENTATION_HOST=${LENRA_DOCUMENTATION_HOST}
     - >
       for it in 'SERVER:lenra-server' 'FAAS:openfaas' 'POSTGRES:lenra-postgres'; do
         var=$(echo "$it" | awk -F ":" '{print $1}')
@@ -27,10 +27,11 @@ deploy test:
   extends: .deploy kustomize force update
   variables:
     KUSTOMIZE_ENV: test
-    LENRA_HOST: ${CI_COMMIT_REF_SLUG}.test.lenra.me
-    LENRA_DOCUMENTATION_HOST: ${CI_COMMIT_REF_SLUG}.test.lenra.io
+    LENRA_HOST: app.${CI_ENVIRONMENT_SLUG}.lenra.io
+    LENRA_DEV_HOST: dev.${CI_ENVIRONMENT_SLUG}.lenra.io
+    LENRA_DOCUMENTATION_HOST: doc.${CI_ENVIRONMENT_SLUG}.lenra.io
   before_script:
-    - cat k8s/environment/test/ingressroute-patches.yml | envsubst '${LENRA_HOST} ${LENRA_DOCUMENTATION_HOST}' > tmp.txt
+    - cat k8s/environment/test/ingressroute-patches.yml | envsubst '${LENRA_HOST} ${LENRA_DEV_HOST} ${LENRA_DOCUMENTATION_HOST}' > tmp.txt
     - cat tmp.txt > k8s/environment/test/ingressroute-patches.yml
     - cat k8s/environment/test/add-script.conf | envsubst > tmp.txt
     - cat tmp.txt > k8s/environment/test/add-script.conf
@@ -38,7 +39,7 @@ deploy test:
     - !reference [.kubectl, before_script]
   environment:
     name: ${CI_COMMIT_REF_SLUG}
-    url: https://${CI_COMMIT_REF_SLUG}.test.lenra.me/laisse-moi-entrer
+    url: https://app.${CI_ENVIRONMENT_SLUG}.lenra.io/laisse-moi-entrer
     on_stop: stop test env
   rules:
     - if: '$CI_COMMIT_BRANCH != $MAIN_BRANCH && $CI_COMMIT_BRANCH != $STAGING_BRANCH'
@@ -53,8 +54,9 @@ stop test env:
 deploy staging:
   extends: .deploy kustomize force update
   variables:
-    LENRA_HOST: staging.lenra.me
-    LENRA_DOCUMENTATION_HOST: staging.lenra.io
+    LENRA_HOST: app.${CI_ENVIRONMENT_SLUG}.lenra.io
+    LENRA_DEV_HOST: dev.${CI_ENVIRONMENT_SLUG}.lenra.io
+    LENRA_DOCUMENTATION_HOST: doc.${CI_ENVIRONMENT_SLUG}.lenra.io
   before_script:
     - !reference [.prepare deployment, before_script]
     - !reference [.kubectl, before_script]
@@ -62,7 +64,7 @@ deploy staging:
     - manage version
   environment:
     name: staging
-    url: https://${LENRA_HOST}/laisse-moi-entrer
+    url: https://app.${CI_ENVIRONMENT_SLUG}.lenra.io/laisse-moi-entrer
   rules:
     - if: '$CI_COMMIT_BRANCH == $STAGING_BRANCH'
     - if: '$CI_COMMIT_BRANCH =~ /^release\//'
@@ -73,8 +75,9 @@ deploy staging:
 deploy prod:
   extends: .deploy kustomize
   variables:
-    LENRA_HOST: www.lenra.me
-    LENRA_DOCUMENTATION_HOST: www.lenra.io
+    LENRA_HOST: app.lenra.io
+    LENRA_DEV_HOST: dev.lenra.io
+    LENRA_DOCUMENTATION_HOST: doc.lenra.io
     DOCKER_TAG: ${VERSION}
   before_script:
     - !reference [.prepare deployment, before_script]
@@ -83,7 +86,7 @@ deploy prod:
     - manage version
   environment:
     name: production
-    url: https://${LENRA_HOST}/
+    url: https://app.lenra.io/
   rules:
     - if: '$CI_COMMIT_BRANCH == $MAIN_BRANCH'
       when: manual

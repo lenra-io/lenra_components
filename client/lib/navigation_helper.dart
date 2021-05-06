@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fr_lenra_client/components/page/backoffice/activation_code_page.dart';
+import 'package:fr_lenra_client/components/page/backoffice/overview_page.dart';
 import 'package:fr_lenra_client/components/page/change_lost_password_page.dart';
 import 'package:fr_lenra_client/components/page/lenra_app_page.dart';
 import 'package:fr_lenra_client/components/page/lenra_app_page_container.dart';
@@ -9,6 +11,7 @@ import 'package:fr_lenra_client/components/page/recovery_page.dart';
 import 'package:fr_lenra_client/components/page/register_page.dart';
 import 'package:fr_lenra_client/components/page/store_page.dart';
 import 'package:fr_lenra_client/components/page/verifiying_code_page.dart';
+import 'package:fr_lenra_client/config/config.dart';
 
 typedef CustomRouteBuilder = Widget Function(BuildContext) Function(Map<String, String>);
 
@@ -27,17 +30,29 @@ class RouteData {
   RouteData(this.builder);
 }
 
-final Map<String, CustomRouteBuilder> routes = {
+final Map<String, CustomRouteBuilder> routes = {}
+  ..addAll(authRoutes)
+  ..addAll(Config.instance.application == Application.app ? appRoutes : devRoutes);
+
+final Map<String, CustomRouteBuilder> authRoutes = {
   ChangeLostPasswordPage.routeName: (Map<String, String> params) => (BuildContext context) => ChangeLostPasswordPage(),
   RecoveryPage.routeName: (Map<String, String> params) => (BuildContext context) => RecoveryPage(),
   ProfilePage.routeName: (Map<String, String> params) => (BuildContext context) => ProfilePage(),
   LoginPage.routeName: (Map<String, String> params) => (BuildContext context) => LoginPage(),
   VerifyingCodePage.routeName: (Map<String, String> params) => (BuildContext context) => VerifyingCodePage(),
-  RegisterPage.routeName: (Map<String, String> params) => (BuildContext context) => RegisterPage(),
+  RegisterPage.routeName: (Map<String, String> params) => (BuildContext context) => RegisterPage()
+};
+
+final Map<String, CustomRouteBuilder> appRoutes = {
   StorePage.routeName: (Map<String, String> params) => (BuildContext context) => StorePage(),
   LenraAppPage.routeName: (Map<String, String> params) =>
       (BuildContext context) => LenraAppPageContainer(appName: params["appName"]),
   LenraComponentsShowcase.routeName: (Map<String, String> params) => (BuildContext context) => LenraComponentsShowcase()
+};
+
+final Map<String, CustomRouteBuilder> devRoutes = {
+  OverviewPage.routeName: (Map<String, String> params) => (BuildContext context) => OverviewPage(),
+  ActivationCodePage.routeName: (Map<String, String> params) => (BuildContext context) => ActivationCodePage(),
 };
 
 RouteData getRouteDataForRoutes(

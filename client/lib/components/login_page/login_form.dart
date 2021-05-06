@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/api/request_models/loginRequest.dart';
 import 'package:fr_lenra_client/components/error_list.dart';
 import 'package:fr_lenra_client/components/loading_button.dart';
+import 'package:fr_lenra_client/components/page/register_page.dart';
 import 'package:fr_lenra_client/redux/models/login_model.dart';
 import 'package:fr_lenra_client/utils/form_validators.dart';
-import 'package:sentry/sentry.dart';
 
 class LoginForm extends StatefulWidget {
   final LoginModel loginModel;
@@ -30,23 +30,6 @@ class _LoginFormState extends State<LoginForm> {
   @override
   void initState() {
     super.initState();
-    //Sentry Test
-    sentryTest();
-  }
-
-  void sentryTest() async {
-    const env = String.fromEnvironment('ENVIRONMENT');
-
-    if (env == "production" || env == "staging") {
-      try {
-        throw ("Error test");
-      } catch (exception, stackTrace) {
-        await Sentry.captureException(
-          exception,
-          stackTrace: stackTrace,
-        );
-      }
-    }
   }
 
   @override
@@ -88,12 +71,12 @@ class _LoginFormState extends State<LoginForm> {
           Container(
             padding: EdgeInsets.only(top: 10.0),
             child: RichText(
-              text: new TextSpan(
+              text: TextSpan(
                 text: "Pas inscrit? Créer mon compte",
-                style: new TextStyle(color: Colors.blue),
-                recognizer: new TapGestureRecognizer()
+                style: TextStyle(color: Colors.blue),
+                recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    Navigator.pushNamed(context, '/register');
+                    Navigator.pushReplacementNamed(context, RegisterPage.routeName);
                   },
               ),
             ),
@@ -101,10 +84,10 @@ class _LoginFormState extends State<LoginForm> {
           Container(
             padding: EdgeInsets.only(top: 10.0),
             child: RichText(
-              text: new TextSpan(
+              text: TextSpan(
                 text: "Mot de passe oublié ?",
-                style: new TextStyle(color: Colors.blue),
-                recognizer: new TapGestureRecognizer()
+                style: TextStyle(color: Colors.blue),
+                recognizer: TapGestureRecognizer()
                   ..onTap = () {
                     Navigator.pushNamed(context, '/recovery');
                   },

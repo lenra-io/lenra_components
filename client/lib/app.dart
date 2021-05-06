@@ -18,7 +18,7 @@ class Lenra extends StatelessWidget {
       child: LenraTheme(
         themeData: LenraThemeData(),
         child: MaterialApp(
-          title: 'Lenra Client',
+          title: 'Lenra',
           navigatorKey: navigatorKey,
           onGenerateRoute: (RouteSettings settings) {
             RouteData routeData = getFirstMatchingRoute(settings.name);

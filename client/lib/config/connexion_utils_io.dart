@@ -12,4 +12,4 @@ PhoenixSocket createPhoenixSocket(
 
 http.Client createHttpClient() => http.Client();
 
-String getServerUrl() => "https://www.lenra.me";
+String getServerUrl() => "https://app.lenra.io";
