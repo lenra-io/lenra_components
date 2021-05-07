@@ -65,7 +65,7 @@ defmodule LenraWeb.UserControllerTest do
         })
       )
 
-    assert %{"errors" => [%{"code" => 4, "message" => "Incorrect email or password"}]} = json_response(conn, 200)
+    assert %{"errors" => [%{"code" => 4, "message" => "Incorrect email or password"}]} = json_response(conn, 400)
   end
 
   test "refresh not authenticated test", %{conn: conn} do
@@ -118,7 +118,7 @@ defmodule LenraWeb.UserControllerTest do
 
     conn = post(conn, Routes.user_path(conn, :validate_user, %{"code" => "12345678"}))
 
-    assert %{"errors" => [%{"code" => 5, "message" => "No such registration code"}]} = json_response(conn, 200)
+    assert %{"errors" => [%{"code" => 5, "message" => "No such registration code"}]} = json_response(conn, 400)
   end
 
   @tag :auth_user
@@ -167,7 +167,7 @@ defmodule LenraWeb.UserControllerTest do
              "errors" => [
                %{"code" => 8, "message" => "Your password cannot be equal to the last 3."}
              ]
-           } = json_response(conn, 200)
+           } = json_response(conn, 400)
   end
 
   @tag :auth_user
@@ -215,7 +215,7 @@ defmodule LenraWeb.UserControllerTest do
     conn = post(conn, Routes.user_path(conn, :password_lost_code, %{email: "wrong@email.me"}))
 
     assert %{"success" => false, "errors" => [%{"code" => 9, "message" => "Incorrect email"}]} =
-             json_response(conn, 200)
+             json_response(conn, 400)
   end
 
   test "change lost password error code test", %{conn: conn} do
@@ -237,7 +237,7 @@ defmodule LenraWeb.UserControllerTest do
     assert %{
              "success" => false,
              "errors" => [%{"code" => 6, "message" => "No such password lost code"}]
-           } = json_response(conn, 200)
+           } = json_response(conn, 400)
   end
 
   test "change lost password error password test", %{conn: conn} do
@@ -264,7 +264,7 @@ defmodule LenraWeb.UserControllerTest do
              "errors" => [
                %{"code" => 8, "message" => "Your password cannot be equal to the last 3."}
              ]
-           } = json_response(conn, 200)
+           } = json_response(conn, 400)
   end
 
   @tag :auth_user
@@ -324,5 +324,58 @@ defmodule LenraWeb.UserControllerTest do
 
     assert %{"data" => data, "success" => true} = json_response(conn, 200)
     assert Map.has_key?(data, "access_token")
+  end
+
+  @tag :auth_user
+  test "validate dev user", %{conn: conn} do
+    valid_code = "fbd1ff7e-5751-4617-afaa-ef3be4cc43a6"
+
+    conn = put(conn, Routes.user_path(conn, :validate_dev, %{"code" => valid_code}))
+
+    assert %{"success" => true} = json_response(conn, 200)
+  end
+
+  @tag :auth_user
+  test "validate dev user invalid uuid", %{conn: conn} do
+    invalid_code = "not-a-uuid"
+
+    conn = put(conn, Routes.user_path(conn, :validate_dev, %{"code" => invalid_code}))
+
+    assert %{"success" => false, "errors" => [%{"code" => 13, "message" => "The code is not a valid UUID"}]} =
+             json_response(conn, 400)
+  end
+
+  @tag :auth_user
+  test "validate dev user invalid code", %{conn: conn} do
+    invalid_code = "fbd1ff7e-5751-4617-afaa-ef3be4cc43a5"
+
+    conn = put(conn, Routes.user_path(conn, :validate_dev, %{"code" => invalid_code}))
+
+    assert %{"success" => false, "errors" => [%{"code" => 14, "message" => "The code is invalid"}]} =
+             json_response(conn, 400)
+  end
+
+  @tag auth_user: :dev
+  test "validate dev user already dev", %{conn: conn} do
+    invalid_code = "fbd1ff7e-5751-4617-afaa-ef3be4cc43a5"
+
+    conn = put(conn, Routes.user_path(conn, :validate_dev, %{"code" => invalid_code}))
+
+    assert %{"success" => false, "errors" => [%{"code" => 12, "message" => "You are already a dev"}]} =
+             json_response(conn, 400)
+  end
+
+  @tag auth_users: [:user, :user]
+  test "validate dev code already used", %{users: [user1, user2]} do
+    valid_code = "fbd1ff7e-5751-4617-afaa-ef3be4cc43a6"
+
+    user1 = put(user1, Routes.user_path(user1, :validate_dev, %{"code" => valid_code}))
+
+    assert %{"success" => true} = json_response(user1, 200)
+
+    user2 = put(user1, Routes.user_path(user2, :validate_dev, %{"code" => valid_code}))
+
+    assert %{"success" => false, "errors" => [%{"code" => 12, "message" => "You are already a dev"}]} ==
+             json_response(user2, 400)
   end
 end

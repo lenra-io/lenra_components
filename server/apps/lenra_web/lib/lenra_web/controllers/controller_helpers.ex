@@ -18,7 +18,7 @@ defmodule LenraWeb.ControllerHelpers do
         Plug.Conn.put_status(conn, 403)
 
       _ ->
-        conn
+        Plug.Conn.put_status(conn, 400)
     end
     |> add_error(error)
   end

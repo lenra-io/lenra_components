@@ -31,7 +31,7 @@ defmodule LenraWeb.TokenHelper do
   end
 
   def create_refresh_and_store_cookie(conn, user) do
-    Plug.remember_me(conn, user, %{role: user.role, typ: "refresh"})
+    Plug.remember_me(conn, user, %{typ: "refresh"})
   end
 
   def create_access_token(refresh_token) do

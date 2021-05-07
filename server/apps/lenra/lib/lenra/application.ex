@@ -34,6 +34,7 @@ defmodule Lenra.Application do
 
     Logger.info("Lenra Supervisor Starting")
     res = Supervisor.start_link(children, opts)
+    Lenra.Seeds.run()
     Logger.info("Lenra Supervisor Started")
     res
   end
