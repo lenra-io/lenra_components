@@ -4,7 +4,6 @@ import 'package:fr_lenra_client/components/page/change_lost_password_page.dart';
 import 'package:fr_lenra_client/components/page/home_page.dart';
 import 'package:fr_lenra_client/components/page/lenra_app_page.dart';
 import 'package:fr_lenra_client/components/page/lenra_app_page_container.dart';
-import 'package:fr_lenra_client/components/page/lenra_components_showcase.dart';
 import 'package:fr_lenra_client/components/page/login_page.dart';
 import 'package:fr_lenra_client/components/page/profile_page.dart';
 import 'package:fr_lenra_client/components/page/recovery_page.dart';
@@ -34,11 +33,13 @@ final Map<String, CustomRouteBuilder> routes = {}
   ..addAll(Config.instance.application == Application.app ? appRoutes : devRoutes);
 
 final Map<String, CustomRouteBuilder> authRoutes = {
-  ChangeLostPasswordPage.routeName: (Map<String, String> params) => (BuildContext context) => ChangeLostPasswordPage(),
+  ChangeLostPasswordPage.routeName: (Map<String, String> params) =>
+      (BuildContext context) => ChangeLostPasswordPage(),
   RecoveryPage.routeName: (Map<String, String> params) => (BuildContext context) => RecoveryPage(),
   ProfilePage.routeName: (Map<String, String> params) => (BuildContext context) => ProfilePage(),
   LoginPage.routeName: (Map<String, String> params) => (BuildContext context) => LoginPage(),
-  VerifyingCodePage.routeName: (Map<String, String> params) => (BuildContext context) => VerifyingCodePage(),
+  VerifyingCodePage.routeName: (Map<String, String> params) =>
+      (BuildContext context) => VerifyingCodePage(),
   RegisterPage.routeName: (Map<String, String> params) => (BuildContext context) => RegisterPage()
 };
 
@@ -46,13 +47,13 @@ final Map<String, CustomRouteBuilder> appRoutes = {
   HomePage.routeName: (Map<String, String> params) => (BuildContext context) => HomePage(),
   // StorePage.routeName: (Map<String, String> params) => (BuildContext context) => StorePage(),
   LenraAppPage.routeName: (Map<String, String> params) =>
-      (BuildContext context) => LenraAppPageContainer(appName: params["appName"]),
-  LenraComponentsShowcase.routeName: (Map<String, String> params) => (BuildContext context) => LenraComponentsShowcase()
+      (BuildContext context) => LenraAppPageContainer(appName: params["appName"])
 };
 
 final Map<String, CustomRouteBuilder> devRoutes = {
   HomePage.routeName: (Map<String, String> params) => (BuildContext context) => HomePage(),
-  ActivationCodePage.routeName: (Map<String, String> params) => (BuildContext context) => ActivationCodePage(),
+  ActivationCodePage.routeName: (Map<String, String> params) =>
+      (BuildContext context) => ActivationCodePage(),
 };
 
 RouteData getRouteDataForRoutes(

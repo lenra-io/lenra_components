@@ -3,38 +3,41 @@ import 'package:fr_lenra_client/lenra_application/components/actionable/events/l
 import 'package:fr_lenra_client/lenra_application/components/actionable/lenra_actionable.dart';
 import 'package:fr_lenra_client/lenra_application/components/lenra_component.dart';
 import 'package:fr_lenra_client/lenra_application/lenra_component_builder.dart';
-import 'package:fr_lenra_client/lenra_components/lenra_checkbox.dart';
+import 'package:fr_lenra_client/lenra_components/lenra_radio.dart';
 
-// TODO : generate this from annotation on LenraCheckbox
-class LenraCheckboxBuilder extends LenraComponentBuilder<LenraApplicationCheckbox> {
-  LenraApplicationCheckbox map({value, label, disabled, listeners}) {
-    return LenraApplicationCheckbox(value: value, label: label, disabled: disabled, listeners: listeners);
+// TODO : generate this from annotation on LenraRadio
+class LenraRadioBuilder extends LenraComponentBuilder<LenraApplicationRadio> {
+  LenraApplicationRadio map({value, label, groupValue, disabled, listeners}) {
+    return LenraApplicationRadio(
+      value: value,
+      label: label,
+      groupValue: groupValue,
+      disabled: disabled,
+      listeners: listeners,
+    );
   }
 
   Map<String, String> get propsTypes {
     return {
-      "value": "bool",
+      "value": "String",
       "label": "String",
+      "groupValue": "String",
       "disabled": "bool",
       "listeners": "Map<String, dynamic>",
     };
   }
 }
 
-class LenraApplicationCheckbox extends StatelessLenraComponent implements LenraActionable {
+class LenraApplicationRadio extends StatelessLenraComponent implements LenraActionable {
   final String label;
-  final bool value;
+  final String value;
+  final String groupValue;
   final bool disabled;
   final Map<String, dynamic> listeners;
 
-  LenraApplicationCheckbox({
-    this.value,
-    this.label,
-    this.disabled,
-    this.listeners,
-  }) : super();
+  LenraApplicationRadio({this.value, this.label, this.groupValue, this.disabled, this.listeners}) : super();
 
-  void onChanged(bool newValue, BuildContext context) {
+  void onChanged(String newValue, BuildContext context) {
     if (this.listeners != null) {
       final Map<String, dynamic> listener = this.listeners['onChange'];
       if (listener != null) {
@@ -47,11 +50,12 @@ class LenraApplicationCheckbox extends StatelessLenraComponent implements LenraA
 
   @override
   Widget build(BuildContext context) {
-    return LenraCheckbox(
+    return LenraRadio<String>(
       value: this.value,
       label: this.label,
+      groupValue: this.groupValue,
       disabled: this.disabled ?? false,
-      onChanged: (bool value) => this.onChanged(value, context),
+      onChanged: (String newValue) => this.onChanged(newValue, context),
     );
   }
 }

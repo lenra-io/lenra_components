@@ -1,14 +1,14 @@
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
-    "$id": "http://lenra.me/container_validator.schema.json",
-    "title": "Container",
-    "description": "Element of type Container",
+    "$id": "http://lenra.me/table_row_validator.schema.json",
+    "title": "TableRow",
+    "description": "Element of type TableRow",
     "type": "object",
     "properties": {
         "type": {
             "description": "The type of the element",
             "type": "string",
-            "pattern": "^container$"
+            "pattern": "^tableRow$"
         },
         "children": {
             "type": "array",
@@ -16,16 +16,11 @@
             "items": {
                 "type": "object"
             }
-        },
-        "direction": {
-            "type": "string",
-            "description": "'row' or 'col' which will define the Axis for placing children. Defaults to row",
-            "pattern": "^row$|^col$"
         }
     },
     "required": [
         "type",
         "children"
     ],
-    "additionalProperties": true
+    "additionalProperties": false
 }

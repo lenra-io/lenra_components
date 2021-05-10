@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/lenra_application/components/actionable/lenra_button.dart';
 import 'package:fr_lenra_client/lenra_application/components/actionable/lenra_checkbox.dart';
+import 'package:fr_lenra_client/lenra_application/components/actionable/lenra_radio.dart';
 import 'package:fr_lenra_client/lenra_application/components/actionable/lenra_textfield.dart';
 import 'package:fr_lenra_client/lenra_application/components/container/lenra_container.dart';
 import 'package:fr_lenra_client/lenra_application/components/lenra_image.dart';
@@ -18,6 +19,8 @@ extension LenraComponentWrapperExt on LenraWrapper {
     'button': LenraButtonBuilder(),
     'checkbox': LenraCheckboxBuilder(),
     'image': LenraImageBuilder(),
+    'radio': LenraRadioBuilder(),
+    // 'table': LenraTableBuilder(),
   };
 }
 

@@ -8,97 +8,41 @@ enum LenraTextFieldSize {
   Large,
 }
 
-class LenraTextField extends StatefulWidget {
+// ignore: must_be_immutable
+class LenraTextField extends StatelessWidget {
   final String label;
   final String hintText;
   final String description;
-  final bool obscure;
-  final Function checkError;
-  final bool disabled;
-  final LenraTextFieldSize size;
-  final bool inRow;
   final String errorMessage;
-  @override
-  final GlobalKey<_LenraTextField> key = new GlobalKey<_LenraTextField>();
+  final bool obscure;
+  final bool enabled;
+  final bool inRow;
+  final bool error;
+  final Function onEditingComplete;
+  final Function(String) onSubmitted;
+  final Function(String) onChanged;
+  final LenraTextFieldSize size;
+  final double width;
+  final FocusNode focusNode;
+  final TextEditingController controller;
 
   LenraTextField({
     this.label,
     this.hintText,
     this.description,
-    this.obscure,
-    this.checkError,
-    this.disabled,
-    this.size,
-    this.inRow,
     this.errorMessage,
-  });
-
-  @override
-  _LenraTextField createState() {
-    return _LenraTextField(
-      label: this.label,
-      hintText: this.hintText,
-      description: this.description,
-      obscure: (this.obscure != null) ? this.obscure : false,
-      checkError: this.checkError,
-      disabled: (this.disabled != null) ? !this.disabled : true,
-      size: this.size,
-      inRow: (this.inRow != null) ? this.inRow : false,
-      errorMessage: (this.errorMessage != null) ? this.errorMessage : "",
-    );
-  }
-}
-
-class _LenraTextField extends State<LenraTextField> {
-  final String label;
-  final String hintText;
-  final String description;
-  final bool obscure;
-  final Function checkError;
-  final bool disabled;
-  final LenraTextFieldSize size;
-  final double width = 200.0;
-  final bool inRow;
-  final String errorMessage;
-  Function refreshBorder;
-  LenraTextFieldThemeData lenraTextFieldThemeData;
-  FocusNode myFocusNode;
-  String value = "";
-  bool error = false;
-
-  _LenraTextField({
-    this.label,
-    this.hintText,
-    this.description,
     this.obscure,
-    this.checkError,
-    this.disabled,
-    this.size,
+    this.enabled,
     this.inRow,
-    this.errorMessage,
+    this.error,
+    this.onEditingComplete,
+    this.onSubmitted,
+    this.onChanged,
+    this.size,
+    this.width,
+    this.focusNode,
+    this.controller,
   });
-
-  @override
-  void initState() {
-    super.initState();
-    myFocusNode = FocusNode();
-  }
-
-  @override
-  void dispose() {
-    myFocusNode.dispose();
-    super.dispose();
-  }
-
-  String getValue() {
-    return value;
-  }
-
-  void setError(bool value) {
-    setState(() {
-      this.error = value;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,16 +51,17 @@ class _LenraTextField extends State<LenraTextField> {
     Container textField = Container(
       width: this.width,
       child: TextField(
-        enabled: this.disabled,
+        enabled: this.enabled,
         obscureText: this.obscure,
         style: TextStyle(
           fontSize: lenraTextFieldThemeData.fontSize.resolve(this.size).height,
         ),
-        focusNode: myFocusNode,
+        controller: controller,
+        focusNode: focusNode,
         decoration: InputDecoration(
           isDense: true,
           filled: true,
-          fillColor: (this.disabled) ? Colors.transparent : Colors.grey[200],
+          fillColor: (this.enabled) ? Colors.transparent : Colors.grey[200],
           enabledBorder: OutlineInputBorder(
             borderSide: lenraTextFieldThemeData.border.primaryBorder,
           ),
@@ -145,12 +90,9 @@ class _LenraTextField extends State<LenraTextField> {
           errorText: (this.error) ? this.errorMessage : null,
           errorStyle: TextStyle(fontSize: lenraTextFieldThemeData.fontSize.resolve(this.size).height),
         ),
-        onChanged: (String newValue) {
-          setState(() {
-            this.value = newValue;
-            this.error = (checkError != null) ? this.checkError(value) : this.error;
-          });
-        },
+        onEditingComplete: this.enabled ? null : this.onEditingComplete ?? (e) => null,
+        onSubmitted: this.onSubmitted,
+        onChanged: this.onChanged,
       ),
     );
 

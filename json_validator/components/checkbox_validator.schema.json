@@ -1,29 +1,33 @@
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
-    "$id": "http://lenra.me/button_validator.schema.json",
-    "title": "Button",
-    "description": "Element of type Button",
+    "$id": "http://lenra.me/checkbox_validator.schema.json",
+    "title": "Checkbox",
+    "description": "Element of type Checkbox",
     "type": "object",
     "properties": {
         "type": {
             "description": "The type of the element",
             "type": "string",
-            "pattern": "^button$"
+            "pattern": "^checkbox$"
         },
         "value": {
-            "description": "the value displayed in the element",
+            "description": "The default state of the checkbox",
+            "type": "boolean"
+        },
+        "label": {
+            "description": "The text showed aside of the checkbox",
             "type": "string"
         },
         "disabled": {
-            "description": "Whether the button should be disabled or not",
+            "description": "Whether the checkbox should be disabled or not",
             "type": "boolean"
         },
         "listeners": {
             "additionalProperties": false,
             "minProperties": 1,
             "properties": {
-                "onClick": {
-                    "$ref": "listeners/onclick_validator.schema.json"
+                "onChange": {
+                    "$ref": "listeners/onchange_validator.schema.json"
                 }
             }
         }

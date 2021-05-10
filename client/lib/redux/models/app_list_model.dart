@@ -17,7 +17,8 @@ class AppListModel extends AsyncStateModel<AppsResponse, FetchApplicationsAction
   }
 
   AppResponse getAppInfoByName(String name) {
-    return this.data.apps.firstWhere((AppResponse appInfo) => appInfo.name == name);
+    //TODO : Needed to put null checks, but it should be fixed elsewhere
+    return this.data?.apps?.firstWhere((AppResponse appInfo) => appInfo.name == name);
   }
 
   AppResponse getAppInfoByServiceName(String serviceName) {

@@ -11,7 +11,7 @@
             "pattern": "^text$"
         },
         "value": {
-            "descritpion": "the value displayed in the element",
+            "description": "the value displayed in the element",
             "type": "string"
         }
     },

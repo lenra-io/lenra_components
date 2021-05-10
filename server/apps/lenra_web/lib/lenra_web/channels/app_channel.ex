@@ -13,7 +13,7 @@ defmodule LenraWeb.AppChannel do
     Logger.info("Join channel for app : #{app_name}")
 
     with {:ok, app} <- LenraApplicationServices.fetch_by(service_name: app_name),
-         loaded_app <- Repo.preload(app, [main_env: [environment: [:deployed_build]]]) do
+         loaded_app <- Repo.preload(app, main_env: [environment: [:deployed_build]]) do
       build_number = loaded_app.main_env.environment.deployed_build.build_number
       socket = assign(socket, app_name: app_name, build_number: build_number)
 

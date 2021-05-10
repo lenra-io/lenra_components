@@ -6,13 +6,4 @@ void main() {
     LenraTextField component = LenraTextField();
     expect(component is LenraTextField, true);
   });
-
-  test('LenraTextField getValue test', () {
-    LenraTextField component = LenraTextField();
-    var componentState = component.createState();
-    componentState.initState();
-    expect(componentState.getValue(), "");
-    componentState.value = "test";
-    expect(componentState.getValue(), "test");
-  });
 }

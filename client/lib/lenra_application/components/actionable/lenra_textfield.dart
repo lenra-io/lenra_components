@@ -3,12 +3,34 @@ import 'package:fr_lenra_client/lenra_application/components/actionable/events/l
 import 'package:fr_lenra_client/lenra_application/components/actionable/lenra_actionable.dart';
 import 'package:fr_lenra_client/lenra_application/components/lenra_component.dart';
 import 'package:fr_lenra_client/lenra_application/lenra_component_builder.dart';
+import 'package:fr_lenra_client/lenra_components/lenra_text_field.dart';
 
 // TODO : generate this from annotation on LenraTextfield
-class LenraTextfieldBuilder extends LenraComponentBuilder<LenraTextfield> {
-  LenraTextfield map({value, listeners}) {
-    return LenraTextfield(
+class LenraTextfieldBuilder extends LenraComponentBuilder<LenraApplicationTextfield> {
+  LenraApplicationTextfield map({
+    value,
+    label,
+    hintText,
+    description,
+    errorMessage,
+    obscure,
+    enabled,
+    inRow,
+    error,
+    width,
+    listeners,
+  }) {
+    return LenraApplicationTextfield(
       value: value,
+      label: label,
+      hintText: hintText,
+      description: description,
+      errorMessage: errorMessage,
+      obscure: obscure,
+      enabled: enabled,
+      inRow: inRow,
+      error: error,
+      width: width,
       listeners: listeners,
     );
   }
@@ -16,59 +38,77 @@ class LenraTextfieldBuilder extends LenraComponentBuilder<LenraTextfield> {
   Map<String, String> get propsTypes {
     return {
       "value": "String",
+      "label": "String",
+      "hintText": "String",
+      "description": "String",
+      "errorMessage": "String",
+      "obscure": "bool",
+      "enabled": "bool",
+      "inRow": "bool",
+      "error": "bool",
+      "width": "double",
       "listeners": "Map<String, dynamic>",
     };
   }
 }
 
 // ignore: must_be_immutable
-class LenraTextfield extends StatelessLenraComponent implements LenraActionable {
+class LenraApplicationTextfield extends StatelessLenraComponent implements LenraActionable {
   String value;
+  String label;
+  String hintText;
+  String description;
+  String errorMessage;
+  bool obscure;
+  bool enabled;
+  bool inRow;
+  bool error;
+  double width;
+  LenraTextFieldSize size;
   final Map<String, dynamic> listeners;
   final FocusNode _focusNode;
   final TextEditingController _controller;
 
-  LenraTextfield({String value, this.listeners})
-      : this._controller = TextEditingController(text: value),
+  LenraApplicationTextfield({
+    String value,
+    this.label,
+    this.hintText,
+    this.description,
+    this.errorMessage,
+    this.obscure,
+    this.enabled,
+    this.inRow,
+    this.error,
+    this.width,
+    this.size,
+    this.listeners,
+  })  : this._controller = TextEditingController(text: value),
         this._focusNode = FocusNode(),
         super();
 
   @override
   Widget build(BuildContext context) {
-    this._focusNode.addListener(() {
-      // check if the text was changed
-      if (this.value != _controller.text) {
-        this.value = _controller.text;
+    return LenraTextField(
+      label: this.label,
+      hintText: this.hintText,
+      description: this.description,
+      errorMessage: this.errorMessage,
+      obscure: this.obscure ?? false,
+      enabled: this.enabled ?? true,
+      inRow: this.inRow ?? false,
+      error: this.error ?? false,
+      onSubmitted: (value) {
         if (this.listeners != null) {
           final Map<String, dynamic> listener = this.listeners['onChange'];
-          LenraOnEditEvent(code: listener['code'], event: {'value': _controller.text})
-              .dispatch(context);
-        }
-      }
-    });
-
-    return TextField(
-      // _controller allow to read the value of the textfield.
-      controller: this._controller,
-      // _controller allow to detect the focus on the textfield
-      focusNode: this._focusNode,
-      // After any keypress
-      // onChanged: (value) {
-      //   this.value = _controller.text;
-      // },
-      // When we press enter on the textfield.
-      onEditingComplete: () {
-        if (this.value != _controller.text) {
-          this.value = _controller.text;
-          if (this.listeners != null) {
-            final Map<String, dynamic> listener = this.listeners['onChange'];
-            if (listener != null) {
-              LenraOnEditEvent(code: listener['code'], event: {'value': _controller.text})
-                  .dispatch(context);
-            }
+          if (listener != null) {
+            LenraOnEditEvent(code: listener['code'], event: {'value': value}).dispatch(context);
           }
         }
       },
+      size: this.size ?? LenraTextFieldSize.Medium,
+      width: this.width ?? 200.0,
+      focusNode: this._focusNode,
+      controller: this._controller,
     );
   }
 }

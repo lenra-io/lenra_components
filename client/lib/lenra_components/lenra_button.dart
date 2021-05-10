@@ -43,6 +43,7 @@ class LenraButton extends StatelessWidget {
     return TextButton(
       onPressed: this.disabled ? null : onPressed,
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
           if (this.leftIcon != null) this.leftIcon,
           Text(text),

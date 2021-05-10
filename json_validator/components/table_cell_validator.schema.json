@@ -1,14 +1,14 @@
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
-    "$id": "http://lenra.me/container_validator.schema.json",
-    "title": "Container",
-    "description": "Element of type Container",
+    "$id": "http://lenra.me/table_cell_validator.schema.json",
+    "title": "TableCell",
+    "description": "Element of type TableCell",
     "type": "object",
     "properties": {
         "type": {
             "description": "The type of the element",
             "type": "string",
-            "pattern": "^container$"
+            "pattern": "^tableCell$"
         },
         "children": {
             "type": "array",
@@ -17,15 +17,14 @@
                 "type": "object"
             }
         },
-        "direction": {
-            "type": "string",
-            "description": "'row' or 'col' which will define the Axis for placing children. Defaults to row",
-            "pattern": "^row$|^col$"
+        "verticalCenter": {
+            "type": "boolean",
+            "description": "Whether the children of the cell should be vertically centered or not"
         }
     },
     "required": [
         "type",
         "children"
     ],
-    "additionalProperties": true
+    "additionalProperties": false
 }
