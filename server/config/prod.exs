@@ -27,9 +27,6 @@ config :ui_validator,
 config :lenra,
   faas_secrets: ["gitlab-registry"]
 
-# Do not print debug messages in production
-config :logger, level: :info
-
 # Edit to allow only wanted sources
 config :cors_plug,
   origin: []

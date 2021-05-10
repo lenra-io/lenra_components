@@ -40,8 +40,9 @@ defmodule LenraWeb.ErrorHelpers do
 
   def translate_ecto_error({field, {msg, opts}}) do
     message =
-      Enum.reduce(opts, "#{field} : #{msg}", fn {key, value}, acc ->
-        String.replace(acc, "%{#{key}}", to_string(value))
+      Enum.reduce(opts, "#{field} #{msg}", fn
+        {_key, {:parameterized, _, _}}, acc -> acc
+        {key, value}, acc -> String.replace(acc, "%{#{key}}", to_string(value))
       end)
 
     %{code: 0, message: message}

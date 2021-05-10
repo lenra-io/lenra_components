@@ -16,7 +16,7 @@ variables:
         name=$(echo "$it" | awk -F ":" '{print $2}')
         eval "cp \$${var}_ENV ./${name}.env"
         if [ "$var" = "SERVER" ]; then
-          echo -e "\nENVIRONMENT=${KUSTOMIZE_ENV}" >> ./${name}.env
+          echo -e "\nENVIRONMENT=${CI_ENVIRONMENT_SLUG}" >> ./${name}.env
           echo -e "\nSERVICE_NAME=lenra-server-headless.${KUBE_NAMESPACE}.svc.cluster.local" >> ./${name}.env
         fi
         kustomize edit add secret ${name} --from-env-file ${name}.env

@@ -1,7 +1,10 @@
 defmodule LenraWeb.BuildControllerTest do
   use LenraWeb.ConnCase, async: true
 
+  alias Lenra.GitlabStubHelper
+
   setup %{conn: conn} do
+    GitlabStubHelper.create_gitlab_stub()
     {:ok, conn: conn}
   end
 
@@ -95,52 +98,6 @@ defmodule LenraWeb.BuildControllerTest do
     end
   end
 
-  describe "update" do
-    @tag auth_users: [:dev, :user, :dev, :admin]
-    test "build controller authenticated", %{users: [creator, user, other_dev, admin]} do
-      %{conn: creator, app: app, build: build} = create_app_and_build(creator)
-
-      update_build_path = Routes.builds_path(creator, :update, app["id"], build["id"])
-      update_params = %{status: :success}
-
-      creator = patch(creator, update_build_path, update_params)
-      user = patch(user, update_build_path, update_params)
-      other_dev = patch(other_dev, update_build_path, update_params)
-      admin = patch(admin, update_build_path, update_params)
-
-      assert %{
-               "data" => %{
-                 "build" => %{
-                   "build_number" => 1,
-                   "commit_hash" => "test",
-                   "status" => "success",
-                   "application_id" => _,
-                   "creator_id" => _,
-                   "id" => _
-                 }
-               },
-               "success" => true
-             } = json_response(creator, 200)
-
-      assert %{
-               "data" => %{
-                 "build" => %{
-                   "build_number" => 1,
-                   "commit_hash" => "test",
-                   "status" => "success",
-                   "application_id" => _,
-                   "creator_id" => _,
-                   "id" => _
-                 }
-               },
-               "success" => true
-             } = json_response(admin, 200)
-
-      assert %{"success" => false} = json_response(user, 403)
-      assert %{"success" => false} = json_response(other_dev, 403)
-    end
-  end
-
   describe "create" do
     @tag auth_users: [:dev, :user, :dev, :admin]
     test "build controller authenticated", %{users: [creator, user, other_dev, admin]} do
@@ -200,12 +157,12 @@ defmodule LenraWeb.BuildControllerTest do
           }
         )
 
-      assert %{"success" => false, "errors" => [%{"code" => 0, "message" => "commit_hash : is invalid"}]} =
+      assert %{"success" => false, "errors" => [%{"code" => 0, "message" => "commit_hash is invalid"}]} =
                json_response(conn, 400)
 
       assert %{
                "errors" => [
-                 %{"code" => 0, "message" => "commit_hash : is invalid"}
+                 %{"code" => 0, "message" => "commit_hash is invalid"}
                ],
                "success" => false
              } == json_response(conn, 400)

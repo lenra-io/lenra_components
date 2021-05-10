@@ -5,7 +5,7 @@ metadata:
 spec:
   routes:
     - kind: Rule
-      match: Host(`app.lenra.io`, `dev.lenra.io`) && PathPrefix(`/api`, `/auth`, `/socket`)
+      match: Host(`app.lenra.io`, `dev.lenra.io`) && PathPrefix(`/api`, `/auth`, `/socket`, `/runner`)
       services:
         - kind: Service
           name: lenra-server

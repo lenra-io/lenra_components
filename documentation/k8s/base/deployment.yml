@@ -50,11 +50,11 @@ spec:
             successThreshold: 1
           resources:
             requests:
-              cpu: "100m"
-              memory: "100Mi"
+              cpu: "5m"
+              memory: "5Mi"
             limits:
-              cpu: "500m"
-              memory: "500Mi"
+              cpu: "50m"
+              memory: "50Mi"
       restartPolicy: Always
       imagePullSecrets:
         - name: gitlab-registry

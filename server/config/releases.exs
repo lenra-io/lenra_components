@@ -17,7 +17,17 @@ config :lenra, Lenra.Repo,
 config :lenra,
   faas_url: System.fetch_env!("FAAS_URL"),
   faas_auth: System.fetch_env!("FAAS_AUTH"),
-  faas_registry: System.fetch_env!("FAAS_REGISTRY")
+  faas_registry: System.fetch_env!("FAAS_REGISTRY"),
+  runner_secret: System.fetch_env!("RUNNER_SECRET"),
+  runner_callback_url: "https://#{System.fetch_env!("APP_HOST")}",
+  lenra_env: System.fetch_env!("ENVIRONMENT"),
+  gitlab_api_url: System.fetch_env!("GITLAB_API_URL"),
+  gitlab_api_token: System.fetch_env!("GITLAB_API_TOKEN"),
+  gitlab_project_id: System.fetch_env!("GITLAB_PROJECT_ID")
+
+
+# Do not print debug messages in production
+config :logger, level: String.to_atom(System.get_env("LOG_LEVEL", "info"))
 
 config :peerage,
   via: Peerage.Via.Dns,

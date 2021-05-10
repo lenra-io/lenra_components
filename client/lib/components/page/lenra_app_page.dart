@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/api/response_models/app_response.dart';
+import 'package:fr_lenra_client/components/error_list.dart';
 import 'package:fr_lenra_client/lenra_application/lenra_ui_controller.dart';
 import 'package:fr_lenra_client/redux/models/app_list_model.dart';
 
@@ -39,7 +40,10 @@ class _LenraAppPageState extends State<LenraAppPage> {
       return CircularProgressIndicator();
     }
 
-    AppResponse appInfo = widget.appListModel.getAppInfoByName(widget.appName);
+    if (widget.appListModel.status.hasError) {
+      return ErrorList(widget.appListModel.errors);
+    }
+    AppResponse appInfo = widget.appListModel.getAppInfoByServiceName(widget.appName);
     if (appInfo == null) {
       return Text("Oups !  L'application est introuvable...");
     }

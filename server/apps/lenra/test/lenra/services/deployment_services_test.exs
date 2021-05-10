@@ -14,10 +14,12 @@ defmodule LenraServers.DeploymentServicesTest do
     LenraApplication,
     BuildServices,
     LenraApplicationServices,
-    DeploymentServices
+    DeploymentServices,
+    GitlabStubHelper
   }
 
   setup do
+    GitlabStubHelper.create_gitlab_stub()
     {:ok, app: create_and_return_application()}
   end
 
@@ -33,7 +35,7 @@ defmodule LenraServers.DeploymentServicesTest do
 
     app = Enum.at(Repo.all(LenraApplication), 0)
 
-    BuildServices.create(app.creator_id, app.id, %{
+    BuildServices.create_and_trigger_pipeline(app.creator_id, app.id, %{
       commit_hash: "abcdef"
     })
 

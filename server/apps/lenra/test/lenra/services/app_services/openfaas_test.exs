@@ -25,7 +25,7 @@ defmodule LenraServers.OpenfaasTest do
   describe "applist" do
     setup do
       faas = AppStub.create_faas_stub()
-      app = AppStub.stub_app(faas, "StubApp")
+      app = AppStub.stub_app(faas, "StubApp", 1)
       {:ok, %{app: app, faas: faas}}
     end
 
@@ -33,14 +33,14 @@ defmodule LenraServers.OpenfaasTest do
       AppStub.stub_action_once(app, "InitData", %{"data" => "any data"})
 
       assert {:ok, %{"data" => "any data"}} ==
-               Openfaas.run_action(1, "StubApp", "InitData", %{"toto" => "tata"})
+               Openfaas.run_action(1, "StubApp", 1, "InitData", %{"toto" => "tata"})
     end
 
     test "Openfaas correctly handle 404 not found", %{app: app} do
       AppStub.stub_action_once(app, "InitData", {:error, 404, "Not Found"})
 
       assert_raise(RuntimeError, "Openfaas error (404) Not Found", fn ->
-        Openfaas.run_action(1, "StubApp", "InitData", %{"toto" => "tata"})
+        Openfaas.run_action(1, "StubApp", 1, "InitData", %{"toto" => "tata"})
       end)
     end
   end
@@ -67,7 +67,7 @@ defmodule LenraServers.OpenfaasTest do
       AppStub.create_faas_stub()
       |> AppStub.expect_delete_app_once(%{"ok" => "200"})
 
-      res = Openfaas.delete_app_openfaas(@john_doe_application.service_name)
+      res = Openfaas.delete_app_openfaas(@john_doe_application.service_name, @john_doe_build.build_number)
 
       assert res == {:ok, 200}
     end
@@ -77,7 +77,7 @@ defmodule LenraServers.OpenfaasTest do
       |> AppStub.expect_delete_app_once({:error, 400, "Bad request"})
 
       assert_raise(RuntimeError, "Openfaas could not delete the application. It should not happen.", fn ->
-        Openfaas.delete_app_openfaas(@john_doe_application.service_name)
+        Openfaas.delete_app_openfaas(@john_doe_application.service_name, @john_doe_build.build_number)
       end)
     end
 
@@ -86,7 +86,7 @@ defmodule LenraServers.OpenfaasTest do
       AppStub.create_faas_stub()
       |> AppStub.expect_delete_app_once({:error, 404, "Not found"})
 
-      res = Openfaas.delete_app_openfaas(@john_doe_application.service_name)
+      res = Openfaas.delete_app_openfaas(@john_doe_application.service_name, @john_doe_build.build_number)
 
       assert res == {:ok, 404}
     end

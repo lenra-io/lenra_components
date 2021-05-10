@@ -3,7 +3,7 @@
   value: Host(`${LENRA_HOST}`, `${LENRA_DEV_HOST}`, `${LENRA_DOCUMENTATION_HOST}`) && Path(`/laisse-moi-entrer`)
 - op: replace
   path: /spec/routes/1/match
-  value: Host(`${LENRA_HOST}`, `${LENRA_DEV_HOST}`) && PathPrefix(`/api`, `/auth`, `/socket`)
+  value: Host(`${LENRA_HOST}`, `${LENRA_DEV_HOST}`) && PathPrefix(`/api`, `/auth`, `/socket`, `/runner`)
 - op: replace
   path: /spec/routes/2/match
   value: Host(`${LENRA_HOST}`, `${LENRA_DEV_HOST}`) && HeadersRegexp(`Authorization`, `^Basic `) && PathPrefix(`/`)

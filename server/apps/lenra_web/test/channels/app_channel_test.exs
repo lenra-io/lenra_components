@@ -5,11 +5,11 @@ defmodule LenraWeb.AppChannelTest do
   use LenraWeb.ChannelCase
   alias LenraWeb.UserSocket
   alias Lenra.FaasStub, as: AppStub
-  alias Lenra.LenraApplicationServices
+  alias Lenra.{Repo, LenraApplication, Build, Environment, ApplicationMainEnv, Deployment}
 
   setup do
     {:ok, %{inserted_user: user}} = register_john_doe()
-    socket = socket(UserSocket, "socket_id", %{user_id: user.id})
+    socket = socket(UserSocket, "socket_id", %{user: user})
 
     owstub = AppStub.create_faas_stub()
 
@@ -23,6 +23,7 @@ defmodule LenraWeb.AppChannelTest do
   end
 
   @app_name "Counter"
+  @build_number 1
   @listener_name "HiBob"
   @listener_code "#{@listener_name}:{}"
 
@@ -62,17 +63,34 @@ defmodule LenraWeb.AppChannelTest do
     # owstub
     # |> AppStub.expect_deploy_app_once(%{"ok" => "200"})
 
-    LenraApplicationServices.create(user.id, %{
+    Ecto.Multi.new()
+    |> Ecto.Multi.insert(:inserted_application, LenraApplication.new(user.id, %{
       name: "Counter",
-      service_name: "counter",
+      service_name: @app_name,
       color: "FFFFFF",
       icon: "60189"
-    })
+    }))
+    |> Ecto.Multi.insert(:inserted_env, fn %{inserted_application: app} ->
+      Environment.new(app.id, user.id, nil, %{name: "live", is_ephemeral: false})
+    end)
+    |> Ecto.Multi.insert(:inserted_build, fn %{inserted_application: app} ->
+      Build.new(user.id, app.id, @build_number, %{status: :success})
+    end)
+    |> Ecto.Multi.insert(:application_main_env, fn %{inserted_application: app, inserted_env: env} ->
+      ApplicationMainEnv.new(app.id, env.id)
+    end)
+    |> Ecto.Multi.update(:updated_env, fn %{inserted_env: env, inserted_build: build} ->
+      Ecto.Changeset.change(env, deployed_build_id: build.id)
+    end)
+    |> Ecto.Multi.insert(:inserted_deployment, fn %{inserted_application: app, inserted_env: env, inserted_build: build} ->
+      Deployment.new(app.id, env.id, build.id, user.id, %{})
+    end)
+    |> Repo.transaction()
 
     # Base use case. Call InitData then MainUI then call the listener
     # and the next MainUI should not be called but taken from cache instead
     owstub
-    |> AppStub.stub_app(@app_name)
+    |> AppStub.stub_app(@app_name, @build_number)
     |> AppStub.stub_action_once("InitData", %{"data" => @data, "ui" => @ui})
     |> AppStub.stub_action_once(@listener_name, %{"data" => @data2, "ui" => @ui2})
 
@@ -80,7 +98,7 @@ defmodule LenraWeb.AppChannelTest do
     {:ok, _, socket} = my_subscribe_and_join(socket, %{"app" => @app_name})
 
     # Check that the correct data is stored into the socket
-    assert socket.assigns == %{app_name: @app_name, user_id: user.id}
+    assert socket.assigns == %{app_name: @app_name, user: user, build_number: @build_number}
 
     # Check that we receive a "ui" event with the final UI
     assert_push("ui", @expected_ui)

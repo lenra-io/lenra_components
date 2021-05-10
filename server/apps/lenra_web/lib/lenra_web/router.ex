@@ -7,6 +7,10 @@ defmodule LenraWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :runner do
+    plug Lenra.Plug.VerifySecret
+  end
+
   pipeline :ensure_auth do
     plug EnsureAuthenticatedPipeline
   end
@@ -28,11 +32,16 @@ defmodule LenraWeb.Router do
     post "/verify", UserController, :validate_user
   end
 
+  scope "/runner", LenraWeb do
+    pipe_through [:api, :runner]
+    put "/builds/:id", RunnerController, :update_build
+  end
+
   scope "/api", LenraWeb do
     pipe_through [:api, :ensure_auth]
     resources "/apps", AppsController, only: [:index, :create, :delete], param: "name"
     resources "/apps/:app_id/environments", EnvsController, only: [:index, :create]
-    resources "/apps/:app_id/builds", BuildsController, only: [:index, :create, :update]
+    resources "/apps/:app_id/builds", BuildsController, only: [:index, :create]
     resources "/apps/deployments", DeploymentsController, only: [:create]
     put "/password", UserController, :password_modification
     put "/verify/dev", UserController, :validate_dev

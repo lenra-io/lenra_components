@@ -4,7 +4,7 @@ defmodule Lenra.Openfaas do
   """
   require Logger
 
-  alias Lenra.Telemetry
+  alias Lenra.{Telemetry, DeploymentServices}
 
   defp get_http_context do
     base_url = Application.fetch_env!(:lenra, :faas_url)
@@ -14,31 +14,38 @@ defmodule Lenra.Openfaas do
     {base_url, headers}
   end
 
+  defp get_function_name(service_name, build_number) do
+    lenra_env = Application.fetch_env!(:lenra, :lenra_env)
+    "#{lenra_env}-#{service_name}-#{build_number}"
+  end
+
   @doc """
     Run a HTTP POST request with needed headers and body to call an Openfaas Action and decode the response body.
 
     Returns `{:ok, decoded_body}` if the HTTP Post succeed
     Returns `{:error, reason}` if the HTTP Post fail
   """
-  @spec run_action(Integer.t(), String.t(), String.t(), map) :: {:error, String.t()} | {:ok, map}
+  @spec run_action(Integer.t(), String.t(), number, String.t(), map) :: {:error, String.t()} | {:ok, map}
   def run_action(
         client_id,
         app_name,
+        build_number,
         action_code,
         params
       )
       when is_binary(app_name) and is_binary(action_code) and is_map(params) do
     {base_url, headers} = get_http_context()
+    function_name = get_function_name(app_name, build_number)
 
-    url = "#{base_url}/function/#{app_name}"
+    url = "#{base_url}/function/#{function_name}"
 
-    Logger.debug("Call to Openfaas : #{app_name}")
+    Logger.debug("Call to Openfaas : #{function_name}")
 
     headers = [{"Content-Type", "application/json"} | headers]
     params = Map.put(params, :action, action_code)
     body = Jason.encode!(params)
 
-    Logger.info("Run app #{app_name} with action #{action_code}")
+    Logger.info("Run app #{app_name}[#{build_number}] with action #{action_code}")
 
     start_time = Telemetry.start(:openfaas_runaction)
 
@@ -64,8 +71,8 @@ defmodule Lenra.Openfaas do
       url,
       headers,
       Jason.encode!(%{
-        "image" => "#{Application.fetch_env!(:lenra, :faas_registry)}/#{service_name}:#{build_number}",
-        "service" => service_name,
+        "image" => DeploymentServices.image_name(service_name, build_number),
+        "service" => get_function_name(service_name, build_number),
         "secrets" => Application.fetch_env!(:lenra, :faas_secrets)
       })
     )
@@ -73,7 +80,7 @@ defmodule Lenra.Openfaas do
     |> response(:deploy_app)
   end
 
-  def delete_app_openfaas(service_name) do
+  def delete_app_openfaas(service_name, build_number) do
     {base_url, headers} = get_http_context()
 
     Logger.debug("Remove Openfaas application")
@@ -85,7 +92,7 @@ defmodule Lenra.Openfaas do
       url,
       headers,
       Jason.encode!(%{
-        "functionName" => service_name
+        "functionName" => get_function_name(service_name, build_number)
       })
     )
     |> Finch.request(FaasHttp)

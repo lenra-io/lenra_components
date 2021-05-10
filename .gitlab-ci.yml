@@ -18,6 +18,14 @@ include:
       changes: 
         - ${WORKDIR}/**/*
 
+.subdir test job:
+  rules:
+    - if: "$CI_COMMIT_BRANCH == $MAIN_BRANCH"
+      when: never
+    - if: "$CI_COMMIT_BRANCH == $STAGING_BRANCH"
+    - changes: 
+        - ${WORKDIR}/**/*
+
 manage version:
   variables:
     VERSION_GETTER: cat version

@@ -20,7 +20,7 @@ class AppList extends StatelessWidget {
           return AppButton(
             appInfo: appInfo,
             onPressed: () {
-              Navigator.of(context).pushNamed(LenraAppPage.getRouteName(appInfo.name));
+              Navigator.of(context).pushNamed(LenraAppPage.getRouteName(appInfo.serviceName));
             },
           );
         }).toList(),

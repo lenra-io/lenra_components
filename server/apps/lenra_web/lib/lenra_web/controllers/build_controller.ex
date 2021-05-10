@@ -15,22 +15,12 @@ defmodule LenraWeb.BuildsController do
     end
   end
 
-  def update(conn, %{"id" => build_id} = params) do
-    with {:ok, build} <- BuildServices.fetch(build_id),
-         :ok <- allow(conn, build),
-         {:ok, %{updated_build: updated_build}} <- BuildServices.update(build, params) do
-      conn
-      |> assign_data(:build, updated_build)
-      |> reply
-    end
-  end
-
   def create(conn, %{"app_id" => app_id_str} = params) do
     with {app_id, _} <- Integer.parse(app_id_str),
          user <- Guardian.Plug.current_resource(conn),
          {:ok, app} <- LenraApplicationServices.fetch(app_id),
          :ok <- allow(conn, app),
-         {:ok, %{inserted_build: build}} <- BuildServices.create(user.id, app.id, params) do
+         {:ok, %{inserted_build: build}} <- BuildServices.create_and_trigger_pipeline(user.id, app.id, params) do
       conn
       |> assign_data(:build, build)
       |> reply

@@ -22,7 +22,9 @@ server build:
 
 # Unit test and code analysis for server
 server tests:
-  extends: .server job
+  extends:
+    - .server job
+    - .subdir test job
   services:
     - postgres:12.2-alpine
   variables:

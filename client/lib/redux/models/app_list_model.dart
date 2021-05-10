@@ -19,4 +19,8 @@ class AppListModel extends AsyncStateModel<AppsResponse, FetchApplicationsAction
   AppResponse getAppInfoByName(String name) {
     return this.data.apps.firstWhere((AppResponse appInfo) => appInfo.name == name);
   }
+
+  AppResponse getAppInfoByServiceName(String serviceName) {
+    return this.data.apps.firstWhere((AppResponse appInfo) => appInfo.serviceName == serviceName);
+  }
 }

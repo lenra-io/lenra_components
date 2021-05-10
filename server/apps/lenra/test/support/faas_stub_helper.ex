@@ -8,8 +8,9 @@ defmodule Lenra.FaasStub do
     Bypass.open(port: 1234)
   end
 
-  def stub_app(bypass, app_name) do
-    url = "/function/#{app_name}"
+  def stub_app(bypass, app_name, build_number) do
+    lenra_env = Application.fetch_env!(:lenra, :lenra_env)
+    url = "/function/#{lenra_env}-#{app_name}-#{build_number}"
 
     Bypass.stub(bypass, "POST", url, &handle_action(&1, app_name))
 

@@ -13,7 +13,13 @@ config :logger, level: :warn
 config :lenra,
   faas_url: "http://localhost:1234",
   faas_auth: "Basic YWRtaW46M2kwREc4NTdLWlVaODQ3R0pheW5qMXAwbQ==",
-  faas_registry: "registry.gitlab.com/lenra/platform/applications"
+  faas_registry: "registry.gitlab.com/lenra/platform/lenra-ci",
+  runner_callback_url: "http://localhost:4000",
+  lenra_env: "test",
+  gitlab_api_url: "http://localhost:4567",
+  gitlab_api_token: "none",
+  gitlab_project_id: "26231009",
+  runner_secret: "test_secret"
 
 config :lenra, Lenra.Repo,
   username: "postgres",

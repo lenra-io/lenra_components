@@ -24,7 +24,12 @@ defmodule Lenra.Application do
       # Start the Event Queue
       {EventQueue, &Lenra.LoadWorker.load/0},
       # Start the HTTP Client
-      {Finch, name: FaasHttp},
+      {Finch,
+       name: FaasHttp,
+       pools: %{
+         Application.fetch_env!(:lenra, :faas_url) => [size: 32, count: 8],
+         Application.fetch_env!(:lenra, :gitlab_api_url) => [size: 10, count: 3]
+       }},
       AppChannelMonitor
     ]
 

@@ -4,9 +4,11 @@ defmodule LenraServers.BuildServicesTest do
   """
   use Lenra.RepoCase, async: true
 
-  alias Lenra.{Repo, LenraApplication, Build, BuildServices, LenraApplicationServices}
+  alias Lenra.{Repo, LenraApplication, Build, BuildServices, LenraApplicationServices, GitlabStubHelper}
 
   setup do
+    GitlabStubHelper.create_gitlab_stub()
+
     {:ok, app: create_and_return_application()}
   end
 
@@ -29,7 +31,7 @@ defmodule LenraServers.BuildServicesTest do
     end
 
     test "existing build", %{app: app} do
-      BuildServices.create(app.creator_id, app.id, %{
+      BuildServices.create_and_trigger_pipeline(app.creator_id, app.id, %{
         commit_hash: "abcdef"
       })
 
@@ -41,7 +43,7 @@ defmodule LenraServers.BuildServicesTest do
 
   describe("get by") do
     test "build_number", %{app: app} do
-      BuildServices.create(app.creator_id, app.id, %{
+      BuildServices.create_and_trigger_pipeline(app.creator_id, app.id, %{
         commit_hash: "abcdef"
       })
 
@@ -52,13 +54,13 @@ defmodule LenraServers.BuildServicesTest do
   describe "create" do
     test "build but invalid params", %{app: app} do
       assert {:error, :inserted_build, _, _} =
-               BuildServices.create(app.creator_id, app.id, %{
+               BuildServices.create_and_trigger_pipeline(app.creator_id, app.id, %{
                  commit_hash: 12
                })
     end
 
     test "build successfully", %{app: app} do
-      BuildServices.create(app.creator_id, app.id, %{
+      BuildServices.create_and_trigger_pipeline(app.creator_id, app.id, %{
         commit_hash: "abcdef"
       })
 
@@ -71,7 +73,7 @@ defmodule LenraServers.BuildServicesTest do
   describe "update" do
     test "build successfully", %{app: app} do
       {:ok, %{inserted_build: build}} =
-        BuildServices.create(app.creator_id, app.id, %{
+        BuildServices.create_and_trigger_pipeline(app.creator_id, app.id, %{
           commit_hash: "abcdef"
         })
 
@@ -85,7 +87,7 @@ defmodule LenraServers.BuildServicesTest do
 
   describe "delete" do
     test "build successfully", %{app: app} do
-      BuildServices.create(app.creator_id, app.id, %{
+      BuildServices.create_and_trigger_pipeline(app.creator_id, app.id, %{
         commit_hash: "abcdef"
       })
 

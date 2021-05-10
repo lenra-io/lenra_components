@@ -9,10 +9,12 @@ defmodule LenraWeb.DeploymentControllerTest do
     Build,
     Environment,
     Deployment,
-    EnvironmentServices
+    EnvironmentServices,
+    GitlabStubHelper
   }
 
   setup %{conn: conn} do
+    GitlabStubHelper.create_gitlab_stub()
     {:ok, conn: conn}
   end
 
@@ -108,7 +110,7 @@ defmodule LenraWeb.DeploymentControllerTest do
           application_id: app["id"]
         })
 
-      assert %{"errors" => [%{"code" => 0, "message" => "environment_id : does not exist"}], "success" => false} ==
+      assert %{"errors" => [%{"code" => 0, "message" => "environment_id does not exist"}], "success" => false} ==
                json_response(conn, 400)
     end
   end

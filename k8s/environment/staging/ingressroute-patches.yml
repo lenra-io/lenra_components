@@ -3,7 +3,7 @@
   value: Host(`app.staging.lenra.io`, `dev.staging.lenra.io`, `doc.staging.lenra.io`) && Path(`/laisse-moi-entrer`)
 - op: replace
   path: /spec/routes/1/match
-  value: Host(`app.staging.lenra.io`, `dev.staging.lenra.io`) && PathPrefix(`/api`, `/auth`, `/socket`)
+  value: Host(`app.staging.lenra.io`, `dev.staging.lenra.io`) && PathPrefix(`/api`, `/auth`, `/socket`, `/runner`)
 - op: replace
   path: /spec/routes/2/match
   value: Host(`app.staging.lenra.io`, `dev.staging.lenra.io`) && HeadersRegexp(`Authorization`, `^Basic `) && PathPrefix(`/`)

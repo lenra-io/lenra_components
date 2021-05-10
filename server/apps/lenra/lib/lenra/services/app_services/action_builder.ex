@@ -16,10 +16,10 @@ defmodule Lenra.ActionBuilder do
   @doc """
     This function build the first UI with default Entry Point `"InitData"` to generate the data model and `"MainUi"` to generate the UI
   """
-  @spec first_run(ow_info()) :: {:ok, ui()} | {:error, String.t()}
-  def first_run(ow_info) do
+  @spec first_run(ow_info(), number) :: {:ok, ui()} | {:error, String.t()}
+  def first_run(ow_info, build_number) do
     with {:ok, data} <- get_data(ow_info),
-         {:ok, final_ui} <- run_app_listener(ow_info, "InitData", data, %{}, %{}) do
+         {:ok, final_ui} <- run_app_listener(ow_info, build_number, "InitData", data, %{}, %{}) do
       {:ok, final_ui}
     end
   end
@@ -27,12 +27,12 @@ defmodule Lenra.ActionBuilder do
   @doc """
     This function build the UI using the given `action_key` to generate the data model and `"MainUi"` to generate the UI
   """
-  @spec listener_run(ow_info(), String.t(), event()) :: {:ok, ui_patch()} | {:error, String.t()}
-  def listener_run(ow_info, action_key, event) do
+  @spec listener_run(ow_info(), number, String.t(), event()) :: {:ok, ui_patch()} | {:error, String.t()}
+  def listener_run(ow_info, build_number, action_key, event) do
     with {:ok, old_data} <- get_data(ow_info),
          {:ok, {action_code, props}} <- get_listener(action_key),
          {:ok, last_final_ui} <- get_last_final_ui(ow_info),
-         {:ok, final_ui} <- run_app_listener(ow_info, action_code, old_data, props, event),
+         {:ok, final_ui} <- run_app_listener(ow_info, build_number, action_code, old_data, props, event),
          patch <- JSONDiff.diff(last_final_ui, final_ui) do
       {:ok, patch}
     end
@@ -45,7 +45,7 @@ defmodule Lenra.ActionBuilder do
   end
 
   defp save_data({client_id, app_name}, data) do
-    case Repo.get_by(LenraApplication, name: app_name) do
+    case Repo.get_by(LenraApplication, service_name: app_name) do
       nil -> {:error, :no_such_application}
       application -> {:ok, DatastoreServices.upsert_data(client_id, application.id, data)}
     end
@@ -123,9 +123,9 @@ defmodule Lenra.ActionBuilder do
     )
   end
 
-  defp run_app_listener({client_id, app_name} = ow_info, action_code, old_data, props, event) do
+  defp run_app_listener({client_id, app_name} = ow_info, build_number, action_code, old_data, props, event) do
     with {:ok, %{"data" => data, "ui" => ui}} <-
-           Openfaas.run_action(client_id, app_name, action_code, %{
+           Openfaas.run_action(client_id, app_name, build_number, action_code, %{
              data: old_data,
              props: props,
              event: event
@@ -147,7 +147,7 @@ defmodule Lenra.ActionBuilder do
   end
 
   defp get_data({client_id, app_name}) do
-    case Repo.get_by(LenraApplication, name: app_name) do
+    case Repo.get_by(LenraApplication, service_name: app_name) do
       nil -> {:error, :no_such_application}
       application -> {:ok, DatastoreServices.get_datastore_data(client_id, application.id)}
     end

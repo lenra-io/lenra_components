@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/components/page/backoffice/activation_code_page.dart';
-import 'package:fr_lenra_client/components/page/backoffice/overview_page.dart';
 import 'package:fr_lenra_client/components/page/change_lost_password_page.dart';
+import 'package:fr_lenra_client/components/page/home_page.dart';
 import 'package:fr_lenra_client/components/page/lenra_app_page.dart';
 import 'package:fr_lenra_client/components/page/lenra_app_page_container.dart';
 import 'package:fr_lenra_client/components/page/lenra_components_showcase.dart';
@@ -9,7 +9,6 @@ import 'package:fr_lenra_client/components/page/login_page.dart';
 import 'package:fr_lenra_client/components/page/profile_page.dart';
 import 'package:fr_lenra_client/components/page/recovery_page.dart';
 import 'package:fr_lenra_client/components/page/register_page.dart';
-import 'package:fr_lenra_client/components/page/store_page.dart';
 import 'package:fr_lenra_client/components/page/verifiying_code_page.dart';
 import 'package:fr_lenra_client/config/config.dart';
 
@@ -44,14 +43,15 @@ final Map<String, CustomRouteBuilder> authRoutes = {
 };
 
 final Map<String, CustomRouteBuilder> appRoutes = {
-  StorePage.routeName: (Map<String, String> params) => (BuildContext context) => StorePage(),
+  HomePage.routeName: (Map<String, String> params) => (BuildContext context) => HomePage(),
+  // StorePage.routeName: (Map<String, String> params) => (BuildContext context) => StorePage(),
   LenraAppPage.routeName: (Map<String, String> params) =>
       (BuildContext context) => LenraAppPageContainer(appName: params["appName"]),
   LenraComponentsShowcase.routeName: (Map<String, String> params) => (BuildContext context) => LenraComponentsShowcase()
 };
 
 final Map<String, CustomRouteBuilder> devRoutes = {
-  OverviewPage.routeName: (Map<String, String> params) => (BuildContext context) => OverviewPage(),
+  HomePage.routeName: (Map<String, String> params) => (BuildContext context) => HomePage(),
   ActivationCodePage.routeName: (Map<String, String> params) => (BuildContext context) => ActivationCodePage(),
 };
 

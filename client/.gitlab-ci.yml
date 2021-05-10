@@ -15,7 +15,9 @@ client build:
       - ${WORKDIR}/build
 
 client tests:
-  extends: .client job
+  extends:
+    - .client job
+    - .subdir test job
   stage: test
   coverage: '/Total:\|(\d+\.?\d+\%)/'
   script:

@@ -18,7 +18,7 @@ defmodule LenraWeb.UserSocket do
   @impl true
   def connect(%{"token" => token}, socket, _connect_info) do
     case Lenra.Guardian.resource_from_token(token) do
-      {:ok, user_id, _claims} -> {:ok, assign(socket, :user_id, user_id)}
+      {:ok, user, _claims} -> {:ok, assign(socket, :user, user)}
       _ -> :error
     end
   end
@@ -38,5 +38,5 @@ defmodule LenraWeb.UserSocket do
   #
   # Returning `nil` makes this socket anonymous.
   @impl true
-  def id(socket), do: "user_socket:#{socket.assigns.user_id}"
+  def id(socket), do: "user_socket:#{socket.assigns.user.id}"
 end

@@ -6,7 +6,7 @@ defmodule Lenra.BuildServices do
 
   import Ecto.Query
 
-  alias Lenra.{Repo, Build}
+  alias Lenra.{Repo, Build, LenraApplication, GitlabApiServices, LenraApplicationServices}
 
   def all(app_id) do
     Repo.all(from(b in Build, where: b.application_id == ^app_id))
@@ -24,13 +24,25 @@ defmodule Lenra.BuildServices do
     Repo.fetch_by(Build, clauses)
   end
 
-  def create(creator_id, app_id, params) do
-    build_number =
-      Repo.one(from(b in Build, select: (max(b.build_number) |> coalesce(0)) + 1, where: b.application_id == ^app_id))
-
+  defp create(creator_id, app_id, params) do
     Ecto.Multi.new()
-    |> Ecto.Multi.insert(:inserted_build, Build.new(creator_id, app_id, build_number, params))
-    |> Repo.transaction()
+    |> Ecto.Multi.run(:build_number, fn repo, _ ->
+      {:ok,
+       repo.one(from(b in Build, select: (max(b.build_number) |> coalesce(0)) + 1, where: b.application_id == ^app_id))}
+    end)
+    |> Ecto.Multi.insert(:inserted_build, fn %{build_number: build_number} ->
+      Build.new(creator_id, app_id, build_number, params)
+    end)
+  end
+
+  def create_and_trigger_pipeline(creator_id, app_id, params) do
+    with {:ok, %LenraApplication{} = app} <- LenraApplicationServices.fetch(app_id) do
+      create(creator_id, app.id, params)
+      |> Ecto.Multi.run(:gitlab_pipeline, fn _repo, %{inserted_build: %Build{} = build} ->
+        GitlabApiServices.create_pipeline(app.service_name, app.repository, build.id, build.build_number)
+      end)
+      |> Repo.transaction()
+    end
   end
 
   def update(build, params) do
@@ -39,6 +51,7 @@ defmodule Lenra.BuildServices do
     |> Repo.transaction()
   end
 
+  @spec delete((map -> %{optional(atom) => any}) | struct) :: Ecto.Multi.t()
   def delete(build) do
     Ecto.Multi.new()
     |> Ecto.Multi.delete(:deleted_build, build)

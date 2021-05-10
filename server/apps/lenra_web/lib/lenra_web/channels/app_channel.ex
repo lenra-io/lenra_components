@@ -6,22 +6,27 @@ defmodule LenraWeb.AppChannel do
 
   require Logger
 
-  alias Lenra.ActionBuilder
+  alias Lenra.{Repo, ActionBuilder, LenraApplicationServices}
 
   def join("app", %{"app" => app_name}, socket) do
-    AppChannelMonitor.monitor(self(), %{user_id: socket.assigns.user_id, application_name: app_name})
+    AppChannelMonitor.monitor(self(), %{user_id: socket.assigns.user.id, application_name: app_name})
+    Logger.info("Join channel for app : #{app_name}")
 
-    socket = assign(socket, app_name: app_name)
+    with {:ok, app} <- LenraApplicationServices.fetch_by(service_name: app_name),
+         loaded_app <- Repo.preload(app, [main_env: [environment: [:deployed_build]]]) do
+      build_number = loaded_app.main_env.environment.deployed_build.build_number
+      socket = assign(socket, app_name: app_name, build_number: build_number)
 
-    case ActionBuilder.first_run({socket.assigns.user_id, app_name}) do
-      {:ok, ui} ->
-        send(self(), {:send_ui, ui})
+      case ActionBuilder.first_run({socket.assigns.user.id, app_name}, build_number) do
+        {:ok, ui} ->
+          send(self(), {:send_ui, ui})
 
-      {:error, reason} ->
-        Logger.error(inspect(reason))
+        {:error, reason} ->
+          Logger.error(inspect(reason))
+      end
+
+      {:ok, socket}
     end
-
-    {:ok, socket}
   end
 
   def join("app", _any, _socket) do
@@ -42,9 +47,9 @@ defmodule LenraWeb.AppChannel do
   end
 
   defp handle_run(socket, action_key, event \\ %{}) do
-    %{app_name: app_name, user_id: user_id} = socket.assigns
+    %{app_name: app_name, user: user, build_number: build_number} = socket.assigns
 
-    case ActionBuilder.listener_run({user_id, app_name}, action_key, event) do
+    case ActionBuilder.listener_run({user.id, app_name}, build_number, action_key, event) do
       {:ok, patch} ->
         push(socket, "patchUi", %{patch: patch})
 
