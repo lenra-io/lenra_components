@@ -7,6 +7,7 @@ import 'package:fr_lenra_client/lenra_components/theme/lenra_text_field_theme_da
 import 'package:fr_lenra_client/lenra_components/theme/lenra_text_theme_data.dart';
 
 class LenraThemeData {
+  final double baseSize;
   LenraColorThemeData lenraColorThemeData;
   LenraTextThemeData lenraTextThemeData;
   LenraBorderThemeData lenraBorderThemeData;
@@ -16,6 +17,7 @@ class LenraThemeData {
   LenraTextFieldThemeData lenraTextFieldThemeData;
 
   LenraThemeData({
+    this.baseSize = 8,
     LenraColorThemeData lenraColorThemeData,
     LenraTextThemeData lenraTextThemeData,
     LenraBorderThemeData lenraBorderThemeData,

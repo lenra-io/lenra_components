@@ -35,6 +35,16 @@ defmodule LenraWeb.AppsController do
       reply(conn)
     end
   end
+
+  def get_user_apps(conn, _params) do
+    with :ok <- allow(conn),
+         user <- Plug.current_resource(conn),
+         apps <- LenraApplicationServices.all(user.id) do
+      conn
+      |> assign_data(:apps, apps)
+      |> reply
+    end
+  end
 end
 
 defmodule LenraWeb.AppsController.Policy do
@@ -44,6 +54,7 @@ defmodule LenraWeb.AppsController.Policy do
   def authorize(:index, _, _), do: true
   def authorize(:create, %User{role: :dev}, _), do: true
   def authorize(:delete, %User{id: user_id}, %LenraApplication{creator_id: user_id}), do: true
+  def authorize(:get_user_apps, %User{role: :dev}, _), do: true
 
   use LenraWeb.Policy.Default
 end

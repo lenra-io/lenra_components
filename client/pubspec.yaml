@@ -28,6 +28,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/api/ui.json
+    - assets/images/logo-vertical.png
   fonts:
     - family: Source Sans Pro
       fonts:

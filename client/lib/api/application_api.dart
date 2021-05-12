@@ -11,6 +11,11 @@ class ApplicationApi {
         responseMapper: (json) => AppsResponse.fromJson(json),
       );
 
+  static Future<AppsResponse> getUserApps() => lenraApi.get(
+        "/me/apps",
+        responseMapper: (json) => AppsResponse.fromJson(json),
+      );
+
   static Future<AuthResponse> activationCode(ActivationCodeRequest body) => lenraApi.put(
         "/verify/dev",
         body: body,

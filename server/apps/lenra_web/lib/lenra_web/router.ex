@@ -45,6 +45,7 @@ defmodule LenraWeb.Router do
     resources "/apps/deployments", DeploymentsController, only: [:create]
     put "/password", UserController, :password_modification
     put "/verify/dev", UserController, :validate_dev
+    get "/me/apps", AppsController, :get_user_apps
   end
 
   scope "/", LenraWeb do

@@ -3,10 +3,17 @@ defmodule Lenra.LenraApplicationServices do
     The service that manages possible actions on a lenra application.
   """
   require Logger
+
+  import Ecto.Query
+
   alias Lenra.{Repo, LenraApplication, Environment, ApplicationMainEnv}
 
   def all do
     Repo.all(LenraApplication)
+  end
+
+  def all(user_id) do
+    Repo.all(from(a in LenraApplication, where: a.creator_id == ^user_id))
   end
 
   def fetch(app_id) do
