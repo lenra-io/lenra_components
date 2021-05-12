@@ -8,7 +8,6 @@ import 'package:fr_lenra_client/components/page/login_page.dart';
 import 'package:fr_lenra_client/components/page/profile_page.dart';
 import 'package:fr_lenra_client/components/page/recovery_page.dart';
 import 'package:fr_lenra_client/components/page/register_page.dart';
-import 'package:fr_lenra_client/components/page/verifiying_code_page.dart';
 import 'package:fr_lenra_client/config/config.dart';
 
 typedef CustomRouteBuilder = Widget Function(BuildContext) Function(Map<String, String>);
@@ -33,13 +32,11 @@ final Map<String, CustomRouteBuilder> routes = {}
   ..addAll(Config.instance.application == Application.app ? appRoutes : devRoutes);
 
 final Map<String, CustomRouteBuilder> authRoutes = {
-  ChangeLostPasswordPage.routeName: (Map<String, String> params) =>
-      (BuildContext context) => ChangeLostPasswordPage(),
+  ChangeLostPasswordPage.routeName: (Map<String, String> params) => (BuildContext context) => ChangeLostPasswordPage(),
   RecoveryPage.routeName: (Map<String, String> params) => (BuildContext context) => RecoveryPage(),
   ProfilePage.routeName: (Map<String, String> params) => (BuildContext context) => ProfilePage(),
   LoginPage.routeName: (Map<String, String> params) => (BuildContext context) => LoginPage(),
-  VerifyingCodePage.routeName: (Map<String, String> params) =>
-      (BuildContext context) => VerifyingCodePage(),
+  // VerifyingCodePage.routeName: (Map<String, String> params) => (BuildContext context) => VerifyingCodePage(),
   RegisterPage.routeName: (Map<String, String> params) => (BuildContext context) => RegisterPage()
 };
 
@@ -52,8 +49,7 @@ final Map<String, CustomRouteBuilder> appRoutes = {
 
 final Map<String, CustomRouteBuilder> devRoutes = {
   HomePage.routeName: (Map<String, String> params) => (BuildContext context) => HomePage(),
-  ActivationCodePage.routeName: (Map<String, String> params) =>
-      (BuildContext context) => ActivationCodePage(),
+  ActivationCodePage.routeName: (Map<String, String> params) => (BuildContext context) => ActivationCodePage(),
 };
 
 RouteData getRouteDataForRoutes(

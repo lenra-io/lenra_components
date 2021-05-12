@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class OverviewPage extends StatelessWidget {
@@ -8,9 +10,12 @@ class OverviewPage extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: new Container(
-          width: MediaQuery.of(context).size.width / 2,
+          padding: EdgeInsets.all(16.0),
+          width: min(MediaQuery.of(context).size.width * 0.9, 600),
           child: Text(
-              "Lenra est encore à ses débuts et nous restreignons actuellement les créateurs d’applications, pour accéder à la plateforme developpeur, vous devez avoir un code d’accès."),
+            "Lenra est encore à ses débuts et nous restreignons actuellement les créateurs d’applications, pour accéder à la plateforme developpeur, vous devez avoir un code d’accès.",
+            textAlign: TextAlign.center,
+          ),
         ),
       ),
     );

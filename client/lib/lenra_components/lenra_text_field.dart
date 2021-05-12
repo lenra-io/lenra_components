@@ -15,7 +15,7 @@ class LenraTextField extends StatelessWidget {
   final String description;
   final String errorMessage;
   final bool obscure;
-  final bool enabled;
+  final bool disabled;
   final bool inRow;
   final bool error;
   final Function onEditingComplete;
@@ -31,15 +31,15 @@ class LenraTextField extends StatelessWidget {
     this.hintText,
     this.description,
     this.errorMessage,
-    this.obscure,
-    this.enabled,
-    this.inRow,
-    this.error,
+    this.obscure = false,
+    this.disabled = false,
+    this.inRow = false,
+    this.error = false,
     this.onEditingComplete,
     this.onSubmitted,
     this.onChanged,
-    this.size,
-    this.width,
+    this.size = LenraTextFieldSize.Medium,
+    this.width = 200.0,
     this.focusNode,
     this.controller,
   });
@@ -51,7 +51,7 @@ class LenraTextField extends StatelessWidget {
     Container textField = Container(
       width: this.width,
       child: TextField(
-        enabled: this.enabled,
+        enabled: !this.disabled,
         obscureText: this.obscure,
         style: TextStyle(
           fontSize: lenraTextFieldThemeData.fontSize.resolve(this.size).height,
@@ -61,7 +61,7 @@ class LenraTextField extends StatelessWidget {
         decoration: InputDecoration(
           isDense: true,
           filled: true,
-          fillColor: (this.enabled) ? Colors.transparent : Colors.grey[200],
+          fillColor: (this.disabled) ? Colors.transparent : Colors.grey[200],
           enabledBorder: OutlineInputBorder(
             borderSide: lenraTextFieldThemeData.border.primaryBorder,
           ),
@@ -90,7 +90,7 @@ class LenraTextField extends StatelessWidget {
           errorText: (this.error) ? this.errorMessage : null,
           errorStyle: TextStyle(fontSize: lenraTextFieldThemeData.fontSize.resolve(this.size).height),
         ),
-        onEditingComplete: this.enabled ? null : this.onEditingComplete ?? (e) => null,
+        onEditingComplete: this.disabled ? null : this.onEditingComplete,
         onSubmitted: this.onSubmitted,
         onChanged: this.onChanged,
       ),

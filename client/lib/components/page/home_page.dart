@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -8,8 +10,12 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: new Container(
-          width: MediaQuery.of(context).size.width / 2,
-          child: Text("Lenra est en cours de développement"),
+          padding: EdgeInsets.all(16.0),
+          width: min(MediaQuery.of(context).size.width * 0.9, 600),
+          child: Text(
+            "Lenra est en cours de développement",
+            textAlign: TextAlign.center,
+          ),
         ),
       ),
     );

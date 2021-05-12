@@ -14,7 +14,7 @@ class LenraTextfieldBuilder extends LenraComponentBuilder<LenraApplicationTextfi
     description,
     errorMessage,
     obscure,
-    enabled,
+    disabled,
     inRow,
     error,
     width,
@@ -27,7 +27,7 @@ class LenraTextfieldBuilder extends LenraComponentBuilder<LenraApplicationTextfi
       description: description,
       errorMessage: errorMessage,
       obscure: obscure,
-      enabled: enabled,
+      disabled: disabled,
       inRow: inRow,
       error: error,
       width: width,
@@ -43,7 +43,7 @@ class LenraTextfieldBuilder extends LenraComponentBuilder<LenraApplicationTextfi
       "description": "String",
       "errorMessage": "String",
       "obscure": "bool",
-      "enabled": "bool",
+      "disabled": "bool",
       "inRow": "bool",
       "error": "bool",
       "width": "double",
@@ -60,7 +60,7 @@ class LenraApplicationTextfield extends StatelessLenraComponent implements Lenra
   String description;
   String errorMessage;
   bool obscure;
-  bool enabled;
+  bool disabled;
   bool inRow;
   bool error;
   double width;
@@ -76,7 +76,7 @@ class LenraApplicationTextfield extends StatelessLenraComponent implements Lenra
     this.description,
     this.errorMessage,
     this.obscure,
-    this.enabled,
+    this.disabled,
     this.inRow,
     this.error,
     this.width,
@@ -94,7 +94,7 @@ class LenraApplicationTextfield extends StatelessLenraComponent implements Lenra
       description: this.description,
       errorMessage: this.errorMessage,
       obscure: this.obscure ?? false,
-      enabled: this.enabled ?? true,
+      disabled: this.disabled ?? false,
       inRow: this.inRow ?? false,
       error: this.error ?? false,
       onSubmitted: (value) {

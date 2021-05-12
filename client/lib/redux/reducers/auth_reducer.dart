@@ -1,4 +1,4 @@
-import 'package:fr_lenra_client/api/response_models/token_response.dart';
+import 'package:fr_lenra_client/api/response_models/auth_response.dart';
 import 'package:fr_lenra_client/redux/actions/async_action.dart';
 import 'package:fr_lenra_client/redux/actions/change_lost_password_action.dart';
 import 'package:fr_lenra_client/redux/actions/change_password_action.dart';
@@ -19,10 +19,10 @@ Reducer<AuthState> authStateReducer = combineReducers([
   TypedReducer<AuthState, ChangePasswordAction>(handlePasswordModification),
   TypedReducer<AuthState, LogoutAction>(handleRemoveTokenAfterLogoutAction),
   TypedReducer<AuthState, LogoutAction>(handleChangeStatusAfterLogoutAction),
-  TypedReducer<AuthState, AsyncAction<TokenResponse>>(handleTokenResponse),
+  TypedReducer<AuthState, AsyncAction<AuthResponse>>(handleTokenResponse),
 ]);
 
-AuthState handleTokenResponse(AuthState state, AsyncAction<TokenResponse> action) {
+AuthState handleTokenResponse(AuthState state, AsyncAction<AuthResponse> action) {
   if (action.isDone) {
     return state.copyWith(tokenResponse: action.data);
   }

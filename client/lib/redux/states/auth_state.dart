@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
-import 'package:fr_lenra_client/api/response_models/token_response.dart';
+import 'package:fr_lenra_client/api/response_models/auth_response.dart';
 import 'package:fr_lenra_client/redux/states/async_status.dart';
 
 @immutable
 class AuthState {
-  final TokenResponse tokenResponse;
+  final AuthResponse authResponse;
   final AsyncStatus registerStatus;
   final AsyncStatus verifyCodeStatus;
   final AsyncStatus loginStatus;
@@ -14,7 +14,7 @@ class AuthState {
   final AsyncStatus passwordModificationStatus;
 
   AuthState({
-    TokenResponse tokenResponse,
+    AuthResponse authResponse,
     AsyncStatus registerStatus,
     AsyncStatus verifyCodeStatus,
     AsyncStatus loginStatus,
@@ -22,7 +22,7 @@ class AuthState {
     AsyncStatus sendLostPasswordCodeStatus,
     AsyncStatus lostPasswordModificationStatus,
     AsyncStatus passwordModificationStatus,
-  })  : this.tokenResponse = tokenResponse ?? null,
+  })  : this.authResponse = authResponse ?? null,
         this.registerStatus = registerStatus ?? AsyncStatus(),
         this.verifyCodeStatus = verifyCodeStatus ?? AsyncStatus(),
         this.loginStatus = loginStatus ?? AsyncStatus(),
@@ -32,7 +32,7 @@ class AuthState {
         this.passwordModificationStatus = passwordModificationStatus ?? AsyncStatus();
 
   AuthState copyWith({
-    TokenResponse tokenResponse,
+    AuthResponse tokenResponse,
     AsyncStatus registerStatus,
     AsyncStatus verifyCodeStatus,
     AsyncStatus loginStatus,
@@ -42,7 +42,7 @@ class AuthState {
     AsyncStatus passwordModificationStatus,
   }) {
     return AuthState(
-      tokenResponse: tokenResponse ?? this.tokenResponse,
+      authResponse: tokenResponse ?? this.authResponse,
       registerStatus: registerStatus ?? this.registerStatus,
       verifyCodeStatus: verifyCodeStatus ?? this.verifyCodeStatus,
       loginStatus: loginStatus ?? this.loginStatus,
@@ -54,7 +54,7 @@ class AuthState {
   }
 
   Map<String, dynamic> toJson() => {
-        "tokenResponse": tokenResponse,
+        "authResponse": authResponse,
         "registerStatus": registerStatus.toJson(),
         "verifyCodeStatus": verifyCodeStatus.toJson(),
         "loginStatus": loginStatus.toJson(),
@@ -65,6 +65,6 @@ class AuthState {
       };
 
   static AuthState fromJson(dynamic json) {
-    return AuthState(tokenResponse: json["tokenResponse"]);
+    return AuthState(authResponse: json["authResponse"]);
   }
 }

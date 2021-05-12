@@ -89,7 +89,7 @@ class LenraApi extends LenraBaseHttpClient {
 
   @override
   Map<String, String> get _headers {
-    String token = LenraStore.getStore().state.authState.tokenResponse?.accessToken;
+    String token = LenraStore.getStore().state.authState.authResponse?.accessToken;
     return {"Content-Type": "application/json", "Authorization": "Bearer $token"};
   }
 }

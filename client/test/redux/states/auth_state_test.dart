@@ -8,7 +8,7 @@ void main() {
     expect(authState.loginStatus != null, true);
     expect(authState.registerStatus != null, true);
     expect(authState.verifyCodeStatus != null, true);
-    expect(authState.tokenResponse == null, true);
+    expect(authState.authResponse == null, true);
   });
 
   test('auth state copyWith', () {
@@ -30,7 +30,7 @@ void main() {
       true,
     );
     expect(
-      identical(oldAuthState.tokenResponse, newAuthState.tokenResponse),
+      identical(oldAuthState.authResponse, newAuthState.authResponse),
       true,
     );
   });

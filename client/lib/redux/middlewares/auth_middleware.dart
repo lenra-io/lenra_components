@@ -1,15 +1,17 @@
+import 'package:fr_lenra_client/api/response_models/auth_response.dart';
+import 'package:fr_lenra_client/api/response_models/user.dart';
+import 'package:fr_lenra_client/components/page/backoffice/activation_code_page.dart';
 import 'package:fr_lenra_client/components/page/change_lost_password_page.dart';
 import 'package:fr_lenra_client/components/page/login_page.dart';
 import 'package:fr_lenra_client/components/page/store_page.dart';
-import 'package:fr_lenra_client/components/page/verifiying_code_page.dart';
+import 'package:fr_lenra_client/config/config.dart';
+import 'package:fr_lenra_client/redux/actions/async_action.dart';
 import 'package:fr_lenra_client/redux/actions/change_lost_password_action.dart';
 import 'package:fr_lenra_client/redux/actions/change_password_action.dart';
-import 'package:fr_lenra_client/redux/actions/login_action.dart';
 import 'package:fr_lenra_client/redux/actions/logout_action.dart';
 import 'package:fr_lenra_client/redux/actions/push_route_action.dart';
 import 'package:fr_lenra_client/redux/actions/recovery_action.dart';
 import 'package:fr_lenra_client/redux/actions/register_action.dart';
-import 'package:fr_lenra_client/redux/actions/verify_code_action.dart';
 import 'package:fr_lenra_client/redux/states/app_state.dart';
 import 'package:redux/redux.dart';
 
@@ -23,21 +25,25 @@ void authMiddleware(
 ) {
   next(action);
 
-  // TODO: gérer le code d'activation à la connexion aussi si il n'est pas validé
-  // TODO: gérer le code de passage au rôle dev si l'utilisateur n'a pas le rôle dev (backoffice uniquement)
-  // TODO: après l'inscription ou la connexion complète (validation des codes) rediriger vers la page à laquelle voulait accéder l'utilisateur. Si il ne voulais pas accéder à une page particulière, rediriger vers la base : /
-  if (action is RegisterAction && action.isDone) {
-    store.dispatch(PushRouteAction(VerifyingCodePage.routeName, removeStack: true));
-  }
-  if ((action is VerifyCodeAction || action is LoginAction) && action.isDone) {
-    store.dispatch(PushRouteAction(StorePage.routeName, removeStack: true));
+  if (action is AsyncAction<AuthResponse> && action.isDone) {
+    // TODO: réactiver la confirmation de compte
+    /* if (store.state.authState.authResponse.user.role == "unverified_user") {
+      store.dispatch(PushRouteAction(VerifyingCodePage.routeName, removeStack: true));
+    } else */
+    if (Config.instance.application == Application.dev &&
+        store.state.authState.authResponse.user.role != UserRole.dev) {
+      store.dispatch(PushRouteAction(ActivationCodePage.routeName, removeStack: true));
+    } else {
+      // TODO: rediriger vers la page à laquelle voulait accéder l'utilisateur.
+      // Si il ne voulais pas accéder à une page particulière, rediriger vers la base : /
+      store.dispatch(PushRouteAction("/", removeStack: true));
+    }
   }
   if ((action is LogoutAction || action is ChangeLostPasswordAction) && action.isDone) {
     store.dispatch(PushRouteAction(LoginPage.routeName, removeStack: true));
   }
   if (action is RecoveryAction && action.isDone) {
-    store.dispatch(PushRouteAction(ChangeLostPasswordPage.routeName,
-        arguments: action.email, removeStack: true));
+    store.dispatch(PushRouteAction(ChangeLostPasswordPage.routeName, arguments: action.email, removeStack: true));
   }
   if (action is ChangePasswordAction && action.isDone) {
     store.dispatch(PushRouteAction(StorePage.routeName, removeStack: true));

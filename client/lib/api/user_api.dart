@@ -5,34 +5,34 @@ import 'package:fr_lenra_client/api/request_models/loginRequest.dart';
 import 'package:fr_lenra_client/api/request_models/recovery_request.dart';
 import 'package:fr_lenra_client/api/request_models/register_request.dart';
 import 'package:fr_lenra_client/api/request_models/verify_code_request.dart';
+import 'package:fr_lenra_client/api/response_models/auth_response.dart';
 import 'package:fr_lenra_client/api/response_models/empty_response.dart';
-import 'package:fr_lenra_client/api/response_models/token_response.dart';
 
 class UserApi {
   static LenraAuth lenraAuth = LenraAuth();
   static LenraApi lenraApi = LenraApi();
 
-  static Future<TokenResponse> register(RegisterRequest body) => lenraAuth.post(
+  static Future<AuthResponse> register(RegisterRequest body) => lenraAuth.post(
         "/register",
         body: body,
-        responseMapper: (json) => TokenResponse.fromJson(json),
+        responseMapper: (json) => AuthResponse.fromJson(json),
       );
 
-  static Future<TokenResponse> login(LoginRequest body) => lenraAuth.post(
+  static Future<AuthResponse> login(LoginRequest body) => lenraAuth.post(
         "/login",
         body: body,
-        responseMapper: (json) => TokenResponse.fromJson(json),
+        responseMapper: (json) => AuthResponse.fromJson(json),
       );
 
-  static Future<TokenResponse> verifyCode(VerifyCodeRequest body) => lenraAuth.post(
+  static Future<AuthResponse> verifyCode(VerifyCodeRequest body) => lenraAuth.post(
         "/verify",
         body: body,
-        responseMapper: (json) => TokenResponse.fromJson(json),
+        responseMapper: (json) => AuthResponse.fromJson(json),
       );
 
-  static Future<TokenResponse> refresh() => lenraAuth.post(
+  static Future<AuthResponse> refresh() => lenraAuth.post(
         "/refresh",
-        responseMapper: (json) => TokenResponse.fromJson(json),
+        responseMapper: (json) => AuthResponse.fromJson(json),
       );
 
   static Future<EmptyResponse> logout() => lenraAuth.post(

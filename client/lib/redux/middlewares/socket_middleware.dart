@@ -1,3 +1,4 @@
+import 'package:fr_lenra_client/config/config.dart';
 import 'package:fr_lenra_client/redux/actions/action.dart';
 import 'package:fr_lenra_client/redux/actions/async_action.dart';
 import 'package:fr_lenra_client/redux/actions/login_action.dart';
@@ -15,23 +16,23 @@ Future socketMiddleware(
 ) async {
   next(action);
 
-  if (action is LoginAction ||
-      action is RegisterAction ||
-      action is VerifyCodeAction) {
-    if ((action as AsyncAction).isDone) {
-      createLenraSocketInstance(store);
+  if (Config.instance.application == Application.app) {
+    if (action is LoginAction || action is RegisterAction || action is VerifyCodeAction) {
+      if ((action as AsyncAction).isDone) {
+        createLenraSocketInstance(store);
+      }
     }
-  }
 
-  if (action is RefreshTokenAction) {
-    if (action.isDone && LenraSocket.instance == null) {
-      createLenraSocketInstance(store);
+    if (action is RefreshTokenAction) {
+      if (action.isDone && LenraSocket.instance == null) {
+        createLenraSocketInstance(store);
+      }
     }
   }
 }
 
 void createLenraSocketInstance(Store<AppState> store) {
   LenraSocket.createInstance(
-    store.state.authState.tokenResponse.accessToken,
+    store.state.authState.authResponse.accessToken,
   ).connect();
 }
