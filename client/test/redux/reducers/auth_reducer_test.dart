@@ -57,13 +57,14 @@ void main() {
 
   testStatus<AuthState>(
     AuthState(),
-    RegisterAction(RegisterRequest("email", "firstName", "lastName", "password")),
+    RegisterAction(RegisterRequest("email", "password", firstName: "firstName", lastName: "lastName")),
     authStateReducer,
     (state) => state.registerStatus,
   );
 
-  test('auth reducer register token and user saved', () {
-    RegisterAction action = RegisterAction(RegisterRequest("email", "firstName", "lastName", "password"));
+  test('auth reducer register token saved', () {
+    RegisterAction action =
+        RegisterAction(RegisterRequest("email", "password", firstName: "firstName", lastName: "lastName"));
     action.status = RequestStatus.done;
     action.data = AuthResponse.fromJson(json);
     AuthState authState = authStateReducer(AuthState(), action);

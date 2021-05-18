@@ -47,7 +47,7 @@ defmodule Lenra.User do
   def changeset(user, params \\ %{}) do
     user
     |> cast(params, [:first_name, :last_name, :email])
-    |> validate_required([:email, :first_name, :last_name, :role])
+    |> validate_required([:email, :role])
     |> validate_length(:first_name, min: 2, max: 256)
     |> validate_length(:last_name, min: 2, max: 256)
     |> update_change(:email, &String.downcase/1)

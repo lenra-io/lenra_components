@@ -35,26 +35,6 @@ defmodule UserServicesTest do
            ]
   end
 
-  test "register should fail if first_name not specified" do
-    {:error, _step, changeset, _} = register_john_doe(%{"first_name" => ""})
-
-    assert not changeset.valid?
-
-    assert changeset.errors == [
-             {:first_name, {"can't be blank", [validation: :required]}}
-           ]
-  end
-
-  test "register should fail if last_name not specified" do
-    {:error, _step, changeset, _} = register_john_doe(%{"last_name" => ""})
-
-    assert not changeset.valid?
-
-    assert changeset.errors == [
-             {:last_name, {"can't be blank", [validation: :required]}}
-           ]
-  end
-
   test "register should fail if email not specified" do
     {:error, _step, changeset, _} = register_john_doe(%{"email" => ""})
 

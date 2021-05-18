@@ -21,8 +21,8 @@ class LenraButton extends StatelessWidget {
   final LenraButtonSize size;
   final LenraButtonType type;
   final LenraButtonThemeData lenraButtonThemeData;
-  final Icon leftIcon;
-  final Icon rightIcon;
+  final Widget leftIcon;
+  final Widget rightIcon;
 
   LenraButton({
     this.onPressed,
@@ -40,16 +40,22 @@ class LenraButton extends StatelessWidget {
     final LenraButtonThemeData finalLenraButtonThemeData =
         LenraTheme.of(context).lenraButtonThemeData.merge(this.lenraButtonThemeData);
 
-    return TextButton(
-      onPressed: this.disabled ? null : onPressed,
-      child: Row(
+    Widget textButtonChild = Text(text);
+
+    if (this.leftIcon != null || this.rightIcon != null) {
+      textButtonChild = Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           if (this.leftIcon != null) this.leftIcon,
           Text(text),
           if (this.rightIcon != null) this.rightIcon,
         ],
-      ),
+      );
+    }
+
+    return TextButton(
+      onPressed: this.disabled ? null : onPressed,
+      child: textButtonChild,
       style: ButtonStyle(
         textStyle: finalLenraButtonThemeData.textStyle,
         padding: finalLenraButtonThemeData.padding,

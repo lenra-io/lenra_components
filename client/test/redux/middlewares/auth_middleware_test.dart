@@ -61,7 +61,7 @@ void main() {
   test('authMiddleware with RegisterAction that is not done must call next and not dispatch.', () {
     var store = MockedStore();
     var action = RegisterAction(
-      RegisterRequest("email", "firstName", "lastName", "password"),
+      RegisterRequest("email", "password", firstName: "firstName", lastName: "lastName"),
     );
 
     checkNotCallingDispatch<RegisterAction>(store, action);
@@ -70,7 +70,7 @@ void main() {
   test('authMiddleware with RegisterAction that is done redirect to Verify code page with stack reset', () {
     var store = MockedStore();
     var action = RegisterAction(
-      RegisterRequest("email", "firstName", "lastName", "password"),
+      RegisterRequest("email", "password", firstName: "firstName", lastName: "lastName"),
     );
 
     checkCallingDispatchWith<RegisterAction>(

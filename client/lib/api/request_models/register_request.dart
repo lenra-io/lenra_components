@@ -6,7 +6,7 @@ class RegisterRequest extends ApiRequest {
   final String lastName;
   final String password;
 
-  RegisterRequest(this.email, this.firstName, this.lastName, this.password);
+  RegisterRequest(this.email, this.password, {this.firstName, this.lastName});
 
   RegisterRequest.fromJson(Map<String, String> json)
       : email = json["email"],

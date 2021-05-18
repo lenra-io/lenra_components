@@ -57,7 +57,7 @@ class _RecoveryFormState extends State<RecoveryForm> {
                   this.recoveryModel.fetchData(body: RecoveryRequest(this.email));
                 }
               },
-              child: Text('Envoyer'),
+              text: 'Envoyer',
               loading: this.recoveryModel.status.isFetching,
             ),
           ),

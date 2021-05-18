@@ -29,12 +29,13 @@ defmodule LenraWeb.UserControllerTest do
         Routes.user_path(conn, :register, %{
           "first_name" => "",
           "last_name" => "Doe",
-          "email" => "john.doe@lenra.fr",
+          "email" => "john.doelenra.fr",
           "password" => "johndoethefirst"
         })
       )
 
-    assert %{"errors" => [%{"code" => 0, "message" => "first_name can't be blank"}]} = json_response(conn, 400)
+    assert %{"errors" => [%{"code" => 0, "message" => "email has invalid format"}], "success" => false} =
+             json_response(conn, 400)
   end
 
   test "login test", %{conn: conn} do

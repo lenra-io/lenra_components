@@ -19,7 +19,7 @@ void main() {
   test('RegisterModel action creation', () {
     testModelAction<RegisterModel, RegisterAction>(
       (store) => RegisterModel(store),
-      body: RegisterRequest("", "", "", ""),
+      body: RegisterRequest("", ""),
     );
   });
 }

@@ -134,7 +134,7 @@ class _ChangeLostPasswordState extends State<ChangeLostPasswordForm> {
                           this.code, this.widget.email, this.newPassword, this.newPasswordConfirmation));
                 }
               },
-              child: Text('Confirmer'),
+              text: 'Confirmer',
               loading: this.widget.changeLostPasswordModel.status.isFetching,
             ),
           ),

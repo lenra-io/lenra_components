@@ -8,17 +8,20 @@ class RegisterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: new Container(
-          width: MediaQuery.of(context).size.width / 3,
-          child: Wrap(
-            direction: Axis.horizontal,
-            alignment: WrapAlignment.spaceEvenly,
-            children: [
-              Text("Inscription"),
-              Container(
-                child: RegisterFormContainer(),
-              )
-            ],
+        child: SingleChildScrollView(
+          child: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  "assets/images/logo-vertical.png",
+                  height: 104.0,
+                ),
+                SizedBox(height: 50),
+                RegisterFormContainer(),
+              ],
+            ),
+            constraints: BoxConstraints(maxWidth: 400),
           ),
         ),
       ),

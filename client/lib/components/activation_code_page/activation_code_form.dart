@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/api/request_models/activation_code_request.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_button.dart';
-import 'package:fr_lenra_client/lenra_components/lenra_text_field.dart';
+import 'package:fr_lenra_client/lenra_components/lenra_text_form_field.dart';
 import 'package:fr_lenra_client/redux/models/activation_code_model.dart';
+import 'package:fr_lenra_client/utils/form_validators.dart';
 
 class ActivationCodeForm extends StatefulWidget {
   final ActivationCodeModel activationCodeModel;
@@ -33,20 +34,20 @@ class _ActivationCodeFormState extends State<ActivationCodeForm> {
     return Form(
       key: _formKey,
       child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: <Widget>[
-        LenraTextField(
+        LenraTextFormField(
           label: 'Code :',
           description: 'Entrer votre code',
           onChanged: (String value) {
             code = value;
           },
-          // validator: validator([
-          //   checkNotEmpty(error: "Merci de rentrer votre code"),
-          //   checkLength(
-          //     min: 8,
-          //     max: 100,
-          //     error: "Doit contenir au moins 8 caractères",
-          //   ),
-          // ]),
+          validator: validator([
+            checkNotEmpty(error: "Merci de rentrer votre code"),
+            checkLength(
+              min: 8,
+              max: 100,
+              error: "Doit contenir au moins 8 caractères",
+            ),
+          ]),
         ),
         Padding(padding: const EdgeInsets.only(top: 16.0)),
         LenraButton(

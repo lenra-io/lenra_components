@@ -4,51 +4,49 @@ import 'package:fr_lenra_client/lenra_components/theme/lenra_border_theme_data.d
 import 'package:fr_lenra_client/lenra_components/theme/lenra_color_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_property_mapper.dart';
 
+import 'lenra_color_theme_data.dart';
+
 class LenraTextFieldThemeData {
   LenraColorThemeData colorTheme;
   LenraBorderThemeData border;
+  Color descriptionColor;
   TextStyle textStyle;
-  LenraThemePropertyMapper<Size, LenraTextFieldSize> minimumSize;
-  LenraThemePropertyMapper<Size, LenraTextFieldSize> fontSize;
+  LenraThemePropertyMapper<double, LenraTextFieldSize> height;
+  double fontSize;
 
   LenraTextFieldThemeData({
     this.colorTheme,
     this.border,
+    this.fontSize = 14.0,
     double sizeSmall = 24.0,
     double sizeMedium = 32.0,
     double sizeLarge = 40.0,
+    this.descriptionColor,
   }) {
     this.colorTheme = colorTheme ?? LenraColorThemeData();
+    this.descriptionColor =
+        descriptionColor ?? LenraColorThemeData.LENRA_GREY_TEXT;
     this.border = border ??
         LenraBorderThemeData(
           primaryBorder: BorderSide(color: Colors.grey),
           primaryHoverBorder: BorderSide(color: LenraColorThemeData.LENRA_BLUE),
-          primaryDisabledBorder: BorderSide(color: LenraColorThemeData.LENRA_DISABLED_GRAY),
+          primaryDisabledBorder:
+              BorderSide(color: LenraColorThemeData.LENRA_DISABLED_GRAY),
           secondaryBorder: BorderSide(color: Colors.red),
         );
 
-    this.minimumSize = LenraThemePropertyMapper.resolveWith(
+    this.height = LenraThemePropertyMapper.resolveWith(
       (LenraTextFieldSize size) {
-        Map<LenraTextFieldSize, Size> map = {
-          LenraTextFieldSize.Small: Size(0, sizeSmall),
-          LenraTextFieldSize.Medium: Size(0, sizeMedium),
-          LenraTextFieldSize.Large: Size(0, sizeLarge),
+        Map<LenraTextFieldSize, double> map = {
+          LenraTextFieldSize.Small: sizeSmall,
+          LenraTextFieldSize.Medium: sizeMedium,
+          LenraTextFieldSize.Large: sizeLarge,
         };
-        return map[size] ?? Size(0, sizeMedium);
-      },
-    );
-
-    this.fontSize = LenraThemePropertyMapper.resolveWith(
-      (LenraTextFieldSize size) {
-        Map<LenraTextFieldSize, Size> map = {
-          LenraTextFieldSize.Small: Size(0, 12),
-          LenraTextFieldSize.Medium: Size(0, 14),
-          LenraTextFieldSize.Large: Size(0, 16),
-        };
-        return map[size] ?? Size(0, 12);
+        return map[size] ?? sizeMedium;
       },
     );
   }
+
   LenraTextFieldThemeData merge(LenraTextFieldThemeData incoming) {
     if (incoming != null) {
       LenraTextFieldThemeData merged = LenraTextFieldThemeData();

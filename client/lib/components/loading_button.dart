@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:fr_lenra_client/lenra_components/lenra_button.dart';
 
 class LoadingButton extends StatelessWidget {
   final void Function() onPressed;
-  final Widget child;
+  final String text;
   final bool loading;
+  final Widget rightIcon;
 
-  LoadingButton({this.onPressed, this.child, this.loading = false});
+  LoadingButton({this.onPressed, this.text, this.rightIcon, this.loading = false});
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +15,10 @@ class LoadingButton extends StatelessWidget {
       return CircularProgressIndicator();
     }
 
-    return ElevatedButton(
-      onPressed: this.onPressed,
-      child: this.child,
+    return LenraButton(
+      onPressed: !this.loading ? this.onPressed : null,
+      text: this.text,
+      rightIcon: this.loading ? CircularProgressIndicator() : this.rightIcon,
     );
   }
 }

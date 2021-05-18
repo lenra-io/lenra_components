@@ -102,7 +102,7 @@ class _LoginFormState extends State<LoginForm> {
                   this.loginModel.fetchData(body: LoginRequest(email, password));
                 }
               },
-              child: Text('Se Connecter'),
+              text: 'Se Connecter',
               loading: this.loginModel.status.isFetching,
             ),
           ),

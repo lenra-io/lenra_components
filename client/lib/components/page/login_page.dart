@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/components/login_page/login_form_container.dart';
 
 class LoginPage extends StatelessWidget {
-  static const routeName = "/login";
+  static const routeName = "/";
 
   @override
   Widget build(BuildContext context) {

@@ -34,3 +34,12 @@ Function checkEmailFormat({String error}) {
     return null;
   };
 }
+
+Function checkPassword({String error}) {
+  return (String value) {
+    if (!RegExp(r"(?=.*[a-z])(?=.*[A-Z])(?=.*\W)").hasMatch(value)) {
+      return error ?? "1 majuscule, 1 minuscule et 1 caractère spécial.";
+    }
+    return null;
+  };
+}

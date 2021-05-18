@@ -120,7 +120,7 @@ class _ChangePasswordState extends State<ChangePasswordForm> {
                       body: ChangePasswordRequest(this.oldPassword, this.newPassword, this.newPasswordConfirmation));
                 }
               },
-              child: Text('Confirmer'),
+              text: 'Confirmer',
               loading: this.changePasswordModel.status.isFetching,
             ),
           ),

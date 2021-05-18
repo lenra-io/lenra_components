@@ -6,7 +6,12 @@ import 'package:fr_lenra_client/api/request_models/register_request.dart';
 
 void main() {
   test('to json', () {
-    RegisterRequest request = RegisterRequest("email", "firstName", "lastName", "password");
+    RegisterRequest request = RegisterRequest(
+      "email",
+      "password",
+      firstName: "firstName",
+      lastName: "lastName",
+    );
     Map<String, dynamic> json = jsonDecode(jsonEncode(request));
     expect(request is ApiRequest, true);
     expect(json["email"], "email");
