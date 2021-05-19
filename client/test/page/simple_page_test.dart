@@ -6,7 +6,7 @@ import 'lenra_page_test_help.dart';
 
 void main() {
   testWidgets('Basic SimplePage', (WidgetTester tester) async {
-    await tester.pumpWidget(createBaseTestWidgets(SimplePage()));
+    await tester.pumpWidget(createAppTestWidgets(SimplePage()));
 
     final widgetFinder = find.byType(SimplePage);
     final logoFinder = find.byType(Image);
@@ -19,7 +19,7 @@ void main() {
   testWidgets('SimplePage with title', (WidgetTester tester) async {
     var title = "My title";
 
-    await tester.pumpWidget(createBaseTestWidgets(SimplePage(title: title)));
+    await tester.pumpWidget(createAppTestWidgets(SimplePage(title: title)));
 
     final widgetFinder = find.byType(SimplePage);
     final logoFinder = find.byType(Image);
@@ -35,7 +35,7 @@ void main() {
     var title = "My title";
     var content = "My text";
 
-    await tester.pumpWidget(createBaseTestWidgets(SimplePage(
+    await tester.pumpWidget(createAppTestWidgets(SimplePage(
       title: title,
       child: Text(content),
     )));
@@ -57,7 +57,7 @@ void main() {
     var back = "Get back";
     var content = "My text";
 
-    await tester.pumpWidget(createBaseTestWidgets(SimplePage(
+    await tester.pumpWidget(createAppTestWidgets(SimplePage(
       title: title,
       backInkText: back,
       child: Text(content),
@@ -72,7 +72,7 @@ void main() {
 
     expect(widgetFinder, findsOneWidget);
     expect(logoFinder, findsOneWidget);
-    expect(textFinder, findsNWidgets(4));
+    expect(textFinder, findsNWidgets(3));
     expect(titleFinder, findsOneWidget);
     expect(backFinder, findsOneWidget);
     expect(contentFinder, findsOneWidget);

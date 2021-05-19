@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_color_theme_data.dart';
 
 class LenraBorderThemeData {
+  BorderRadius borderRadius;
   BorderSide primaryBorder;
   BorderSide primaryHoverBorder;
   BorderSide primaryDisabledBorder;
@@ -15,6 +16,7 @@ class LenraBorderThemeData {
   BorderSide tertiaryDisabledBorder;
 
   LenraBorderThemeData({
+    BorderRadius borderRadius,
     BorderSide primaryBorder,
     BorderSide primaryHoverBorder,
     BorderSide primaryDisabledBorder,
@@ -25,6 +27,7 @@ class LenraBorderThemeData {
     BorderSide tertiaryHoverBorder,
     BorderSide tertiaryDisabledBorder,
   }) {
+    this.borderRadius = borderRadius ?? BorderRadius.circular(4.0);
     this.primaryBorder = primaryBorder ?? null;
     this.primaryHoverBorder = primaryHoverBorder ?? null;
     this.primaryDisabledBorder = primaryDisabledBorder ?? null;

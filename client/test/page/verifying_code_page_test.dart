@@ -6,7 +6,7 @@ import 'lenra_page_test_help.dart';
 
 void main() {
   testWidgets('expect VerifyingCodePage to build correctly', (WidgetTester tester) async {
-    await tester.pumpWidget(createBaseTestWidgets(VerifyingCodePage()));
+    await tester.pumpWidget(createAppTestWidgets(VerifyingCodePage()));
     final finder = find.byType(VerifyCodeFormContainer);
     expect(finder, findsOneWidget);
   });

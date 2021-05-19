@@ -9,6 +9,6 @@ void main() {
 
     LenraButtonThemeData merged = lenraButtonThemeDataDefault.merge(lenraButtonThemeDataModified);
 
-    expect(merged.minimumSize != lenraButtonThemeDataDefault.minimumSize, true);
+    expect(merged.padding != lenraButtonThemeDataDefault.padding, true);
   });
 }

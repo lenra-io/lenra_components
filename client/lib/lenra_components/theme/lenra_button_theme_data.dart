@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_button.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_border_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_color_theme_data.dart';
+import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_property_mapper.dart';
 
 class LenraButtonThemeData {
   LenraThemePropertyMapper<MaterialStateProperty<Color>, LenraButtonType> backgroundColor;
   LenraThemePropertyMapper<MaterialStateProperty<Color>, LenraButtonType> foregroundColor;
-  MaterialStateProperty<EdgeInsetsGeometry> padding;
-  LenraThemePropertyMapper<MaterialStateProperty<Size>, LenraButtonSize> minimumSize;
+  LenraThemePropertyMapper<EdgeInsetsGeometry, LenraComponentSize> padding;
   MaterialStateProperty<TextStyle> textStyle;
   LenraThemePropertyMapper<MaterialStateProperty<BorderSide>, LenraButtonType> side;
 
@@ -21,6 +21,7 @@ class LenraButtonThemeData {
     double sizeLarge = 40.0,
     LenraButtonType type = LenraButtonType.Primary,
     TextStyle textStyle = const TextStyle(color: Colors.blue),
+    Map<LenraComponentSize, EdgeInsets> paddingMap,
   }) {
     colorTheme = colorTheme ?? LenraColorThemeData();
     border = border ?? LenraBorderThemeData();
@@ -87,16 +88,8 @@ class LenraButtonThemeData {
       return map[type] ?? MaterialStateProperty.all(colorTheme.primaryForegroundColor);
     });
 
-    this.padding = MaterialStateProperty.all(EdgeInsets.symmetric(horizontal: horizontalPadding));
-
-    this.minimumSize = LenraThemePropertyMapper.resolveWith((LenraButtonSize size) {
-      Map<LenraButtonSize, MaterialStateProperty<Size>> map = {
-        LenraButtonSize.Small: MaterialStateProperty.all(Size(0, sizeSmall)),
-        LenraButtonSize.Medium: MaterialStateProperty.all(Size(0, sizeMedium)),
-        LenraButtonSize.Large: MaterialStateProperty.all(Size(0, sizeLarge)),
-      };
-
-      return map[size] ?? MaterialStateProperty.all(Size(0, sizeMedium));
+    this.padding = LenraThemePropertyMapper.resolveWith((LenraComponentSize size) {
+      return paddingMap[size] ?? paddingMap[LenraComponentSize.Medium];
     });
 
     this.textStyle = MaterialStateProperty.all(textStyle);
@@ -138,7 +131,6 @@ class LenraButtonThemeData {
       LenraButtonThemeData merged = LenraButtonThemeData();
       merged.backgroundColor = incoming.backgroundColor ?? this.backgroundColor;
       merged.foregroundColor = incoming.foregroundColor ?? this.foregroundColor;
-      merged.minimumSize = incoming.minimumSize ?? this.minimumSize;
       merged.padding = incoming.padding ?? this.padding;
       merged.side = incoming.side ?? this.side;
       merged.textStyle = incoming.textStyle ?? this.textStyle;

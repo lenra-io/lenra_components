@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_text_field.dart';
+import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
 
 class LenraTextFormField extends FormField<String> {
   final String label;
@@ -12,7 +13,7 @@ class LenraTextFormField extends FormField<String> {
   final Function onEditingComplete;
   final Function(String) onSubmitted;
   final Function(String) onChanged;
-  final LenraTextFieldSize size;
+  final LenraComponentSize size;
   final double width;
   final FocusNode focusNode;
   final TextEditingController controller;
@@ -21,9 +22,9 @@ class LenraTextFormField extends FormField<String> {
     Key key,
     String initialValue = "",
     validator,
-    this.label,
-    this.hintText,
-    this.description,
+    this.label = "",
+    this.hintText = "",
+    this.description = "",
     this.errorMessage,
     this.obscure = false,
     this.disabled = false,
@@ -31,7 +32,7 @@ class LenraTextFormField extends FormField<String> {
     this.onEditingComplete,
     this.onSubmitted,
     this.onChanged,
-    this.size = LenraTextFieldSize.Medium,
+    this.size = LenraComponentSize.Medium,
     this.width,
     this.focusNode,
     this.controller,

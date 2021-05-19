@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/api/request_models/register_request.dart';
 import 'package:fr_lenra_client/components/error_list.dart';
+import 'package:fr_lenra_client/lenra_components/layout/lenra_column.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_button.dart';
-import 'package:fr_lenra_client/lenra_components/lenra_text_field.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_text_form_field.dart';
+import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
 import 'package:fr_lenra_client/redux/models/register_model.dart';
 import 'package:fr_lenra_client/utils/form_validators.dart';
 
@@ -46,27 +47,16 @@ class _RegisterFormState extends State<RegisterForm> {
 
     return Form(
       key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: LenraColumn(
+        separationFactor: 5,
         children: [
-          Text(
-            "Créez votre compte utilisateur",
-            style: finalLenraTextThemeData.headline2,
-          ),
-          SizedBox(height: 40),
           this.fields(context),
-          SizedBox(height: 35),
           //------Button------
           this.validationButton(context),
-          SizedBox(height: 35),
           Text(
             "Lenra est une plateforme d’application en version alpha, des bugs ou des fonctionnalités peuvent être manquantes.",
             textAlign: TextAlign.center,
-            style: finalLenraTextThemeData.bodyText.merge(
-              TextStyle(
-                color: Color(0xFF8B97AD),
-              ),
-            ),
+            style: finalLenraTextThemeData.disabledBodyText,
           ),
 
           ErrorList(this.registerModel.errors)
@@ -80,7 +70,6 @@ class _RegisterFormState extends State<RegisterForm> {
       width: double.infinity,
       child: LenraButton(
         text: "Créer mon compte Lenra",
-        size: LenraButtonSize.Large,
         onPressed: () {
           if (_formKey.currentState.validate()) {
             this.registerModel.register(
@@ -96,8 +85,8 @@ class _RegisterFormState extends State<RegisterForm> {
   }
 
   Widget fields(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return LenraColumn(
+      separationFactor: 2,
       children: [
         //------Email------
         LenraTextFormField(
@@ -106,14 +95,13 @@ class _RegisterFormState extends State<RegisterForm> {
           onChanged: (String value) {
             email = value;
           },
-          size: LenraTextFieldSize.Large,
+          size: LenraComponentSize.Large,
           validator: validator([
             checkNotEmpty(),
             checkLength(min: 2, max: 64),
             checkEmailFormat(),
           ]),
         ),
-        SizedBox(height: 20),
         //------Password------
         LenraTextFormField(
           label: 'Définissez un mot de passe',
@@ -122,7 +110,7 @@ class _RegisterFormState extends State<RegisterForm> {
           onChanged: (String value) {
             password = value;
           },
-          size: LenraTextFieldSize.Large,
+          size: LenraComponentSize.Large,
           validator: validator([
             checkNotEmpty(),
             checkLength(min: 8, max: 64),

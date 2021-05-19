@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fr_lenra_client/lenra_components/layout/lenra_column.dart';
+import 'package:fr_lenra_client/lenra_components/layout/lenra_row.dart';
+import 'package:fr_lenra_client/lenra_components/theme/lenra_color_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_text_field_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme.dart';
-
-import 'theme/lenra_text_field_theme_data.dart';
-
-enum LenraTextFieldSize {
-  Small,
-  Medium,
-  Large,
-}
+import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
 
 // ignore: must_be_immutable
 class LenraTextField extends StatelessWidget {
@@ -23,15 +19,15 @@ class LenraTextField extends StatelessWidget {
   final Function onEditingComplete;
   final Function(String) onSubmitted;
   final Function(String) onChanged;
-  final LenraTextFieldSize size;
+  final LenraComponentSize size;
   final double width;
   final FocusNode focusNode;
   final TextEditingController controller;
 
   LenraTextField({
-    this.label,
-    this.hintText,
-    this.description,
+    this.label = "",
+    this.hintText = "",
+    this.description = "",
     this.errorMessage,
     this.obscure = false,
     this.disabled = false,
@@ -40,133 +36,121 @@ class LenraTextField extends StatelessWidget {
     this.onEditingComplete,
     this.onSubmitted,
     this.onChanged,
-    this.size = LenraTextFieldSize.Medium,
-    this.width = 200.0,
+    this.size = LenraComponentSize.Medium,
+    this.width = double.infinity,
     this.focusNode,
     this.controller,
   });
 
   @override
   Widget build(BuildContext context) {
-    final LenraTextFieldThemeData lenraTextFieldThemeData = LenraTheme.of(context).lenraTextFieldThemeData;
+    final theme = LenraTheme.of(context);
+    final LenraTextFieldThemeData lenraTextFieldThemeData = theme.lenraTextFieldThemeData;
 
-    Container textField = this.buildTextField(
+    Text labelWidget = (this.label == null || this.label.isEmpty)
+        ? null
+        : Text(
+            this.label,
+            style: lenraTextFieldThemeData.textStyle,
+            textAlign: TextAlign.left,
+          );
+    Widget textField = this.buildTextField(
       context,
       lenraTextFieldThemeData,
     );
 
-    if (inRow) {
-      return this.buildRowStyle(context, textField, lenraTextFieldThemeData);
+    List<Widget> colChildren = [];
+
+    if (inRow && labelWidget != null) {
+      colChildren.add(LenraRow(
+        separationFactor: 2,
+        children: [
+          labelWidget,
+          Expanded(child: textField),
+        ],
+      ));
     } else {
-      return this.buildColumnStyle(context, textField, lenraTextFieldThemeData);
+      if (labelWidget != null) colChildren.add(labelWidget);
+      colChildren.add(textField);
     }
+    if (this.description != null && this.description.isNotEmpty) {
+      colChildren.add(Text(
+        this.description,
+        style: lenraTextFieldThemeData.textStyle,
+        textAlign: TextAlign.left,
+      ));
+    }
+    if (colChildren.length > 1) {
+      textField = LenraColumn(
+        separationFactor: 0.5,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: colChildren,
+      );
+    }
+    return SizedBox(
+      width: width != null && width > 0 && width != double.infinity ? width : double.infinity,
+      child: textField,
+    );
   }
 
   Widget buildTextField(BuildContext context, LenraTextFieldThemeData lenraTextFieldThemeData) {
     Color backgroundColor = (this.disabled) ? Colors.transparent : Colors.grey[200];
-    return Container(
-      width: this.width,
-      child: TextField(
-        enabled: !this.disabled,
-        obscureText: this.obscure,
-        style: TextStyle(
-          fontSize: lenraTextFieldThemeData.fontSize,
-        ),
-        controller: controller,
-        focusNode: focusNode,
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: backgroundColor,
-          hoverColor: backgroundColor,
-          enabledBorder: OutlineInputBorder(
-            borderSide: lenraTextFieldThemeData.border.primaryBorder,
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: lenraTextFieldThemeData.border.primaryHoverBorder,
-          ),
-          errorBorder: OutlineInputBorder(
-            borderSide: lenraTextFieldThemeData.border.secondaryBorder,
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderSide: lenraTextFieldThemeData.border.secondaryBorder,
-          ),
-          disabledBorder: OutlineInputBorder(
-            borderSide: lenraTextFieldThemeData.border.primaryBorder,
-          ),
-          hintText: this.hintText ?? "",
-          hintStyle: TextStyle(
-            fontSize: lenraTextFieldThemeData.fontSize,
-          ),
-          isDense: true,
-          contentPadding: EdgeInsets.fromLTRB(
-            5.0,
-            // TODO not clean like this ?
-            lenraTextFieldThemeData.height.resolve(this.size) / 2,
-            5.0,
-            lenraTextFieldThemeData.height.resolve(this.size) / 2,
-          ),
-          errorText: (this.error) ? this.errorMessage : null,
-          errorStyle: TextStyle(fontSize: lenraTextFieldThemeData.fontSize),
-        ),
-        onEditingComplete: this.disabled ? null : this.onEditingComplete ?? () => null,
-        onSubmitted: this.onSubmitted,
-        onChanged: this.onChanged,
+
+    var padding = lenraTextFieldThemeData.paddingMap[size];
+    var border = BorderSide(color: LenraColorThemeData.LENRA_DISABLED_GRAY);
+
+    padding = EdgeInsets.only(
+      top: padding.top,
+      bottom: padding.bottom,
+      left: padding.left,
+      right: padding.right,
+    );
+
+    // TODO: gérer les erreurs
+
+    var inputDecoration = InputDecoration(
+      contentPadding: padding,
+      isDense: true,
+      filled: false,
+      border: OutlineInputBorder(
+        borderSide: border,
       ),
-    );
-  }
-
-  Widget buildRowStyle(BuildContext context, Widget textField, LenraTextFieldThemeData lenraTextFieldThemeData) {
-    return Row(
-      children: [
-        Text(
-          (this.label != null) ? this.label : "",
-          style: TextStyle(fontSize: lenraTextFieldThemeData.fontSize),
-          textAlign: TextAlign.left,
-        ),
-        textField,
-      ],
-    );
-  }
-
-  Widget buildColumnStyle(BuildContext context, Widget textField, LenraTextFieldThemeData lenraTextFieldThemeData) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _TextInfo(
-          fontSize: lenraTextFieldThemeData.fontSize,
-          text: this.label,
-        ),
-        textField,
-        if (!this.error && this.description != null) ...[
-          // TODO change height to sizeFactor from Theme
-          SizedBox(height: 4.0),
-          _TextInfo(
-            // TODO Change fontSize to Theme
-            fontSize: 12.0,
-            textColor: lenraTextFieldThemeData.descriptionColor,
-            text: this.description,
-          ),
-        ]
-      ],
-    );
-  }
-}
-
-class _TextInfo extends StatelessWidget {
-  final String text;
-  final double fontSize;
-  final Color textColor;
-
-  _TextInfo({this.text, this.fontSize, this.textColor});
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      this.text,
-      style: TextStyle(
-        fontSize: this.fontSize,
-        color: this.textColor,
+      fillColor: backgroundColor,
+      hoverColor: backgroundColor,
+      enabledBorder: OutlineInputBorder(
+        borderSide: lenraTextFieldThemeData.border.primaryBorder,
       ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: lenraTextFieldThemeData.border.primaryHoverBorder,
+      ),
+      errorBorder: OutlineInputBorder(
+        borderSide: lenraTextFieldThemeData.border.secondaryBorder,
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderSide: lenraTextFieldThemeData.border.secondaryBorder,
+      ),
+      disabledBorder: OutlineInputBorder(
+        borderSide: lenraTextFieldThemeData.border.primaryBorder,
+      ),
+      hintText: this.hintText,
+      hintStyle: lenraTextFieldThemeData.textStyle,
+      errorText: (this.error) ? this.errorMessage : null,
+      errorStyle: lenraTextFieldThemeData.textStyle,
+    );
+
+    return TextField(
+      enabled: !this.disabled,
+      obscureText: this.obscure,
+      style: lenraTextFieldThemeData.textStyle,
+      strutStyle: StrutStyle(
+        leading: 0.15,
+      ),
+      controller: controller,
+      focusNode: focusNode,
+      decoration: inputDecoration,
+      onEditingComplete: this.disabled ? null : this.onEditingComplete,
+      onSubmitted: this.onSubmitted,
+      onChanged: this.onChanged,
     );
   }
 }

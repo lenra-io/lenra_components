@@ -40,8 +40,24 @@
             "flutterMode": "debug",
             "type": "dart",
             "args": [
+                "--web-port",
+                "10000",
                 "--dart-define=LENRA_SERVER_URL=${env:LENRA_SERVER_URL}",
                 "--dart-define=LENRA_BASIC_AUTH=${env:LENRA_BASIC_AUTH}"
+            ]
+        },
+        {
+            "name": "Run Backoffice Dev",
+            "program": "lib/main.dart",
+            "request": "launch",
+            "flutterMode": "debug",
+            "type": "dart",
+            "args": [
+                "--web-port",
+                "10000",
+                "--dart-define=LENRA_SERVER_URL=${env:LENRA_SERVER_URL}",
+                "--dart-define=LENRA_BASIC_AUTH=${env:LENRA_BASIC_AUTH}",
+                "--dart-define=LENRA_APPLICATION=dev"
             ]
         },
         {

@@ -4,6 +4,7 @@ import 'package:fr_lenra_client/lenra_application/components/actionable/lenra_ac
 import 'package:fr_lenra_client/lenra_application/components/lenra_component.dart';
 import 'package:fr_lenra_client/lenra_application/lenra_component_builder.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_text_field.dart';
+import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
 
 // TODO : generate this from annotation on LenraTextfield
 class LenraTextfieldBuilder extends LenraComponentBuilder<LenraApplicationTextfield> {
@@ -64,7 +65,7 @@ class LenraApplicationTextfield extends StatelessLenraComponent implements Lenra
   bool inRow;
   bool error;
   double width;
-  LenraTextFieldSize size;
+  LenraComponentSize size;
   final Map<String, dynamic> listeners;
   final FocusNode _focusNode;
   final TextEditingController _controller;
@@ -105,7 +106,7 @@ class LenraApplicationTextfield extends StatelessLenraComponent implements Lenra
           }
         }
       },
-      size: this.size ?? LenraTextFieldSize.Medium,
+      size: this.size ?? LenraComponentSize.Medium,
       width: this.width ?? 200.0,
       focusNode: this._focusNode,
       controller: this._controller,

@@ -1,23 +1,26 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:fr_lenra_client/lenra_components/layout/lenra_column.dart';
 import 'package:fr_lenra_client/lenra_components/layout/lenra_row.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
 
 class SimplePage extends StatelessWidget {
   final String title;
+  final String message;
+  final TextAlign textAlign;
   final String backInkText;
   final Function backInkAction;
   final Widget child;
 
   const SimplePage({
     Key key,
-    this.title,
-    this.child,
+    this.title = "",
+    this.message = "",
+    this.textAlign = TextAlign.center,
     this.backInkText,
     this.backInkAction,
+    this.child,
   }) : super(key: key);
 
   @override
@@ -26,41 +29,73 @@ class SimplePage extends StatelessWidget {
     List<Widget> children = [
       Image.asset(
         'assets/images/logo-vertical.png',
-        width: 96,
-      )
+        height: theme.baseSize * 13,
+      ),
+      SizedBox(height: theme.baseSize * 5)
     ];
-    if (title != null && title.isNotEmpty)
-      children.add(Text(
-        title,
-        style: theme.lenraTextThemeData.headline1,
-        textAlign: TextAlign.center,
+    if (title.isNotEmpty) {
+      children.add(SizedBox(
+        width: double.infinity,
+        child: Text(
+          title,
+          style: theme.lenraTextThemeData.headline2,
+          textAlign: this.textAlign,
+        ),
       ));
-    if (child != null) children.add(child);
-    return Scaffold(
-      body: Column(
-        children: _buildBackInk(context, theme)
-          ..add(Center(
-            child: new Container(
-              width: 400,
-              child: LenraColumn(
-                children: children,
-                separationFactor: 5,
+    }
+    if (title.isNotEmpty && message.isNotEmpty) children.add(SizedBox(height: theme.baseSize * 2));
+    if (message.isNotEmpty) {
+      children.add(SizedBox(
+        width: double.infinity,
+        child: Text(
+          message,
+          style: theme.lenraTextThemeData.disabledBodyText,
+          textAlign: this.textAlign,
+        ),
+      ));
+    }
+    if (child != null) {
+      if (title.isNotEmpty || message.isNotEmpty) children.add(SizedBox(height: theme.baseSize * 4));
+      children.add(child);
+    }
+    var size = MediaQuery.of(context).size;
+    var padding = min(min(size.height * 0.08, size.width * 0.1), theme.baseSize * 10);
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        body: Scrollbar(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.all(padding),
+              child: Column(
+                children: _buildBackInk(context, theme)
+                  ..add(Center(
+                    child: new Container(
+                      width: 400,
+                      child: Column(
+                        children: children,
+                      ),
+                    ),
+                  )),
               ),
             ),
-          )),
+          ),
+        ),
       ),
     );
   }
 
   List<Widget> _buildBackInk(BuildContext context, LenraThemeData theme) {
     var size = MediaQuery.of(context).size;
-    var padding = min(min(size.height * 0.08, size.width * 0.1), theme.baseSize * 10);
     var inkSize = 20;
     var separation = min(min(size.height * 0.05, size.width * 0.06), theme.baseSize * 6);
     if (backInkText == null || backInkText.isEmpty)
       return [
         SizedBox(
-          height: padding + inkSize + separation,
+          height: inkSize + separation,
         )
       ];
     var linkTheme = theme.lenraTextThemeData.bodyText.copyWith(color: theme.lenraColorThemeData.primaryBackgroundColor);
@@ -68,13 +103,18 @@ class SimplePage extends StatelessWidget {
       Align(
         alignment: Alignment.topLeft,
         child: Padding(
-          padding: EdgeInsets.only(top: padding, left: padding, bottom: separation),
+          padding: EdgeInsets.only(bottom: separation),
           child: InkWell(
               onTap: backInkAction ?? () {},
+              hoverColor: Colors.transparent,
               child: LenraRow(
                 separationFactor: 1.5,
                 children: [
-                  Text("<", style: linkTheme),
+                  Icon(
+                    Icons.arrow_back_ios_rounded,
+                    color: theme.lenraColorThemeData.primaryBackgroundColor,
+                    size: 12,
+                  ),
                   Text(backInkText, style: linkTheme),
                 ],
               )),

@@ -12,7 +12,10 @@ class LenraTextThemeData {
 
   TextStyle disabledBodyText;
 
+  final double lineHeight;
+
   LenraTextThemeData({
+    this.lineHeight,
     TextStyle headline1,
     TextStyle headline2,
     TextStyle headline3,
@@ -28,6 +31,7 @@ class LenraTextThemeData {
           fontSize: 24.0,
           fontWeight: FontWeight.w700,
           color: LenraColorThemeData.LENRA_BLACK,
+          height: lineHeight,
         );
     this.headline2 = headline2 ??
         TextStyle(
@@ -35,6 +39,7 @@ class LenraTextThemeData {
           fontSize: 20.0,
           fontWeight: FontWeight.w700,
           color: LenraColorThemeData.LENRA_BLACK,
+          height: lineHeight,
         );
     this.headline3 = headline3 ??
         TextStyle(
@@ -42,6 +47,7 @@ class LenraTextThemeData {
           fontSize: 16.0,
           fontWeight: FontWeight.w700,
           color: LenraColorThemeData.LENRA_BLACK,
+          height: lineHeight,
         );
     this.headline4 = headline4 ??
         TextStyle(
@@ -49,6 +55,7 @@ class LenraTextThemeData {
           fontSize: 14.0,
           fontWeight: FontWeight.w700,
           color: LenraColorThemeData.LENRA_BLACK,
+          height: lineHeight,
         );
     this.headlineBody = headlineBody ??
         TextStyle(
@@ -56,6 +63,7 @@ class LenraTextThemeData {
           fontSize: 14.0,
           fontWeight: FontWeight.w600,
           color: LenraColorThemeData.LENRA_BLACK,
+          height: lineHeight,
         );
     this.bodyText = bodyText ??
         TextStyle(
@@ -63,6 +71,7 @@ class LenraTextThemeData {
           fontSize: 14.0,
           fontWeight: FontWeight.w400,
           color: LenraColorThemeData.LENRA_BLACK,
+          height: lineHeight,
         );
     this.subtext = subtext ??
         TextStyle(
@@ -70,6 +79,7 @@ class LenraTextThemeData {
           fontSize: 12.0,
           fontWeight: FontWeight.w400,
           color: LenraColorThemeData.LENRA_BLACK,
+          height: lineHeight,
         );
     this.disabledBodyText = disabledBodyText ??
         TextStyle(
@@ -77,6 +87,7 @@ class LenraTextThemeData {
           fontSize: 14.0,
           fontWeight: FontWeight.w400,
           color: LenraColorThemeData.LENRA_DISABLED_GRAY,
+          height: lineHeight,
         );
   }
 
@@ -89,6 +100,7 @@ class LenraTextThemeData {
         headline4: this.headline4.merge(incoming.headline4),
         headlineBody: this.headlineBody.merge(incoming.headlineBody),
         bodyText: this.bodyText.merge(incoming.bodyText),
+        disabledBodyText: this.disabledBodyText.merge(incoming.disabledBodyText),
         subtext: this.subtext.merge(incoming.subtext),
       );
     }
