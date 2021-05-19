@@ -116,6 +116,11 @@ class _RegisterFormState extends State<RegisterForm> {
             checkLength(min: 8, max: 64),
             checkPassword(),
           ]),
+          onSuffixPressed: () {
+            setState(() {
+              this._passwordVisible = !this._passwordVisible;
+            });
+          },
         ),
       ],
     );

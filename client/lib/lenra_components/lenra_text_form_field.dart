@@ -14,6 +14,7 @@ class LenraTextFormField extends FormField<String> {
   final Function(String) onSubmitted;
   final Function(String) onChanged;
   final LenraComponentSize size;
+  final Function onSuffixPressed;
   final double width;
   final FocusNode focusNode;
   final TextEditingController controller;
@@ -33,6 +34,7 @@ class LenraTextFormField extends FormField<String> {
     this.onSubmitted,
     this.onChanged,
     this.size = LenraComponentSize.Medium,
+    this.onSuffixPressed,
     this.width,
     this.focusNode,
     this.controller,
@@ -57,6 +59,7 @@ class LenraTextFormField extends FormField<String> {
               width: width,
               focusNode: focusNode,
               controller: controller,
+              onSuffixPressed: onSuffixPressed,
             );
           },
         );

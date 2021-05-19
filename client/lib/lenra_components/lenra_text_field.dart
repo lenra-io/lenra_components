@@ -20,6 +20,7 @@ class LenraTextField extends StatelessWidget {
   final Function(String) onSubmitted;
   final Function(String) onChanged;
   final LenraComponentSize size;
+  final Function onSuffixPressed;
   final double width;
   final FocusNode focusNode;
   final TextEditingController controller;
@@ -38,6 +39,7 @@ class LenraTextField extends StatelessWidget {
     this.onChanged,
     this.size = LenraComponentSize.Medium,
     this.width = double.infinity,
+    this.onSuffixPressed,
     this.focusNode,
     this.controller,
   });
@@ -136,6 +138,17 @@ class LenraTextField extends StatelessWidget {
       hintStyle: lenraTextFieldThemeData.textStyle,
       errorText: (this.error) ? this.errorMessage : null,
       errorStyle: lenraTextFieldThemeData.textStyle,
+      suffixIcon: (this.onSuffixPressed != null)
+          ? IconButton(
+              icon: Icon(
+                this.obscure ? Icons.visibility_off : Icons.visibility,
+              ),
+              color: lenraTextFieldThemeData.border.primaryBorder.color,
+              onPressed: () {
+                this.onSuffixPressed();
+              },
+            )
+          : null,
     );
 
     return TextField(
