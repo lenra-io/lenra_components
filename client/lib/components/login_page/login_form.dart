@@ -2,8 +2,14 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/api/request_models/loginRequest.dart';
 import 'package:fr_lenra_client/components/error_list.dart';
-import 'package:fr_lenra_client/components/loading_button.dart';
+import 'package:fr_lenra_client/components/page/recovery_page.dart';
 import 'package:fr_lenra_client/components/page/register_page.dart';
+import 'package:fr_lenra_client/lenra_components/layout/lenra_column.dart';
+import 'package:fr_lenra_client/lenra_components/lenra_button.dart';
+import 'package:fr_lenra_client/lenra_components/lenra_text_form_field.dart';
+import 'package:fr_lenra_client/lenra_components/theme/lenra_text_theme_data.dart';
+import 'package:fr_lenra_client/lenra_components/theme/lenra_theme.dart';
+import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
 import 'package:fr_lenra_client/redux/models/login_model.dart';
 import 'package:fr_lenra_client/utils/form_validators.dart';
 
@@ -26,89 +32,109 @@ class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   String email;
   String password;
+  bool _passwordVisible;
 
   @override
   void initState() {
     super.initState();
+    _passwordVisible = true;
   }
 
   @override
   Widget build(BuildContext context) {
+    final LenraTextThemeData finalLenraTextThemeData = LenraTheme.of(context).lenraTextThemeData;
+
     return Form(
       key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: LenraColumn(
+        separationFactor: 2,
         children: <Widget>[
-          TextFormField(
-            decoration: const InputDecoration(hintText: 'Entrez votre email', labelText: 'Email :'),
-            onChanged: (String value) {
-              setState(() {
-                this.email = value;
-              });
-            },
-            validator: validator([
-              checkNotEmpty(),
-              checkLength(min: 2, max: 64),
-              checkEmailFormat(),
-            ]),
+          login(context),
+          Image.asset(
+            'assets/images/colored-line.png',
           ),
-          TextFormField(
-            decoration: InputDecoration(
-              hintText: 'Entrez votre mot de passe',
-              labelText: 'Mot de passe :',
-            ),
-            obscureText: true,
-            onChanged: (String value) {
-              setState(() {
-                this.password = value;
-              });
-            },
-            validator: validator([
-              checkNotEmpty(),
-              checkLength(min: 8, max: 64),
-            ]),
+          Text(
+            "Vous n'avez pas encore de compte Lenra ?",
+            textAlign: TextAlign.center,
+            style: finalLenraTextThemeData.disabledBodyText,
           ),
-          Container(
-            padding: EdgeInsets.only(top: 10.0),
-            child: RichText(
-              text: TextSpan(
-                text: "Pas inscrit? Créer mon compte",
-                style: TextStyle(color: Colors.blue),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () {
-                    Navigator.pushReplacementNamed(context, RegisterPage.routeName);
-                  },
-              ),
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.only(top: 10.0),
-            child: RichText(
-              text: TextSpan(
-                text: "Mot de passe oublié ?",
-                style: TextStyle(color: Colors.blue),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () {
-                    Navigator.pushNamed(context, '/recovery');
-                  },
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: LoadingButton(
+          SizedBox(
+            width: double.infinity,
+            child: LenraButton(
+              type: LenraButtonType.Secondary,
+              text: "Créer un compte",
               onPressed: () {
-                if (_formKey.currentState.validate()) {
-                  this.loginModel.fetchData(body: LoginRequest(email, password));
-                }
+                Navigator.pushReplacementNamed(context, RegisterPage.routeName);
               },
-              text: 'Se Connecter',
-              loading: this.loginModel.status.isFetching,
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(top: 10.0),
+            child: RichText(
+              text: TextSpan(
+                text: "J'ai oublié mon mot de passe",
+                style: finalLenraTextThemeData.blueBodyText,
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    Navigator.pushReplacementNamed(context, RecoveryPage.routeName);
+                  },
+              ),
             ),
           ),
           ErrorList(this.loginModel.errors),
         ],
       ),
+    );
+  }
+
+  Widget login(BuildContext context) {
+    return LenraColumn(
+      separationFactor: 2,
+      children: [
+        //------Email------
+        LenraTextFormField(
+          label: 'Identifiant',
+          hintText: 'Email',
+          onChanged: (String value) {
+            email = value;
+          },
+          size: LenraComponentSize.Large,
+          validator: validator([
+            checkNotEmpty(),
+            checkLength(min: 2, max: 64),
+            checkEmailFormat(),
+          ]),
+        ),
+        //------Password------
+        LenraTextFormField(
+          label: 'Mot de passe',
+          obscure: _passwordVisible,
+          onChanged: (String value) {
+            password = value;
+          },
+          size: LenraComponentSize.Large,
+          validator: validator([
+            checkNotEmpty(),
+            checkLength(min: 8, max: 64),
+          ]),
+          onSuffixPressed: () {
+            setState(() {
+              this._passwordVisible = !this._passwordVisible;
+            });
+          },
+        ),
+        SizedBox(
+          width: double.infinity,
+          child: LenraButton(
+            text: "Se connecter",
+            onPressed: () {
+              if (_formKey.currentState.validate()) {
+                this.loginModel.fetchData(body: LoginRequest(email, password));
+              }
+            },
+          ),
+        ),
+      ],
     );
   }
 }

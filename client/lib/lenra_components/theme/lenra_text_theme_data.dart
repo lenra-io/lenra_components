@@ -8,7 +8,9 @@ class LenraTextThemeData {
   TextStyle headline4;
   TextStyle headlineBody;
   TextStyle bodyText;
+  TextStyle blueBodyText;
   TextStyle subtext;
+  TextStyle errorText;
 
   TextStyle disabledBodyText;
 
@@ -22,8 +24,10 @@ class LenraTextThemeData {
     TextStyle headline4,
     TextStyle headlineBody,
     TextStyle bodyText,
+    TextStyle blueBodyText,
     TextStyle subtext,
     TextStyle disabledBodyText,
+    TextStyle errorText,
   }) {
     this.headline1 = headline1 ??
         TextStyle(
@@ -73,6 +77,14 @@ class LenraTextThemeData {
           color: LenraColorThemeData.LENRA_BLACK,
           height: lineHeight,
         );
+    this.blueBodyText = bodyText ??
+        TextStyle(
+          fontFamily: "Source Sans Pro",
+          fontSize: 14.0,
+          fontWeight: FontWeight.w400,
+          color: LenraColorThemeData.LENRA_BLUE,
+          height: lineHeight,
+        );
     this.subtext = subtext ??
         TextStyle(
           fontFamily: "Source Sans Pro",
@@ -87,6 +99,14 @@ class LenraTextThemeData {
           fontSize: 14.0,
           fontWeight: FontWeight.w400,
           color: LenraColorThemeData.LENRA_DISABLED_GRAY,
+          height: lineHeight,
+        );
+    this.errorText = disabledBodyText ??
+        TextStyle(
+          fontFamily: "Source Sans Pro",
+          fontSize: 14.0,
+          fontWeight: FontWeight.w400,
+          color: Colors.red,
           height: lineHeight,
         );
   }

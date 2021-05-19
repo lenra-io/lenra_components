@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_border_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_color_theme_data.dart';
+import 'package:fr_lenra_client/lenra_components/theme/lenra_text_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
 
 import 'lenra_color_theme_data.dart';
@@ -8,6 +9,7 @@ import 'lenra_color_theme_data.dart';
 class LenraTextFieldThemeData {
   LenraColorThemeData colorTheme;
   LenraBorderThemeData border;
+  LenraTextThemeData textTheme;
   Color descriptionColor;
   TextStyle textStyle;
   double fontSize;
@@ -22,6 +24,7 @@ class LenraTextFieldThemeData {
     this.textStyle,
   }) {
     this.colorTheme = colorTheme ?? LenraColorThemeData();
+    this.textTheme = textTheme ?? LenraTextThemeData();
     this.descriptionColor = descriptionColor ?? LenraColorThemeData.LENRA_GREY_TEXT;
     this.border = border ??
         LenraBorderThemeData(

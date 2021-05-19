@@ -30,6 +30,7 @@ flutter:
   assets:
     - assets/api/ui.json
     - assets/images/logo-vertical.png
+    - assets/images/colored-line.png
   fonts:
     - family: Source Sans Pro
       fonts:

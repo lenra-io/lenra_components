@@ -137,7 +137,7 @@ class LenraTextField extends StatelessWidget {
       hintText: this.hintText,
       hintStyle: lenraTextFieldThemeData.textStyle,
       errorText: (this.error) ? this.errorMessage : null,
-      errorStyle: lenraTextFieldThemeData.textStyle,
+      errorStyle: lenraTextFieldThemeData.textTheme.errorText,
       suffixIcon: (this.onSuffixPressed != null)
           ? IconButton(
               icon: Icon(
