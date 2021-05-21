@@ -2,8 +2,8 @@ import 'package:fr_lenra_client/api/response_models/auth_response.dart';
 import 'package:fr_lenra_client/api/response_models/user.dart';
 import 'package:fr_lenra_client/components/page/backoffice/activation_code_page.dart';
 import 'package:fr_lenra_client/components/page/change_lost_password_page.dart';
+import 'package:fr_lenra_client/components/page/change_password_confirmation_page.dart';
 import 'package:fr_lenra_client/components/page/login_page.dart';
-import 'package:fr_lenra_client/components/page/store_page.dart';
 import 'package:fr_lenra_client/config/config.dart';
 import 'package:fr_lenra_client/redux/actions/async_action.dart';
 import 'package:fr_lenra_client/redux/actions/change_lost_password_action.dart';
@@ -39,13 +39,13 @@ void authMiddleware(
       store.dispatch(PushRouteAction("/", removeStack: true));
     }
   }
-  if ((action is LogoutAction || action is ChangeLostPasswordAction) && action.isDone) {
+  if ((action is LogoutAction) && action.isDone) {
     store.dispatch(PushRouteAction(LoginPage.routeName, removeStack: true));
   }
   if (action is RecoveryAction && action.isDone) {
     store.dispatch(PushRouteAction(ChangeLostPasswordPage.routeName, arguments: action.email, removeStack: true));
   }
-  if (action is ChangePasswordAction && action.isDone) {
-    store.dispatch(PushRouteAction(StorePage.routeName, removeStack: true));
+  if (action is ChangePasswordAction || action is ChangeLostPasswordAction && action.isDone) {
+    store.dispatch(PushRouteAction(ChangePasswordConfirmationPage.routeName, removeStack: true));
   }
 }

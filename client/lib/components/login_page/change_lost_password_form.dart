@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/api/request_models/change_lost_password_request.dart';
 import 'package:fr_lenra_client/components/error_list.dart';
-import 'package:fr_lenra_client/components/loading_button.dart';
+import 'package:fr_lenra_client/lenra_components/layout/lenra_column.dart';
+import 'package:fr_lenra_client/lenra_components/lenra_button.dart';
+import 'package:fr_lenra_client/lenra_components/lenra_text_form_field.dart';
+import 'package:fr_lenra_client/lenra_components/theme/lenra_text_theme_data.dart';
+import 'package:fr_lenra_client/lenra_components/theme/lenra_theme.dart';
 import 'package:fr_lenra_client/redux/models/change_lost_password_model.dart';
 import 'package:fr_lenra_client/utils/form_validators.dart';
 
@@ -19,10 +23,10 @@ class ChangeLostPasswordForm extends StatefulWidget {
 
 class _ChangeLostPasswordState extends State<ChangeLostPasswordForm> {
   final _formKey = GlobalKey<FormState>();
-  String code;
   String newPassword;
   String newPasswordConfirmation;
 
+  String code;
   bool _passwordVisible;
   bool _passwordVisibleConfirm;
 
@@ -35,107 +39,66 @@ class _ChangeLostPasswordState extends State<ChangeLostPasswordForm> {
 
   @override
   Widget build(BuildContext context) {
+    final LenraTextThemeData finalLenraTextThemeData = LenraTheme.of(context).lenraTextThemeData;
+
     return Form(
       key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: LenraColumn(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        separationFactor: 3,
         children: <Widget>[
-          if (this.widget.email == null)
-            TextFormField(
-              decoration: const InputDecoration(
-                hintText: 'Entrer votre email',
-                labelText: 'Email:',
-              ),
-              onChanged: (String value) {
-                this.code = value;
-              },
-              validator: validator([
-                checkNotEmpty(error: "Merci de rentrer votre Email"),
-                checkLength(min: 2, max: 64),
-                checkEmailFormat(),
-              ]),
-            ),
-          TextFormField(
-            decoration: const InputDecoration(
-              hintText: 'Entrer votre code',
-              labelText: 'Code :',
-            ),
+          LenraTextFormField(
+            label: "Entrez le code reçu",
+            description:
+                "Si vous n’avez pas reçu le code, l’email était probablement mauvais. Si vous êtes absolument certain de votre email, veuillez nous contacter.",
             onChanged: (String value) {
               this.code = value;
             },
             validator: validator([
-              checkNotEmpty(error: "Merci de rentrer votre code"),
-              checkLength(
-                min: 8,
-                max: 8,
-                error: "Doit contenir 8 caractères",
-              ),
+              checkNotEmpty(),
+              checkLength(min: 8, max: 8),
             ]),
           ),
-          TextFormField(
-            decoration: InputDecoration(
-              hintText: 'Entrez votre nouveau mot de passe',
-              labelText: 'Nouveau mot de passe :',
-              suffixIcon: IconButton(
-                icon: Icon(
-                  _passwordVisible ? Icons.visibility_off : Icons.visibility,
-                ),
-                onPressed: () {
-                  setState(() {
-                    _passwordVisible = !_passwordVisible;
-                  });
-                },
-              ),
-            ),
-            obscureText: _passwordVisible,
+          Text(
+            "Nouveau mot de passe",
+            textAlign: TextAlign.left,
+            style: finalLenraTextThemeData.headline3,
+          ),
+          LenraTextFormField(
+            label: "Définissez un mot de passe",
+            description: "8 caractères, 1 majuscule, 1 minuscule et 1 caractère spécial.",
+            obscure: _passwordVisible,
             onChanged: (String value) {
-              setState(() {
-                this.newPassword = value;
-              });
+              this.newPassword = value;
             },
             validator: validator([
               checkNotEmpty(),
               checkLength(min: 8, max: 64),
+              checkPassword(),
             ]),
           ),
-          TextFormField(
-            decoration: InputDecoration(
-              hintText: 'Confirmation du nouveau mot de passe',
-              labelText: 'Nouveau mot de passe :',
-              suffixIcon: IconButton(
-                icon: Icon(
-                  _passwordVisibleConfirm ? Icons.visibility_off : Icons.visibility,
-                ),
-                onPressed: () {
-                  setState(() {
-                    _passwordVisibleConfirm = !_passwordVisibleConfirm;
-                  });
-                },
-              ),
-            ),
-            obscureText: _passwordVisibleConfirm,
+          LenraTextFormField(
+            label: "Confirmez le mot de passe",
+            obscure: _passwordVisibleConfirm,
             onChanged: (String value) {
-              setState(() {
-                this.newPasswordConfirmation = value;
-              });
+              this.newPasswordConfirmation = value;
             },
             validator: validator([
               checkNotEmpty(),
               checkLength(min: 8, max: 64),
+              checkPassword(),
             ]),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: LoadingButton(
+          SizedBox(
+            width: double.infinity,
+            child: LenraButton(
+              text: "Modifier mon mot de passe",
               onPressed: () {
                 if (_formKey.currentState.validate()) {
-                  this.widget.changeLostPasswordModel.fetchData(
-                      body: ChangeLostPasswordRequest(
-                          this.code, this.widget.email, this.newPassword, this.newPasswordConfirmation));
+                  widget.changeLostPasswordModel.fetchData(
+                      body: ChangeLostPasswordRequest(code, widget.email, newPassword, newPasswordConfirmation));
                 }
               },
-              text: 'Confirmer',
-              loading: this.widget.changeLostPasswordModel.status.isFetching,
             ),
           ),
           ErrorList(this.widget.changeLostPasswordModel.errors),

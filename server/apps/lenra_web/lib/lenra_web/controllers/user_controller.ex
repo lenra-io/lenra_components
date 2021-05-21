@@ -87,9 +87,10 @@ defmodule LenraWeb.UserController do
   end
 
   def password_lost_code(conn, params) do
-    with {:ok, user} <- get_user_with_email(params["email"]),
-         {:ok, _} <- PasswordServices.send_password_code(user) do
-      reply(conn)
+    case get_user_with_email(params["email"]) do
+      {:ok, user} -> PasswordServices.send_password_code(user)
+      _ -> nil
     end
+    reply(conn)
   end
 end

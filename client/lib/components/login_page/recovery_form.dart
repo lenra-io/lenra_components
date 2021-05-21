@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/api/request_models/recovery_request.dart';
 import 'package:fr_lenra_client/components/error_list.dart';
-import 'package:fr_lenra_client/components/loading_button.dart';
+import 'package:fr_lenra_client/lenra_components/layout/lenra_column.dart';
+import 'package:fr_lenra_client/lenra_components/lenra_button.dart';
+import 'package:fr_lenra_client/lenra_components/lenra_text_form_field.dart';
+import 'package:fr_lenra_client/lenra_components/theme/lenra_text_theme_data.dart';
+import 'package:fr_lenra_client/lenra_components/theme/lenra_theme.dart';
 import 'package:fr_lenra_client/redux/models/recovery_model.dart';
 import 'package:fr_lenra_client/utils/form_validators.dart';
 
@@ -31,17 +35,22 @@ class _RecoveryFormState extends State<RecoveryForm> {
 
   @override
   Widget build(BuildContext context) {
+    final LenraTextThemeData finalLenraTextThemeData = LenraTheme.of(context).lenraTextThemeData;
+
     return Form(
       key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: LenraColumn(
+        separationFactor: 3,
         children: <Widget>[
-          TextFormField(
-            decoration: const InputDecoration(hintText: 'Entrez votre email', labelText: 'Email :'),
+          Text(
+            "Confirmez-nous votre email et on s'occupe de ça.",
+            textAlign: TextAlign.center,
+            style: finalLenraTextThemeData.disabledBodyText,
+          ),
+          LenraTextFormField(
+            hintText: "email@email.com",
             onChanged: (String value) {
-              setState(() {
-                this.email = value;
-              });
+              this.email = value;
             },
             validator: validator([
               checkNotEmpty(),
@@ -49,16 +58,15 @@ class _RecoveryFormState extends State<RecoveryForm> {
               checkEmailFormat(),
             ]),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: LoadingButton(
+          SizedBox(
+            width: double.infinity,
+            child: LenraButton(
+              text: "Je ré-initialise mon mot de passe",
               onPressed: () {
                 if (_formKey.currentState.validate()) {
-                  this.recoveryModel.fetchData(body: RecoveryRequest(this.email));
+                  this.recoveryModel.fetchData(body: RecoveryRequest(email));
                 }
               },
-              text: 'Envoyer',
-              loading: this.recoveryModel.status.isFetching,
             ),
           ),
           ErrorList(this.recoveryModel.errors),

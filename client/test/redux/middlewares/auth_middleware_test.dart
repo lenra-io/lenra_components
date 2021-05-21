@@ -6,8 +6,8 @@ import 'package:fr_lenra_client/api/request_models/recovery_request.dart';
 import 'package:fr_lenra_client/api/request_models/register_request.dart';
 import 'package:fr_lenra_client/api/request_models/verify_code_request.dart';
 import 'package:fr_lenra_client/components/page/change_lost_password_page.dart';
+import 'package:fr_lenra_client/components/page/change_password_confirmation_page.dart';
 import 'package:fr_lenra_client/components/page/login_page.dart';
-import 'package:fr_lenra_client/components/page/store_page.dart';
 import 'package:fr_lenra_client/redux/actions/action.dart';
 import 'package:fr_lenra_client/redux/actions/async_action.dart';
 import 'package:fr_lenra_client/redux/actions/change_lost_password_action.dart';
@@ -141,8 +141,7 @@ void main() {
     );
   });
 
-  test('authMiddleware with RecoveryAction that is done redirect to password lost Modification page with stack reset',
-      () {
+  test('authMiddleware with RecoveryAction that is done redirect to change lost password page with stack reset', () {
     var store = MockedStore();
     var action = RecoveryAction(RecoveryRequest("email"));
 
@@ -154,26 +153,26 @@ void main() {
     );
   });
 
-  test('authMiddleware with ChangeLostPasswordAction that is done redirect to password login with stack reset', () {
+  test('authMiddleware with ChangeLostPasswordAction that is done redirect to confirmation page with stack reset', () {
     var store = MockedStore();
     var action = ChangeLostPasswordAction(ChangeLostPasswordRequest("email", "code", "password", "password"));
 
     checkCallingDispatchWith<ChangeLostPasswordAction>(
       store,
       action,
-      LoginPage.routeName,
+      ChangePasswordConfirmationPage.routeName,
       true,
     );
   });
 
-  test('authMiddleware with ChangePasswordAction that is done redirect to store page with stack reset', () {
+  test('authMiddleware with ChangePasswordAction that is done redirect to confirmation page with stack reset', () {
     var store = MockedStore();
     var action = ChangePasswordAction(ChangePasswordRequest("oldPassword", "password", "password"));
 
     checkCallingDispatchWith<ChangePasswordAction>(
       store,
       action,
-      StorePage.routeName,
+      ChangePasswordConfirmationPage.routeName,
       true,
     );
   });

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/components/page/backoffice/activation_code_page.dart';
 import 'package:fr_lenra_client/components/page/change_lost_password_page.dart';
+import 'package:fr_lenra_client/components/page/change_password_confirmation_page.dart';
 import 'package:fr_lenra_client/components/page/home_page.dart';
 import 'package:fr_lenra_client/components/page/lenra_app_page.dart';
 import 'package:fr_lenra_client/components/page/lenra_app_page_container.dart';
@@ -33,6 +34,8 @@ final Map<String, CustomRouteBuilder> routes = {}
 
 final Map<String, CustomRouteBuilder> authRoutes = {
   ChangeLostPasswordPage.routeName: (Map<String, String> params) => (BuildContext context) => ChangeLostPasswordPage(),
+  ChangePasswordConfirmationPage.routeName: (Map<String, String> params) =>
+      (BuildContext context) => ChangePasswordConfirmationPage(),
   RecoveryPage.routeName: (Map<String, String> params) => (BuildContext context) => RecoveryPage(),
   ProfilePage.routeName: (Map<String, String> params) => (BuildContext context) => ProfilePage(),
   LoginPage.routeName: (Map<String, String> params) => (BuildContext context) => LoginPage(),

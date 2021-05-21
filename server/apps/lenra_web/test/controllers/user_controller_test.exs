@@ -11,8 +11,8 @@ defmodule LenraWeb.UserControllerTest do
     "first_name" => "John",
     "last_name" => "Doe",
     "email" => "john.doe@lenra.fr",
-    "password" => "johndoethefirst",
-    "password_confirmation" => "johndoethefirst"
+    "password" => "Johndoe@thefirst",
+    "password_confirmation" => "Johndoe@thefirst"
   }
 
   test "register test", %{conn: conn} do
@@ -27,14 +27,32 @@ defmodule LenraWeb.UserControllerTest do
       post(
         conn,
         Routes.user_path(conn, :register, %{
-          "first_name" => "",
+          "first_name" => "John",
           "last_name" => "Doe",
           "email" => "john.doelenra.fr",
-          "password" => "johndoethefirst"
+          "password" => "Johndoe@thefirst",
+          "password_confirmation" => "Johndoe@thefirst"
         })
       )
 
     assert %{"errors" => [%{"code" => 0, "message" => "email has invalid format"}], "success" => false} =
+             json_response(conn, 400)
+  end
+
+  test "register password format error test", %{conn: conn} do
+    conn =
+      post(
+        conn,
+        Routes.user_path(conn, :register, %{
+          "first_name" => "John",
+          "last_name" => "Doe",
+          "email" => "john.doe@lenra.fr",
+          "password" => "Johndoethefirst",
+          "password_confirmation" => "Johndoethefirst"
+        })
+      )
+
+    assert %{"errors" => [%{"code" => 0, "message" => "password has invalid format"}], "success" => false} =
              json_response(conn, 400)
   end
 
@@ -46,7 +64,7 @@ defmodule LenraWeb.UserControllerTest do
         conn,
         Routes.user_path(conn, :login, %{
           "email" => "john.doe@lenra.fr",
-          "password" => "johndoethefirst"
+          "password" => @john_doe_user_params["password"]
         })
       )
 
@@ -95,24 +113,25 @@ defmodule LenraWeb.UserControllerTest do
     assert %{"success" => true} = json_response(conn, 200)
   end
 
-  test "code verification test", %{conn: conn} do
-    conn = post(conn, Routes.user_path(conn, :register, @john_doe_user_params))
-    assert_receive({:delivered_email, _email})
-
-    email = @john_doe_user_params["email"]
-    user = Repo.get_by(User, email: email)
-
-    user = Repo.preload(user, :registration_code)
-
-    conn =
-      post(
-        conn,
-        Routes.user_path(conn, :validate_user, %{"code" => user.registration_code.code})
-      )
-
-    assert %{"data" => data, "success" => true} = json_response(conn, 200)
-    assert Map.has_key?(data, "access_token")
-  end
+  # send verification email disabled
+  # test "code verification test", %{conn: conn} do
+  #  conn = post(conn, Routes.user_path(conn, :register, @john_doe_user_params))
+  #  assert_receive({:delivered_email, _email})
+  #
+  #  email = @john_doe_user_params["email"]
+  #  user = Repo.get_by(User, email: email)
+  #
+  #  user = Repo.preload(user, :registration_code)
+  #
+  #  conn =
+  #    post(
+  #      conn,
+  #      Routes.user_path(conn, :validate_user, %{"code" => user.registration_code.code})
+  #    )
+  #
+  #  assert %{"data" => data, "success" => true} = json_response(conn, 200)
+  #  assert Map.has_key?(data, "access_token")
+  # end
 
   test "code verification error test", %{conn: conn} do
     conn = post(conn, Routes.user_path(conn, :register, @john_doe_user_params))
@@ -124,13 +143,13 @@ defmodule LenraWeb.UserControllerTest do
 
   @tag :auth_user
   test "change password test", %{conn: conn} do
-    new_password = "newpassword"
+    new_password = "New@password"
 
     conn2 =
       put(
         conn,
         Routes.user_path(conn, :password_modification, %{
-          "old_password" => "johndoethefirst",
+          "old_password" => "Johndoe@thefirst",
           "password" => new_password,
           "password_confirmation" => new_password
         })
@@ -157,9 +176,9 @@ defmodule LenraWeb.UserControllerTest do
       put(
         conn,
         Routes.user_path(conn, :password_modification, %{
-          "old_password" => "johndoethefirst",
-          "password" => "johndoethefirst",
-          "password_confirmation" => "johndoethefirst"
+          "old_password" => "Johndoe@thefirst",
+          "password" => "Johndoe@thefirst",
+          "password_confirmation" => "Johndoe@thefirst"
         })
       )
 
@@ -173,7 +192,7 @@ defmodule LenraWeb.UserControllerTest do
 
   @tag :auth_user
   test "change lost password test", %{conn: conn} do
-    new_password = "new_password"
+    new_password = "New@password"
 
     conn =
       post(
@@ -215,8 +234,7 @@ defmodule LenraWeb.UserControllerTest do
 
     conn = post(conn, Routes.user_path(conn, :password_lost_code, %{email: "wrong@email.me"}))
 
-    assert %{"success" => false, "errors" => [%{"code" => 9, "message" => "Incorrect email"}]} =
-             json_response(conn, 400)
+    assert %{"success" => true} = json_response(conn, 200)
   end
 
   test "change lost password error code test", %{conn: conn} do
@@ -230,8 +248,8 @@ defmodule LenraWeb.UserControllerTest do
         Routes.user_path(conn, :password_lost_modification, %{
           "email" => @john_doe_user_params["email"],
           "code" => "00000000",
-          "password" => "johndoethefirst",
-          "password_confirmation" => "johndoethefirst"
+          "password" => "Johndoe@thefirst",
+          "password_confirmation" => "Johndoe@thefirst"
         })
       )
 
@@ -255,8 +273,8 @@ defmodule LenraWeb.UserControllerTest do
         Routes.user_path(conn, :password_lost_modification, %{
           "email" => @john_doe_user_params["email"],
           "code" => password_code.code,
-          "password" => "johndoethefirst",
-          "password_confirmation" => "johndoethefirst"
+          "password" => "Johndoe@thefirst",
+          "password_confirmation" => "Johndoe@thefirst"
         })
       )
 
@@ -270,9 +288,9 @@ defmodule LenraWeb.UserControllerTest do
 
   @tag :auth_user
   test "change password code 4 time with password 1 test", %{conn: conn} do
-    new_password = "newpassword"
-    new_password_2 = "newpassword2"
-    new_password_3 = "newpassword3"
+    new_password = "Newpassword@"
+    new_password_2 = "Newpassword@2"
+    new_password_3 = "Newpassword@3"
 
     conn =
       put(
@@ -309,8 +327,8 @@ defmodule LenraWeb.UserControllerTest do
         conn,
         Routes.user_path(conn, :password_modification, %{
           "old_password" => new_password_3,
-          "password" => "johndoethefirst",
-          "password_confirmation" => "johndoethefirst"
+          "password" => "Johndoe@thefirst",
+          "password_confirmation" => "Johndoe@thefirst"
         })
       )
 
@@ -319,7 +337,7 @@ defmodule LenraWeb.UserControllerTest do
         conn,
         Routes.user_path(conn, :login, %{
           "email" => "john.doe@lenra.fr",
-          "password" => "johndoethefirst"
+          "password" => "Johndoe@thefirst"
         })
       )
 

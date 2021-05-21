@@ -48,7 +48,7 @@ defmodule UserServicesTest do
   test "login user should succeed event with caps" do
     {:ok, _} = register_john_doe()
 
-    {:ok, user} = UserServices.login("John.Doe@Lenra.FR", "johndoethefirst")
+    {:ok, user} = UserServices.login("john.doe@lenra.fr", "Johndoe@thefirst")
 
     assert %User{
              first_name: "John",
@@ -61,14 +61,14 @@ defmodule UserServicesTest do
     {:ok, _} = register_john_doe()
 
     assert {:error, :email_or_password_incorrect} ==
-             UserServices.login("John@Lenra.FR", "johndoethefirst")
+             UserServices.login("John@Lenra.FR", "Johndoe@thefirst")
   end
 
   test "sign_in user should fail with wrong password" do
     {:ok, _} = register_john_doe()
 
     assert {:error, :email_or_password_incorrect} ==
-             UserServices.login("John.Doe@Lenra.FR", "johndoethesecond")
+             UserServices.login("john.doe@lenra.fr", "johndoethesecond")
   end
 
   test "validate dev with correct code" do

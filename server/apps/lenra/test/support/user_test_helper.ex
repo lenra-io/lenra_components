@@ -9,8 +9,8 @@ defmodule UserTestHelper do
     "first_name" => "John",
     "last_name" => "Doe",
     "email" => "john.doe@lenra.fr",
-    "password" => "johndoethefirst",
-    "password_confirmation" => "johndoethefirst"
+    "password" => "Johndoe@thefirst",
+    "password_confirmation" => "Johndoe@thefirst"
   }
 
   def param_user(idx) do
@@ -18,8 +18,8 @@ defmodule UserTestHelper do
       "first_name" => "John #{idx}",
       "last_name" => "Doe #{idx}",
       "email" => "john.doe#{idx}@lenra.fr",
-      "password" => "johndoethefirst",
-      "password_confirmation" => "johndoethefirst"
+      "password" => "Johndoe@thefirst",
+      "password_confirmation" => "Johndoe@thefirst"
     }
   end
 
