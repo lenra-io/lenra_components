@@ -2,14 +2,13 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/api/request_models/loginRequest.dart';
 import 'package:fr_lenra_client/components/error_list.dart';
-import 'package:fr_lenra_client/components/page/recovery_page.dart';
-import 'package:fr_lenra_client/components/page/register_page.dart';
 import 'package:fr_lenra_client/lenra_components/layout/lenra_column.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_button.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_text_form_field.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_text_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
+import 'package:fr_lenra_client/navigation/lenra_navigator.dart';
 import 'package:fr_lenra_client/redux/models/login_model.dart';
 import 'package:fr_lenra_client/utils/form_validators.dart';
 
@@ -64,7 +63,7 @@ class _LoginFormState extends State<LoginForm> {
               type: LenraButtonType.Secondary,
               text: "Créer un compte",
               onPressed: () {
-                Navigator.pushReplacementNamed(context, RegisterPage.routeName);
+                Navigator.pushReplacementNamed(context, LenraNavigator.REGISTER_ROUTE);
               },
             ),
           ),
@@ -76,7 +75,7 @@ class _LoginFormState extends State<LoginForm> {
                 style: finalLenraTextThemeData.blueBodyText,
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    Navigator.pushReplacementNamed(context, RecoveryPage.routeName);
+                    Navigator.pushReplacementNamed(context, LenraNavigator.LOST_PASSWORD_ROUTE);
                   },
               ),
             ),

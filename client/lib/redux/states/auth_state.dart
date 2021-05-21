@@ -12,6 +12,7 @@ class AuthState {
   final AsyncStatus sendLostPasswordCodeStatus;
   final AsyncStatus lostPasswordModificationStatus;
   final AsyncStatus passwordModificationStatus;
+  final String redirectToRoute;
 
   AuthState({
     AuthResponse authResponse,
@@ -22,6 +23,7 @@ class AuthState {
     AsyncStatus sendLostPasswordCodeStatus,
     AsyncStatus lostPasswordModificationStatus,
     AsyncStatus passwordModificationStatus,
+    this.redirectToRoute,
   })  : this.authResponse = authResponse ?? null,
         this.registerStatus = registerStatus ?? AsyncStatus(),
         this.verifyCodeStatus = verifyCodeStatus ?? AsyncStatus(),
@@ -40,6 +42,7 @@ class AuthState {
     AsyncStatus sendLostPasswordCodeStatus,
     AsyncStatus lostPasswordModificationStatus,
     AsyncStatus passwordModificationStatus,
+    String redirectToRoute,
   }) {
     return AuthState(
       authResponse: tokenResponse ?? this.authResponse,
@@ -50,6 +53,7 @@ class AuthState {
       sendLostPasswordCodeStatus: sendLostPasswordCodeStatus ?? this.sendLostPasswordCodeStatus,
       lostPasswordModificationStatus: lostPasswordModificationStatus ?? this.lostPasswordModificationStatus,
       passwordModificationStatus: passwordModificationStatus ?? this.passwordModificationStatus,
+      redirectToRoute: redirectToRoute ?? this.redirectToRoute,
     );
   }
 
@@ -62,6 +66,7 @@ class AuthState {
         "sendLostPasswordCodeStatus": sendLostPasswordCodeStatus.toJson(),
         "lostPasswordModificationStatus": lostPasswordModificationStatus.toJson(),
         "passwordModificationStatus": passwordModificationStatus.toJson(),
+        "redirectToRoute": redirectToRoute,
       };
 
   static AuthState fromJson(dynamic json) {

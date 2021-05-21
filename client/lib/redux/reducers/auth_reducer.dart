@@ -6,6 +6,7 @@ import 'package:fr_lenra_client/redux/actions/login_action.dart';
 import 'package:fr_lenra_client/redux/actions/logout_action.dart';
 import 'package:fr_lenra_client/redux/actions/recovery_action.dart';
 import 'package:fr_lenra_client/redux/actions/register_action.dart';
+import 'package:fr_lenra_client/redux/actions/save_redirect_to_action.dart';
 import 'package:fr_lenra_client/redux/actions/verify_code_action.dart';
 import 'package:fr_lenra_client/redux/states/auth_state.dart';
 import 'package:redux/redux.dart';
@@ -20,7 +21,12 @@ Reducer<AuthState> authStateReducer = combineReducers([
   TypedReducer<AuthState, LogoutAction>(handleRemoveTokenAfterLogoutAction),
   TypedReducer<AuthState, LogoutAction>(handleChangeStatusAfterLogoutAction),
   TypedReducer<AuthState, AsyncAction<AuthResponse>>(handleTokenResponse),
+  TypedReducer<AuthState, SaveRedirectToAction>(handleRedirectTo),
 ]);
+
+AuthState handleRedirectTo(AuthState state, SaveRedirectToAction action) {
+  return state.copyWith(redirectToRoute: action.redirectToRoute);
+}
 
 AuthState handleTokenResponse(AuthState state, AsyncAction<AuthResponse> action) {
   if (action.isDone) {

@@ -11,8 +11,6 @@ import 'package:fr_lenra_client/redux/states/app_state.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ActivationCodePage extends StatefulWidget {
-  static const routeName = '/activate-dev';
-
   @override
   State<StatefulWidget> createState() {
     return _ActivationCodePageState();

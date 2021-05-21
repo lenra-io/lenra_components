@@ -4,7 +4,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fr_lenra_client/lenra_components/theme/base_material_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
-import 'package:fr_lenra_client/navigation_helper.dart';
+import 'package:fr_lenra_client/navigation/lenra_navigator.dart';
 import 'package:fr_lenra_client/redux/states/app_state.dart';
 import 'package:redux/redux.dart';
 
@@ -19,15 +19,8 @@ class Lenra extends StatelessWidget {
         themeData: LenraThemeData(),
         child: MaterialApp(
           title: 'Lenra',
-          navigatorKey: navigatorKey,
-          onGenerateRoute: (RouteSettings settings) {
-            RouteData routeData = getFirstMatchingRoute(settings.name);
-            if (routeData == null) return null;
-            return MaterialPageRoute(
-              builder: routeData.builder(routeData.params),
-              settings: settings,
-            );
-          },
+          navigatorKey: LenraNavigator.navigatorKey,
+          onGenerateRoute: LenraNavigator.handleGenerateRoute,
           theme: baseMaterialThemeData,
         ),
       ),

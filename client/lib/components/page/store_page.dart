@@ -4,8 +4,6 @@ import 'package:fr_lenra_client/components/store_page/app_list_container.dart';
 import 'package:fr_lenra_client/components/store_page/logout_button_container.dart';
 
 class StorePage extends StatefulWidget {
-  static const routeName = '/store';
-
   StorePage({Key key}) : super(key: key);
 
   @override

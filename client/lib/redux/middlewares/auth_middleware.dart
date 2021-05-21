@@ -1,10 +1,7 @@
 import 'package:fr_lenra_client/api/response_models/auth_response.dart';
 import 'package:fr_lenra_client/api/response_models/user.dart';
-import 'package:fr_lenra_client/components/page/backoffice/activation_code_page.dart';
-import 'package:fr_lenra_client/components/page/change_lost_password_page.dart';
-import 'package:fr_lenra_client/components/page/change_password_confirmation_page.dart';
-import 'package:fr_lenra_client/components/page/login_page.dart';
 import 'package:fr_lenra_client/config/config.dart';
+import 'package:fr_lenra_client/navigation/lenra_navigator.dart';
 import 'package:fr_lenra_client/redux/actions/async_action.dart';
 import 'package:fr_lenra_client/redux/actions/change_lost_password_action.dart';
 import 'package:fr_lenra_client/redux/actions/change_password_action.dart';
@@ -32,20 +29,22 @@ void authMiddleware(
     } else */
     if (Config.instance.application == Application.dev &&
         store.state.authState.authResponse.user.role != UserRole.dev) {
-      store.dispatch(PushRouteAction(ActivationCodePage.routeName, removeStack: true));
+      store.dispatch(PushRouteAction(LenraNavigator.VALIDATION_DEV_ROUTE, removeStack: true));
     } else {
-      // TODO: rediriger vers la page à laquelle voulait accéder l'utilisateur.
+      // rediriger vers la page à laquelle voulait accéder l'utilisateur.
       // Si il ne voulais pas accéder à une page particulière, rediriger vers la base : /
-      store.dispatch(PushRouteAction("/", removeStack: true));
+      String pageToRedirect = store.state.authState.redirectToRoute ?? "/";
+      store.dispatch(PushRouteAction(pageToRedirect, removeStack: true));
     }
   }
-  if ((action is LogoutAction) && action.isDone) {
-    store.dispatch(PushRouteAction(LoginPage.routeName, removeStack: true));
+  if (action is LogoutAction && action.isDone) {
+    store.dispatch(PushRouteAction(LenraNavigator.LOGIN_ROUTE, removeStack: true));
   }
   if (action is RecoveryAction && action.isDone) {
-    store.dispatch(PushRouteAction(ChangeLostPasswordPage.routeName, arguments: action.email, removeStack: true));
+    store.dispatch(
+        PushRouteAction(LenraNavigator.CHANGE_LOST_PASSWORD_ROUTE, arguments: action.email, removeStack: true));
   }
-  if (action is ChangePasswordAction || action is ChangeLostPasswordAction && action.isDone) {
-    store.dispatch(PushRouteAction(ChangePasswordConfirmationPage.routeName, removeStack: true));
+  if ((action is ChangePasswordAction || action is ChangeLostPasswordAction) && action.isDone) {
+    store.dispatch(PushRouteAction(LenraNavigator.CHANGE_PASSWORD_CONFIRMATION_ROUTE, removeStack: true));
   }
 }

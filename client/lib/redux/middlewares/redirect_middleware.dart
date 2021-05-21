@@ -1,4 +1,4 @@
-import 'package:fr_lenra_client/navigation_helper.dart';
+import 'package:fr_lenra_client/navigation/lenra_navigator.dart';
 import 'package:fr_lenra_client/redux/actions/push_route_action.dart';
 import 'package:fr_lenra_client/redux/states/app_state.dart';
 import 'package:redux/redux.dart';
@@ -12,12 +12,12 @@ void redirectMiddleware(
   NextDispatcher next,
 ) {
   if (action.removeStack) {
-    navigatorKey.currentState.pushReplacementNamed(
+    LenraNavigator.navigatorKey.currentState.pushReplacementNamed(
       action.routeName,
       arguments: action.arguments,
     );
   } else {
-    navigatorKey.currentState.pushNamed(
+    LenraNavigator.navigatorKey.currentState.pushNamed(
       action.routeName,
       arguments: action.arguments,
     );

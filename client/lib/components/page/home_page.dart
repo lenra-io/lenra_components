@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/components/page/simple_page.dart';
 
 class HomePage extends StatelessWidget {
-  static const routeName = '/';
-
   @override
   Widget build(BuildContext context) {
     return SimplePage(

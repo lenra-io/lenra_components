@@ -5,9 +5,7 @@ import 'package:fr_lenra_client/api/request_models/loginRequest.dart';
 import 'package:fr_lenra_client/api/request_models/recovery_request.dart';
 import 'package:fr_lenra_client/api/request_models/register_request.dart';
 import 'package:fr_lenra_client/api/request_models/verify_code_request.dart';
-import 'package:fr_lenra_client/components/page/change_lost_password_page.dart';
-import 'package:fr_lenra_client/components/page/change_password_confirmation_page.dart';
-import 'package:fr_lenra_client/components/page/login_page.dart';
+import 'package:fr_lenra_client/navigation/lenra_navigator.dart';
 import 'package:fr_lenra_client/redux/actions/action.dart';
 import 'package:fr_lenra_client/redux/actions/async_action.dart';
 import 'package:fr_lenra_client/redux/actions/change_lost_password_action.dart';
@@ -69,6 +67,8 @@ void main() {
 
   test('authMiddleware with RegisterAction that is done redirect to Verify code page with stack reset', () {
     var store = MockedStore();
+    var state = AppState();
+    when(store.state).thenAnswer((_) => state);
     var action = RegisterAction(
       RegisterRequest("email", "password", firstName: "firstName", lastName: "lastName"),
     );
@@ -93,6 +93,8 @@ void main() {
 
   test('authMiddleware with LoginAction that is done redirect to Store page with stack reset', () {
     var store = MockedStore();
+    var state = AppState();
+    when(store.state).thenAnswer((_) => state);
     var action = LoginAction(
       LoginRequest("email", "password"),
     );
@@ -136,7 +138,7 @@ void main() {
     checkCallingDispatchWith<LogoutAction>(
       store,
       action,
-      LoginPage.routeName,
+      LenraNavigator.LOGIN_ROUTE,
       true,
     );
   });
@@ -148,7 +150,7 @@ void main() {
     checkCallingDispatchWith<RecoveryAction>(
       store,
       action,
-      ChangeLostPasswordPage.routeName,
+      LenraNavigator.CHANGE_LOST_PASSWORD_ROUTE,
       true,
     );
   });
@@ -160,7 +162,7 @@ void main() {
     checkCallingDispatchWith<ChangeLostPasswordAction>(
       store,
       action,
-      ChangePasswordConfirmationPage.routeName,
+      LenraNavigator.CHANGE_PASSWORD_CONFIRMATION_ROUTE,
       true,
     );
   });
@@ -172,7 +174,7 @@ void main() {
     checkCallingDispatchWith<ChangePasswordAction>(
       store,
       action,
-      ChangePasswordConfirmationPage.routeName,
+      LenraNavigator.CHANGE_PASSWORD_CONFIRMATION_ROUTE,
       true,
     );
   });

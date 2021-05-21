@@ -17,12 +17,7 @@ abstract class AsyncAction<T extends ApiResponse> extends Action {
   /// Creates an AsyncAction
   ///
   /// The AsyncAction takes a [Future] in the [future] parameter which will be the future to execute
-  AsyncAction(
-      {this.future,
-      this.status = RequestStatus.none,
-      this.errors,
-      this.data,
-      this.isRetry = false});
+  AsyncAction({this.future, this.status = RequestStatus.none, this.errors, this.data, this.isRetry = false});
 
   bool get isFetching {
     return status == RequestStatus.fetching;

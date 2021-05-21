@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fr_lenra_client/navigation_helper.dart';
+import 'package:fr_lenra_client/navigation/lenra_navigator.dart';
 import 'package:fr_lenra_client/redux/actions/show_error_action.dart';
 import 'package:fr_lenra_client/redux/states/app_state.dart';
 import 'package:redux/redux.dart';
@@ -12,9 +12,9 @@ void errorMiddleware(
   ShowErrorAction action,
   NextDispatcher next,
 ) {
-  ScaffoldMessenger.of(navigatorKey.currentContext).showSnackBar(SnackBar(
+  ScaffoldMessenger.of(LenraNavigator.navigatorKey.currentContext).showSnackBar(SnackBar(
     content: Text(action.errors.toString()),
-    backgroundColor: Theme.of(navigatorKey.currentContext).errorColor,
+    backgroundColor: Theme.of(LenraNavigator.navigatorKey.currentContext).errorColor,
     duration: Duration(seconds: 3),
   ));
 }

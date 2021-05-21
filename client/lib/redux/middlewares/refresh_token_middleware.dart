@@ -1,7 +1,8 @@
-import 'package:fr_lenra_client/components/page/login_page.dart';
+import 'package:fr_lenra_client/navigation/lenra_navigator.dart';
 import 'package:fr_lenra_client/redux/actions/async_action.dart';
 import 'package:fr_lenra_client/redux/actions/push_route_action.dart';
 import 'package:fr_lenra_client/redux/actions/refresh_token_action.dart';
+import 'package:fr_lenra_client/redux/actions/save_redirect_to_action.dart';
 import 'package:fr_lenra_client/redux/states/app_state.dart';
 import 'package:redux/redux.dart';
 
@@ -34,7 +35,7 @@ void handle401AsyncAction(
     // End of first try. access token is invalid but we can try to refresh it and retry.
     // We do NOT next the action (it will not be handle by reducer.)
     // We set the isRetry flag to True to avoid infinite retry loop.
-    next(action);
+    // next(action); // TODO WTF ?
     action.isRetry = true;
     store.dispatch(RefreshTokenAction(action));
   }
@@ -47,14 +48,18 @@ void handleRefreshTokenAction(
 ) {
   if (action.isError) {
     // The refresh token API returned an error. That means the refresh token is invalid (or at lease we can't get a proper access token.)
+    // We save the current route for after-auth redirection
+    store.dispatch(
+      SaveRedirectToAction(redirectToRoute: LenraNavigator.currentPath),
+    );
     // We redirect the user to the connexion page.
-    store.dispatch(PushRouteAction(LoginPage.routeName, removeStack: true));
+    store.dispatch(PushRouteAction(LenraNavigator.LOGIN_ROUTE, removeStack: true));
     next(action);
   } else if (action.isDone) {
     // We got a new refresh token. First Next the action for the reducer to save the token
     next(action);
     // Then we can retry the previous action.
-    store.dispatch(action.actionToRetry);
+    if (action.actionToRetry != null) store.dispatch(action.actionToRetry);
   } else {
     next(action);
   }

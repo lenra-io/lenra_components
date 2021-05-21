@@ -3,8 +3,6 @@ import 'package:fr_lenra_client/components/login_page/change_lost_password_form_
 import 'package:fr_lenra_client/components/page/simple_page.dart';
 
 class ChangeLostPasswordPage extends StatelessWidget {
-  static const routeName = "/lost-password";
-
   @override
   Widget build(BuildContext context) {
     final String email = ModalRoute.of(context).settings.arguments;

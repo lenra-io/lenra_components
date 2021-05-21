@@ -35,6 +35,8 @@ class LenraStore {
     return _store;
   }
 
+  static dynamic dispatch(dynamic action) => LenraStore.getStore().dispatch(action);
+
   static List<dynamic Function(Store<AppState>, dynamic, dynamic Function(dynamic))> createMiddlewares() {
     return [
       TypedMiddleware<AppState, AsyncAction>(asyncMiddleware),

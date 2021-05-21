@@ -7,12 +7,6 @@ import 'package:fr_lenra_client/redux/models/app_list_model.dart';
 /// This page show will show the UI recieved from the server. (UIStream send UIComponents to LenraApp)
 
 class LenraAppPage extends StatefulWidget {
-  static const routeName = '/app/:appName';
-
-  static String getRouteName(appName) {
-    return '/app/' + appName;
-  }
-
   final String appName;
   final AppListModel appListModel;
 
