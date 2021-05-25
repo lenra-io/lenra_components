@@ -12,6 +12,8 @@ class LenraTextFieldThemeData {
   LenraTextThemeData textTheme;
   Color descriptionColor;
   TextStyle textStyle;
+  TextStyle descriptionStyle;
+  TextStyle hintTextStyle;
   double fontSize;
   Map<LenraComponentSize, EdgeInsets> paddingMap;
 
@@ -22,6 +24,8 @@ class LenraTextFieldThemeData {
     this.descriptionColor,
     this.paddingMap,
     this.textStyle,
+    this.descriptionStyle,
+    this.hintTextStyle,
   }) {
     this.colorTheme = colorTheme ?? LenraColorThemeData();
     this.textTheme = textTheme ?? LenraTextThemeData();
@@ -41,6 +45,8 @@ class LenraTextFieldThemeData {
       merged.colorTheme = incoming.colorTheme ?? this.colorTheme;
       merged.border = incoming.border ?? this.border;
       merged.textStyle = incoming.textStyle ?? this.textStyle;
+      merged.descriptionStyle = incoming.descriptionStyle ?? this.descriptionStyle;
+      merged.hintTextStyle = incoming.hintTextStyle ?? this.hintTextStyle;
       merged.paddingMap = incoming.paddingMap ?? this.paddingMap;
 
       return merged;

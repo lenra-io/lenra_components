@@ -62,6 +62,8 @@ class LenraThemeData {
     this.lenraTextFieldThemeData = lenraTextFieldThemeData ??
         LenraTextFieldThemeData(
             textStyle: this.lenraTextThemeData.bodyText,
+            descriptionStyle: this.lenraTextThemeData.underDescriptionText,
+            hintTextStyle: this.lenraTextThemeData.disabledBodyText,
             paddingMap: this.paddingMap.map((key, value) => MapEntry(
                 key,
                 EdgeInsets.only(

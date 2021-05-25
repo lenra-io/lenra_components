@@ -66,7 +66,6 @@ class _ActivationCodePageState extends State<ActivationCodePage> {
               else
                 // can't launch url, there is some error
                 throw "Could not launch $url";
-              // Navigator.pushNamed(context, '/recovery');
             },
           ),
         ],

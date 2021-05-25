@@ -9,6 +9,22 @@ class LenraColorThemeData {
   static const LENRA_GREY_TEXT = Color(0xFF8B97AD);
   static const LENRA_BLACK = Color(0xFF1E232C);
 
+  static const LENRA_FUN_RED_PULSE = Color(0xFFE92236);
+  static const LENRA_FUN_RED_BASE = Color(0xFFF27A86);
+  static const LENRA_FUN_RED_FADE = Color(0xFFFACACF);
+
+  static const LENRA_FUN_YELLOW_PULSE = Color(0xFFEF902C);
+  static const LENRA_FUN_YELLOW_BASE = Color(0xFFF6C28B);
+  static const LENRA_FUN_YELLOW_FADE = Color(0xFFFBE7D1);
+
+  static const LENRA_FUN_GREEN_PULSE = Color(0xFF389589);
+  static const LENRA_FUN_GREEN_BASE = Color(0xFF57C0B3);
+  static const LENRA_FUN_GREEN_FADE = Color(0xFFBCE6E1);
+
+  static const LENRA_FUN_BLUE_PULSE = Color(0xFF19ACEA);
+  static const LENRA_FUN_BLUE_BASE = Color(0xFF70CBF2);
+  static const LENRA_FUN_BLUE_FADE = Color(0xFFC6EAFA);
+
   Color primaryBackgroundColor;
   Color primaryBackgroundHoverColor;
   Color primaryBackgroundDisabledColor;
@@ -51,38 +67,24 @@ class LenraColorThemeData {
     Color tertiaryForegroundDisabledColor,
   }) {
     this.primaryBackgroundColor = primaryBackgroundColor ?? LENRA_BLUE;
-    this.primaryBackgroundHoverColor =
-        primaryBackgroundHoverColor ?? LENRA_BLUE_HOVER;
-    this.primaryBackgroundDisabledColor =
-        primaryBackgroundDisabledColor ?? LENRA_BLUE_UNAVAILABLE;
+    this.primaryBackgroundHoverColor = primaryBackgroundHoverColor ?? LENRA_BLUE_HOVER;
+    this.primaryBackgroundDisabledColor = primaryBackgroundDisabledColor ?? LENRA_BLUE_UNAVAILABLE;
     this.primaryForegroundColor = primaryForegroundColor ?? LENRA_WHITE;
-    this.primaryForegroundHoverColor =
-        primaryForegroundHoverColor ?? LENRA_WHITE;
-    this.primaryForegroundDisabledColor =
-        primaryForegroundDisabledColor ?? LENRA_WHITE;
+    this.primaryForegroundHoverColor = primaryForegroundHoverColor ?? LENRA_WHITE;
+    this.primaryForegroundDisabledColor = primaryForegroundDisabledColor ?? LENRA_WHITE;
 
-    this.secondaryBackgroundColor =
-        secondaryBackgroundColor ?? Colors.transparent;
-    this.secondaryBackgroundHoverColor =
-        secondaryBackgroundHoverColor ?? LENRA_BLUE_UNAVAILABLE;
-    this.secondaryBackgroundDisabledColor =
-        secondaryBackgroundDisabledColor ?? Colors.transparent;
+    this.secondaryBackgroundColor = secondaryBackgroundColor ?? Colors.transparent;
+    this.secondaryBackgroundHoverColor = secondaryBackgroundHoverColor ?? LENRA_BLUE_UNAVAILABLE;
+    this.secondaryBackgroundDisabledColor = secondaryBackgroundDisabledColor ?? Colors.transparent;
     this.secondaryForegroundColor = secondaryForegroundColor ?? LENRA_BLUE;
-    this.secondaryForegroundHoverColor =
-        secondaryForegroundHoverColor ?? LENRA_BLUE;
-    this.secondaryForegroundDisabledColor =
-        secondaryForegroundDisabledColor ?? LENRA_BLUE_UNAVAILABLE;
+    this.secondaryForegroundHoverColor = secondaryForegroundHoverColor ?? LENRA_BLUE;
+    this.secondaryForegroundDisabledColor = secondaryForegroundDisabledColor ?? LENRA_BLUE_UNAVAILABLE;
 
-    this.tertiaryBackgroundColor =
-        tertiaryBackgroundColor ?? Colors.transparent;
-    this.tertiaryBackgroundHoverColor =
-        tertiaryBackgroundHoverColor ?? LENRA_BLUE_UNAVAILABLE;
-    this.tertiaryBackgroundDisabledColor =
-        tertiaryBackgroundDisabledColor ?? Colors.transparent;
+    this.tertiaryBackgroundColor = tertiaryBackgroundColor ?? Colors.transparent;
+    this.tertiaryBackgroundHoverColor = tertiaryBackgroundHoverColor ?? LENRA_BLUE_UNAVAILABLE;
+    this.tertiaryBackgroundDisabledColor = tertiaryBackgroundDisabledColor ?? Colors.transparent;
     this.tertiaryForegroundColor = tertiaryForegroundColor ?? LENRA_BLUE;
-    this.tertiaryForegroundHoverColor =
-        tertiaryForegroundHoverColor ?? LENRA_BLUE;
-    this.tertiaryForegroundDisabledColor =
-        tertiaryForegroundDisabledColor ?? LENRA_BLUE_UNAVAILABLE;
+    this.tertiaryForegroundHoverColor = tertiaryForegroundHoverColor ?? LENRA_BLUE;
+    this.tertiaryForegroundDisabledColor = tertiaryForegroundDisabledColor ?? LENRA_BLUE_UNAVAILABLE;
   }
 }

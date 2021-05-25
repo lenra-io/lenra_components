@@ -10,9 +10,9 @@ class LenraTextThemeData {
   TextStyle bodyText;
   TextStyle blueBodyText;
   TextStyle subtext;
-  TextStyle errorText;
-
   TextStyle disabledBodyText;
+  TextStyle underDescriptionText;
+  TextStyle errorText;
 
   final double lineHeight;
 
@@ -27,6 +27,7 @@ class LenraTextThemeData {
     TextStyle blueBodyText,
     TextStyle subtext,
     TextStyle disabledBodyText,
+    TextStyle underDescriptionText,
     TextStyle errorText,
   }) {
     this.headline1 = headline1 ??
@@ -101,6 +102,15 @@ class LenraTextThemeData {
           color: LenraColorThemeData.LENRA_DISABLED_GRAY,
           height: lineHeight,
         );
+
+    this.underDescriptionText = underDescriptionText ??
+        TextStyle(
+          fontFamily: "Source Sans Pro",
+          fontSize: 12.0,
+          fontWeight: FontWeight.w400,
+          color: LenraColorThemeData.LENRA_GREY_TEXT,
+          height: lineHeight,
+        );
     this.errorText = disabledBodyText ??
         TextStyle(
           fontFamily: "Source Sans Pro",
@@ -121,6 +131,7 @@ class LenraTextThemeData {
         headlineBody: this.headlineBody.merge(incoming.headlineBody),
         bodyText: this.bodyText.merge(incoming.bodyText),
         disabledBodyText: this.disabledBodyText.merge(incoming.disabledBodyText),
+        underDescriptionText: this.underDescriptionText.merge(incoming.underDescriptionText),
         subtext: this.subtext.merge(incoming.subtext),
       );
     }

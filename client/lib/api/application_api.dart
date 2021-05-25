@@ -1,7 +1,9 @@
 import 'package:fr_lenra_client/api/lenra_http_client.dart';
 import 'package:fr_lenra_client/api/request_models/activation_code_request.dart';
+import 'package:fr_lenra_client/api/request_models/create_app_request.dart';
 import 'package:fr_lenra_client/api/response_models/apps_response.dart';
 import 'package:fr_lenra_client/api/response_models/auth_response.dart';
+import 'package:fr_lenra_client/api/response_models/create_app_response.dart';
 
 class ApplicationApi {
   static LenraApi lenraApi = LenraApi();
@@ -9,6 +11,12 @@ class ApplicationApi {
   static Future<AppsResponse> getApps() => lenraApi.get(
         "/apps",
         responseMapper: (json) => AppsResponse.fromJson(json),
+      );
+
+  static Future<CreateAppResponse> createApp(CreateAppRequest body) => lenraApi.post(
+        "/apps",
+        body: body,
+        responseMapper: (json) => CreateAppResponse.fromJson(json),
       );
 
   static Future<AppsResponse> getUserApps() => lenraApi.get(

@@ -12,7 +12,7 @@ class AppListContainer extends StatelessWidget {
       converter: (store) => AppListModel(store),
       builder: (context, appListModel) {
         return StatefulWrapper(
-          child: AppList(appListModel: appListModel),
+          builder: (context) => AppList(appListModel: appListModel),
           onInit: appListModel.fetchData,
         );
       },

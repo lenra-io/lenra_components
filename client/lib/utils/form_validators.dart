@@ -35,6 +35,15 @@ Function checkEmailFormat({String error}) {
   };
 }
 
+Function checkGitRepoFormat({String error}) {
+  return (String value) {
+    if (!RegExp(r"((git|http(s)?)|(git@[\w\.]+))(:(//)?)([\w\.@\:/\-~]+)(\.git)(/)?").hasMatch(value)) {
+      return error ?? "Dépot git invalide";
+    }
+    return null;
+  };
+}
+
 Function checkPassword({String error}) {
   return (String value) {
     if (!RegExp(r"(?=.*[a-z])(?=.*[A-Z])(?=.*\W)").hasMatch(value)) {

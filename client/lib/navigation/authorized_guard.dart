@@ -8,20 +8,24 @@ import 'package:fr_lenra_client/redux/store.dart';
 
 class AuthorizedGuard extends PageGuard {
   final List<UserRole> roles;
+  final Function ifUnauthorized;
 
-  AuthorizedGuard({@required Widget child, this.roles = UserRole.values}) : super(child: child);
-
-  @override
-  bool isAuthorized() {
-    AuthResponse authResponse = LenraStore.getStore().state.authState.authResponse;
-    return authResponse != null &&
-        authResponse.accessToken != null &&
-        authResponse.user != null &&
-        (this.roles.contains(authResponse.user.role));
-  }
-
-  @override
-  void ifUnauthorized() {
+  AuthorizedGuard({
+    @required Widget child,
+    this.roles = UserRole.values,
+    this.ifUnauthorized = _refreshToken,
+  }) : super(
+          child: child,
+          isAuthorized: () {
+            AuthResponse authResponse = LenraStore.getStore().state.authState.authResponse;
+            return authResponse != null &&
+                authResponse.accessToken != null &&
+                authResponse.user != null &&
+                (roles.contains(authResponse.user.role));
+          },
+          ifUnauthorized: ifUnauthorized,
+        );
+  static void _refreshToken() {
     LenraStore.dispatch(RefreshTokenAction(null));
   }
 }

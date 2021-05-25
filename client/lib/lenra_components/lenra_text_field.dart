@@ -75,10 +75,10 @@ class LenraTextField extends StatelessWidget {
       if (labelWidget != null) colChildren.add(labelWidget);
       colChildren.add(textField);
     }
-    if (this.description != null && this.description.isNotEmpty) {
+    if (this.description != null && this.description.isNotEmpty && !this.error) {
       colChildren.add(Text(
         this.description,
-        style: lenraTextFieldThemeData.textStyle,
+        style: lenraTextFieldThemeData.descriptionStyle,
         textAlign: TextAlign.left,
       ));
     }
@@ -135,7 +135,7 @@ class LenraTextField extends StatelessWidget {
         borderSide: lenraTextFieldThemeData.border.primaryBorder,
       ),
       hintText: this.hintText,
-      hintStyle: lenraTextFieldThemeData.textStyle,
+      hintStyle: lenraTextFieldThemeData.hintTextStyle,
       errorText: (this.error) ? this.errorMessage : null,
       errorStyle: lenraTextFieldThemeData.textTheme.errorText,
       suffixIcon: (this.onSuffixPressed != null)
