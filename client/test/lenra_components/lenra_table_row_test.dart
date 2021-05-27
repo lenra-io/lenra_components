@@ -11,7 +11,11 @@ void main() {
       ],
     );
 
-    expect(lenraTableRow.toTableRow() is TableRow, true);
-    expect(lenraTableRow.toTableRow().children.first is LenraTableCell, true);
+    expect(lenraTableRow.toTableRow(padding: EdgeInsets.symmetric(vertical: 1 * 8.0, horizontal: 2 * 8.0)) is TableRow,
+        true);
+    expect(
+        lenraTableRow.toTableRow(padding: EdgeInsets.symmetric(vertical: 1 * 8.0, horizontal: 2 * 8.0)).children.first
+            is LenraTableCell,
+        true);
   });
 }

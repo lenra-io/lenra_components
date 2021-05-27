@@ -10,5 +10,5 @@ class RouteData {
     params[name] = value;
   }
 
-  RouteData(this.builder);
+  RouteData(this.builder, this.params);
 }

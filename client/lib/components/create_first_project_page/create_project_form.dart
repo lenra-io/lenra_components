@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:fr_lenra_client/api/request_models/create_app_request.dart';
 import 'package:fr_lenra_client/lenra_components/layout/lenra_column.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_button.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_text_form_field.dart';
-import 'package:fr_lenra_client/lenra_components/theme/lenra_color_theme_data.dart';
-import 'package:fr_lenra_client/redux/actions/create_application_action.dart';
-import 'package:fr_lenra_client/redux/store.dart';
+import 'package:fr_lenra_client/navigation/lenra_navigator.dart';
+import 'package:fr_lenra_client/service/application_model.dart';
+import 'package:fr_lenra_client/service/application_service.dart';
 import 'package:fr_lenra_client/utils/form_validators.dart';
+import 'package:provider/provider.dart';
 
 class CreateProjectForm extends StatefulWidget {
   @override
@@ -23,6 +23,7 @@ class _CreateProjectFormState extends State<CreateProjectForm> {
 
   @override
   Widget build(BuildContext context) {
+    ApplicationModel applicationModel = context.watch<ApplicationModel>();
     return Form(
       key: _formKey,
       child: LenraColumn(
@@ -34,16 +35,10 @@ class _CreateProjectFormState extends State<CreateProjectForm> {
             text: "Créer mon premier projet",
             onPressed: () {
               if (_formKey.currentState.validate()) {
-                LenraStore.getStore().dispatch(
-                  CreateApplicationAction(
-                    CreateAppRequest(
-                      color: LenraColorThemeData.LENRA_FUN_GREEN_BASE,
-                      icon: Icons.apps,
-                      name: this.projectName,
-                      repository: this.gitRepository,
-                    ),
-                  ),
-                );
+                applicationModel
+                    .createApp(this.projectName, this.gitRepository)
+                    .then((_) => ApplicationService.instance.loadUserApplications(force: true))
+                    .then((_) => Navigator.of(context).pushNamed(LenraNavigator.HOME_ROUTE));
               }
             },
           ),

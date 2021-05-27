@@ -1,27 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 
-typedef bool Checker();
+typedef Checker = Future<bool> Function(BuildContext);
 
-class PageGuard extends StatelessWidget {
-  final Widget child;
-  final Checker isAuthorized;
-  final Function ifUnauthorized;
+class PageGuard {
+  final Future<bool> Function(BuildContext) isAuthorized;
+  final Function(BuildContext) ifUnauthorized;
 
   PageGuard({
-    @required this.child,
     @required this.isAuthorized,
     @required this.ifUnauthorized,
   });
 
-  @override
-  Widget build(BuildContext context) {
-    if (this.isAuthorized()) return this.child;
-
-    SchedulerBinding.instance.scheduleFrameCallback((_) {
-      ifUnauthorized();
-    });
-    return Center(child: CircularProgressIndicator());
+  Future<bool> check(BuildContext context) async {
+    bool authorized = await this.isAuthorized(context);
+    if (!authorized) ifUnauthorized(context);
+    return authorized;
   }
 }

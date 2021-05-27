@@ -8,6 +8,10 @@ class LenraColorThemeData {
   static const LENRA_DISABLED_GRAY = Color(0xFFA9B2C4);
   static const LENRA_GREY_TEXT = Color(0xFF8B97AD);
   static const LENRA_BLACK = Color(0xFF1E232C);
+  static const LENRA_CUSTOM_RED = Color(0xFFF27A86);
+  static const LENRA_CUSTOM_BLUE = Color(0xFF70CBF2);
+  static const LENRA_CUSTOM_YELLOW = Color(0xFFF6C28B);
+  static const LENRA_CUSTOM_GREEN = Color(0xFF57C0B3);
 
   static const LENRA_FUN_RED_PULSE = Color(0xFFE92236);
   static const LENRA_FUN_RED_BASE = Color(0xFFF27A86);

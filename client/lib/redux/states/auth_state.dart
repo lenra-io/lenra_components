@@ -7,6 +7,7 @@ class AuthState {
   final AuthResponse authResponse;
   final AsyncStatus registerStatus;
   final AsyncStatus verifyCodeStatus;
+  final AsyncStatus refreshStatus;
   final AsyncStatus loginStatus;
   final AsyncStatus logoutStatus;
   final AsyncStatus sendLostPasswordCodeStatus;
@@ -18,6 +19,7 @@ class AuthState {
     AuthResponse authResponse,
     AsyncStatus registerStatus,
     AsyncStatus verifyCodeStatus,
+    AsyncStatus refreshStatus,
     AsyncStatus loginStatus,
     AsyncStatus logoutStatus,
     AsyncStatus sendLostPasswordCodeStatus,
@@ -28,6 +30,7 @@ class AuthState {
         this.registerStatus = registerStatus ?? AsyncStatus(),
         this.verifyCodeStatus = verifyCodeStatus ?? AsyncStatus(),
         this.loginStatus = loginStatus ?? AsyncStatus(),
+        this.refreshStatus = refreshStatus ?? AsyncStatus(),
         this.logoutStatus = logoutStatus ?? AsyncStatus(),
         this.sendLostPasswordCodeStatus = sendLostPasswordCodeStatus ?? AsyncStatus(),
         this.lostPasswordModificationStatus = lostPasswordModificationStatus ?? AsyncStatus(),
@@ -37,6 +40,7 @@ class AuthState {
     AuthResponse tokenResponse,
     AsyncStatus registerStatus,
     AsyncStatus verifyCodeStatus,
+    AsyncStatus refreshStatus,
     AsyncStatus loginStatus,
     AsyncStatus logoutStatus,
     AsyncStatus sendLostPasswordCodeStatus,
@@ -48,6 +52,7 @@ class AuthState {
       authResponse: tokenResponse ?? this.authResponse,
       registerStatus: registerStatus ?? this.registerStatus,
       verifyCodeStatus: verifyCodeStatus ?? this.verifyCodeStatus,
+      refreshStatus: refreshStatus ?? this.refreshStatus,
       loginStatus: loginStatus ?? this.loginStatus,
       logoutStatus: logoutStatus ?? this.logoutStatus,
       sendLostPasswordCodeStatus: sendLostPasswordCodeStatus ?? this.sendLostPasswordCodeStatus,
@@ -61,6 +66,7 @@ class AuthState {
         "authResponse": authResponse,
         "registerStatus": registerStatus.toJson(),
         "verifyCodeStatus": verifyCodeStatus.toJson(),
+        "refreshStatus": refreshStatus.toJson(),
         "loginStatus": loginStatus.toJson(),
         "logoutStatus": logoutStatus.toJson(),
         "sendLostPasswordCodeStatus": sendLostPasswordCodeStatus.toJson(),

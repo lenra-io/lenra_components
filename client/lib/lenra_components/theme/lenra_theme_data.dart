@@ -4,6 +4,7 @@ import 'package:fr_lenra_client/lenra_components/theme/lenra_button_theme_data.d
 import 'package:fr_lenra_client/lenra_components/theme/lenra_checkbox_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_color_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_radio_theme_data.dart';
+import 'package:fr_lenra_client/lenra_components/theme/lenra_table_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_text_field_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_text_theme_data.dart';
 
@@ -23,6 +24,7 @@ class LenraThemeData {
   LenraRadioThemeData lenraRadioThemeData;
   LenraCheckboxThemeData lenraCheckboxThemeData;
   LenraTextFieldThemeData lenraTextFieldThemeData;
+  LenraTableThemeData lenraTableThemeData;
 
   LenraThemeData({
     this.baseSize = 8,
@@ -34,6 +36,7 @@ class LenraThemeData {
     LenraRadioThemeData lenraRadioThemeData,
     LenraCheckboxThemeData lenraCheckboxThemeData,
     LenraTextFieldThemeData lenraTextFieldThemeData,
+    LenraTableThemeData lenraTableThemeData,
   }) {
     this.paddingMap = paddingMap ??
         {
@@ -44,6 +47,10 @@ class LenraThemeData {
     this.lenraColorThemeData = lenraColorThemeData ?? LenraColorThemeData();
     this.lenraTextThemeData = lenraTextThemeData ?? LenraTextThemeData();
     this.lenraBorderThemeData = lenraBorderThemeData ?? LenraBorderThemeData();
+    this.lenraTableThemeData = lenraTableThemeData ??
+        LenraTableThemeData(
+          paddingMap: this.paddingMap,
+        );
     this.lenraButtonThemeData = lenraButtonThemeData ??
         LenraButtonThemeData(
           colorTheme: this.lenraColorThemeData,
@@ -72,5 +79,29 @@ class LenraThemeData {
                   left: baseSize,
                   right: baseSize,
                 ))));
+  }
+
+  copyWith({
+    double baseSize,
+    Map<LenraComponentSize, EdgeInsets> paddingMap,
+    LenraColorThemeData lenraColorThemeData,
+    LenraTextThemeData lenraTextThemeData,
+    LenraBorderThemeData lenraBorderThemeData,
+    LenraButtonThemeData lenraButtonThemeData,
+    LenraRadioThemeData lenraRadioThemeData,
+    LenraCheckboxThemeData lenraCheckboxThemeData,
+    LenraTextFieldThemeData lenraTextFieldThemeData,
+  }) {
+    return LenraThemeData(
+      baseSize: baseSize ?? this.baseSize,
+      paddingMap: paddingMap ?? this.paddingMap,
+      lenraColorThemeData: lenraColorThemeData ?? this.lenraColorThemeData,
+      lenraTextThemeData: lenraTextThemeData ?? this.lenraTextThemeData,
+      lenraBorderThemeData: lenraBorderThemeData ?? this.lenraBorderThemeData,
+      lenraButtonThemeData: lenraButtonThemeData ?? this.lenraButtonThemeData,
+      lenraRadioThemeData: lenraRadioThemeData ?? this.lenraRadioThemeData,
+      lenraCheckboxThemeData: lenraCheckboxThemeData ?? this.lenraCheckboxThemeData,
+      lenraTextFieldThemeData: lenraTextFieldThemeData ?? this.lenraTextFieldThemeData,
+    );
   }
 }

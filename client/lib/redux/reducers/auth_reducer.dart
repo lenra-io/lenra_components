@@ -5,6 +5,7 @@ import 'package:fr_lenra_client/redux/actions/change_password_action.dart';
 import 'package:fr_lenra_client/redux/actions/login_action.dart';
 import 'package:fr_lenra_client/redux/actions/logout_action.dart';
 import 'package:fr_lenra_client/redux/actions/recovery_action.dart';
+import 'package:fr_lenra_client/redux/actions/refresh_token_action.dart';
 import 'package:fr_lenra_client/redux/actions/register_action.dart';
 import 'package:fr_lenra_client/redux/actions/save_redirect_to_action.dart';
 import 'package:fr_lenra_client/redux/actions/verify_code_action.dart';
@@ -14,11 +15,11 @@ import 'package:redux/redux.dart';
 Reducer<AuthState> authStateReducer = combineReducers([
   TypedReducer<AuthState, RegisterAction>(handleRegisterAction),
   TypedReducer<AuthState, VerifyCodeAction>(handleSendCodeAction),
+  TypedReducer<AuthState, RefreshTokenAction>(handleRefreshTokenAction),
   TypedReducer<AuthState, LoginAction>(handleLoginAction),
   TypedReducer<AuthState, RecoveryAction>(handleSendLostPasswordCode),
   TypedReducer<AuthState, ChangeLostPasswordAction>(handleLostPasswordModification),
   TypedReducer<AuthState, ChangePasswordAction>(handlePasswordModification),
-  TypedReducer<AuthState, LogoutAction>(handleRemoveTokenAfterLogoutAction),
   TypedReducer<AuthState, LogoutAction>(handleChangeStatusAfterLogoutAction),
   TypedReducer<AuthState, AsyncAction<AuthResponse>>(handleTokenResponse),
   TypedReducer<AuthState, SaveRedirectToAction>(handleRedirectTo),
@@ -35,19 +36,15 @@ AuthState handleTokenResponse(AuthState state, AsyncAction<AuthResponse> action)
   return state;
 }
 
-AuthState handleRemoveTokenAfterLogoutAction(AuthState state, LogoutAction action) {
-  if (action.isDone) {
-    return state.copyWith(
-      tokenResponse: null,
-    );
-  }
-
-  return state;
-}
-
 AuthState handleChangeStatusAfterLogoutAction(AuthState state, LogoutAction action) {
   return state.copyWith(
     logoutStatus: state.logoutStatus.reducer(action),
+  );
+}
+
+AuthState handleRefreshTokenAction(AuthState state, RefreshTokenAction action) {
+  return state.copyWith(
+    refreshStatus: state.refreshStatus.reducer(action),
   );
 }
 

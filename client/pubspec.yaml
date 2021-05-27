@@ -9,6 +9,7 @@ dependencies:
     sdk: flutter
   flutter:
     sdk: flutter
+  intl: ^0.17.0
   phoenix_wings: ^0.2.1
   json_patch: ^2.0.0
   http: ^0.13.0
@@ -30,9 +31,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/api/ui.json
-    - assets/images/logo-vertical.png
-    - assets/images/colored-line.png
+    - assets/images/
   fonts:
     - family: Source Sans Pro
       fonts:

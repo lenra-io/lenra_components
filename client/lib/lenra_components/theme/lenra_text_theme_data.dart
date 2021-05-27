@@ -32,43 +32,26 @@ class LenraTextThemeData {
   }) {
     this.headline1 = headline1 ??
         TextStyle(
-          fontFamily: "Source Sans Pro",
           fontSize: 24.0,
           fontWeight: FontWeight.w700,
-          color: LenraColorThemeData.LENRA_BLACK,
-          height: lineHeight,
         );
     this.headline2 = headline2 ??
         TextStyle(
-          fontFamily: "Source Sans Pro",
           fontSize: 20.0,
           fontWeight: FontWeight.w700,
-          color: LenraColorThemeData.LENRA_BLACK,
-          height: lineHeight,
         );
     this.headline3 = headline3 ??
         TextStyle(
-          fontFamily: "Source Sans Pro",
           fontSize: 16.0,
           fontWeight: FontWeight.w700,
-          color: LenraColorThemeData.LENRA_BLACK,
-          height: lineHeight,
         );
     this.headline4 = headline4 ??
         TextStyle(
-          fontFamily: "Source Sans Pro",
-          fontSize: 14.0,
           fontWeight: FontWeight.w700,
-          color: LenraColorThemeData.LENRA_BLACK,
-          height: lineHeight,
         );
     this.headlineBody = headlineBody ??
         TextStyle(
-          fontFamily: "Source Sans Pro",
-          fontSize: 14.0,
           fontWeight: FontWeight.w600,
-          color: LenraColorThemeData.LENRA_BLACK,
-          height: lineHeight,
         );
     this.bodyText = bodyText ??
         TextStyle(
@@ -88,19 +71,11 @@ class LenraTextThemeData {
         );
     this.subtext = subtext ??
         TextStyle(
-          fontFamily: "Source Sans Pro",
           fontSize: 12.0,
-          fontWeight: FontWeight.w400,
-          color: LenraColorThemeData.LENRA_BLACK,
-          height: lineHeight,
         );
     this.disabledBodyText = disabledBodyText ??
         TextStyle(
-          fontFamily: "Source Sans Pro",
-          fontSize: 14.0,
-          fontWeight: FontWeight.w400,
           color: LenraColorThemeData.LENRA_DISABLED_GRAY,
-          height: lineHeight,
         );
 
     this.underDescriptionText = underDescriptionText ??
@@ -137,5 +112,29 @@ class LenraTextThemeData {
     }
 
     return this;
+  }
+
+  copyWith({
+    double lineHeight,
+    TextStyle headline1,
+    TextStyle headline2,
+    TextStyle headline3,
+    TextStyle headline4,
+    TextStyle headlineBody,
+    TextStyle bodyText,
+    TextStyle subtext,
+    TextStyle disabledBodyText,
+  }) {
+    return LenraTextThemeData(
+      lineHeight: lineHeight ?? this.lineHeight,
+      headline1: headline1 ?? this.headline1,
+      headline2: headline2 ?? this.headline2,
+      headline3: headline3 ?? this.headline3,
+      headline4: headline4 ?? this.headline4,
+      headlineBody: headlineBody ?? this.headlineBody,
+      bodyText: bodyText ?? this.bodyText,
+      subtext: subtext ?? this.subtext,
+      disabledBodyText: disabledBodyText ?? this.disabledBodyText,
+    );
   }
 }

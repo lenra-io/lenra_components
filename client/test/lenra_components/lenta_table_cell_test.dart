@@ -11,7 +11,7 @@ void main() {
     expect(lenraTableCell.child is Text, true);
 
     LenraTableCell emptyLenraTableCell = LenraTableCell();
-    TableCell emptyTableCell = emptyLenraTableCell.build(null);
+    TableCell emptyTableCell = emptyLenraTableCell;
     expect(emptyTableCell.child is SizedBox, true);
   });
 }

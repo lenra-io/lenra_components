@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_table_cell.dart';
+import 'package:fr_lenra_client/lenra_components/theme/lenra_table_theme_data.dart';
+import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
 
 /// Lenra implementation of Flutter's [TableRow] widget.
-class LenraTableRow {
+class LenraTableHeadRow {
   final List<Widget> children;
 
-  LenraTableRow({this.children});
+  LenraTableHeadRow({
+    this.children,
+  });
 
-  TableRow toTableRow({
+  TableRow toTableHeadRow({
+    LenraTableThemeData lenraTableThemeData,
     bool center = false,
-    EdgeInsetsGeometry padding,
   }) {
     List<Widget> res = children;
-
     // Wrap in Center widget if `center` is true
     // if (center) {
     //   for (var i = 0; i < this.children.length; i++) {
@@ -27,7 +30,7 @@ class LenraTableRow {
       res[i] = LenraTableCell(
           verticalCenter: center,
           child: Padding(
-            padding: padding,
+            padding: lenraTableThemeData.padding.resolve(LenraComponentSize.Small),
             child: res[i],
           ));
     }

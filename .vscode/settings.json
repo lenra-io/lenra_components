@@ -6,5 +6,9 @@
         "json_validator": true,
         "k8s": true
     },
-    "elixirLS.projectDir": "server"
+    "elixirLS.projectDir": "server",
+    "editor.rulers": [
+        120,
+    ],
+    "dart.lineLength": 120,
 }
