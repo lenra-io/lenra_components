@@ -26,7 +26,7 @@ defmodule EventQueue.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:honeydew, "~> 1.4.6"},
+      {:honeydew, "~> 1.4.6"}
     ]
   end
 end

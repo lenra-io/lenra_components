@@ -33,6 +33,8 @@ defmodule Lenra.MixProject do
     [
       {:phoenix_pubsub, "~> 2.0"},
       {:ecto_sql, "~> 3.4"},
+      {:bamboo, "~> 2.1.0"},
+      {:bamboo_smtp, "~> 4.0.1"},
       {:postgrex, "~> 0.15.8"},
       {:jason, "~> 1.2"},
       {:json_diff, "~> 0.1.0"},
@@ -40,8 +42,6 @@ defmodule Lenra.MixProject do
       {:guardian_db, "~> 2.0"},
       {:finch, "~> 0.3"},
       {:argon2_elixir, "~> 2.0"},
-      {:bamboo, "~> 2.1.0"},
-      {:bamboo_smtp, "~> 4.0.1"},
       {:sentry, "~> 8.0"},
       {:bypass, "~> 2.0", only: :test},
       {:ui_validator, in_umbrella: true},

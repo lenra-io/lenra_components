@@ -31,4 +31,4 @@ config :lenra,
 config :cors_plug,
   origin: []
 
-config :lenra, Lenra.Mailer, adapter: Bamboo.SendgridAdapter
+config :lenra, Lenra.Mailer, adapter: Bamboo.SendGridAdapter

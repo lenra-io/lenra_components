@@ -4,7 +4,7 @@ defmodule Lenra.EmailWorker do
   """
   require Logger
 
-  alias Lenra.{EmailService, User, Mailer}
+  alias Lenra.{User, EmailService, Mailer}
 
   def add_email_verification_event(user, code) do
     EventQueue.add_event(:email_verification, [user, code])
