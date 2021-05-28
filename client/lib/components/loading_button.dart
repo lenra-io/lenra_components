@@ -11,14 +11,15 @@ class LoadingButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (this.loading) {
-      return CircularProgressIndicator();
-    }
+    // if (this.loading) {
+    //   return CircularProgressIndicator();
+    // }
 
     return LenraButton(
       onPressed: !this.loading ? this.onPressed : null,
+      disabled: this.loading ? true : false,
       text: this.text,
-      rightIcon: this.loading ? CircularProgressIndicator() : this.rightIcon,
+      rightIcon: /*this.loading ? CircularProgressIndicator() :*/ this.rightIcon,
     );
   }
 }

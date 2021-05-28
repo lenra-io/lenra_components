@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/lenra_application/components/lenra_component.dart';
 import 'package:fr_lenra_client/lenra_application/lenra_component_builder.dart';
+import 'package:fr_lenra_client/lenra_components/layout/lenra_flex.dart';
 
 // TODO : generate this from annotation on LenraContainer
 class LenraContainerBuilder extends LenraComponentBuilder<LenraContainer> {
@@ -41,7 +42,7 @@ class LenraContainer extends StatelessLenraComponent {
 
     return Container(
       color: this.backgroundColor,
-      child: Wrap(
+      child: LenraFlex(
         direction: direction,
         children: this.children,
       ),

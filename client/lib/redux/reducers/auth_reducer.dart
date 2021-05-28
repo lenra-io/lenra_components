@@ -1,4 +1,5 @@
 import 'package:fr_lenra_client/api/response_models/auth_response.dart';
+import 'package:fr_lenra_client/redux/actions/activation_code_action.dart';
 import 'package:fr_lenra_client/redux/actions/async_action.dart';
 import 'package:fr_lenra_client/redux/actions/change_lost_password_action.dart';
 import 'package:fr_lenra_client/redux/actions/change_password_action.dart';
@@ -14,6 +15,7 @@ import 'package:redux/redux.dart';
 
 Reducer<AuthState> authStateReducer = combineReducers([
   TypedReducer<AuthState, RegisterAction>(handleRegisterAction),
+  TypedReducer<AuthState, ActivationCodeAction>(handleSendActivationCodeAction),
   TypedReducer<AuthState, VerifyCodeAction>(handleSendCodeAction),
   TypedReducer<AuthState, RefreshTokenAction>(handleRefreshTokenAction),
   TypedReducer<AuthState, LoginAction>(handleLoginAction),
@@ -57,6 +59,12 @@ AuthState handleLoginAction(AuthState state, LoginAction action) {
 AuthState handleRegisterAction(AuthState state, RegisterAction action) {
   return state.copyWith(
     registerStatus: state.registerStatus.reducer(action),
+  );
+}
+
+AuthState handleSendActivationCodeAction(AuthState state, ActivationCodeAction action) {
+  return state.copyWith(
+    activationCodeStatus: state.activationCodeStatus.reducer(action),
   );
 }
 

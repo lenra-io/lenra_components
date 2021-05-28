@@ -13,7 +13,7 @@ void main() {
     Store<AppState> store = createFakeStore();
     ActivationCodeModel model = ActivationCodeModel(store);
 
-    expect(model.status, store.state.authState.verifyCodeStatus);
+    expect(model.status, store.state.authState.activationCodeStatus);
   });
 
   test('ActivationCodeModel action creation', () {

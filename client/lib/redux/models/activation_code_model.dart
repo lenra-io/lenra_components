@@ -7,7 +7,7 @@ class ActivationCodeModel extends AsyncStatusModel<ActivationCodeAction> {
   ActivationCodeModel(store) : super(store);
 
   AsyncStatus get status {
-    return store.state.authState.verifyCodeStatus;
+    return store.state.authState.activationCodeStatus;
   }
 
   ActivationCodeAction createAction([ApiRequest body]) {

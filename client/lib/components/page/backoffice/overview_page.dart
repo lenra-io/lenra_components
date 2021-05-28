@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/api/response_models/build_response.dart';
 import 'package:fr_lenra_client/components/page/backoffice_page.dart';
 import 'package:fr_lenra_client/components/stateful_wrapper.dart';
+import 'package:fr_lenra_client/config/config.dart';
 import 'package:fr_lenra_client/lenra_components/layout/lenra_column.dart';
 import 'package:fr_lenra_client/lenra_components/layout/lenra_row.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_button.dart';
@@ -13,6 +14,7 @@ import 'package:fr_lenra_client/service/application_model.dart';
 import 'package:fr_lenra_client/service/build_model.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OverviewPage extends StatelessWidget {
   @override
@@ -34,14 +36,18 @@ class OverviewPage extends StatelessWidget {
         List<BuildResponse> builds =
             context.select<BuildModel, List<BuildResponse>>((model) => model.buildsForApp(appId));
 
+        var hasPendingBuild = builds.any((build) => build.status == BuildStatus.pending) ||
+                buildModel.createBuildStatus.requestStatus == RequestStatus.fetching ??
+            true;
+
+        var hasPublishedBuild = builds.any((build) => build.status == BuildStatus.success);
+
         return BackofficePage(
           selectedApp: applicationModel.selectedApp,
           title: Text("Overview"),
           mainActionWidget: LenraButton(
             text: "Publish my application",
-            disabled: builds.any((build) => build.status == BuildStatus.pending) ||
-                    buildModel.createBuildStatus.requestStatus == RequestStatus.fetching ??
-                true,
+            disabled: hasPendingBuild,
             onPressed: () => buildModel.createBuild(applicationModel.selectedApp.id),
           ),
           child: LenraColumn(
@@ -51,8 +57,17 @@ class OverviewPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   LenraButton(
-                    disabled: builds.isEmpty,
+                    disabled: !hasPublishedBuild,
                     text: "See my application",
+                    type: LenraButtonType.Secondary,
+                    onPressed: () async {
+                      final url = "${Config.instance.appBaseUrl}${selectedApp.serviceName}";
+                      if (await canLaunch(url))
+                        await launch(url);
+                      else
+                        // can't launch url, there is some error
+                        throw "Could not launch $url";
+                    },
                   ),
                 ],
               ),
@@ -123,7 +138,7 @@ class OverviewPage extends StatelessWidget {
     var theme = LenraTheme.of(context);
     return TableRow(children: [
       LenraTableCell(
-        child: Text("#${buildResponse.id}"),
+        child: Text("#${buildResponse.buildNumber}"),
       ),
       LenraTableCell(
         child: Text(DateFormat.yMMMMd().add_jm().format(buildResponse.insertedAt)),

@@ -6,6 +6,7 @@ import 'package:fr_lenra_client/redux/states/async_status.dart';
 class AuthState {
   final AuthResponse authResponse;
   final AsyncStatus registerStatus;
+  final AsyncStatus activationCodeStatus;
   final AsyncStatus verifyCodeStatus;
   final AsyncStatus refreshStatus;
   final AsyncStatus loginStatus;
@@ -18,6 +19,7 @@ class AuthState {
   AuthState({
     AuthResponse authResponse,
     AsyncStatus registerStatus,
+    AsyncStatus activationCodeStatus,
     AsyncStatus verifyCodeStatus,
     AsyncStatus refreshStatus,
     AsyncStatus loginStatus,
@@ -28,6 +30,7 @@ class AuthState {
     this.redirectToRoute,
   })  : this.authResponse = authResponse ?? null,
         this.registerStatus = registerStatus ?? AsyncStatus(),
+        this.activationCodeStatus = activationCodeStatus ?? AsyncStatus(),
         this.verifyCodeStatus = verifyCodeStatus ?? AsyncStatus(),
         this.loginStatus = loginStatus ?? AsyncStatus(),
         this.refreshStatus = refreshStatus ?? AsyncStatus(),
@@ -39,6 +42,7 @@ class AuthState {
   AuthState copyWith({
     AuthResponse tokenResponse,
     AsyncStatus registerStatus,
+    AsyncStatus activationCodeStatus,
     AsyncStatus verifyCodeStatus,
     AsyncStatus refreshStatus,
     AsyncStatus loginStatus,
@@ -51,6 +55,7 @@ class AuthState {
     return AuthState(
       authResponse: tokenResponse ?? this.authResponse,
       registerStatus: registerStatus ?? this.registerStatus,
+      activationCodeStatus: activationCodeStatus ?? this.activationCodeStatus,
       verifyCodeStatus: verifyCodeStatus ?? this.verifyCodeStatus,
       refreshStatus: refreshStatus ?? this.refreshStatus,
       loginStatus: loginStatus ?? this.loginStatus,
@@ -65,6 +70,7 @@ class AuthState {
   Map<String, dynamic> toJson() => {
         "authResponse": authResponse,
         "registerStatus": registerStatus.toJson(),
+        "activationCodeStatus": activationCodeStatus.toJson(),
         "verifyCodeStatus": verifyCodeStatus.toJson(),
         "refreshStatus": refreshStatus.toJson(),
         "loginStatus": loginStatus.toJson(),

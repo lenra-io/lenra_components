@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/api/request_models/register_request.dart';
 import 'package:fr_lenra_client/components/error_list.dart';
+import 'package:fr_lenra_client/components/loading_button.dart';
 import 'package:fr_lenra_client/lenra_components/layout/lenra_column.dart';
-import 'package:fr_lenra_client/lenra_components/lenra_button.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_text_form_field.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
 import 'package:fr_lenra_client/redux/models/register_model.dart';
@@ -68,7 +68,7 @@ class _RegisterFormState extends State<RegisterForm> {
   Widget validationButton(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      child: LenraButton(
+      child: LoadingButton(
         text: "Créer mon compte Lenra",
         onPressed: () {
           if (_formKey.currentState.validate()) {
@@ -80,6 +80,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 );
           }
         },
+        loading: this.registerModel.status.isFetching,
       ),
     );
   }

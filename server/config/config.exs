@@ -62,6 +62,12 @@ config :ui_validator,
 config :lenra,
   faas_secrets: []
 
+config :argon2_elixir,
+  t_cost: 8,
+  m_cost: 15,
+  parallelism: 4,
+  argon2_type: 2
+
 # Enable sentry configuration. Sentry will catch all errors on staging and production environment.
 # The source file are linked to sentry.
 config :sentry,

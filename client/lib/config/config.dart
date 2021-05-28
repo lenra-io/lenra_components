@@ -11,16 +11,19 @@ class Config {
   final String httpEndpoint;
   final String wsEndpoint;
   final String basicAuth;
+  final String appBaseUrl;
 
   Config._(
     this.application,
     this.httpEndpoint,
     this.wsEndpoint,
     this.basicAuth,
+    this.appBaseUrl,
   );
 
   static Config createInstance() {
     String httpEndpoint = const String.fromEnvironment("LENRA_SERVER_URL");
+    String appBaseUrl = getServerUrl();
     if (httpEndpoint.isEmpty) {
       httpEndpoint = getServerUrl();
     }
@@ -30,14 +33,21 @@ class Config {
         return match.group(1);
       });
     }
+    Application application =
+        Application.values.firstWhere((a) => a.toString() == "Application.$appName", orElse: () => Application.app);
+    if (application == Application.dev) {
+      appBaseUrl = appBaseUrl.replaceFirst("dev", "app");
+    }
+    appBaseUrl += "/#/app/";
     String wsEndpoint = httpEndpoint.replaceFirst(new RegExp("^http"), "ws");
     wsEndpoint += "/socket/websocket";
     String basicAuth = const String.fromEnvironment("LENRA_BASIC_AUTH");
     return Config._(
-      Application.values.firstWhere((a) => a.toString() == "Application.$appName", orElse: () => Application.app),
+      application,
       httpEndpoint,
       wsEndpoint,
       basicAuth,
+      appBaseUrl,
     );
   }
 }

@@ -4,12 +4,6 @@ import 'package:fr_lenra_client/lenra_components/theme/lenra_button_theme_data.d
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
 
-enum LenraButtonSize {
-  Small,
-  Medium,
-  Large,
-}
-
 enum LenraButtonType {
   Primary,
   Secondary,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fr_lenra_client/api/request_models/activation_code_request.dart';
+import 'package:fr_lenra_client/components/error_list.dart';
 import 'package:fr_lenra_client/components/page/simple_page.dart';
 import 'package:fr_lenra_client/lenra_components/layout/lenra_column.dart';
 import 'package:fr_lenra_client/lenra_components/layout/lenra_row.dart';
@@ -30,31 +31,37 @@ class _ActivationCodePageState extends State<ActivationCodePage> {
         separationFactor: 4,
         children: [
           // Code form
-          LenraRow(
-            separationFactor: 2,
-            fillParent: true,
-            children: [
-              Expanded(
-                child: LenraTextField(
-                  hintText: "Code d'accès",
-                  onChanged: (String value) {
-                    code = value;
-                  },
-                ),
-              ),
-              StoreConnector<AppState, ActivationCodeModel>(
-                converter: (store) => ActivationCodeModel(store),
-                builder: (context, activationCodeModel) {
-                  return LenraButton(
-                    text: "Confirmer le code",
-                    disabled: activationCodeModel.status.isFetching,
-                    onPressed: () {
-                      activationCodeModel.fetchData(body: ActivationCodeRequest(code));
-                    },
-                  );
-                },
-              )
-            ],
+          StoreConnector<AppState, ActivationCodeModel>(
+            converter: (store) => ActivationCodeModel(store),
+            builder: (context, activationCodeModel) {
+              return LenraColumn(
+                separationFactor: 2,
+                children: [
+                  LenraRow(
+                    separationFactor: 2,
+                    fillParent: true,
+                    children: [
+                      Expanded(
+                        child: LenraTextField(
+                          hintText: "Code d'accès",
+                          onChanged: (String value) {
+                            code = value;
+                          },
+                        ),
+                      ),
+                      LenraButton(
+                        text: "Confirmer le code",
+                        disabled: activationCodeModel.status.isFetching,
+                        onPressed: () {
+                          activationCodeModel.fetchData(body: ActivationCodeRequest(code));
+                        },
+                      ),
+                    ],
+                  ),
+                  if (activationCodeModel.status.hasError) ErrorList(activationCodeModel.errors),
+                ],
+              );
+            },
           ),
           LenraButton(
             text: "Je n’ai pas encore de code, je retourne sur la page principale",

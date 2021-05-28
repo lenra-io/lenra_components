@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/api/request_models/loginRequest.dart';
 import 'package:fr_lenra_client/components/error_list.dart';
+import 'package:fr_lenra_client/components/loading_button.dart';
 import 'package:fr_lenra_client/lenra_components/layout/lenra_column.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_button.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_text_form_field.dart';
@@ -124,13 +125,14 @@ class _LoginFormState extends State<LoginForm> {
         ),
         SizedBox(
           width: double.infinity,
-          child: LenraButton(
+          child: LoadingButton(
             text: "Se connecter",
             onPressed: () {
               if (_formKey.currentState.validate()) {
                 this.loginModel.fetchData(body: LoginRequest(email, password));
               }
             },
+            loading: this.loginModel.status.isFetching,
           ),
         ),
       ],
