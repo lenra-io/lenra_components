@@ -33,8 +33,8 @@ void authMiddleware(
     } else {
       // rediriger vers la page à laquelle voulait accéder l'utilisateur.
       // Si il ne voulais pas accéder à une page particulière, rediriger vers la base : /
-      String pageToRedirect = store.state.authState.redirectToRoute ?? "/";
-      store.dispatch(PushRouteAction(pageToRedirect, removeStack: true));
+      String pageToRedirect = store.state.authState.redirectToRoute;
+      if (pageToRedirect != null) store.dispatch(PushRouteAction(pageToRedirect, removeStack: true));
     }
   }
   if (action is LogoutAction && action.isDone) {

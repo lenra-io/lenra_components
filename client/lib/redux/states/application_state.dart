@@ -1,22 +1,28 @@
-import 'package:flutter/foundation.dart';
 import 'package:fr_lenra_client/api/response_models/app_response.dart';
 import 'package:fr_lenra_client/api/response_models/apps_response.dart';
-import 'package:fr_lenra_client/redux/states/async_state.dart';
 import 'package:fr_lenra_client/redux/states/async_status.dart';
 
-@immutable
+// @immutable
 class ApplicationState {
-  final AsyncState<AppsResponse> appListState;
-  final AsyncStatus fetchUserAppsStatus;
-  final AsyncStatus createAppStatus;
+  AsyncState<AppsResponse> _appListState;
+  AsyncStatus _fetchUserAppsStatus;
+  AsyncStatus _createAppStatus;
   final List<AppResponse> userApplications;
 
-  const ApplicationState({
-    this.appListState = const AsyncState(),
-    this.fetchUserAppsStatus = const AsyncStatus(),
-    this.createAppStatus = const AsyncStatus(),
+  ApplicationState({
+    AsyncState<AppsResponse> appListState,
+    AsyncStatus fetchUserAppsStatus,
+    AsyncStatus createAppStatus,
     this.userApplications = const [],
-  });
+  }) {
+    this._appListState = appListState ?? AsyncState();
+    this._fetchUserAppsStatus = fetchUserAppsStatus ?? AsyncStatus();
+    this._createAppStatus = createAppStatus ?? AsyncStatus();
+  }
+
+  AsyncState<AppsResponse> get appListState => _appListState;
+  AsyncStatus get fetchUserAppsStatus => _fetchUserAppsStatus;
+  AsyncStatus get createAppStatus => _createAppStatus;
 
   ApplicationState copyWith({
     AsyncState<AppsResponse> appListState,
@@ -25,17 +31,17 @@ class ApplicationState {
     List<AppResponse> userApplications,
   }) {
     return ApplicationState(
-      appListState: appListState ?? this.appListState,
-      fetchUserAppsStatus: fetchUserAppsStatus ?? this.fetchUserAppsStatus,
-      createAppStatus: createAppStatus ?? this.createAppStatus,
+      appListState: appListState ?? this._appListState,
+      fetchUserAppsStatus: fetchUserAppsStatus ?? this._fetchUserAppsStatus,
+      createAppStatus: createAppStatus ?? this._createAppStatus,
       userApplications: userApplications ?? this.userApplications,
     );
   }
 
   Map<String, dynamic> toJson() => {
-        "appListState": appListState.toJson(),
-        "fetchUserAppsStatus": fetchUserAppsStatus.toJson(),
-        "createAppStatus": createAppStatus.toJson(),
+        "appListState": _appListState.toJson(),
+        "fetchUserAppsStatus": _fetchUserAppsStatus.toJson(),
+        "createAppStatus": _createAppStatus.toJson(),
         "userApplications": userApplications.map((e) => e.toJson()).toList(),
       };
 

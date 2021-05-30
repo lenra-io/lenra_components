@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fr_lenra_client/api/response_models/api_errors.dart';
 import 'package:fr_lenra_client/redux/actions/async_action.dart';
-import 'package:fr_lenra_client/redux/states/async_state.dart';
+import 'package:fr_lenra_client/redux/states/async_status.dart';
 
 import '../actions/fake_async_action.dart';
 

@@ -31,6 +31,9 @@ client dockerize:
     - .build docker
   variables:
     DOCKER_IMAGE: $CI_REGISTRY_IMAGE/client
+  before_script:
+    - !reference [.build docker, before_script]
+    - if [[ $CI_COMMIT_BRANCH =~ ^release\/ ]]; then export DOCKER_BRANCH_IMAGE=${DOCKER_IMAGE}:release-${VERSION}; fi
   needs:
     - job: client build
       artifacts: true

@@ -16,9 +16,9 @@ spec:
         - kind: Service
           name: lenra-client
           port: 8080
-    - kind: Rule
-      match: Host(`doc.lenra.io`)
-      services:
-        - kind: Service
-          name: lenra-documentation
-          port: 8080
+    # - kind: Rule
+    #   match: Host(`doc.lenra.io`)
+    #   services:
+    #     - kind: Service
+    #       name: lenra-documentation
+    #       port: 8080

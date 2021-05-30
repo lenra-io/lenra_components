@@ -4,7 +4,7 @@ resources:
   - ../../base
   - ../../../client/k8s/base
   - ../../../server/k8s/base
-  - ../../../documentation/k8s/base
+  # - ../../../documentation/k8s/base
   - ingressroute-redirect-https.yml
 patchesStrategicMerge:
   - ingressroute.yml

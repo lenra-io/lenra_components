@@ -8,12 +8,12 @@ import 'package:fr_lenra_client/components/page/backoffice/welcome_dev_page.dart
 import 'package:fr_lenra_client/components/page/change_lost_password_page.dart';
 import 'package:fr_lenra_client/components/page/change_password_confirmation_page.dart';
 import 'package:fr_lenra_client/components/page/home_page.dart';
-import 'package:fr_lenra_client/components/page/lenra_app_page_container.dart';
 import 'package:fr_lenra_client/components/page/login_page.dart';
 import 'package:fr_lenra_client/components/page/profile_page.dart';
 import 'package:fr_lenra_client/components/page/recovery_page.dart';
 import 'package:fr_lenra_client/components/page/register_page.dart';
 import 'package:fr_lenra_client/config/config.dart';
+import 'package:fr_lenra_client/lenra_application/lenra_ui_controller.dart';
 import 'package:fr_lenra_client/navigation/authorized_guard.dart';
 import 'package:fr_lenra_client/navigation/custom_route_builder.dart';
 import 'package:fr_lenra_client/navigation/first_app_guard.dart';
@@ -78,7 +78,7 @@ class LenraNavigator {
     ),
     APP_ROUTE: _RouteMapper(
       guards: [AuthorizedGuard.loggedIn],
-      builder: (Map<String, String> params) => LenraAppPageContainer(appName: params["appName"]),
+      builder: (Map<String, String> params) => LenraUiController(params["appName"]),
     )
   };
 

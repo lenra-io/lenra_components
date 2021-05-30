@@ -42,6 +42,10 @@ deploy test:
     url: https://app.${CI_ENVIRONMENT_SLUG}.lenra.io/laisse-moi-entrer
     on_stop: stop test env
   rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^release\//'
+      # Pour vérifier que les images sont bien taggées correctement
+      variables:
+        DOCKER_TAG: release-${VERSION}
     - if: '$CI_COMMIT_BRANCH != $MAIN_BRANCH && $CI_COMMIT_BRANCH != $STAGING_BRANCH'
       when: manual
 
@@ -67,10 +71,6 @@ deploy staging:
     url: https://app.${CI_ENVIRONMENT_SLUG}.lenra.io/laisse-moi-entrer
   rules:
     - if: '$CI_COMMIT_BRANCH == $STAGING_BRANCH'
-    - if: '$CI_COMMIT_BRANCH =~ /^release\//'
-      # Pour vérifier que les images sont bien taggées correctement
-      variables:
-        DOCKER_TAG: release-${VERSION}
 
 deploy prod:
   extends: .deploy kustomize

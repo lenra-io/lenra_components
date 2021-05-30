@@ -4,7 +4,7 @@ resources:
   - ../../base
   - ../../../client/k8s/base
   - ../../../server/k8s/base
-  - ../../../documentation/k8s/base
+  # - ../../../documentation/k8s/base
 
 patches:
   - path: ingressroute-patches.yml
@@ -14,7 +14,7 @@ patches:
 
 patchesStrategicMerge:
   - deployment-client.yml
-  - deployment-documentation.yml
+  # - deployment-documentation.yml
 
 configMapGenerator:
   - name: nginx-conf

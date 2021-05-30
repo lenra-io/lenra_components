@@ -9,24 +9,26 @@ import 'package:fr_lenra_client/redux/store.dart';
 
 class AuthorizedGuard extends PageGuard {
   static final AuthorizedGuard notLoggedIn = AuthorizedGuard(roles: [], ifUnauthorized: _toHome);
-  static final AuthorizedGuard loggedIn = AuthorizedGuard();
+  static final AuthorizedGuard loggedIn = AuthorizedGuard(ifUnauthorized: _refreshToken);
   static final AuthorizedGuard isDev = AuthorizedGuard(roles: _devOrMore, ifUnauthorized: _becomeDev);
-  static final AuthorizedGuard isNotDev = AuthorizedGuard(
-      roles: _getNotDevRoles(),
-      ifUnauthorized: (_) {
-        //Ne devrait pas arriver
-      });
+  static final AuthorizedGuard isNotDev = AuthorizedGuard(roles: _getNotDevRoles(), ifUnauthorized: _toHome);
   static const _devOrMore = [UserRole.admin, UserRole.dev];
   final List<UserRole> roles;
   final Function(BuildContext) ifUnauthorized;
 
   AuthorizedGuard({
     this.roles = UserRole.values,
-    this.ifUnauthorized = _refreshToken,
+    @required this.ifUnauthorized,
   }) : super(
           isAuthorized: (context) async {
             AuthResponse authResponse = LenraStore.getStore().state.authState.authResponse;
             if (roles.isEmpty) return authResponse?.accessToken == null;
+            if (authResponse == null) {
+              if (LenraStore.getStore().state.authState.refreshStatus.isNone)
+                LenraStore.dispatch(RefreshTokenAction(null));
+              await LenraStore.getStore().state.authState.refreshStatus.wait();
+              authResponse = LenraStore.getStore().state.authState.authResponse;
+            }
             return authResponse != null &&
                 authResponse.accessToken != null &&
                 authResponse.user != null &&
@@ -36,7 +38,8 @@ class AuthorizedGuard extends PageGuard {
         );
 
   static void _refreshToken(context) {
-    if (LenraStore.getStore().state.authState.refreshStatus.isNone) LenraStore.dispatch(RefreshTokenAction(null));
+    debugPrint("Not logged in");
+    // if (LenraStore.getStore().state.authState.refreshStatus.isNone) LenraStore.dispatch(RefreshTokenAction(null));
   }
 
   static void _becomeDev(_) {

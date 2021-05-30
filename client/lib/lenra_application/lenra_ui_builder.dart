@@ -117,13 +117,11 @@ class LenraUiBuilderState extends State<LenraUiBuilder> {
 
   void addChildOperation(UiPatchEvent patch) {
     this.registerComponent(patch.value as Map<String, dynamic>, patch.childId);
-    (this.componentsProperties[patch.id]["children"] as List)
-        .insert(patch.childIndex, patch.childId);
+    (this.componentsProperties[patch.id]["children"] as List).insert(patch.childIndex, patch.childId);
   }
 
   void removeChildOperation(UiPatchEvent patch) {
-    String childId =
-        (this.componentsProperties[patch.id]["children"] as List).removeAt(patch.childIndex);
+    String childId = (this.componentsProperties[patch.id]["children"] as List).removeAt(patch.childIndex);
     this.wrappers.remove(childId);
   }
 
@@ -174,7 +172,9 @@ class LenraUiBuilderState extends State<LenraUiBuilder> {
     if (wrappers.containsKey("/root")) {
       app = wrappers["/root"];
     } else {
-      app = Text("No base component");
+      app = Center(
+        child: Text("No base component"),
+      );
     }
     return Scaffold(
       body: app,

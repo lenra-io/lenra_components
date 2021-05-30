@@ -7,7 +7,7 @@ spec:
     - websecure
   routes:
     - kind: Rule
-      match: Host(`app.test.lenra.io`, `dev.test.lenra.io`, `doc.test.lenra.io`) && Path(`/laisse-moi-entrer`)
+      match: Host(`app.test.lenra.io`, `dev.test.lenra.io`) && Path(`/laisse-moi-entrer`)
       middlewares:
         - name: basicauth
           namespace: traefik
@@ -15,7 +15,7 @@ spec:
           namespace: traefik
       services:
         - kind: Service
-          name: lenra-documentation
+          name: lenra-client
           port: 8080
       priority: 50
     - kind: Rule
@@ -35,13 +35,13 @@ spec:
           name: lenra-client
           port: 8080
       priority: 30
-    - kind: Rule
-      match: Host(`doc.test.lenra.io`) && HeadersRegexp(`Authorization`, `^Basic `)
-      middlewares:
-        - name: basicauth
-          namespace: traefik
-      services:
-        - kind: Service
-          name: lenra-documentation
-          port: 8080
-      priority: 20
+    # - kind: Rule
+    #   match: Host(`doc.test.lenra.io`) && HeadersRegexp(`Authorization`, `^Basic `)
+    #   middlewares:
+    #     - name: basicauth
+    #       namespace: traefik
+    #   services:
+    #     - kind: Service
+    #       name: lenra-documentation
+    #       port: 8080
+    #   priority: 20
