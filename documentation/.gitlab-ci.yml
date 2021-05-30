@@ -24,7 +24,12 @@ documentation dockerize:
     - .build docker
   variables:
     DOCKER_IMAGE: $CI_REGISTRY_IMAGE/documentation
+  before_script:
+    - !reference [.build docker, before_script]
+    - if [[ $(echo $CI_COMMIT_BRANCH | head -c 8) == "release/" ]]; then export DOCKER_BRANCH_IMAGE=${DOCKER_IMAGE}:release-${VERSION}; fi
   needs:
+    - job: manage version
+      artifacts: true
     - job: documentation build
       artifacts: true
 

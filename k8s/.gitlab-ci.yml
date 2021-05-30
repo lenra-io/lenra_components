@@ -64,8 +64,6 @@ deploy staging:
   before_script:
     - !reference [.prepare deployment, before_script]
     - !reference [.kubectl, before_script]
-  dependencies:
-    - manage version
   environment:
     name: staging
     url: https://app.${CI_ENVIRONMENT_SLUG}.lenra.io/laisse-moi-entrer
