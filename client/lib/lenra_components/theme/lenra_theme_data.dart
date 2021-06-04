@@ -14,6 +14,12 @@ enum LenraComponentSize {
   Large,
 }
 
+enum LenraComponentType {
+  Primary,
+  Secondary,
+  Tertiary,
+}
+
 class LenraThemeData {
   final double baseSize;
   Map<LenraComponentSize, EdgeInsets> paddingMap;
@@ -47,38 +53,30 @@ class LenraThemeData {
     this.lenraColorThemeData = lenraColorThemeData ?? LenraColorThemeData();
     this.lenraTextThemeData = lenraTextThemeData ?? LenraTextThemeData();
     this.lenraBorderThemeData = lenraBorderThemeData ?? LenraBorderThemeData();
-    this.lenraTableThemeData = lenraTableThemeData ??
-        LenraTableThemeData(
-          paddingMap: this.paddingMap,
-        );
-    this.lenraButtonThemeData = lenraButtonThemeData ??
-        LenraButtonThemeData(
-          colorTheme: this.lenraColorThemeData,
-          textStyle: this.lenraTextThemeData.bodyText,
-          border: this.lenraBorderThemeData,
-          paddingMap: this.paddingMap,
-        );
-    this.lenraRadioThemeData = lenraRadioThemeData ??
-        LenraRadioThemeData(
-          border: this.lenraBorderThemeData,
-        );
-    this.lenraCheckboxThemeData = lenraCheckboxThemeData ??
-        LenraCheckboxThemeData(
-          lenraTextThemeData: this.lenraTextThemeData,
-        );
-    this.lenraTextFieldThemeData = lenraTextFieldThemeData ??
-        LenraTextFieldThemeData(
-            textStyle: this.lenraTextThemeData.bodyText,
-            descriptionStyle: this.lenraTextThemeData.underDescriptionText,
-            hintTextStyle: this.lenraTextThemeData.disabledBodyText,
-            paddingMap: this.paddingMap.map((key, value) => MapEntry(
-                key,
-                EdgeInsets.only(
-                  top: value.top,
-                  bottom: value.bottom,
-                  left: baseSize,
-                  right: baseSize,
-                ))));
+    /* TODO: review tabel theme*/
+    this.lenraTableThemeData = LenraTableThemeData(
+      paddingMap: this.paddingMap,
+    );
+    this.lenraButtonThemeData = LenraButtonThemeData(
+      lenraTheme: this,
+    );
+    this.lenraRadioThemeData = LenraRadioThemeData(
+      lenraTheme: this,
+    );
+    this.lenraCheckboxThemeData = LenraCheckboxThemeData(
+      lenraTheme: this,
+    );
+    this.lenraTextFieldThemeData = LenraTextFieldThemeData(
+      lenraTheme: this,
+      paddingMap: this.paddingMap.map((key, value) => MapEntry(
+          key,
+          EdgeInsets.only(
+            top: value.top,
+            bottom: value.bottom,
+            left: baseSize,
+            right: baseSize,
+          ))),
+    );
   }
 
   copyWith({

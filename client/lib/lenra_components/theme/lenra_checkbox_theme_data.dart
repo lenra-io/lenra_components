@@ -1,21 +1,13 @@
-import 'package:fr_lenra_client/lenra_components/theme/lenra_text_theme_data.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
 
 class LenraCheckboxThemeData {
-  LenraTextThemeData lenraTextThemeData;
+  LenraThemeData lenraTheme;
 
   LenraCheckboxThemeData({
-    LenraTextThemeData lenraTextThemeData,
-  }) {
-    this.lenraTextThemeData = lenraTextThemeData ?? LenraTextThemeData();
-  }
-
-  LenraCheckboxThemeData merge(LenraCheckboxThemeData incoming) {
-    if (incoming != null) {
-      return LenraCheckboxThemeData(
-        lenraTextThemeData: this.lenraTextThemeData.merge(incoming.lenraTextThemeData),
-      );
-    }
-
-    return this;
+    this.lenraTheme,
+  });
+  TextStyle getTextStyle(bool disabled) {
+    return disabled ? lenraTheme.lenraTextThemeData.disabledBodyText : lenraTheme.lenraTextThemeData.bodyText;
   }
 }

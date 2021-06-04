@@ -96,24 +96,6 @@ class LenraTextThemeData {
         );
   }
 
-  LenraTextThemeData merge(LenraTextThemeData incoming) {
-    if (incoming != null) {
-      return LenraTextThemeData(
-        headline1: this.headline1.merge(incoming.headline1),
-        headline2: this.headline2.merge(incoming.headline2),
-        headline3: this.headline3.merge(incoming.headline3),
-        headline4: this.headline4.merge(incoming.headline4),
-        headlineBody: this.headlineBody.merge(incoming.headlineBody),
-        bodyText: this.bodyText.merge(incoming.bodyText),
-        disabledBodyText: this.disabledBodyText.merge(incoming.disabledBodyText),
-        underDescriptionText: this.underDescriptionText.merge(incoming.underDescriptionText),
-        subtext: this.subtext.merge(incoming.subtext),
-      );
-    }
-
-    return this;
-  }
-
   copyWith({
     double lineHeight,
     TextStyle headline1,

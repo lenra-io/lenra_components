@@ -4,19 +4,12 @@ import 'package:fr_lenra_client/lenra_components/theme/lenra_button_theme_data.d
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
 
-enum LenraButtonType {
-  Primary,
-  Secondary,
-  Tertiary,
-}
-
 class LenraButton extends StatelessWidget {
   final Function onPressed;
   final String text;
   final bool disabled;
   final LenraComponentSize size;
-  final LenraButtonType type;
-  final LenraButtonThemeData lenraButtonThemeData;
+  final LenraComponentType type;
   final Widget leftIcon;
   final Widget rightIcon;
 
@@ -25,16 +18,14 @@ class LenraButton extends StatelessWidget {
     this.text,
     this.disabled = false,
     this.size = LenraComponentSize.Medium,
-    this.type = LenraButtonType.Primary,
-    this.lenraButtonThemeData,
+    this.type = LenraComponentType.Primary,
     this.leftIcon,
     this.rightIcon,
   });
 
   @override
   Widget build(BuildContext context) {
-    final LenraButtonThemeData finalLenraButtonThemeData =
-        LenraTheme.of(context).lenraButtonThemeData.merge(this.lenraButtonThemeData);
+    final LenraButtonThemeData finalLenraButtonThemeData = LenraTheme.of(context).lenraButtonThemeData;
 
     Widget child = Text(
       text,
@@ -57,18 +48,10 @@ class LenraButton extends StatelessWidget {
     return TextButton(
       onPressed: this.disabled ? null : onPressed ?? () {},
       child: Padding(
-        padding: finalLenraButtonThemeData.padding.resolve(this.size),
+        padding: finalLenraButtonThemeData.getPadding(size),
         child: child,
       ),
-      style: ButtonStyle(
-        textStyle: finalLenraButtonThemeData.textStyle,
-        foregroundColor: finalLenraButtonThemeData.foregroundColor.resolve(this.type),
-        backgroundColor: finalLenraButtonThemeData.backgroundColor.resolve(this.type),
-        side: finalLenraButtonThemeData.side.resolve(this.type),
-        padding: MaterialStateProperty.all(EdgeInsets.zero),
-        minimumSize: MaterialStateProperty.all(Size.zero),
-        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-      ),
+      style: finalLenraButtonThemeData.getStyle(type),
     );
   }
 }

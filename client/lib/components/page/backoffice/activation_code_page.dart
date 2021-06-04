@@ -7,6 +7,7 @@ import 'package:fr_lenra_client/lenra_components/layout/lenra_column.dart';
 import 'package:fr_lenra_client/lenra_components/layout/lenra_row.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_button.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_text_field.dart';
+import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
 import 'package:fr_lenra_client/redux/models/activation_code_model.dart';
 import 'package:fr_lenra_client/redux/states/app_state.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -65,7 +66,7 @@ class _ActivationCodePageState extends State<ActivationCodePage> {
           ),
           LenraButton(
             text: "Je n’ai pas encore de code, je retourne sur la page principale",
-            type: LenraButtonType.Tertiary,
+            type: LenraComponentType.Tertiary,
             onPressed: () async {
               const url = "https://www.lenra.io";
               if (await canLaunch(url))

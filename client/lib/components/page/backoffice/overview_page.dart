@@ -9,6 +9,7 @@ import 'package:fr_lenra_client/lenra_components/lenra_button.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_table_cell.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_color_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme.dart';
+import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
 import 'package:fr_lenra_client/redux/actions/async_action.dart';
 import 'package:fr_lenra_client/service/application_model.dart';
 import 'package:fr_lenra_client/service/build_model.dart';
@@ -59,7 +60,7 @@ class OverviewPage extends StatelessWidget {
                   LenraButton(
                     disabled: !hasPublishedBuild,
                     text: "See my application",
-                    type: LenraButtonType.Secondary,
+                    type: LenraComponentType.Secondary,
                     onPressed: () async {
                       final url = "${Config.instance.appBaseUrl}${selectedApp.serviceName}";
                       if (await canLaunch(url))

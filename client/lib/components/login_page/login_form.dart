@@ -61,7 +61,7 @@ class _LoginFormState extends State<LoginForm> {
           SizedBox(
             width: double.infinity,
             child: LenraButton(
-              type: LenraButtonType.Secondary,
+              type: LenraComponentType.Secondary,
               text: "Créer un compte",
               onPressed: () {
                 Navigator.pushReplacementNamed(context, LenraNavigator.REGISTER_ROUTE);

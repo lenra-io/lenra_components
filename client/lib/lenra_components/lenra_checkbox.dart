@@ -8,7 +8,6 @@ class LenraCheckbox extends StatelessWidget {
   final bool disabled;
   final bool tristate;
   final Function onChanged;
-  final LenraCheckboxThemeData lenraCheckboxThemeData;
 
   LenraCheckbox({
     Key key,
@@ -17,13 +16,11 @@ class LenraCheckbox extends StatelessWidget {
     this.disabled = false,
     this.tristate = false,
     this.onChanged,
-    this.lenraCheckboxThemeData,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final LenraCheckboxThemeData finalLenraCheckboxThemeData =
-        LenraTheme.of(context).lenraCheckboxThemeData.merge(this.lenraCheckboxThemeData);
+    final LenraCheckboxThemeData finalLenraCheckboxThemeData = LenraTheme.of(context).lenraCheckboxThemeData;
 
     Widget checkbox = Checkbox(
       value: this.value,
@@ -39,9 +36,7 @@ class LenraCheckbox extends StatelessWidget {
         checkbox,
         Text(
           this.label,
-          style: disabled
-              ? finalLenraCheckboxThemeData.lenraTextThemeData.disabledBodyText
-              : finalLenraCheckboxThemeData.lenraTextThemeData.bodyText,
+          style: finalLenraCheckboxThemeData.getTextStyle(disabled),
         ),
       ],
     );

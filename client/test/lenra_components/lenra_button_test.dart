@@ -10,7 +10,7 @@ void main() {
       disabled: true,
       text: "disabled",
       size: LenraComponentSize.Large,
-      type: LenraButtonType.Secondary,
+      type: LenraComponentType.Secondary,
       leftIcon: null,
       rightIcon: null,
     );
@@ -18,7 +18,7 @@ void main() {
     expect(lenraButton.disabled, true);
     expect(lenraButton.text, "disabled");
     expect(lenraButton.size, LenraComponentSize.Large);
-    expect(lenraButton.type, LenraButtonType.Secondary);
+    expect(lenraButton.type, LenraComponentType.Secondary);
     expect(lenraButton.leftIcon, null);
     expect(lenraButton.rightIcon, null);
   });

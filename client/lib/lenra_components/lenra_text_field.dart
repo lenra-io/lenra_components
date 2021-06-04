@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/lenra_components/layout/lenra_column.dart';
 import 'package:fr_lenra_client/lenra_components/layout/lenra_row.dart';
-import 'package:fr_lenra_client/lenra_components/theme/lenra_color_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_text_field_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
@@ -53,7 +52,7 @@ class LenraTextField extends StatelessWidget {
         ? null
         : Text(
             this.label,
-            style: lenraTextFieldThemeData.textStyle,
+            style: lenraTextFieldThemeData.getLabelStyle(),
             textAlign: TextAlign.left,
           );
     Widget textField = this.buildTextField(
@@ -78,7 +77,7 @@ class LenraTextField extends StatelessWidget {
     if (this.description != null && this.description.isNotEmpty && !this.error) {
       colChildren.add(Text(
         this.description,
-        style: lenraTextFieldThemeData.descriptionStyle,
+        style: lenraTextFieldThemeData.getDescriptionStyle(),
         textAlign: TextAlign.left,
       ));
     }
@@ -96,71 +95,19 @@ class LenraTextField extends StatelessWidget {
   }
 
   Widget buildTextField(BuildContext context, LenraTextFieldThemeData lenraTextFieldThemeData) {
-    Color backgroundColor = (this.disabled) ? Colors.transparent : Colors.grey[200];
-
-    var padding = lenraTextFieldThemeData.paddingMap[size];
-    var border = BorderSide(color: LenraColorThemeData.LENRA_DISABLED_GRAY);
-
-    padding = EdgeInsets.only(
-      top: padding.top,
-      bottom: padding.bottom,
-      left: padding.left,
-      right: padding.right,
-    );
-
     // TODO: gérer les erreurs
-
-    var inputDecoration = InputDecoration(
-      contentPadding: padding,
-      isDense: true,
-      filled: false,
-      border: OutlineInputBorder(
-        borderSide: border,
-      ),
-      fillColor: backgroundColor,
-      hoverColor: backgroundColor,
-      enabledBorder: OutlineInputBorder(
-        borderSide: lenraTextFieldThemeData.border.primaryBorder,
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderSide: lenraTextFieldThemeData.border.primaryHoverBorder,
-      ),
-      errorBorder: OutlineInputBorder(
-        borderSide: lenraTextFieldThemeData.border.secondaryBorder,
-      ),
-      focusedErrorBorder: OutlineInputBorder(
-        borderSide: lenraTextFieldThemeData.border.secondaryBorder,
-      ),
-      disabledBorder: OutlineInputBorder(
-        borderSide: lenraTextFieldThemeData.border.primaryBorder,
-      ),
-      hintText: this.hintText,
-      hintStyle: lenraTextFieldThemeData.hintTextStyle,
-      errorText: (this.error) ? this.errorMessage : null,
-      errorStyle: lenraTextFieldThemeData.textTheme.errorText,
-      suffixIcon: (this.onSuffixPressed != null)
-          ? IconButton(
-              icon: Icon(
-                this.obscure ? Icons.visibility_off : Icons.visibility,
-              ),
-              color: lenraTextFieldThemeData.border.primaryBorder.color,
-              onPressed: () {
-                this.onSuffixPressed();
-              },
-            )
-          : null,
-    );
 
     return TextField(
       enabled: !this.disabled,
       obscureText: this.obscure,
-      style: lenraTextFieldThemeData.textStyle,
+      style: lenraTextFieldThemeData.getLabelStyle(),
       strutStyle: StrutStyle(
         leading: 0.15,
       ),
       controller: controller,
       focusNode: focusNode,
-      decoration: inputDecoration,
+      decoration: lenraTextFieldThemeData.getInputdecoration(
+          size, disabled, hintText, error, obscure, onSuffixPressed, errorMessage),
       onEditingComplete: this.disabled ? null : this.onEditingComplete,
       onSubmitted: this.onSubmitted,
       onChanged: this.onChanged,

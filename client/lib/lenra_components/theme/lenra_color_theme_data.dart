@@ -91,4 +91,46 @@ class LenraColorThemeData {
     this.tertiaryForegroundHoverColor = tertiaryForegroundHoverColor ?? LENRA_BLUE;
     this.tertiaryForegroundDisabledColor = tertiaryForegroundDisabledColor ?? LENRA_BLUE_UNAVAILABLE;
   }
+
+  copyWith({
+    Color primaryBackgroundColor,
+    Color primaryBackgroundHoverColor,
+    Color primaryBackgroundDisabledColor,
+    Color primaryForegroundColor,
+    Color primaryForegroundHoverColor,
+    Color primaryForegroundDisabledColor,
+    Color secondaryBackgroundColor,
+    Color secondaryBackgroundHoverColor,
+    Color secondaryBackgroundDisabledColor,
+    Color secondaryForegroundColor,
+    Color secondaryForegroundHoverColor,
+    Color secondaryForegroundDisabledColor,
+    Color tertiaryBackgroundColor,
+    Color tertiaryBackgroundHoverColor,
+    Color tertiaryBackgroundDisabledColor,
+    Color tertiaryForegroundColor,
+    Color tertiaryForegroundHoverColor,
+    Color tertiaryForegroundDisabledColor,
+  }) {
+    return LenraColorThemeData(
+      primaryBackgroundColor: primaryBackgroundColor ?? this.primaryBackgroundColor,
+      primaryBackgroundHoverColor: primaryBackgroundHoverColor ?? this.primaryBackgroundHoverColor,
+      primaryBackgroundDisabledColor: primaryBackgroundDisabledColor ?? this.primaryBackgroundDisabledColor,
+      primaryForegroundColor: primaryForegroundColor ?? this.primaryForegroundColor,
+      primaryForegroundHoverColor: primaryForegroundHoverColor ?? this.primaryForegroundColor,
+      primaryForegroundDisabledColor: primaryForegroundDisabledColor ?? this.primaryForegroundDisabledColor,
+      secondaryBackgroundColor: secondaryBackgroundColor ?? this.secondaryBackgroundColor,
+      secondaryBackgroundHoverColor: secondaryBackgroundHoverColor ?? this.secondaryBackgroundHoverColor,
+      secondaryBackgroundDisabledColor: secondaryBackgroundDisabledColor ?? this.secondaryBackgroundDisabledColor,
+      secondaryForegroundColor: secondaryForegroundColor ?? this.secondaryForegroundColor,
+      secondaryForegroundHoverColor: secondaryForegroundHoverColor ?? this.secondaryForegroundHoverColor,
+      secondaryForegroundDisabledColor: secondaryForegroundDisabledColor ?? this.secondaryForegroundDisabledColor,
+      tertiaryBackgroundColor: tertiaryBackgroundColor ?? this.tertiaryBackgroundColor,
+      tertiaryBackgroundHoverColor: tertiaryBackgroundHoverColor ?? this.tertiaryBackgroundHoverColor,
+      tertiaryBackgroundDisabledColor: tertiaryBackgroundDisabledColor ?? this.tertiaryBackgroundDisabledColor,
+      tertiaryForegroundColor: tertiaryForegroundColor ?? this.tertiaryForegroundColor,
+      tertiaryForegroundHoverColor: tertiaryForegroundHoverColor ?? this.tertiaryForegroundHoverColor,
+      tertiaryForegroundDisabledColor: tertiaryForegroundDisabledColor ?? this.tertiaryForegroundDisabledColor,
+    );
+  }
 }

@@ -27,10 +27,11 @@ class LenraBorderThemeData {
     BorderSide tertiaryHoverBorder,
     BorderSide tertiaryDisabledBorder,
   }) {
+    /* TODO: set default value for all border*/
     this.borderRadius = borderRadius ?? BorderRadius.circular(4.0);
-    this.primaryBorder = primaryBorder ?? null;
-    this.primaryHoverBorder = primaryHoverBorder ?? null;
-    this.primaryDisabledBorder = primaryDisabledBorder ?? null;
+    this.primaryBorder = primaryBorder ?? BorderSide(color: Colors.grey);
+    this.primaryHoverBorder = primaryHoverBorder ?? BorderSide(color: LenraColorThemeData.LENRA_BLUE);
+    this.primaryDisabledBorder = primaryDisabledBorder ?? BorderSide(color: LenraColorThemeData.LENRA_DISABLED_GRAY);
     this.secondaryBorder = secondaryBorder ?? BorderSide(color: LenraColorThemeData.LENRA_BLUE);
     this.secondaryHoverBorder = secondaryHoverBorder ?? BorderSide(color: LenraColorThemeData.LENRA_BLUE);
     this.secondaryDisabledBorder =
@@ -40,39 +41,29 @@ class LenraBorderThemeData {
     this.tertiaryDisabledBorder = tertiaryDisabledBorder ?? null;
   }
 
-  LenraBorderThemeData merge(LenraBorderThemeData incoming) {
-    if (incoming != null) {
-      return LenraBorderThemeData(
-        primaryBorder: this.primaryBorder == null
-            ? incoming.primaryBorder
-            : BorderSide.merge(this.primaryBorder, incoming.primaryBorder),
-        primaryHoverBorder: this.primaryHoverBorder == null
-            ? incoming.primaryHoverBorder
-            : BorderSide.merge(this.primaryHoverBorder, incoming.primaryHoverBorder),
-        primaryDisabledBorder: this.primaryDisabledBorder == null
-            ? incoming.primaryDisabledBorder
-            : BorderSide.merge(this.primaryDisabledBorder, incoming.primaryDisabledBorder),
-        secondaryBorder: this.secondaryBorder == null
-            ? incoming.secondaryBorder
-            : BorderSide.merge(this.secondaryBorder, incoming.secondaryBorder),
-        secondaryHoverBorder: this.secondaryHoverBorder == null
-            ? incoming.secondaryHoverBorder
-            : BorderSide.merge(this.secondaryHoverBorder, incoming.secondaryHoverBorder),
-        secondaryDisabledBorder: this.secondaryDisabledBorder == null
-            ? incoming.secondaryDisabledBorder
-            : BorderSide.merge(this.secondaryDisabledBorder, incoming.secondaryDisabledBorder),
-        tertiaryBorder: this.tertiaryBorder == null
-            ? incoming.tertiaryBorder
-            : BorderSide.merge(this.tertiaryBorder, incoming.tertiaryBorder),
-        tertiaryHoverBorder: this.tertiaryHoverBorder == null
-            ? incoming.tertiaryHoverBorder
-            : BorderSide.merge(this.tertiaryHoverBorder, incoming.tertiaryHoverBorder),
-        tertiaryDisabledBorder: this.tertiaryDisabledBorder == null
-            ? incoming.tertiaryDisabledBorder
-            : BorderSide.merge(this.tertiaryDisabledBorder, incoming.tertiaryDisabledBorder),
-      );
-    }
-
-    return this;
+  copyWith({
+    BorderRadius borderRadius,
+    BorderSide primaryBorder,
+    BorderSide primaryHoverBorder,
+    BorderSide primaryDisabledBorder,
+    BorderSide secondaryBorder,
+    BorderSide secondaryHoverBorder,
+    BorderSide secondaryDisabledBorder,
+    BorderSide tertiaryBorder,
+    BorderSide tertiaryHoverBorder,
+    BorderSide tertiaryDisabledBorder,
+  }) {
+    return LenraBorderThemeData(
+      borderRadius: borderRadius ?? this.borderRadius,
+      primaryBorder: primaryBorder ?? this.primaryBorder,
+      primaryHoverBorder: primaryHoverBorder ?? this.primaryHoverBorder,
+      primaryDisabledBorder: primaryDisabledBorder ?? this.primaryDisabledBorder,
+      secondaryBorder: secondaryBorder ?? this.secondaryBorder,
+      secondaryHoverBorder: secondaryHoverBorder ?? this.secondaryHoverBorder,
+      secondaryDisabledBorder: secondaryDisabledBorder ?? this.secondaryDisabledBorder,
+      tertiaryBorder: tertiaryBorder ?? this.tertiaryBorder,
+      tertiaryHoverBorder: tertiaryHoverBorder ?? this.tertiaryHoverBorder,
+      tertiaryDisabledBorder: tertiaryDisabledBorder ?? this.tertiaryDisabledBorder,
+    );
   }
 }

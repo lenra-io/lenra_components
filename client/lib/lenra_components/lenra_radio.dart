@@ -7,8 +7,6 @@ class LenraRadio<T> extends StatelessWidget {
   final T value;
   final T groupValue;
   final bool disabled;
-  final String fontStyle;
-  final LenraRadioThemeData lenraRadioThemeData;
   final Function(T) onChanged;
 
   LenraRadio({
@@ -17,15 +15,12 @@ class LenraRadio<T> extends StatelessWidget {
     this.groupValue,
     this.onChanged,
     this.disabled = false,
-    this.fontStyle,
-    this.lenraRadioThemeData,
     Key key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final LenraRadioThemeData finalLenraRadioThemeData =
-        LenraTheme.of(context).lenraRadioThemeData.merge(this.lenraRadioThemeData);
+    final LenraRadioThemeData finalLenraRadioThemeData = LenraTheme.of(context).lenraRadioThemeData;
 
     Widget radio = Radio<T>(
       value: this.value,
@@ -38,14 +33,7 @@ class LenraRadio<T> extends StatelessWidget {
       return Row(
         children: <Widget>[
           radio,
-          Text(
-            this.label,
-            style: TextStyle(
-                color: this.disabled
-                    ? finalLenraRadioThemeData.colorTheme.secondaryForegroundDisabledColor
-                    : finalLenraRadioThemeData.colorTheme.secondaryForegroundColor,
-                fontFamily: this.fontStyle),
-          ),
+          Text(this.label, style: finalLenraRadioThemeData.getTextStyle(disabled)),
         ],
       );
     } else {
