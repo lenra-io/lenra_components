@@ -13,10 +13,6 @@ dependencies:
   phoenix_wings: ^0.2.1
   json_patch: ^2.0.0
   http: ^0.13.0
-  redux: ^4.0.0+3
-  flutter_redux: ^0.7.0
-  redux_remote_devtools: ^2.0.0
-  redux_dev_tools: ^0.5.2
   mockito: ^5.0.0
   sentry_flutter: ^5.0.0
   provider: ^5.0.0

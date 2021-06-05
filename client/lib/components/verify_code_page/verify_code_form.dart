@@ -1,24 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:fr_lenra_client/api/request_models/verify_code_request.dart';
-import 'package:fr_lenra_client/redux/models/verify_code_model.dart';
+import 'package:fr_lenra_client/models/auth_model.dart';
 import 'package:fr_lenra_client/utils/form_validators.dart';
+import 'package:provider/provider.dart';
 
 class VerifyCodeForm extends StatefulWidget {
-  final VerifyCodeModel verifyCodeModel;
-
-  VerifyCodeForm({this.verifyCodeModel});
-
   @override
   _VerifyCodeFormState createState() {
-    return _VerifyCodeFormState(verifyCodeModel: this.verifyCodeModel);
+    return _VerifyCodeFormState();
   }
 }
 
 class _VerifyCodeFormState extends State<VerifyCodeForm> {
-  final VerifyCodeModel verifyCodeModel;
-
-  _VerifyCodeFormState({this.verifyCodeModel});
-
   final _formKey = GlobalKey<FormState>();
   String code;
 
@@ -53,7 +45,7 @@ class _VerifyCodeFormState extends State<VerifyCodeForm> {
       child: ElevatedButton(
         onPressed: () {
           if (_formKey.currentState.validate()) {
-            this.verifyCodeModel.fetchData(body: VerifyCodeRequest(code));
+            context.read<AuthModel>().validateUser(code);
           }
         },
         child: Text('Submit'),

@@ -4,10 +4,9 @@ import 'package:fr_lenra_client/lenra_components/layout/lenra_column.dart';
 import 'package:fr_lenra_client/lenra_components/layout/lenra_row.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_color_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme.dart';
+import 'package:fr_lenra_client/models/auth_model.dart';
 import 'package:fr_lenra_client/navigation/lenra_navigator.dart';
-import 'package:fr_lenra_client/redux/actions/logout_action.dart';
-import 'package:fr_lenra_client/redux/actions/push_route_action.dart';
-import 'package:fr_lenra_client/redux/store.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BackofficeSideMenu extends StatelessWidget {
@@ -72,7 +71,12 @@ class BackofficeSideMenu extends StatelessWidget {
               BackofficeSideMenuItem(
                 "Logout",
                 icon: Icons.logout,
-                onPressed: () => LenraStore.dispatch(LogoutAction()),
+                onPressed: () async {
+                  try {
+                    await context.read<AuthModel>().logout();
+                    Navigator.of(context).pushReplacementNamed(LenraNavigator.LOGIN_ROUTE);
+                  } catch (e) {}
+                },
               ),
               BackofficeSideMenuItem(
                 "Contact us",
@@ -138,25 +142,25 @@ class _ProjectMenu extends StatelessWidget {
       BackofficeSideMenuRoute(
         "Overview",
         icon: Icons.bookmark_border_rounded,
-        path: LenraNavigator.HOME_ROUTE,
+        route: LenraNavigator.HOME_ROUTE,
       ),
       BackofficeSideMenuRoute(
         "Envrironments",
         icon: Icons.layers_outlined,
         disabled: true,
-        path: null,
+        route: null,
       ),
       BackofficeSideMenuRoute(
         "Builds",
         icon: Icons.bolt,
         disabled: true,
-        path: null,
+        route: null,
       ),
       BackofficeSideMenuRoute(
         "Settings",
         icon: Icons.settings_outlined,
         disabled: true,
-        path: LenraNavigator.SETTINGS,
+        route: LenraNavigator.SETTINGS,
       ),
     ]);
   }
@@ -219,27 +223,27 @@ class BackofficeSideMenuItem extends StatelessWidget {
 
 class BackofficeSideMenuRoute extends StatelessWidget {
   final String text;
-  final String path;
+  final String route;
   final IconData icon;
   final bool disabled;
 
   const BackofficeSideMenuRoute(
     this.text, {
     Key key,
-    @required this.path,
+    @required this.route,
     this.icon,
     this.disabled = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var isCurrent = LenraNavigator.currentPath == path;
+    var isCurrent = LenraNavigator.currentRoute == route;
     return BackofficeSideMenuItem(
       text,
       icon: icon,
       disabled: disabled,
       selected: isCurrent,
-      onPressed: (!disabled && !isCurrent) ? () => LenraStore.dispatch(PushRouteAction(path)) : null,
+      onPressed: (!disabled && !isCurrent) ? () => Navigator.of(context).pushNamed(route) : null,
     );
   }
 }

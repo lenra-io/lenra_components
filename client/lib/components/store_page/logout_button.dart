@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:fr_lenra_client/redux/models/logout_button_model.dart';
+import 'package:fr_lenra_client/models/auth_model.dart';
+import 'package:provider/provider.dart';
 
 class LogoutButton extends StatelessWidget {
-  final LogoutButtonModel logoutButtonModel;
-
-  LogoutButton({this.logoutButtonModel});
-
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: this.logoutButtonModel.fetchData,
+      onPressed: () => context.read<AuthModel>().logout(),
       child: Text('Logout'),
     );
   }

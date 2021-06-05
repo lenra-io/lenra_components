@@ -167,13 +167,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.9.0"
-  flutter_redux:
-    dependency: "direct main"
-    description:
-      name: flutter_redux
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.7.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -366,27 +359,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
-  redux:
-    dependency: "direct main"
-    description:
-      name: redux
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.0.0+3"
-  redux_dev_tools:
-    dependency: "direct main"
-    description:
-      name: redux_dev_tools
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.5.2"
-  redux_remote_devtools:
-    dependency: "direct main"
-    description:
-      name: redux_remote_devtools
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
   sentry:
     dependency: transitive
     description:
@@ -406,13 +378,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
-  socketcluster_client:
-    dependency: transitive
-    description:
-      name: socketcluster_client
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.0"
   source_gen:
     dependency: transitive
     description:

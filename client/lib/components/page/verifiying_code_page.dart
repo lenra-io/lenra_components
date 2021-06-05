@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fr_lenra_client/components/verify_code_page/verify_code_form_container.dart';
+import 'package:fr_lenra_client/components/verify_code_page/verify_code_form.dart';
 
 class VerifyingCodePage extends StatelessWidget {
   static const routeName = '/code';
@@ -16,14 +16,10 @@ class VerifyingCodePage extends StatelessWidget {
             children: [
               Text("Code de vérification"),
               Container(
-                child: Wrap(
-                    direction: Axis.horizontal,
-                    alignment: WrapAlignment.spaceEvenly,
-                    children: [
-                      Text(
-                          "Merci de votre inscription, vous avez reçu un mail avec un code de validation."),
-                      VerifyCodeFormContainer(),
-                    ]),
+                child: Wrap(direction: Axis.horizontal, alignment: WrapAlignment.spaceEvenly, children: [
+                  Text("Merci de votre inscription, vous avez reçu un mail avec un code de validation."),
+                  VerifyCodeForm(),
+                ]),
               )
             ],
           ),

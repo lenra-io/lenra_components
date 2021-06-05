@@ -1,26 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:fr_lenra_client/api/request_models/change_password_request.dart';
+import 'package:fr_lenra_client/api/response_models/api_errors.dart';
 import 'package:fr_lenra_client/components/error_list.dart';
 import 'package:fr_lenra_client/components/loading_button.dart';
-import 'package:fr_lenra_client/redux/models/change_password_model.dart';
+import 'package:fr_lenra_client/models/auth_model.dart';
 import 'package:fr_lenra_client/utils/form_validators.dart';
+import 'package:provider/provider.dart';
 
 class ChangePasswordForm extends StatefulWidget {
-  final ChangePasswordModel changePasswordModel;
-
-  ChangePasswordForm({this.changePasswordModel});
-
   @override
   _ChangePasswordState createState() {
-    return _ChangePasswordState(changePasswordModel: this.changePasswordModel);
+    return _ChangePasswordState();
   }
 }
 
 class _ChangePasswordState extends State<ChangePasswordForm> {
-  final ChangePasswordModel changePasswordModel;
-
-  _ChangePasswordState({this.changePasswordModel}) : super();
-
   final _formKey = GlobalKey<FormState>();
   String oldPassword;
   String newPassword;
@@ -38,6 +31,9 @@ class _ChangePasswordState extends State<ChangePasswordForm> {
 
   @override
   Widget build(BuildContext context) {
+    bool isChangingPassword = context.select<AuthModel, bool>((m) => m.changePasswordStatus.isFetching());
+    ApiErrors changePasswordErrors = context.select<AuthModel, ApiErrors>((m) => m.changePasswordStatus.errors);
+
     return Form(
       key: _formKey,
       child: Column(
@@ -116,15 +112,18 @@ class _ChangePasswordState extends State<ChangePasswordForm> {
             child: LoadingButton(
               onPressed: () {
                 if (_formKey.currentState.validate()) {
-                  this.changePasswordModel.fetchData(
-                      body: ChangePasswordRequest(this.oldPassword, this.newPassword, this.newPasswordConfirmation));
+                  this.context.read<AuthModel>().changePassword(
+                        this.oldPassword,
+                        this.newPassword,
+                        this.newPasswordConfirmation,
+                      );
                 }
               },
               text: 'Confirmer',
-              loading: this.changePasswordModel.status.isFetching,
+              loading: isChangingPassword,
             ),
           ),
-          ErrorList(this.changePasswordModel.errors),
+          ErrorList(changePasswordErrors),
         ],
       ),
     );

@@ -1,50 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:fr_lenra_client/api/request_models/register_request.dart';
+import 'package:fr_lenra_client/api/response_models/api_errors.dart';
 import 'package:fr_lenra_client/components/error_list.dart';
 import 'package:fr_lenra_client/components/loading_button.dart';
 import 'package:fr_lenra_client/lenra_components/layout/lenra_column.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_text_form_field.dart';
+import 'package:fr_lenra_client/lenra_components/theme/lenra_text_theme_data.dart';
+import 'package:fr_lenra_client/lenra_components/theme/lenra_theme.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
-import 'package:fr_lenra_client/redux/models/register_model.dart';
+import 'package:fr_lenra_client/models/auth_model.dart';
 import 'package:fr_lenra_client/utils/form_validators.dart';
-
-import '../../lenra_components/theme/lenra_text_theme_data.dart';
-import '../../lenra_components/theme/lenra_theme.dart';
+import 'package:provider/provider.dart';
 
 class RegisterForm extends StatefulWidget {
-  final RegisterModel registerModel;
-
-  RegisterForm({this.registerModel});
-
   @override
   _RegisterFormState createState() {
-    return _RegisterFormState(registerModel: this.registerModel);
+    return _RegisterFormState();
   }
 }
 
 class _RegisterFormState extends State<RegisterForm> {
-  final RegisterModel registerModel;
-
-  _RegisterFormState({this.registerModel}) : super();
-
   final _formKey = GlobalKey<FormState>();
   String email;
   String password;
 
-  bool _passwordVisible;
+  bool _hidePassword = true;
 
   String getPassword() => this.password;
 
   @override
-  void initState() {
-    _passwordVisible = true;
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final LenraTextThemeData finalLenraTextThemeData = LenraTheme.of(context).lenraTextThemeData;
-
+    ApiErrors registerErrors = context.select<AuthModel, ApiErrors>((m) => m.registerStatus.errors);
     return Form(
       key: _formKey,
       child: LenraColumn(
@@ -59,28 +45,28 @@ class _RegisterFormState extends State<RegisterForm> {
             style: finalLenraTextThemeData.disabledBodyText,
           ),
 
-          ErrorList(this.registerModel.errors)
+          ErrorList(registerErrors)
         ],
       ),
     );
   }
 
   Widget validationButton(BuildContext context) {
+    bool isRegistering = context.select<AuthModel, bool>((m) => m.registerStatus.isFetching());
     return SizedBox(
       width: double.infinity,
       child: LoadingButton(
         text: "Créer mon compte Lenra",
-        onPressed: () {
+        onPressed: () async {
           if (_formKey.currentState.validate()) {
-            this.registerModel.register(
-                  RegisterRequest(
-                    this.email,
-                    this.password,
-                  ),
-                );
+            try {
+              var authModel = context.read<AuthModel>();
+              await authModel.register(this.email, this.password);
+              Navigator.of(context).pushReplacementNamed(authModel.getRedirectionRouteAfterAuthentication());
+            } catch (e) {}
           }
         },
-        loading: this.registerModel.status.isFetching,
+        loading: isRegistering,
       ),
     );
   }
@@ -107,7 +93,7 @@ class _RegisterFormState extends State<RegisterForm> {
         LenraTextFormField(
           label: 'Définissez un mot de passe',
           description: "8 caractères, 1 majuscule, 1 minuscule et 1 caractère spécial.",
-          obscure: _passwordVisible,
+          obscure: _hidePassword,
           onChanged: (String value) {
             password = value;
           },
@@ -119,7 +105,7 @@ class _RegisterFormState extends State<RegisterForm> {
           ]),
           onSuffixPressed: () {
             setState(() {
-              this._passwordVisible = !this._passwordVisible;
+              this._hidePassword = !this._hidePassword;
             });
           },
         ),

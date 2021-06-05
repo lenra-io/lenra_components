@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/components/error_list.dart';
 import 'package:fr_lenra_client/components/store_page/app_button.dart';
+import 'package:fr_lenra_client/models/store_model.dart';
 import 'package:fr_lenra_client/navigation/lenra_navigator.dart';
-import 'package:fr_lenra_client/redux/models/app_list_model.dart';
+import 'package:provider/provider.dart';
 
 class AppList extends StatelessWidget {
-  final AppListModel appListModel;
-
-  AppList({this.appListModel});
-
   Widget build(BuildContext context) {
-    if (appListModel.status.hasError) {
-      return ErrorList(appListModel.errors);
+    StoreModel storeModel = context.watch<StoreModel>();
+    if (storeModel.fetchApplicationsStatus.hasError()) {
+      return ErrorList(storeModel.fetchApplicationsStatus.errors);
     }
 
-    if (appListModel.status.isDone) {
+    if (storeModel.fetchApplicationsStatus.isDone()) {
       return Wrap(
-        children: appListModel.data.apps.map((appInfo) {
+        children: storeModel.applications.map((appInfo) {
           return AppButton(
             appInfo: appInfo,
             onPressed: () {

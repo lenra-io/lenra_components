@@ -1,8 +1,8 @@
-import 'package:fr_lenra_client/navigation/custom_route_builder.dart';
+import 'package:flutter/widgets.dart';
 
 class RouteData {
   Map<String, String> params = Map();
-  CustomRouteBuilder builder;
+  Widget Function(Map<String, String>) builder;
 
   final defaultParams = Map();
 

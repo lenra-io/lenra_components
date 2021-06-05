@@ -2,10 +2,9 @@ import 'dart:convert';
 
 import 'package:fr_lenra_client/api/response_models/api_errors.dart';
 import 'package:fr_lenra_client/config/config.dart';
-import 'package:fr_lenra_client/config/connexion_utils_stub.dart'
-    if (dart.library.io) 'package:fr_lenra_client/config/connexion_utils_io.dart'
-    if (dart.library.js) 'package:fr_lenra_client/config/connexion_utils_web.dart';
-import 'package:fr_lenra_client/redux/store.dart';
+import 'package:fr_lenra_client/utils/connexion_utils_stub.dart'
+    if (dart.library.io) 'package:fr_lenra_client/utils/connexion_utils_io.dart'
+    if (dart.library.js) 'package:fr_lenra_client/utils/connexion_utils_web.dart';
 import 'package:http/http.dart' as http;
 
 typedef T ResponseMapper<T>(dynamic json);
@@ -82,6 +81,12 @@ abstract class LenraBaseHttpClient {
 }
 
 class LenraApi extends LenraBaseHttpClient {
+  static LenraApi _instance = LenraApi();
+  static LenraApi get instance => _instance;
+
+  String _token;
+  set token(String newToken) => this._token = newToken;
+
   @override
   String get _apiUrl {
     return "${Config.instance.httpEndpoint}/api";
@@ -89,12 +94,14 @@ class LenraApi extends LenraBaseHttpClient {
 
   @override
   Map<String, String> get _headers {
-    String token = LenraStore.getStore().state.authState.authResponse?.accessToken;
-    return {"Content-Type": "application/json", "Authorization": "Bearer $token"};
+    return {"Content-Type": "application/json", "Authorization": "Bearer $_token"};
   }
 }
 
 class LenraAuth extends LenraBaseHttpClient {
+  static LenraAuth _instance = LenraAuth();
+  static LenraAuth get instance => _instance;
+
   @override
   String get _apiUrl {
     return "${Config.instance.httpEndpoint}/auth";

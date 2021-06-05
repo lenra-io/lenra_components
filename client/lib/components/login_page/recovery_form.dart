@@ -1,30 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:fr_lenra_client/api/request_models/recovery_request.dart';
+import 'package:fr_lenra_client/api/response_models/api_errors.dart';
 import 'package:fr_lenra_client/components/error_list.dart';
 import 'package:fr_lenra_client/lenra_components/layout/lenra_column.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_button.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_text_form_field.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_text_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme.dart';
-import 'package:fr_lenra_client/redux/models/recovery_model.dart';
+import 'package:fr_lenra_client/models/auth_model.dart';
 import 'package:fr_lenra_client/utils/form_validators.dart';
+import 'package:provider/provider.dart';
 
 class RecoveryForm extends StatefulWidget {
-  final RecoveryModel recoveryModel;
-
-  RecoveryForm({this.recoveryModel});
-
   @override
   _RecoveryFormState createState() {
-    return _RecoveryFormState(recoveryModel: this.recoveryModel);
+    return _RecoveryFormState();
   }
 }
 
 class _RecoveryFormState extends State<RecoveryForm> {
-  final RecoveryModel recoveryModel;
-
-  _RecoveryFormState({this.recoveryModel}) : super();
-
   final _formKey = GlobalKey<FormState>();
   String email;
 
@@ -36,7 +29,8 @@ class _RecoveryFormState extends State<RecoveryForm> {
   @override
   Widget build(BuildContext context) {
     final LenraTextThemeData finalLenraTextThemeData = LenraTheme.of(context).lenraTextThemeData;
-
+    ApiErrors askCodeLostPasswordErrors =
+        context.select<AuthModel, ApiErrors>((m) => m.askCodeLostPasswordStatus.errors);
     return Form(
       key: _formKey,
       child: LenraColumn(
@@ -64,12 +58,12 @@ class _RecoveryFormState extends State<RecoveryForm> {
               text: "Je ré-initialise mon mot de passe",
               onPressed: () {
                 if (_formKey.currentState.validate()) {
-                  this.recoveryModel.fetchData(body: RecoveryRequest(email));
+                  context.read<AuthModel>().askCodeLostPassword(this.email);
                 }
               },
             ),
           ),
-          ErrorList(this.recoveryModel.errors),
+          ErrorList(askCodeLostPasswordErrors),
         ],
       ),
     );

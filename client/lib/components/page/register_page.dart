@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/components/page/simple_page.dart';
-import 'package:fr_lenra_client/components/register_page/register_form_container.dart';
+import 'package:fr_lenra_client/components/register_page/register_form.dart';
 import 'package:fr_lenra_client/navigation/lenra_navigator.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -12,7 +12,7 @@ class RegisterPage extends StatelessWidget {
         Navigator.pushNamed(context, LenraNavigator.LOGIN_ROUTE);
       },
       title: "Créez votre compte utilisateur",
-      child: RegisterFormContainer(),
+      child: RegisterForm(),
     );
   }
 }

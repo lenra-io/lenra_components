@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:fr_lenra_client/components/store_page/app_list_container.dart';
-import 'package:fr_lenra_client/components/store_page/logout_button_container.dart';
+import 'package:fr_lenra_client/components/store_page/app_list.dart';
+import 'package:fr_lenra_client/components/store_page/logout_button.dart';
 
 class StorePage extends StatefulWidget {
   StorePage({Key key}) : super(key: key);
@@ -29,7 +29,7 @@ class _StorePageState extends State<StorePage> {
                     right: MediaQuery.of(context).size.width * 0.02),
                 alignment: Alignment.topRight,
                 child: Wrap(direction: Axis.horizontal, alignment: WrapAlignment.spaceEvenly, children: [
-                  LogoutButtonContainer(),
+                  LogoutButton(),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.pushNamed(context, '/profile');
@@ -42,7 +42,7 @@ class _StorePageState extends State<StorePage> {
               alignment: WrapAlignment.spaceEvenly,
               children: [
                 Container(
-                  child: AppListContainer(),
+                  child: AppList(),
                 )
               ],
             )

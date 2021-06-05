@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:fr_lenra_client/api/request_models/loginRequest.dart';
+import 'package:fr_lenra_client/api/response_models/api_errors.dart';
 import 'package:fr_lenra_client/components/error_list.dart';
 import 'package:fr_lenra_client/components/loading_button.dart';
 import 'package:fr_lenra_client/lenra_components/layout/lenra_column.dart';
@@ -9,40 +9,28 @@ import 'package:fr_lenra_client/lenra_components/lenra_text_form_field.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_text_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
+import 'package:fr_lenra_client/models/auth_model.dart';
 import 'package:fr_lenra_client/navigation/lenra_navigator.dart';
-import 'package:fr_lenra_client/redux/models/login_model.dart';
 import 'package:fr_lenra_client/utils/form_validators.dart';
+import 'package:provider/provider.dart';
 
 class LoginForm extends StatefulWidget {
-  final LoginModel loginModel;
-
-  LoginForm({this.loginModel});
-
   @override
   _LoginFormState createState() {
-    return _LoginFormState(loginModel: this.loginModel);
+    return _LoginFormState();
   }
 }
 
 class _LoginFormState extends State<LoginForm> {
-  final LoginModel loginModel;
-
-  _LoginFormState({this.loginModel}) : super();
-
   final _formKey = GlobalKey<FormState>();
   String email;
   String password;
-  bool _passwordVisible;
-
-  @override
-  void initState() {
-    super.initState();
-    _passwordVisible = true;
-  }
+  bool _hidePassword = true;
 
   @override
   Widget build(BuildContext context) {
     final LenraTextThemeData finalLenraTextThemeData = LenraTheme.of(context).lenraTextThemeData;
+    ApiErrors loginErrors = context.select<AuthModel, ApiErrors>((m) => m.loginStatus.errors);
 
     return Form(
       key: _formKey,
@@ -81,13 +69,14 @@ class _LoginFormState extends State<LoginForm> {
               ),
             ),
           ),
-          ErrorList(this.loginModel.errors),
+          ErrorList(loginErrors),
         ],
       ),
     );
   }
 
   Widget login(BuildContext context) {
+    bool isLogging = context.select<AuthModel, bool>((m) => m.loginStatus.isFetching());
     return LenraColumn(
       separationFactor: 2,
       children: [
@@ -108,7 +97,7 @@ class _LoginFormState extends State<LoginForm> {
         //------Password------
         LenraTextFormField(
           label: 'Mot de passe',
-          obscure: _passwordVisible,
+          obscure: _hidePassword,
           onChanged: (String value) {
             password = value;
           },
@@ -119,7 +108,7 @@ class _LoginFormState extends State<LoginForm> {
           ]),
           onSuffixPressed: () {
             setState(() {
-              this._passwordVisible = !this._passwordVisible;
+              this._hidePassword = !this._hidePassword;
             });
           },
         ),
@@ -127,12 +116,16 @@ class _LoginFormState extends State<LoginForm> {
           width: double.infinity,
           child: LoadingButton(
             text: "Se connecter",
-            onPressed: () {
+            onPressed: () async {
               if (_formKey.currentState.validate()) {
-                this.loginModel.fetchData(body: LoginRequest(email, password));
+                try {
+                  var authModel = context.read<AuthModel>();
+                  await authModel.login(this.email, this.password);
+                  Navigator.of(context).pushReplacementNamed(authModel.getRedirectionRouteAfterAuthentication());
+                } catch (e) {}
               }
             },
-            loading: this.loginModel.status.isFetching,
+            loading: isLogging,
           ),
         ),
       ],

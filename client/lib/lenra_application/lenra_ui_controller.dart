@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/lenra_application/components/actionable/events/lenra_event.dart';
 import 'package:fr_lenra_client/lenra_application/lenra_ui_builder.dart';
 import 'package:fr_lenra_client/lenra_application/ui_patch.dart';
+import 'package:fr_lenra_client/models/socket_model.dart';
 import 'package:fr_lenra_client/socket/lenra_channel.dart';
-import 'package:fr_lenra_client/socket/lenra_socket.dart';
+import 'package:provider/provider.dart';
 
 class LenraUiController extends StatefulWidget {
   final String appName;
@@ -23,21 +24,21 @@ class _LenraUiControllerState extends State<LenraUiController> {
   StreamController<Map<String, dynamic>> uiStream;
   StreamController<Iterable<UiPatchEvent>> patchUiStream;
   bool error = false;
-  bool inited = false;
+  bool isInitialized = false;
 
   @override
   void initState() {
     debugPrint("initState ${widget.appName}");
     super.initState();
-    channel = LenraSocket.instance.channel("app", {"app": widget.appName});
-    uiStream = StreamController();
-    patchUiStream = StreamController();
+    this.channel = this.context.read<LenraSocketModel>().channel("app", {"app": widget.appName});
+    this.uiStream = StreamController();
+    this.patchUiStream = StreamController();
 
-    channel.onUi((Map<String, dynamic> ui) {
-      uiStream.add(ui);
-      if (!inited) {
+    this.channel.onUi((Map<String, dynamic> ui) {
+      this.uiStream.add(ui);
+      if (!this.isInitialized) {
         setState(() {
-          inited = true;
+          this.isInitialized = true;
         });
       }
     });
@@ -47,7 +48,7 @@ class _LenraUiControllerState extends State<LenraUiController> {
       Iterable<UiPatchEvent> parsedPatches = patches.map((patch) {
         return UiPatchEvent.fromPatch(patch as Map<String, dynamic>);
       }).toList();
-      patchUiStream.add(parsedPatches);
+      this.patchUiStream.add(parsedPatches);
     });
 
     channel.onError(() {
@@ -60,9 +61,9 @@ class _LenraUiControllerState extends State<LenraUiController> {
   @override
   void dispose() {
     debugPrint("dispose ${widget.appName}");
-    channel.close();
-    uiStream.close();
-    patchUiStream.close();
+    this.channel.close();
+    this.uiStream.close();
+    this.patchUiStream.close();
     super.dispose();
   }
 
@@ -81,7 +82,7 @@ class _LenraUiControllerState extends State<LenraUiController> {
           child: Text("No application"),
         ),
       );
-    if (!inited)
+    if (!this.isInitialized)
       return Center(
         child: CircularProgressIndicator(),
       );

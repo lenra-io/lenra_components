@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fr_lenra_client/components/profile_page/change_password_form_container.dart';
+import 'package:fr_lenra_client/components/profile_page/change_password_form.dart';
 
 class ProfilePage extends StatelessWidget {
   @override
@@ -19,7 +19,7 @@ class ProfilePage extends StatelessWidget {
                 children: [
                   Text("Modification du mot de passe"),
                   Container(
-                    child: ChangePasswordFormContainer(),
+                    child: ChangePasswordForm(),
                   )
                 ],
               ),

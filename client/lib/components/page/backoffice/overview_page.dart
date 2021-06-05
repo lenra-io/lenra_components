@@ -10,9 +10,8 @@ import 'package:fr_lenra_client/lenra_components/lenra_table_cell.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_color_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
-import 'package:fr_lenra_client/redux/actions/async_action.dart';
-import 'package:fr_lenra_client/service/application_model.dart';
-import 'package:fr_lenra_client/service/build_model.dart';
+import 'package:fr_lenra_client/models/build_model.dart';
+import 'package:fr_lenra_client/models/user_application_model.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -21,8 +20,8 @@ class OverviewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var theme = LenraTheme.of(context);
-    var applicationModel = context.watch<ApplicationModel>();
-    var buildModel = context.read<BuildModel>();
+    var applicationModel = context.watch<UserApplicationModel>();
+    var buildModel = context.watch<BuildModel>();
 
     return StatefulWrapper(
       onInit: () async {
@@ -37,9 +36,8 @@ class OverviewPage extends StatelessWidget {
         List<BuildResponse> builds =
             context.select<BuildModel, List<BuildResponse>>((model) => model.buildsForApp(appId));
 
-        var hasPendingBuild = builds.any((build) => build.status == BuildStatus.pending) ||
-                buildModel.createBuildStatus.requestStatus == RequestStatus.fetching ??
-            true;
+        var hasPendingBuild =
+            builds.any((build) => build.status == BuildStatus.pending) || buildModel.createBuildStatus.isFetching();
 
         var hasPublishedBuild = builds.any((build) => build.status == BuildStatus.success);
 

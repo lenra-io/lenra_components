@@ -14,11 +14,10 @@ import 'package:fr_lenra_client/components/page/recovery_page.dart';
 import 'package:fr_lenra_client/components/page/register_page.dart';
 import 'package:fr_lenra_client/config/config.dart';
 import 'package:fr_lenra_client/lenra_application/lenra_ui_controller.dart';
-import 'package:fr_lenra_client/navigation/authorized_guard.dart';
-import 'package:fr_lenra_client/navigation/custom_route_builder.dart';
-import 'package:fr_lenra_client/navigation/first_app_guard.dart';
+import 'package:fr_lenra_client/navigation/guard.dart';
 import 'package:fr_lenra_client/navigation/page_guard.dart';
-import 'package:fr_lenra_client/navigation/route_data.dart';
+
+typedef CustomPageBuilder = Widget Function(Map<String, String>);
 
 class LenraNavigator {
   static const String HOME_ROUTE = "/";
@@ -36,112 +35,95 @@ class LenraNavigator {
   static const String FIRST_PROJECT = "/first-project";
   static const String SETTINGS = "/settings";
 
-  static String currentPath;
+  static String currentRoute;
 
   static final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
-  static final Map<String, _RouteMapper> routes = {}
+  static final Map<String, CustomPageBuilder> routes = {}
     ..addAll(authRoutes)
     ..addAll(Config.instance.application == Application.app ? appRoutes : devRoutes);
 
-  static final Map<String, _RouteMapper> authRoutes = {
-    CHANGE_LOST_PASSWORD_ROUTE: _RouteMapper(
-      guards: [AuthorizedGuard.notLoggedIn],
-      builder: (Map<String, String> params) => ChangeLostPasswordPage(),
-    ),
-    LOST_PASSWORD_ROUTE: _RouteMapper(
-      guards: [AuthorizedGuard.notLoggedIn],
-      builder: (Map<String, String> params) => RecoveryPage(),
-    ),
-    CHANGE_PASSWORD_CONFIRMATION_ROUTE: _RouteMapper(
-      guards: [AuthorizedGuard.notLoggedIn],
-      builder: (Map<String, String> params) => ChangePasswordConfirmationPage(),
-    ),
-    PROFILE_ROUTE: _RouteMapper(
-      guards: [AuthorizedGuard.loggedIn],
-      builder: (Map<String, String> params) => ProfilePage(),
-    ),
-    LOGIN_ROUTE: _RouteMapper(
-      guards: [AuthorizedGuard.notLoggedIn],
-      builder: (Map<String, String> params) => LoginPage(),
-    ),
-    REGISTER_ROUTE: _RouteMapper(
-      guards: [AuthorizedGuard.notLoggedIn],
-      builder: (Map<String, String> params) => RegisterPage(),
-    )
-  };
-
-  static final Map<String, _RouteMapper> appRoutes = {
-    HOME_ROUTE: _RouteMapper(
-      guards: [AuthorizedGuard.loggedIn],
-      builder: (Map<String, String> params) => HomePage(),
-    ),
-    APP_ROUTE: _RouteMapper(
-      guards: [AuthorizedGuard.loggedIn],
-      builder: (Map<String, String> params) => LenraUiController(params["appName"]),
-    )
-  };
-
-  static final Map<String, _RouteMapper> devRoutes = {
-    VALIDATION_DEV_ROUTE: _RouteMapper(
-      guards: [
-        AuthorizedGuard.loggedIn,
-        AuthorizedGuard.isNotDev,
-      ],
-      builder: (Map<String, String> params) => ActivationCodePage(),
-    ),
-    WELCOME: _RouteMapper(
-      guards: [
-        AuthorizedGuard.loggedIn,
-        AuthorizedGuard.isDev,
-        FirstAppGuard(
-          hasApplication: false,
+  static final Map<String, CustomPageBuilder> authRoutes = {
+    CHANGE_LOST_PASSWORD_ROUTE: (Map<String, String> params) => PageGuard(
+          guards: [Guard.checkUnauthenticated],
+          child: ChangeLostPasswordPage(),
         ),
-      ],
-      builder: (Map<String, String> params) => WelcomeDevPage(),
-    ),
-    FIRST_PROJECT: _RouteMapper(
-      guards: [
-        AuthorizedGuard.loggedIn,
-        AuthorizedGuard.isDev,
-        FirstAppGuard(
-          hasApplication: false,
+    LOST_PASSWORD_ROUTE: (Map<String, String> params) => PageGuard(
+          guards: [Guard.checkUnauthenticated],
+          child: RecoveryPage(),
         ),
-      ],
-      builder: (Map<String, String> params) => CreateFirstProjectPage(),
-    ),
-    HOME_ROUTE: _RouteMapper(
-      guards: [
-        AuthorizedGuard.loggedIn,
-        AuthorizedGuard.isDev,
-        FirstAppGuard(),
-      ],
-      builder: (Map<String, String> params) => OverviewPage(),
-    ),
-    SETTINGS: _RouteMapper(
-      guards: [
-        AuthorizedGuard.loggedIn,
-        AuthorizedGuard.isDev,
-        FirstAppGuard(),
-      ],
-      builder: (Map<String, String> params) => SettingsPage(),
-    ),
+    CHANGE_PASSWORD_CONFIRMATION_ROUTE: (Map<String, String> params) => PageGuard(
+          guards: [Guard.checkUnauthenticated],
+          child: ChangePasswordConfirmationPage(),
+        ),
+    PROFILE_ROUTE: (Map<String, String> params) => PageGuard(
+          guards: [Guard.checkAuthenticated],
+          child: ProfilePage(),
+        ),
+    LOGIN_ROUTE: (Map<String, String> params) => PageGuard(
+          guards: [Guard.checkUnauthenticated],
+          child: LoginPage(),
+        ),
+    REGISTER_ROUTE: (Map<String, String> params) => PageGuard(
+          guards: [Guard.checkUnauthenticated],
+          child: RegisterPage(),
+        )
   };
 
-  static Future<bool> _checkGuards(BuildContext context, List<PageGuard> guards) async {
-    for (var guard in guards) {
-      if (!await guard.check(context)) {
-        return false;
-      }
-    }
-    return true;
-  }
+  static final Map<String, CustomPageBuilder> appRoutes = {
+    HOME_ROUTE: (Map<String, String> params) => PageGuard(
+          guards: [Guard.checkAuthenticated],
+          child: HomePage(),
+        ),
+    APP_ROUTE: (Map<String, String> params) => PageGuard(
+          guards: [Guard.checkAuthenticated],
+          child: LenraUiController(params["appName"]),
+        )
+  };
 
-  static RouteData _getRouteDataForRoutes(
-    BuildContext context,
+  static final Map<String, CustomPageBuilder> devRoutes = {
+    VALIDATION_DEV_ROUTE: (Map<String, String> params) => PageGuard(
+          guards: [Guard.checkAuthenticated, Guard.checkIsNotDev],
+          child: ActivationCodePage(),
+        ),
+    WELCOME: (Map<String, String> params) => PageGuard(
+          guards: [
+            Guard.checkAuthenticated,
+            Guard.checkIsDev,
+            Guard.checkNotHaveApp,
+          ],
+          child: WelcomeDevPage(),
+        ),
+    FIRST_PROJECT: (Map<String, String> params) => PageGuard(
+          guards: [
+            Guard.checkAuthenticated,
+            Guard.checkIsDev,
+            Guard.checkNotHaveApp,
+          ],
+          child: CreateFirstProjectPage(),
+        ),
+    HOME_ROUTE: (Map<String, String> params) => PageGuard(
+          guards: [
+            Guard.checkAuthenticated,
+            Guard.checkIsDev,
+            Guard.checkHaveApp,
+          ],
+          child: OverviewPage(),
+        ),
+    SETTINGS: (Map<String, String> params) => PageGuard(
+          guards: [
+            Guard.checkAuthenticated,
+            Guard.checkIsDev,
+            Guard.checkHaveApp,
+          ],
+          child: SettingsPage(),
+        ),
+  };
+
+  static Widget _getPageForRoutes(
     List<String> currentRouteParts,
     String route,
-    _RouteMapper routeMapper,
+    CustomPageBuilder routeBuilder,
   ) {
     Map<String, String> params = Map();
     List<String> routeParts = route.split('/');
@@ -154,55 +136,31 @@ class LenraNavigator {
         params[routePart.replaceFirst(':', '')] = currentRoutePart;
       } else if (routePart != currentRoutePart) return null;
     }
-    if (routeMapper.guards.isNotEmpty) {
-      return RouteData(
-        (Map<String, String> pageParams) => FutureBuilder(
-          future: _checkGuards(context, routeMapper.guards),
-          builder: (context, snapshot) {
-            if (snapshot.hasData && snapshot.data) {
-              return routeMapper.builder(pageParams);
-            }
-            if (snapshot.hasError) {
-              print(snapshot.error);
-            }
-            return Center(child: CircularProgressIndicator());
-          },
-        ),
-        params,
-      );
-    }
 
-    return RouteData(routeMapper.builder, params);
+    return routeBuilder(params);
   }
 
-  static RouteData _getFirstMatchingRoute(BuildContext context, String currentRoute) {
+  static Widget _getFirstMatchingPage(String currentRoute) {
     List<String> currentRouteParts = currentRoute.split('/');
-    for (MapEntry<String, _RouteMapper> entry in routes.entries) {
-      RouteData _routeData = _getRouteDataForRoutes(context, currentRouteParts, entry.key, entry.value);
-      if (_routeData != null) {
-        return _routeData;
+    for (MapEntry<String, CustomPageBuilder> entry in routes.entries) {
+      Widget page = _getPageForRoutes(currentRouteParts, entry.key, entry.value);
+      if (page != null) {
+        return page;
       }
     }
     return null;
   }
 
-  static Route<dynamic> Function(RouteSettings) handleGenerateRoute(BuildContext context) {
-    return (RouteSettings settings) {
-      debugPrint("route: ${settings.name}");
-      RouteData routeData = _getFirstMatchingRoute(context, settings.name);
-      if (routeData == null) return null;
-      currentPath = settings.name;
-      return PageRouteBuilder(
-        pageBuilder: (BuildContext context, _a, _b) => routeData.builder(routeData.params),
-        settings: settings,
-      );
-    };
+  static Route<dynamic> handleGenerateRoute(RouteSettings settings) {
+    debugPrint("route: ${settings.name}");
+    currentRoute = settings.name;
+    Widget page = _getFirstMatchingPage(settings.name);
+    if (page == null) return null;
+    return PageRouteBuilder(
+      pageBuilder: (BuildContext context, _a, _b) {
+        return page;
+      },
+      settings: settings,
+    );
   }
-}
-
-class _RouteMapper {
-  final List<PageGuard> guards;
-  final CustomRouteBuilder builder;
-
-  _RouteMapper({this.guards = const [], @required this.builder});
 }

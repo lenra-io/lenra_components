@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:fr_lenra_client/api/request_models/change_lost_password_request.dart';
+import 'package:fr_lenra_client/api/response_models/api_errors.dart';
 import 'package:fr_lenra_client/components/error_list.dart';
 import 'package:fr_lenra_client/lenra_components/layout/lenra_column.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_button.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_text_form_field.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_text_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme.dart';
-import 'package:fr_lenra_client/redux/models/change_lost_password_model.dart';
+import 'package:fr_lenra_client/models/auth_model.dart';
 import 'package:fr_lenra_client/utils/form_validators.dart';
+import 'package:provider/provider.dart';
 
 class ChangeLostPasswordForm extends StatefulWidget {
-  final ChangeLostPasswordModel changeLostPasswordModel;
   final String email;
 
-  ChangeLostPasswordForm({this.changeLostPasswordModel, this.email});
+  ChangeLostPasswordForm({this.email});
 
   @override
   _ChangeLostPasswordState createState() {
@@ -40,6 +40,9 @@ class _ChangeLostPasswordState extends State<ChangeLostPasswordForm> {
   @override
   Widget build(BuildContext context) {
     final LenraTextThemeData finalLenraTextThemeData = LenraTheme.of(context).lenraTextThemeData;
+
+    ApiErrors sendCodeLostPasswordErrors =
+        context.select<AuthModel, ApiErrors>((m) => m.sendCodeLostPasswordStatus.errors);
 
     return Form(
       key: _formKey,
@@ -95,13 +98,17 @@ class _ChangeLostPasswordState extends State<ChangeLostPasswordForm> {
               text: "Modifier mon mot de passe",
               onPressed: () {
                 if (_formKey.currentState.validate()) {
-                  widget.changeLostPasswordModel.fetchData(
-                      body: ChangeLostPasswordRequest(code, widget.email, newPassword, newPasswordConfirmation));
+                  context.read<AuthModel>().sendCodeLostPassword(
+                        this.code,
+                        widget.email,
+                        this.newPassword,
+                        this.newPasswordConfirmation,
+                      );
                 }
               },
             ),
           ),
-          ErrorList(this.widget.changeLostPasswordModel.errors),
+          ErrorList(sendCodeLostPasswordErrors),
         ],
       ),
     );

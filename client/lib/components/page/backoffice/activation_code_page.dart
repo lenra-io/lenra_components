@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fr_lenra_client/api/request_models/activation_code_request.dart';
+import 'package:fr_lenra_client/api/response_models/api_errors.dart';
 import 'package:fr_lenra_client/components/error_list.dart';
 import 'package:fr_lenra_client/components/page/simple_page.dart';
 import 'package:fr_lenra_client/lenra_components/layout/lenra_column.dart';
@@ -8,8 +7,9 @@ import 'package:fr_lenra_client/lenra_components/layout/lenra_row.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_button.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_text_field.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
-import 'package:fr_lenra_client/redux/models/activation_code_model.dart';
-import 'package:fr_lenra_client/redux/states/app_state.dart';
+import 'package:fr_lenra_client/models/auth_model.dart';
+import 'package:fr_lenra_client/navigation/lenra_navigator.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ActivationCodePage extends StatefulWidget {
@@ -24,6 +24,10 @@ class _ActivationCodePageState extends State<ActivationCodePage> {
 
   @override
   Widget build(BuildContext context) {
+    ApiErrors validateDevErrors = context.select<AuthModel, ApiErrors>((m) => m.validateDevStatus.errors);
+    bool hasError = context.select<AuthModel, bool>((m) => m.validateDevStatus.hasError());
+    bool isLoading = context.select<AuthModel, bool>((m) => m.validateDevStatus.isFetching());
+
     return SimplePage(
       title: "Merci pour votre inscription",
       message:
@@ -31,38 +35,35 @@ class _ActivationCodePageState extends State<ActivationCodePage> {
       child: LenraColumn(
         separationFactor: 4,
         children: [
-          // Code form
-          StoreConnector<AppState, ActivationCodeModel>(
-            converter: (store) => ActivationCodeModel(store),
-            builder: (context, activationCodeModel) {
-              return LenraColumn(
+          LenraColumn(
+            separationFactor: 2,
+            children: [
+              LenraRow(
                 separationFactor: 2,
+                fillParent: true,
                 children: [
-                  LenraRow(
-                    separationFactor: 2,
-                    fillParent: true,
-                    children: [
-                      Expanded(
-                        child: LenraTextField(
-                          hintText: "Code d'accès",
-                          onChanged: (String value) {
-                            code = value;
-                          },
-                        ),
-                      ),
-                      LenraButton(
-                        text: "Confirmer le code",
-                        disabled: activationCodeModel.status.isFetching,
-                        onPressed: () {
-                          activationCodeModel.fetchData(body: ActivationCodeRequest(code));
-                        },
-                      ),
-                    ],
+                  Expanded(
+                    child: LenraTextField(
+                      hintText: "Code d'accès",
+                      onChanged: (String value) {
+                        code = value;
+                      },
+                    ),
                   ),
-                  if (activationCodeModel.status.hasError) ErrorList(activationCodeModel.errors),
+                  LenraButton(
+                    text: "Confirmer le code",
+                    disabled: isLoading,
+                    onPressed: () async {
+                      try {
+                        await context.read<AuthModel>().validateDev(code);
+                        Navigator.of(context).pushReplacementNamed(LenraNavigator.WELCOME);
+                      } catch (e) {}
+                    },
+                  ),
                 ],
-              );
-            },
+              ),
+              if (hasError) ErrorList(validateDevErrors),
+            ],
           ),
           LenraButton(
             text: "Je n’ai pas encore de code, je retourne sur la page principale",
