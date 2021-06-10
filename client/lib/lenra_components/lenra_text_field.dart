@@ -5,7 +5,6 @@ import 'package:fr_lenra_client/lenra_components/theme/lenra_text_field_theme_da
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
 
-// ignore: must_be_immutable
 class LenraTextField extends StatelessWidget {
   final String label;
   final String hintText;
@@ -15,9 +14,8 @@ class LenraTextField extends StatelessWidget {
   final bool disabled;
   final bool inRow;
   final bool error;
-  final Function onEditingComplete;
-  final Function(String) onSubmitted;
   final Function(String) onChanged;
+  final Function(String) onSubmitted;
   final LenraComponentSize size;
   final Function onSuffixPressed;
   final double width;
@@ -33,12 +31,11 @@ class LenraTextField extends StatelessWidget {
     this.disabled = false,
     this.inRow = false,
     this.error = false,
-    this.onEditingComplete,
-    this.onSubmitted,
     this.onChanged,
+    this.onSubmitted,
+    this.onSuffixPressed,
     this.size = LenraComponentSize.Medium,
     this.width = double.infinity,
-    this.onSuffixPressed,
     this.focusNode,
     this.controller,
   });
@@ -95,8 +92,6 @@ class LenraTextField extends StatelessWidget {
   }
 
   Widget buildTextField(BuildContext context, LenraTextFieldThemeData lenraTextFieldThemeData) {
-    // TODO: gérer les erreurs
-
     return TextField(
       enabled: !this.disabled,
       obscureText: this.obscure,
@@ -108,7 +103,6 @@ class LenraTextField extends StatelessWidget {
       focusNode: focusNode,
       decoration: lenraTextFieldThemeData.getInputdecoration(
           size, disabled, hintText, error, obscure, onSuffixPressed, errorMessage),
-      onEditingComplete: this.disabled ? null : this.onEditingComplete,
       onSubmitted: this.onSubmitted,
       onChanged: this.onChanged,
     );

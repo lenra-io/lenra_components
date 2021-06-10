@@ -8,7 +8,7 @@ import 'package:fr_lenra_client/lenra_components/lenra_table_row.dart';
 class LenraTableBuilder extends LenraComponentBuilder<LenraApplicationTable> {
   @override
   LenraApplicationTable map({children, centerChildren, border}) {
-    return LenraApplicationTable(children: children, centerChildren: centerChildren, border: border);
+    return LenraApplicationTable(children: children, border: border);
   }
 
   Map<String, String> get propsTypes {
@@ -22,12 +22,10 @@ class LenraTableBuilder extends LenraComponentBuilder<LenraApplicationTable> {
 
 class LenraApplicationTable extends StatelessLenraComponent {
   final List<LenraTableRow> children;
-  final bool centerChildren;
   final bool border;
 
   LenraApplicationTable({
     this.children = const [],
-    this.centerChildren,
     this.border,
   }) : super();
 
@@ -35,7 +33,6 @@ class LenraApplicationTable extends StatelessLenraComponent {
   Widget build(BuildContext context) {
     return LenraTable(
       children: this.children,
-      centerChildren: this.centerChildren,
       border: this.border,
     );
   }

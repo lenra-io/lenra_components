@@ -15,6 +15,8 @@ class LenraBorderThemeData {
   BorderSide tertiaryHoverBorder;
   BorderSide tertiaryDisabledBorder;
 
+  BorderSide errorBorder;
+
   LenraBorderThemeData({
     BorderRadius borderRadius,
     BorderSide primaryBorder,
@@ -39,6 +41,7 @@ class LenraBorderThemeData {
     this.tertiaryBorder = tertiaryBorder ?? null;
     this.tertiaryHoverBorder = tertiaryHoverBorder ?? null;
     this.tertiaryDisabledBorder = tertiaryDisabledBorder ?? null;
+    this.errorBorder = errorBorder ?? BorderSide(color: LenraColorThemeData.LENRA_CUSTOM_RED);
   }
 
   copyWith({

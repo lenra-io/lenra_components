@@ -3,32 +3,30 @@ import 'package:fr_lenra_client/lenra_components/lenra_radio.dart';
 
 void main() {
   test('LenraRadio test', () {
-    LenraRadio component = LenraRadio();
+    LenraRadio component = LenraRadio(
+      value: "",
+      onChanged: (T) {},
+      groupValue: "",
+    );
     expect(component is LenraRadio, true);
   });
 
   test('LenraRadio test disabled', () {
     LenraRadio component = LenraRadio(
+      value: "",
+      onChanged: (T) {},
+      groupValue: "",
       disabled: true,
     );
     expect(component is LenraRadio, true);
     expect(component.disabled, true);
   });
 
-  // Color set in LenrathemeData
-  //test('LenraRadio test color', () {
-  //  LenraRadio component = LenraRadio(
-  //    lenraRadioThemeData: LenraRadioThemeData(
-  //        colorTheme: LenraColorThemeData(
-  //            primaryBackgroundDisabledColor: Colors.red[100], secondaryForegroundDisabledColor: Colors.red[100])),
-  //  );
-  //  expect(component is LenraRadio, true);
-  //  expect(component.lenraRadioThemeData.colorTheme.primaryBackgroundDisabledColor, Colors.red[100]);
-  //  expect(component.lenraRadioThemeData.colorTheme.secondaryForegroundDisabledColor, Colors.red[100]);
-  //});
-
   test('LenraRadio test text', () {
     LenraRadio component = LenraRadio(
+      value: "",
+      onChanged: (T) {},
+      groupValue: "",
       label: "test",
     );
     expect(component.label, "test");

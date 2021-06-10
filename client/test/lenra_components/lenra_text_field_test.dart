@@ -6,12 +6,28 @@ import '../page/lenra_page_test_help.dart';
 
 void main() {
   test('LenraTextField test', () {
-    LenraTextField component = LenraTextField();
+    LenraTextField component = LenraTextField(
+      onChanged: (String test) {},
+    );
     expect(component is LenraTextField, true);
+  });
+
+  testWidgets('Test LenraTextField Small size', (WidgetTester tester) async {
+    await tester.pumpWidget(createComponentTestWidgets(
+      LenraTextField(
+        size: LenraComponentSize.Small,
+        onChanged: (String test) {},
+      ),
+    ));
+
+    expect(tester.getSize(find.byType(LenraTextField)).height, equals(24.0));
   });
   testWidgets('Test LenraTextField Medium size', (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(
-      LenraTextField(size: LenraComponentSize.Medium),
+      LenraTextField(
+        size: LenraComponentSize.Medium,
+        onChanged: (String test) {},
+      ),
     ));
 
     expect(tester.getSize(find.byType(LenraTextField)).height, equals(32.0));
@@ -19,17 +35,12 @@ void main() {
 
   testWidgets('Test LenraTextField Large size', (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(
-      LenraTextField(size: LenraComponentSize.Large),
+      LenraTextField(
+        size: LenraComponentSize.Large,
+        onChanged: (String test) {},
+      ),
     ));
 
     expect(tester.getSize(find.byType(LenraTextField)).height, equals(40.0));
-  });
-
-  testWidgets('Test LenraTextField Small size', (WidgetTester tester) async {
-    await tester.pumpWidget(createComponentTestWidgets(
-      LenraTextField(size: LenraComponentSize.Small),
-    ));
-
-    expect(tester.getSize(find.byType(LenraTextField)).height, equals(24.0));
   });
 }

@@ -74,11 +74,7 @@ class _ChangeLostPasswordState extends State<ChangeLostPasswordForm> {
             onChanged: (String value) {
               this.newPassword = value;
             },
-            validator: validator([
-              checkNotEmpty(),
-              checkLength(min: 8, max: 64),
-              checkPassword(),
-            ]),
+            type: LenraTextFormFieldType.Password,
           ),
           LenraTextFormField(
             label: "Confirmez le mot de passe",
@@ -86,11 +82,7 @@ class _ChangeLostPasswordState extends State<ChangeLostPasswordForm> {
             onChanged: (String value) {
               this.newPasswordConfirmation = value;
             },
-            validator: validator([
-              checkNotEmpty(),
-              checkLength(min: 8, max: 64),
-              checkPassword(),
-            ]),
+            type: LenraTextFormFieldType.Password,
           ),
           SizedBox(
             width: double.infinity,

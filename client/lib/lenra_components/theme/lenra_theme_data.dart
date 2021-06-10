@@ -53,9 +53,9 @@ class LenraThemeData {
     this.lenraColorThemeData = lenraColorThemeData ?? LenraColorThemeData();
     this.lenraTextThemeData = lenraTextThemeData ?? LenraTextThemeData();
     this.lenraBorderThemeData = lenraBorderThemeData ?? LenraBorderThemeData();
-    /* TODO: review tabel theme*/
     this.lenraTableThemeData = LenraTableThemeData(
-      paddingMap: this.paddingMap,
+      /* TODO: rename LenraTheme to lenraThemeData*/
+      lenraTheme: this,
     );
     this.lenraButtonThemeData = LenraButtonThemeData(
       lenraTheme: this,

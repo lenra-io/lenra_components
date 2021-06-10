@@ -13,6 +13,7 @@ void main() {
       type: LenraComponentType.Secondary,
       leftIcon: null,
       rightIcon: null,
+      onPressed: () {},
     );
 
     expect(lenraButton.disabled, true);
@@ -22,11 +23,25 @@ void main() {
     expect(lenraButton.leftIcon, null);
     expect(lenraButton.rightIcon, null);
   });
+
+  testWidgets('Test LenraButton Small size', (WidgetTester tester) async {
+    await tester.pumpWidget(createComponentTestWidgets(
+      LenraButton(
+        text: "Test",
+        size: LenraComponentSize.Small,
+        onPressed: () {},
+      ),
+    ));
+
+    expect(tester.getSize(find.byType(LenraButton)).height, equals(24.0));
+  });
+
   testWidgets('Test LenraButton Medium size', (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(
       LenraButton(
         text: "Test",
         size: LenraComponentSize.Medium,
+        onPressed: () {},
       ),
     ));
 
@@ -38,20 +53,10 @@ void main() {
       LenraButton(
         text: "Test",
         size: LenraComponentSize.Large,
+        onPressed: () {},
       ),
     ));
 
     expect(tester.getSize(find.byType(LenraButton)).height, equals(40.0));
-  });
-
-  testWidgets('Test LenraButton Small size', (WidgetTester tester) async {
-    await tester.pumpWidget(createComponentTestWidgets(
-      LenraButton(
-        text: "Test",
-        size: LenraComponentSize.Small,
-      ),
-    ));
-
-    expect(tester.getSize(find.byType(LenraButton)).height, equals(24.0));
   });
 }

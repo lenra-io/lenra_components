@@ -11,9 +11,9 @@ class LenraRadio<T> extends StatelessWidget {
 
   LenraRadio({
     this.label,
-    this.value,
-    this.groupValue,
-    this.onChanged,
+    @required this.value,
+    @required this.groupValue,
+    @required this.onChanged,
     this.disabled = false,
     Key key,
   }) : super(key: key);

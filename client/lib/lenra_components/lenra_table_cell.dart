@@ -6,15 +6,6 @@ class LenraTableCell extends TableCell {
 
   LenraTableCell({child = const SizedBox.shrink(), this.verticalCenter = false})
       : super(
-          verticalAlignment: verticalCenter ? TableCellVerticalAlignment.middle : TableCellVerticalAlignment.top,
           child: child,
         );
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return TableCell(
-  //     verticalAlignment: verticalCenter ? TableCellVerticalAlignment.middle : TableCellVerticalAlignment.top,
-  //     child: this.child ?? SizedBox.shrink(),
-  //   );
-  // }
 }

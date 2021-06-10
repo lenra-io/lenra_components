@@ -8,7 +8,6 @@ import 'package:fr_lenra_client/lenra_components/theme/lenra_text_theme_data.dar
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
 import 'package:fr_lenra_client/models/auth_model.dart';
-import 'package:fr_lenra_client/utils/form_validators.dart';
 import 'package:provider/provider.dart';
 
 class RegisterForm extends StatefulWidget {
@@ -83,11 +82,7 @@ class _RegisterFormState extends State<RegisterForm> {
             email = value;
           },
           size: LenraComponentSize.Large,
-          validator: validator([
-            checkNotEmpty(),
-            checkLength(min: 2, max: 64),
-            checkEmailFormat(),
-          ]),
+          type: LenraTextFormFieldType.Email,
         ),
         //------Password------
         LenraTextFormField(
@@ -98,11 +93,7 @@ class _RegisterFormState extends State<RegisterForm> {
             password = value;
           },
           size: LenraComponentSize.Large,
-          validator: validator([
-            checkNotEmpty(),
-            checkLength(min: 8, max: 64),
-            checkPassword(),
-          ]),
+          type: LenraTextFormFieldType.Password,
           onSuffixPressed: () {
             setState(() {
               this._hidePassword = !this._hidePassword;

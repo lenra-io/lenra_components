@@ -21,9 +21,11 @@ class SettingsPage extends StatelessWidget {
     return BackofficePage(
       selectedApp: selectedApp,
       title: Text("Settings"),
+      /* TODO: change onPressed function */
       mainActionWidget: LenraButton(
         text: "Publish my application",
         disabled: builds?.any((build) => build.status == BuildStatus.pending) ?? true,
+        onPressed: () {},
       ),
       child: Text(
         "Settings",

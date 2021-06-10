@@ -7,7 +7,6 @@ import 'package:fr_lenra_client/lenra_components/lenra_text_form_field.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_text_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme.dart';
 import 'package:fr_lenra_client/models/auth_model.dart';
-import 'package:fr_lenra_client/utils/form_validators.dart';
 import 'package:provider/provider.dart';
 
 class RecoveryForm extends StatefulWidget {
@@ -46,11 +45,7 @@ class _RecoveryFormState extends State<RecoveryForm> {
             onChanged: (String value) {
               this.email = value;
             },
-            validator: validator([
-              checkNotEmpty(),
-              checkLength(min: 2, max: 64),
-              checkEmailFormat(),
-            ]),
+            type: LenraTextFormFieldType.Email,
           ),
           SizedBox(
             width: double.infinity,

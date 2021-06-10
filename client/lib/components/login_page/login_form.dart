@@ -11,7 +11,6 @@ import 'package:fr_lenra_client/lenra_components/theme/lenra_theme.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
 import 'package:fr_lenra_client/models/auth_model.dart';
 import 'package:fr_lenra_client/navigation/lenra_navigator.dart';
-import 'package:fr_lenra_client/utils/form_validators.dart';
 import 'package:provider/provider.dart';
 
 class LoginForm extends StatefulWidget {
@@ -87,12 +86,8 @@ class _LoginFormState extends State<LoginForm> {
           onChanged: (String value) {
             email = value;
           },
+          type: LenraTextFormFieldType.Email,
           size: LenraComponentSize.Large,
-          validator: validator([
-            checkNotEmpty(),
-            checkLength(min: 2, max: 64),
-            checkEmailFormat(),
-          ]),
         ),
         //------Password------
         LenraTextFormField(
@@ -101,11 +96,8 @@ class _LoginFormState extends State<LoginForm> {
           onChanged: (String value) {
             password = value;
           },
+          type: LenraTextFormFieldType.Password,
           size: LenraComponentSize.Large,
-          validator: validator([
-            checkNotEmpty(),
-            checkLength(min: 8, max: 64),
-          ]),
           onSuffixPressed: () {
             setState(() {
               this._hidePassword = !this._hidePassword;

@@ -4,6 +4,7 @@ import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
 
 class LenraTextFieldThemeData {
   Map<LenraComponentSize, EdgeInsets> paddingMap;
+  /* TODO: rename LenraTheme to lenraThemeData*/
   LenraThemeData lenraTheme;
 
   LenraTextFieldThemeData({
@@ -28,7 +29,7 @@ class LenraTextFieldThemeData {
         borderSide: lenraTheme.lenraBorderThemeData.primaryHoverBorder,
       ),
       errorBorder: OutlineInputBorder(
-        borderSide: lenraTheme.lenraBorderThemeData.secondaryBorder,
+        borderSide: lenraTheme.lenraBorderThemeData.errorBorder,
       ),
       focusedErrorBorder: OutlineInputBorder(
         borderSide: lenraTheme.lenraBorderThemeData.secondaryBorder,

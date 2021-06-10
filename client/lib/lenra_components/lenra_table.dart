@@ -25,17 +25,13 @@ import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
 /// ),
 /// ```
 class LenraTable extends StatelessWidget {
-  // final LenraTableHeadRow head;
   final List<LenraTableRow> children;
-  final bool centerChildren;
   final bool border;
   final LenraComponentSize size;
 
   /// Creates a [LenraTable].
   LenraTable({
-    // this.head,
     this.children,
-    this.centerChildren = false,
     this.border = false,
     this.size = LenraComponentSize.Medium,
   });
@@ -48,15 +44,13 @@ class LenraTable extends StatelessWidget {
     return Table(
       border: border
           ? TableBorder.all(
-              color: lenraTableThemeData.border.primaryBorder.color,
+              color: lenraTableThemeData.getBorderColor(),
             )
           : null,
       children: buildChildren(
-        // head: head,
         children: children,
-        centerChildren: centerChildren ?? false,
         lenraTableThemeData: lenraTableThemeData,
-        padding: lenraTableThemeData.padding.resolve(size),
+        padding: lenraTableThemeData.getPadding(size),
       ),
     );
   }
@@ -64,26 +58,15 @@ class LenraTable extends StatelessWidget {
   /// Returns a [List<TableRow>] of [TableRow] from a [List<LenraTableRow>] of [LenraTableRow].
   /// It is used to match the Flutter's [Table] children property.
   static List<TableRow> buildChildren({
-    // LenraTableHeadRow head,
     List<LenraTableRow> children,
-    bool centerChildren = false,
     LenraTableThemeData lenraTableThemeData,
     EdgeInsetsGeometry padding,
   }) {
-    List<TableRow> tableChildren = [];
-    // (head == null)
-    //     ? []
-    //     : [
-    //         head.toTableHeadRow(
-    //           lenraTableThemeData: lenraTableThemeData,
-    //         ),
-    //       ];
-    tableChildren.addAll(children
+    return children
         .map((lenraTableRow) => lenraTableRow.toTableRow(
-              center: centerChildren,
               padding: padding,
+              theme: lenraTableThemeData,
             ))
-        .toList());
-    return tableChildren;
+        .toList();
   }
 }

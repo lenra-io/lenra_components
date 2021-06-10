@@ -1,12 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_text_field.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
+import 'package:fr_lenra_client/utils/form_validators.dart';
+
+enum LenraTextFormFieldType {
+  Password,
+  Email,
+}
+
+Function emailValidator(Function aditionalValidator) {
+  return validator(
+    [
+      checkNotEmpty(),
+      checkLength(min: 2, max: 64),
+      checkEmailFormat(),
+      (aditionalValidator != null) ? aditionalValidator() : (String value) {},
+    ],
+  );
+}
+
+Function passwordValidator(Function aditionalValidator) {
+  return validator(
+    [
+      checkNotEmpty(),
+      checkLength(min: 8, max: 64),
+      checkPassword(),
+      (aditionalValidator != null) ? aditionalValidator() : (String value) {},
+    ],
+  );
+}
 
 class LenraTextFormField extends FormField<String> {
   final String label;
   final String hintText;
   final String description;
   final String errorMessage;
+  final LenraTextFormFieldType type;
   final bool obscure;
   final bool disabled;
   final bool inRow;
@@ -17,7 +46,6 @@ class LenraTextFormField extends FormField<String> {
   final Function onSuffixPressed;
   final double width;
   final FocusNode focusNode;
-  final TextEditingController controller;
 
   LenraTextFormField({
     Key key,
@@ -27,6 +55,7 @@ class LenraTextFormField extends FormField<String> {
     this.hintText = "",
     this.description = "",
     this.errorMessage,
+    this.type,
     this.obscure = false,
     this.disabled = false,
     this.inRow = false,
@@ -37,11 +66,14 @@ class LenraTextFormField extends FormField<String> {
     this.onSuffixPressed,
     this.width,
     this.focusNode,
-    this.controller,
   }) : super(
           key: key,
           initialValue: initialValue,
-          validator: validator,
+          validator: (type == LenraTextFormFieldType.Email)
+              ? emailValidator(validator)
+              : (type == LenraTextFormFieldType.Password)
+                  ? passwordValidator(validator)
+                  : validator,
           builder: (FormFieldState field) {
             return LenraTextField(
               label: label,
@@ -52,13 +84,10 @@ class LenraTextFormField extends FormField<String> {
               disabled: disabled,
               inRow: inRow,
               error: field.hasError,
-              onEditingComplete: onEditingComplete,
-              onSubmitted: onSubmitted,
               onChanged: field.didChange,
               size: size,
               width: width,
               focusNode: focusNode,
-              controller: controller,
               onSuffixPressed: onSuffixPressed,
             );
           },
