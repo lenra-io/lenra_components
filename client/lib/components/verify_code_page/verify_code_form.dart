@@ -12,7 +12,7 @@ class VerifyCodeForm extends StatefulWidget {
 
 class _VerifyCodeFormState extends State<VerifyCodeForm> {
   final _formKey = GlobalKey<FormState>();
-  String code;
+  String code = "";
 
   @override
   void initState() {
@@ -44,7 +44,7 @@ class _VerifyCodeFormState extends State<VerifyCodeForm> {
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: ElevatedButton(
         onPressed: () {
-          if (_formKey.currentState.validate()) {
+          if (_formKey.currentState!.validate()) {
             context.read<AuthModel>().validateUser(code);
           }
         },

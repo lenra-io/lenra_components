@@ -10,12 +10,12 @@ class LenraFlex extends StatelessWidget {
   final Axis direction;
 
   LenraFlex({
-    Key key,
+    Key? key,
     this.separationFactor = 1,
     this.fillParent: false,
-    this.children,
+    required this.children,
     this.crossAxisAlignment = CrossAxisAlignment.center,
-    @required this.direction,
+    required this.direction,
   }) : super(key: key);
 
   @override

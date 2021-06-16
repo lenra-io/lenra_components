@@ -19,17 +19,15 @@ class RegisterForm extends StatefulWidget {
 
 class _RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
-  String email;
-  String password;
+  String email = "";
+  String password = "";
 
   bool _hidePassword = true;
-
-  String getPassword() => this.password;
 
   @override
   Widget build(BuildContext context) {
     final LenraTextThemeData finalLenraTextThemeData = LenraTheme.of(context).lenraTextThemeData;
-    ApiErrors registerErrors = context.select<AuthModel, ApiErrors>((m) => m.registerStatus.errors);
+    ApiErrors? registerErrors = context.select<AuthModel, ApiErrors?>((m) => m.registerStatus.errors);
     return Form(
       key: _formKey,
       child: LenraColumn(
@@ -57,7 +55,7 @@ class _RegisterFormState extends State<RegisterForm> {
       child: LoadingButton(
         text: "Créer mon compte Lenra",
         onPressed: () async {
-          if (_formKey.currentState.validate()) {
+          if (_formKey.currentState!.validate()) {
             try {
               var authModel = context.read<AuthModel>();
               await authModel.register(this.email, this.password);

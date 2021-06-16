@@ -20,11 +20,11 @@ class ActivationCodePage extends StatefulWidget {
 }
 
 class _ActivationCodePageState extends State<ActivationCodePage> {
-  String code;
+  String code = "";
 
   @override
   Widget build(BuildContext context) {
-    ApiErrors validateDevErrors = context.select<AuthModel, ApiErrors>((m) => m.validateDevStatus.errors);
+    ApiErrors? validateDevErrors = context.select<AuthModel, ApiErrors?>((m) => m.validateDevStatus.errors);
     bool hasError = context.select<AuthModel, bool>((m) => m.validateDevStatus.hasError());
     bool isLoading = context.select<AuthModel, bool>((m) => m.validateDevStatus.isFetching());
 

@@ -5,7 +5,7 @@ import 'package:fr_lenra_client/components/page/simple_page.dart';
 class ChangeLostPasswordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final String email = ModalRoute.of(context).settings.arguments;
+    final String email = ModalRoute.of(context)?.settings.arguments as String;
     return SimplePage(
       title: "Re-définissez un mot de passe pour votre compte Lenra",
       child: ChangeLostPasswordForm(email: email),

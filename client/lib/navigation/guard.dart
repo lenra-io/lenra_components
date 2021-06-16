@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/api/response_models/app_response.dart';
 import 'package:fr_lenra_client/api/response_models/user.dart';
@@ -10,7 +12,7 @@ class Guard {
   Future<bool> Function(BuildContext) isValid;
   Function(BuildContext) onInvalid;
 
-  Guard({@required this.isValid, @required this.onInvalid});
+  Guard({required this.isValid, required this.onInvalid});
 
   static const List<UserRole> _devOrMore = [UserRole.admin, UserRole.dev];
 
@@ -24,13 +26,14 @@ class Guard {
   static Future<bool> Function(BuildContext) _isAuthenticated(bool mustBeAuthenticated) {
     return (BuildContext context) async {
       AuthModel authModel = context.read<AuthModel>();
-      if (!authModel.isAuthenticated()) {
-        if (authModel.refreshStatus.isNone())
+      if (!authModel.isAuthenticated() && authModel.refreshStatus.isNone()) {
+        await authModel.refresh().catchError((e) {});
+        /*if (authModel.refreshStatus.isNone())
           // Try to auth user with refresh token
           await authModel.refresh().catchError((e) => null);
         else if (authModel.refreshStatus.isFetching())
           // Wait current refresh response
-          await authModel.refreshStatus.wait().catchError((e) => null);
+          await authModel.refreshStatus.wait().catchError((e) => null);*/
       }
       // then check everything
       return authModel.isAuthenticated() == mustBeAuthenticated;

@@ -6,66 +6,71 @@ import 'package:fr_lenra_client/utils/form_validators.dart';
 enum LenraTextFormFieldType {
   Password,
   Email,
+  Normal,
 }
 
-Function emailValidator(Function aditionalValidator) {
+Function emailValidator(Function? aditionalValidator) {
   return validator(
     [
       checkNotEmpty(),
       checkLength(min: 2, max: 64),
       checkEmailFormat(),
-      (aditionalValidator != null) ? aditionalValidator() : (String value) {},
+      (aditionalValidator != null)
+          ? aditionalValidator()
+          : (String? value) {},
     ],
   );
 }
 
-Function passwordValidator(Function aditionalValidator) {
+Function passwordValidator(Function? aditionalValidator) {
   return validator(
     [
       checkNotEmpty(),
       checkLength(min: 8, max: 64),
       checkPassword(),
-      (aditionalValidator != null) ? aditionalValidator() : (String value) {},
+      (aditionalValidator != null)
+          ? aditionalValidator()
+          : (String? value) {},
     ],
   );
 }
 
 class LenraTextFormField extends FormField<String> {
-  final String label;
-  final String hintText;
-  final String description;
-  final String errorMessage;
+  final String? label;
+  final String? hintText;
+  final String? description;
+  final String? errorMessage;
   final LenraTextFormFieldType type;
   final bool obscure;
   final bool disabled;
   final bool inRow;
-  final Function onEditingComplete;
-  final Function(String) onSubmitted;
-  final Function(String) onChanged;
+  final void Function(String)? onSubmitted;
+  final void Function(String)? onChanged;
+  final void Function()? onSuffixPressed;
   final LenraComponentSize size;
-  final Function onSuffixPressed;
   final double width;
-  final FocusNode focusNode;
+  final FocusNode? focusNode;
+  final TextEditingController? controller;
 
   LenraTextFormField({
-    Key key,
+    Key? key,
     String initialValue = "",
     validator,
     this.label = "",
     this.hintText = "",
     this.description = "",
     this.errorMessage,
-    this.type,
+    this.type = LenraTextFormFieldType.Normal,
     this.obscure = false,
     this.disabled = false,
     this.inRow = false,
-    this.onEditingComplete,
     this.onSubmitted,
     this.onChanged,
     this.size = LenraComponentSize.Medium,
     this.onSuffixPressed,
-    this.width,
+    this.width = double.infinity,
     this.focusNode,
+    this.controller,
   }) : super(
           key: key,
           initialValue: initialValue,
@@ -98,13 +103,12 @@ class LenraTextFormField extends FormField<String> {
 
 class _LenraTextFormField extends FormFieldState<String> {
   @override
-  LenraTextFormField get widget => super.widget;
+  LenraTextFormField get widget => super.widget as LenraTextFormField;
 
   @override
-  void didChange(String value) {
+  void didChange(String? value) {
     super.didChange(value);
-    if (widget.onChanged != null) {
-      widget.onChanged(value);
-    }
+    if (widget.onChanged == null || value == null) return;
+    widget.onChanged!(value);
   }
 }

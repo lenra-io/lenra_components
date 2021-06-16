@@ -8,13 +8,13 @@ class LenraTableRow extends TableRow {
   final bool header;
 
   LenraTableRow({
-    this.children,
+    required this.children,
     this.header = false,
   });
 
   TableRow toTableRow({
-    EdgeInsetsGeometry padding,
-    LenraTableThemeData theme,
+    required EdgeInsetsGeometry padding,
+    required LenraTableThemeData theme,
   }) {
     List<Widget> res = children;
 

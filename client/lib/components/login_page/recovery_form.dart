@@ -18,7 +18,7 @@ class RecoveryForm extends StatefulWidget {
 
 class _RecoveryFormState extends State<RecoveryForm> {
   final _formKey = GlobalKey<FormState>();
-  String email;
+  String email = "";
 
   @override
   void initState() {
@@ -28,8 +28,8 @@ class _RecoveryFormState extends State<RecoveryForm> {
   @override
   Widget build(BuildContext context) {
     final LenraTextThemeData finalLenraTextThemeData = LenraTheme.of(context).lenraTextThemeData;
-    ApiErrors askCodeLostPasswordErrors =
-        context.select<AuthModel, ApiErrors>((m) => m.askCodeLostPasswordStatus.errors);
+    ApiErrors? askCodeLostPasswordErrors =
+        context.select<AuthModel, ApiErrors?>((m) => m.askCodeLostPasswordStatus.errors);
     return Form(
       key: _formKey,
       child: LenraColumn(
@@ -52,7 +52,7 @@ class _RecoveryFormState extends State<RecoveryForm> {
             child: LenraButton(
               text: "Je ré-initialise mon mot de passe",
               onPressed: () {
-                if (_formKey.currentState.validate()) {
+                if (_formKey.currentState!.validate()) {
                   context.read<AuthModel>().askCodeLostPassword(this.email);
                 }
               },

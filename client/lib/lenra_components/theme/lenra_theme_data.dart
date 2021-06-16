@@ -22,27 +22,27 @@ enum LenraComponentType {
 
 class LenraThemeData {
   final double baseSize;
-  Map<LenraComponentSize, EdgeInsets> paddingMap;
-  LenraColorThemeData lenraColorThemeData;
-  LenraTextThemeData lenraTextThemeData;
-  LenraBorderThemeData lenraBorderThemeData;
-  LenraButtonThemeData lenraButtonThemeData;
-  LenraRadioThemeData lenraRadioThemeData;
-  LenraCheckboxThemeData lenraCheckboxThemeData;
-  LenraTextFieldThemeData lenraTextFieldThemeData;
-  LenraTableThemeData lenraTableThemeData;
+  late Map<LenraComponentSize, EdgeInsets> paddingMap;
+  late LenraColorThemeData lenraColorThemeData;
+  late LenraTextThemeData lenraTextThemeData;
+  late LenraBorderThemeData lenraBorderThemeData;
+  late LenraButtonThemeData lenraButtonThemeData;
+  late LenraRadioThemeData lenraRadioThemeData;
+  late LenraCheckboxThemeData lenraCheckboxThemeData;
+  late LenraTextFieldThemeData lenraTextFieldThemeData;
+  late LenraTableThemeData lenraTableThemeData;
 
   LenraThemeData({
     this.baseSize = 8,
-    Map<LenraComponentSize, EdgeInsets> paddingMap,
-    LenraColorThemeData lenraColorThemeData,
-    LenraTextThemeData lenraTextThemeData,
-    LenraBorderThemeData lenraBorderThemeData,
-    LenraButtonThemeData lenraButtonThemeData,
-    LenraRadioThemeData lenraRadioThemeData,
-    LenraCheckboxThemeData lenraCheckboxThemeData,
-    LenraTextFieldThemeData lenraTextFieldThemeData,
-    LenraTableThemeData lenraTableThemeData,
+    Map<LenraComponentSize, EdgeInsets>? paddingMap,
+    LenraColorThemeData? lenraColorThemeData,
+    LenraTextThemeData? lenraTextThemeData,
+    LenraBorderThemeData? lenraBorderThemeData,
+    LenraButtonThemeData? lenraButtonThemeData,
+    LenraRadioThemeData? lenraRadioThemeData,
+    LenraCheckboxThemeData? lenraCheckboxThemeData,
+    LenraTextFieldThemeData? lenraTextFieldThemeData,
+    LenraTableThemeData? lenraTableThemeData,
   }) {
     this.paddingMap = paddingMap ??
         {
@@ -80,15 +80,15 @@ class LenraThemeData {
   }
 
   copyWith({
-    double baseSize,
-    Map<LenraComponentSize, EdgeInsets> paddingMap,
-    LenraColorThemeData lenraColorThemeData,
-    LenraTextThemeData lenraTextThemeData,
-    LenraBorderThemeData lenraBorderThemeData,
-    LenraButtonThemeData lenraButtonThemeData,
-    LenraRadioThemeData lenraRadioThemeData,
-    LenraCheckboxThemeData lenraCheckboxThemeData,
-    LenraTextFieldThemeData lenraTextFieldThemeData,
+    double? baseSize,
+    Map<LenraComponentSize, EdgeInsets>? paddingMap,
+    LenraColorThemeData? lenraColorThemeData,
+    LenraTextThemeData? lenraTextThemeData,
+    LenraBorderThemeData? lenraBorderThemeData,
+    LenraButtonThemeData? lenraButtonThemeData,
+    LenraRadioThemeData? lenraRadioThemeData,
+    LenraCheckboxThemeData? lenraCheckboxThemeData,
+    LenraTextFieldThemeData? lenraTextFieldThemeData,
   }) {
     return LenraThemeData(
       baseSize: baseSize ?? this.baseSize,

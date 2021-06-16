@@ -9,7 +9,7 @@ class LenraUiBuilder extends StatefulWidget {
   final StreamController<Map<String, dynamic>> uiStream;
   final StreamController<Iterable<UiPatchEvent>> patchUiStream;
 
-  LenraUiBuilder({this.uiStream, this.patchUiStream}) : super();
+  LenraUiBuilder({required this.uiStream, required this.patchUiStream}) : super();
 
   @override
   State<StatefulWidget> createState() {
@@ -79,16 +79,20 @@ class LenraUiBuilderState extends State<LenraUiBuilder> {
   }
 
   void addOperation(UiPatchEvent patch) {
+    Map<String, dynamic>? properties = this.componentsProperties[patch.id];
+    if (properties == null) return;
+
     if (patch.propertyPathList.last == "children") {
       List<String> newChildrenProps = this.registerChildren(patch.value as List, patch.id);
+
       this.setProperty(
-        this.componentsProperties[patch.id],
+        properties,
         patch.propertyPathList,
         newChildrenProps,
       );
     } else {
       this.setProperty(
-        this.componentsProperties[patch.id],
+        properties,
         patch.propertyPathList,
         patch.value,
       );
@@ -96,7 +100,9 @@ class LenraUiBuilderState extends State<LenraUiBuilder> {
   }
 
   void removeOperation(UiPatchEvent patch) {
-    this.removeProperty(this.componentsProperties[patch.id], patch.propertyPathList);
+    Map<String, dynamic>? properties = this.componentsProperties[patch.id];
+    if (properties == null) return;
+    this.removeProperty(properties, patch.propertyPathList);
   }
 
   void removeProperty(Map<String, dynamic> properties, List<String> propertyPathList) {
@@ -116,12 +122,19 @@ class LenraUiBuilderState extends State<LenraUiBuilder> {
   }
 
   void addChildOperation(UiPatchEvent patch) {
-    this.registerComponent(patch.value as Map<String, dynamic>, patch.childId);
-    (this.componentsProperties[patch.id]["children"] as List).insert(patch.childIndex, patch.childId);
+    Map<String, dynamic>? properties = this.componentsProperties[patch.id];
+    if (properties == null) return;
+    if (patch.childId == null) return;
+
+    this.registerComponent(patch.value as Map<String, dynamic>, patch.childId!);
+    (properties["children"] as List?)?.insert(patch.childIndex, patch.childId);
   }
 
   void removeChildOperation(UiPatchEvent patch) {
-    String childId = (this.componentsProperties[patch.id]["children"] as List).removeAt(patch.childIndex);
+    Map<String, dynamic>? properties = this.componentsProperties[patch.id];
+    if (properties == null) return;
+
+    dynamic childId = (properties["children"] as List?)?.removeAt(patch.childIndex);
     this.wrappers.remove(childId);
   }
 
@@ -158,19 +171,27 @@ class LenraUiBuilderState extends State<LenraUiBuilder> {
     });
 
     widgetToUpdate.forEach((String id) {
-      updateWidgetStream.add(UpdatePropsEvent(id, this.componentsProperties[id]));
+      Map<String, dynamic>? properties = this.componentsProperties[id];
+      if (properties != null) updateWidgetStream.add(UpdatePropsEvent(id, properties));
     });
   }
 
   List<Widget> getChildrenWidgets(List<String> ids) {
-    return ids.map((id) => wrappers[id]).toList();
+    List<Widget> childrenWidgets = [];
+
+    ids.forEach((id) {
+      if (wrappers.containsKey(id)) {
+        childrenWidgets.add(wrappers[id]!);
+      }
+    });
+    return childrenWidgets;
   }
 
   @override
   Widget build(BuildContext context) {
     Widget app;
     if (wrappers.containsKey("/root")) {
-      app = wrappers["/root"];
+      app = wrappers["/root"]!;
     } else {
       app = Center(
         child: Text("No base component"),

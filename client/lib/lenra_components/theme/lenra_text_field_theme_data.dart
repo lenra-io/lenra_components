@@ -8,11 +8,11 @@ class LenraTextFieldThemeData {
   LenraThemeData lenraTheme;
 
   LenraTextFieldThemeData({
-    this.lenraTheme,
-    this.paddingMap,
+    required this.lenraTheme,
+    required this.paddingMap,
   });
-  InputDecoration getInputdecoration(LenraComponentSize size, bool disabled, String hintText, bool error, bool obscure,
-      Function onSuffixPressed, String errorMessage) {
+  InputDecoration getInputdecoration(LenraComponentSize size, bool disabled, String? hintText, bool error, bool obscure,
+      void Function()? onSuffixPressed, String? errorMessage) {
     return InputDecoration(
       contentPadding: paddingMap[size],
       isDense: true,
@@ -47,9 +47,7 @@ class LenraTextFieldThemeData {
                 obscure ? Icons.visibility_off : Icons.visibility,
               ),
               color: lenraTheme.lenraBorderThemeData.primaryBorder.color,
-              onPressed: () {
-                onSuffixPressed();
-              },
+              onPressed: onSuffixPressed,
             )
           : null,
     );

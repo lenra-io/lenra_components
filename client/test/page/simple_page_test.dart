@@ -19,7 +19,9 @@ void main() {
   testWidgets('SimplePage with title', (WidgetTester tester) async {
     var title = "My title";
 
-    await tester.pumpWidget(createAppTestWidgets(SimplePage(title: title)));
+    await tester.pumpWidget(createAppTestWidgets(SimplePage(
+      title: title,
+    )));
 
     final widgetFinder = find.byType(SimplePage);
     final logoFinder = find.byType(Image);

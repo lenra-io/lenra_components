@@ -9,18 +9,18 @@ import 'package:phoenix_wings/phoenix_wings.dart';
 
 class LenraSocketModel extends ChangeNotifier {
   AuthModel authModel;
-  PhoenixSocket _socket;
+  late PhoenixSocket _socket;
   LenraSocketModel(this.authModel) {
     this._updateSocket();
   }
 
   void _updateSocket() {
-    this._socket?.disconnect();
+    this._socket.disconnect();
 
     if (this.authModel.isAuthenticated()) {
       this._socket = createPhoenixSocket(
         Config.instance.wsEndpoint,
-        {"token": this.authModel.accessToken},
+        {"token": this.authModel.accessToken!},
       );
       this._socket.connect();
     }

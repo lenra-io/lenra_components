@@ -2,32 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_color_theme_data.dart';
 
 class LenraBorderThemeData {
-  BorderRadius borderRadius;
-  BorderSide primaryBorder;
-  BorderSide primaryHoverBorder;
-  BorderSide primaryDisabledBorder;
+  late BorderRadius borderRadius;
+  late BorderSide primaryBorder;
+  late BorderSide primaryHoverBorder;
+  late BorderSide primaryDisabledBorder;
 
-  BorderSide secondaryBorder;
-  BorderSide secondaryHoverBorder;
-  BorderSide secondaryDisabledBorder;
+  late BorderSide secondaryBorder;
+  late BorderSide secondaryHoverBorder;
+  late BorderSide secondaryDisabledBorder;
 
-  BorderSide tertiaryBorder;
-  BorderSide tertiaryHoverBorder;
-  BorderSide tertiaryDisabledBorder;
+  late BorderSide? tertiaryBorder;
+  late BorderSide? tertiaryHoverBorder;
+  late BorderSide? tertiaryDisabledBorder;
 
-  BorderSide errorBorder;
+  late BorderSide errorBorder;
 
   LenraBorderThemeData({
-    BorderRadius borderRadius,
-    BorderSide primaryBorder,
-    BorderSide primaryHoverBorder,
-    BorderSide primaryDisabledBorder,
-    BorderSide secondaryBorder,
-    BorderSide secondaryHoverBorder,
-    BorderSide secondaryDisabledBorder,
-    BorderSide tertiaryBorder,
-    BorderSide tertiaryHoverBorder,
-    BorderSide tertiaryDisabledBorder,
+    BorderRadius? borderRadius,
+    BorderSide? primaryBorder,
+    BorderSide? primaryHoverBorder,
+    BorderSide? primaryDisabledBorder,
+    BorderSide? secondaryBorder,
+    BorderSide? secondaryHoverBorder,
+    BorderSide? secondaryDisabledBorder,
+    BorderSide? tertiaryBorder,
+    BorderSide? tertiaryHoverBorder,
+    BorderSide? tertiaryDisabledBorder,
+    BorderSide? errorBorder,
   }) {
     /* TODO: set default value for all border*/
     this.borderRadius = borderRadius ?? BorderRadius.circular(4.0);
@@ -38,23 +39,23 @@ class LenraBorderThemeData {
     this.secondaryHoverBorder = secondaryHoverBorder ?? BorderSide(color: LenraColorThemeData.LENRA_BLUE);
     this.secondaryDisabledBorder =
         secondaryDisabledBorder ?? BorderSide(color: LenraColorThemeData.LENRA_BLUE_UNAVAILABLE);
-    this.tertiaryBorder = tertiaryBorder ?? null;
-    this.tertiaryHoverBorder = tertiaryHoverBorder ?? null;
-    this.tertiaryDisabledBorder = tertiaryDisabledBorder ?? null;
+    this.tertiaryBorder = tertiaryBorder;
+    this.tertiaryHoverBorder = tertiaryHoverBorder;
+    this.tertiaryDisabledBorder = tertiaryDisabledBorder;
     this.errorBorder = errorBorder ?? BorderSide(color: LenraColorThemeData.LENRA_CUSTOM_RED);
   }
 
   copyWith({
-    BorderRadius borderRadius,
-    BorderSide primaryBorder,
-    BorderSide primaryHoverBorder,
-    BorderSide primaryDisabledBorder,
-    BorderSide secondaryBorder,
-    BorderSide secondaryHoverBorder,
-    BorderSide secondaryDisabledBorder,
-    BorderSide tertiaryBorder,
-    BorderSide tertiaryHoverBorder,
-    BorderSide tertiaryDisabledBorder,
+    BorderRadius? borderRadius,
+    BorderSide? primaryBorder,
+    BorderSide? primaryHoverBorder,
+    BorderSide? primaryDisabledBorder,
+    BorderSide? secondaryBorder,
+    BorderSide? secondaryHoverBorder,
+    BorderSide? secondaryDisabledBorder,
+    BorderSide? tertiaryBorder,
+    BorderSide? tertiaryHoverBorder,
+    BorderSide? tertiaryDisabledBorder,
   }) {
     return LenraBorderThemeData(
       borderRadius: borderRadius ?? this.borderRadius,

@@ -29,8 +29,7 @@ class LenraWrapper extends StatefulWidget {
   final Map<String, dynamic> initialProperties;
   final String id;
 
-  LenraWrapper(this.id, this.lenraUiBuilderState, this.initialProperties, {Key key})
-      : super(key: key);
+  LenraWrapper(this.id, this.lenraUiBuilderState, this.initialProperties, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -40,8 +39,8 @@ class LenraWrapper extends StatefulWidget {
 
 class LenraWrapperState extends State<LenraWrapper> {
   //? This is the Json representation of the Lenra UIComponent
-  Map<Symbol, dynamic> parsedProps;
-  LenraComponentBuilder componentBuilder;
+  late Map<Symbol, dynamic> parsedProps;
+  late LenraComponentBuilder componentBuilder;
 
   @override
   void initState() {
@@ -55,13 +54,15 @@ class LenraWrapperState extends State<LenraWrapper> {
   }
 
   void parseProps(Map<String, dynamic> properties) {
-    this.componentBuilder =
-        LenraComponentWrapperExt.componentsMapping[properties['type'] as String];
+    String? type = properties['type'] as String?;
+    if (type == null) throw "No type in component. It should never happen";
+    if (!LenraComponentWrapperExt.componentsMapping.containsKey(type))
+      throw "Componnent mapping does not handle type $type";
+    this.componentBuilder = LenraComponentWrapperExt.componentsMapping[type]!;
     this.parsedProps = Parser.parseProps(properties, this.componentBuilder.propsTypes);
 
     if (properties["children"] != null) {
-      this.parsedProps[Symbol("children")] =
-          widget.lenraUiBuilderState.getChildrenWidgets(properties["children"]);
+      this.parsedProps[Symbol("children")] = widget.lenraUiBuilderState.getChildrenWidgets(properties["children"]);
     }
   }
 

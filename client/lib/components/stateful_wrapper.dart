@@ -7,7 +7,10 @@ typedef Widget Builder(BuildContext context);
 class StatefulWrapper extends StatefulWidget {
   final Function onInit;
   final Builder builder;
-  const StatefulWrapper({@required this.onInit, @required this.builder});
+  const StatefulWrapper({
+    required this.onInit,
+    required this.builder,
+  });
   @override
   _StatefulWrapperState createState() => _StatefulWrapperState();
 }
@@ -15,9 +18,7 @@ class StatefulWrapper extends StatefulWidget {
 class _StatefulWrapperState extends State<StatefulWrapper> {
   @override
   void initState() {
-    if (widget.onInit != null) {
-      widget.onInit();
-    }
+    widget.onInit();
     super.initState();
   }
 

@@ -6,26 +6,26 @@ import 'package:fr_lenra_client/lenra_components/theme/lenra_theme.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
 
 class LenraTextField extends StatelessWidget {
-  final String label;
-  final String hintText;
-  final String description;
-  final String errorMessage;
+  final String? label;
+  final String? hintText;
+  final String? description;
+  final String? errorMessage;
   final bool obscure;
   final bool disabled;
   final bool inRow;
   final bool error;
-  final Function(String) onChanged;
-  final Function(String) onSubmitted;
+  final void Function(String)? onSubmitted;
+  final void Function(String)? onChanged;
+  final void Function()? onSuffixPressed;
   final LenraComponentSize size;
-  final Function onSuffixPressed;
   final double width;
-  final FocusNode focusNode;
-  final TextEditingController controller;
+  final FocusNode? focusNode;
+  final TextEditingController? controller;
 
   LenraTextField({
-    this.label = "",
-    this.hintText = "",
-    this.description = "",
+    this.label,
+    this.hintText,
+    this.description,
     this.errorMessage,
     this.obscure = false,
     this.disabled = false,
@@ -45,10 +45,10 @@ class LenraTextField extends StatelessWidget {
     final theme = LenraTheme.of(context);
     final LenraTextFieldThemeData lenraTextFieldThemeData = theme.lenraTextFieldThemeData;
 
-    Text labelWidget = (this.label == null || this.label.isEmpty)
+    Text? labelWidget = (this.label == null || this.label!.isEmpty)
         ? null
         : Text(
-            this.label,
+            this.label!,
             style: lenraTextFieldThemeData.getLabelStyle(),
             textAlign: TextAlign.left,
           );
@@ -71,9 +71,9 @@ class LenraTextField extends StatelessWidget {
       if (labelWidget != null) colChildren.add(labelWidget);
       colChildren.add(textField);
     }
-    if (this.description != null && this.description.isNotEmpty && !this.error) {
+    if (this.description != null && this.description!.isNotEmpty && !this.error) {
       colChildren.add(Text(
-        this.description,
+        this.description!,
         style: lenraTextFieldThemeData.getDescriptionStyle(),
         textAlign: TextAlign.left,
       ));
@@ -86,7 +86,7 @@ class LenraTextField extends StatelessWidget {
       );
     }
     return SizedBox(
-      width: width != null && width > 0 && width != double.infinity ? width : double.infinity,
+      width: width > 0 ? width : double.infinity,
       child: textField,
     );
   }

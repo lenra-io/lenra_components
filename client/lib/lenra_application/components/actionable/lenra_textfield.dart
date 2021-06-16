@@ -20,6 +20,7 @@ class LenraTextfieldBuilder extends LenraComponentBuilder<LenraApplicationTextfi
     error,
     width,
     listeners,
+    size,
   }) {
     return LenraApplicationTextfield(
       value: value,
@@ -33,6 +34,7 @@ class LenraTextfieldBuilder extends LenraComponentBuilder<LenraApplicationTextfi
       error: error,
       width: width,
       listeners: listeners,
+      size: size,
     );
   }
 
@@ -49,40 +51,40 @@ class LenraTextfieldBuilder extends LenraComponentBuilder<LenraApplicationTextfi
       "error": "bool",
       "width": "double",
       "listeners": "Map<String, dynamic>",
+      "size": "LenraComponentSize"
     };
   }
 }
 
 // ignore: must_be_immutable
 class LenraApplicationTextfield extends StatelessLenraComponent implements LenraActionable {
-  String value;
-  String label;
-  String hintText;
-  String description;
-  String errorMessage;
-  bool obscure;
-  bool disabled;
-  bool inRow;
-  bool error;
-  double width;
-  LenraComponentSize size;
-  final Map<String, dynamic> listeners;
+  String? label;
+  String? hintText;
+  String? description;
+  String? errorMessage;
+  bool? obscure;
+  bool? disabled;
+  bool? inRow;
+  bool? error;
+  double? width;
+  LenraComponentSize? size;
+  final Map<String, dynamic>? listeners;
   final FocusNode _focusNode;
   final TextEditingController _controller;
 
   LenraApplicationTextfield({
-    String value,
-    this.label,
-    this.hintText,
-    this.description,
-    this.errorMessage,
-    this.obscure,
-    this.disabled,
-    this.inRow,
-    this.error,
-    this.width,
-    this.size,
-    this.listeners,
+    required String value,
+    required this.label,
+    required this.hintText,
+    required this.description,
+    required this.errorMessage,
+    required this.obscure,
+    required this.disabled,
+    required this.inRow,
+    required this.error,
+    required this.width,
+    required this.size,
+    required this.listeners,
   })  : this._controller = TextEditingController(text: value),
         this._focusNode = FocusNode(),
         super();
@@ -99,11 +101,9 @@ class LenraApplicationTextfield extends StatelessLenraComponent implements Lenra
       inRow: this.inRow ?? false,
       error: this.error ?? false,
       onSubmitted: (value) {
-        if (this.listeners != null) {
-          final Map<String, dynamic> listener = this.listeners['onChange'];
-          if (listener != null) {
-            LenraOnEditEvent(code: listener['code'], event: {'value': value}).dispatch(context);
-          }
+        final Map<String, String>? listener = this.listeners?['onChange'];
+        if (listener != null && listener.containsKey("code")) {
+          LenraOnEditEvent(code: listener['code']!, event: {'value': value}).dispatch(context);
         }
       },
       size: this.size ?? LenraComponentSize.Medium,

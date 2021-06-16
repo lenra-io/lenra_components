@@ -3,15 +3,16 @@ import 'package:fr_lenra_client/lenra_components/theme/lenra_checkbox_theme_data
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme.dart';
 
 class LenraCheckbox extends StatelessWidget {
-  final String label;
+  final String? label;
   final bool value;
   final bool disabled;
-  final Function onChanged;
+
+  final void Function(bool?)? onChanged;
 
   LenraCheckbox({
-    Key key,
-    this.label = "",
-    this.value = false,
+    Key? key,
+    this.label,
+    required this.value,
     this.disabled = false,
     @required this.onChanged,
   }) : super(key: key);
@@ -22,7 +23,7 @@ class LenraCheckbox extends StatelessWidget {
 
     Widget checkbox = Checkbox(
       value: this.value,
-      onChanged: this.disabled ? () {} : this.onChanged ?? (e) => null,
+      onChanged: this.disabled ? (e) {} : this.onChanged ?? (e) => null,
       tristate: true,
     );
     if (this.label == null) {
@@ -33,7 +34,7 @@ class LenraCheckbox extends StatelessWidget {
       children: [
         checkbox,
         Text(
-          this.label,
+          this.label!,
           style: finalLenraCheckboxThemeData.getTextStyle(disabled),
         ),
       ],

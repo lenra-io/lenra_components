@@ -35,7 +35,7 @@ class LenraNavigator {
   static const String FIRST_PROJECT = "/first-project";
   static const String SETTINGS = "/settings";
 
-  static String currentRoute;
+  static String? currentRoute;
 
   static final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
@@ -120,7 +120,7 @@ class LenraNavigator {
         ),
   };
 
-  static Widget _getPageForRoutes(
+  static Widget? _getPageForRoutes(
     List<String> currentRouteParts,
     String route,
     CustomPageBuilder routeBuilder,
@@ -140,10 +140,10 @@ class LenraNavigator {
     return routeBuilder(params);
   }
 
-  static Widget _getFirstMatchingPage(String currentRoute) {
-    List<String> currentRouteParts = currentRoute.split('/');
+  static Widget? _getFirstMatchingPage(String route) {
+    List<String> currentRouteParts = route.split('/');
     for (MapEntry<String, CustomPageBuilder> entry in routes.entries) {
-      Widget page = _getPageForRoutes(currentRouteParts, entry.key, entry.value);
+      Widget? page = _getPageForRoutes(currentRouteParts, entry.key, entry.value);
       if (page != null) {
         return page;
       }
@@ -151,10 +151,11 @@ class LenraNavigator {
     return null;
   }
 
-  static Route<dynamic> handleGenerateRoute(RouteSettings settings) {
+  static Route<dynamic>? handleGenerateRoute(RouteSettings settings) {
     debugPrint("route: ${settings.name}");
-    currentRoute = settings.name;
-    Widget page = _getFirstMatchingPage(settings.name);
+    LenraNavigator.currentRoute = settings.name;
+    if (settings.name == null) return null;
+    Widget? page = _getFirstMatchingPage(settings.name!);
     if (page == null) return null;
     return PageRouteBuilder(
       pageBuilder: (BuildContext context, _a, _b) {

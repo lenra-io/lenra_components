@@ -21,13 +21,13 @@ class LenraContainerBuilder extends LenraComponentBuilder<LenraContainer> {
 
 class LenraContainer extends StatelessLenraComponent {
   final List<Widget> children;
-  final Color backgroundColor;
-  final String direction;
+  final Color? backgroundColor;
+  final String? direction;
 
   LenraContainer({
-    this.children = const [],
-    this.backgroundColor,
-    this.direction,
+    required this.children,
+    required this.backgroundColor,
+    required this.direction,
   }) : super();
 
   @override

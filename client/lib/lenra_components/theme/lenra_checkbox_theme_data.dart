@@ -5,7 +5,7 @@ class LenraCheckboxThemeData {
   LenraThemeData lenraTheme;
 
   LenraCheckboxThemeData({
-    this.lenraTheme,
+    required this.lenraTheme,
   });
   TextStyle getTextStyle(bool disabled) {
     return disabled ? lenraTheme.lenraTextThemeData.disabledBodyText : lenraTheme.lenraTextThemeData.bodyText;

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:fr_lenra_client/utils/connexion_utils_stub.dart'
     if (dart.library.io) 'package:fr_lenra_client/utils/connexion_utils_io.dart'
     if (dart.library.js) 'package:fr_lenra_client/utils/connexion_utils_web.dart';
@@ -16,11 +15,11 @@ class Config {
   final String appBaseUrl;
 
   Config({
-    @required this.application,
-    @required this.httpEndpoint,
-    @required this.wsEndpoint,
-    @required this.basicAuth,
-    @required this.appBaseUrl,
+    required this.application,
+    required this.httpEndpoint,
+    required this.wsEndpoint,
+    required this.basicAuth,
+    required this.appBaseUrl,
   });
 
   static _() {
@@ -61,7 +60,7 @@ class Config {
   }
 
   static String _computeWsEndpoint(String httpEndpoint) {
-    String wsEndpoint = httpEndpoint.replaceFirst(new RegExp("^http"), "ws");
+    String wsEndpoint = httpEndpoint.replaceFirst(RegExp("^http"), "ws");
     wsEndpoint += "/socket/websocket";
     return wsEndpoint;
   }
@@ -69,8 +68,8 @@ class Config {
   static Application _computeApplication(String httpEndpoint) {
     String appName = const String.fromEnvironment("LENRA_APPLICATION");
     if (appName.isEmpty) {
-      appName = httpEndpoint.replaceAllMapped(new RegExp("^https?://([^/.]+)([/.].*)?\$"), (match) {
-        return match.group(1);
+      appName = httpEndpoint.replaceAllMapped(RegExp("^https?://([^/.]+)([/.].*)?\$"), (match) {
+        return match.group(1)!;
       });
     }
     return Application.values.firstWhere((a) => a.toString() == "Application.$appName", orElse: () => Application.app);

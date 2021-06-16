@@ -44,15 +44,14 @@ class Parser {
     return 0;
   }
 
-  static Map<Symbol, dynamic> parseProps(
-      Map<String, dynamic> props, Map<String, String> propsTypes) {
+  static Map<Symbol, dynamic> parseProps(Map<String, dynamic> props, Map<String, String> propsTypes) {
     Map<Symbol, dynamic> transformedProps = Map();
 
     props.forEach((key, value) {
       if (propsTypes.containsKey(key)) {
-        String type = propsTypes[key];
+        String type = propsTypes[key]!;
         if (ParserExt.typeParsers.containsKey(type)) {
-          transformedProps[Symbol(key)] = ParserExt.typeParsers[type](value);
+          transformedProps[Symbol(key)] = ParserExt.typeParsers[type]!(value);
         }
       }
     });

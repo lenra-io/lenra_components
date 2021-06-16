@@ -19,10 +19,14 @@ class LenraTextBuilder extends LenraComponentBuilder<LenraText> {
 
 class LenraText extends StatelessLenraComponent {
   final String value;
-  final Color color;
-  final Color backgroundColor;
+  final Color? color;
+  final Color? backgroundColor;
 
-  LenraText({this.color, this.backgroundColor, this.value}) : super();
+  LenraText({
+    required this.color,
+    required this.backgroundColor,
+    required this.value,
+  }) : super();
 
   @override
   Widget build(BuildContext context) {

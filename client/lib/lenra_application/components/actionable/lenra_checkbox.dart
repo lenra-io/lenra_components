@@ -22,26 +22,24 @@ class LenraCheckboxBuilder extends LenraComponentBuilder<LenraApplicationCheckbo
 }
 
 class LenraApplicationCheckbox extends StatelessLenraComponent implements LenraActionable {
-  final String label;
   final bool value;
-  final bool disabled;
-  final Map<String, dynamic> listeners;
+  final String? label;
+  final bool? disabled;
+  final Map<String, dynamic>? listeners;
 
   LenraApplicationCheckbox({
-    this.value,
-    this.label,
-    this.disabled,
-    this.listeners,
+    required this.value,
+    required this.label,
+    required this.disabled,
+    required this.listeners,
   }) : super();
 
-  void onChanged(bool newValue, BuildContext context) {
-    if (this.listeners != null) {
-      final Map<String, dynamic> listener = this.listeners['onChange'];
-      if (listener != null) {
-        LenraOnChangeEvent(code: listener['code'], event: {
-          "value": newValue,
-        }).dispatch(context);
-      }
+  void onChanged(bool? newValue, BuildContext context) {
+    final Map<String, String>? listener = this.listeners?['onChange'];
+    if (listener != null && listener.containsKey("code")) {
+      LenraOnChangeEvent(code: listener['code']!, event: {
+        "value": newValue,
+      }).dispatch(context);
     }
   }
 
@@ -51,7 +49,7 @@ class LenraApplicationCheckbox extends StatelessLenraComponent implements LenraA
       value: this.value,
       label: this.label,
       disabled: this.disabled ?? false,
-      onChanged: (bool value) => this.onChanged(value, context),
+      onChanged: (bool? value) => this.onChanged(value, context),
     );
   }
 }

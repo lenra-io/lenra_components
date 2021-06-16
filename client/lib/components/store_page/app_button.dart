@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/api/response_models/app_response.dart';
 
 class AppButton extends StatelessWidget {
-  AppButton({Key key, this.appInfo, this.onPressed}) : super(key: key);
-
   final AppResponse appInfo;
   final VoidCallback onPressed;
+
+  AppButton({
+    Key? key,
+    required this.appInfo,
+    required this.onPressed,
+  }) : super(key: key);
 
   Widget build(BuildContext context) {
     return IntrinsicWidth(

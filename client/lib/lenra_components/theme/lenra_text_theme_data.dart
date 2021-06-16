@@ -2,33 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_color_theme_data.dart';
 
 class LenraTextThemeData {
-  TextStyle headline1;
-  TextStyle headline2;
-  TextStyle headline3;
-  TextStyle headline4;
-  TextStyle headlineBody;
-  TextStyle bodyText;
-  TextStyle blueBodyText;
-  TextStyle subtext;
-  TextStyle disabledBodyText;
-  TextStyle underDescriptionText;
-  TextStyle errorText;
+  late TextStyle headline1;
+  late TextStyle headline2;
+  late TextStyle headline3;
+  late TextStyle headline4;
+  late TextStyle headlineBody;
+  late TextStyle bodyText;
+  late TextStyle blueBodyText;
+  late TextStyle subtext;
+  late TextStyle disabledBodyText;
+  late TextStyle underDescriptionText;
+  late TextStyle errorText;
 
-  final double lineHeight;
+  final double? lineHeight;
 
   LenraTextThemeData({
     this.lineHeight,
-    TextStyle headline1,
-    TextStyle headline2,
-    TextStyle headline3,
-    TextStyle headline4,
-    TextStyle headlineBody,
-    TextStyle bodyText,
-    TextStyle blueBodyText,
-    TextStyle subtext,
-    TextStyle disabledBodyText,
-    TextStyle underDescriptionText,
-    TextStyle errorText,
+    TextStyle? headline1,
+    TextStyle? headline2,
+    TextStyle? headline3,
+    TextStyle? headline4,
+    TextStyle? headlineBody,
+    TextStyle? bodyText,
+    TextStyle? blueBodyText,
+    TextStyle? subtext,
+    TextStyle? disabledBodyText,
+    TextStyle? underDescriptionText,
+    TextStyle? errorText,
   }) {
     this.headline1 = headline1 ??
         TextStyle(
@@ -97,15 +97,15 @@ class LenraTextThemeData {
   }
 
   copyWith({
-    double lineHeight,
-    TextStyle headline1,
-    TextStyle headline2,
-    TextStyle headline3,
-    TextStyle headline4,
-    TextStyle headlineBody,
-    TextStyle bodyText,
-    TextStyle subtext,
-    TextStyle disabledBodyText,
+    double? lineHeight,
+    TextStyle? headline1,
+    TextStyle? headline2,
+    TextStyle? headline3,
+    TextStyle? headline4,
+    TextStyle? headlineBody,
+    TextStyle? bodyText,
+    TextStyle? subtext,
+    TextStyle? disabledBodyText,
   }) {
     return LenraTextThemeData(
       lineHeight: lineHeight ?? this.lineHeight,

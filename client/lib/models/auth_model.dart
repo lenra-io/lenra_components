@@ -15,8 +15,8 @@ import 'package:fr_lenra_client/models/status.dart';
 import 'package:fr_lenra_client/navigation/lenra_navigator.dart';
 
 class AuthModel extends ChangeNotifier {
-  String accessToken;
-  User user;
+  String? accessToken;
+  User? user;
   final Status<AuthResponse> registerStatus = Status();
   final Status<AuthResponse> loginStatus = Status();
   final Status<AuthResponse> refreshStatus = Status();
@@ -29,9 +29,9 @@ class AuthModel extends ChangeNotifier {
   final Status<EmptyResponse> sendCodeLostPasswordStatus = Status();
   final Status<EmptyResponse> changePasswordStatus = Status();
 
-  String _redirectToRoute;
-  String get redirectToRoute => _redirectToRoute;
-  set redirectToRoute(String newValue) {
+  String? _redirectToRoute;
+  String? get redirectToRoute => _redirectToRoute;
+  set redirectToRoute(String? newValue) {
     this._redirectToRoute = newValue;
     // notifyListeners();
   }
@@ -42,7 +42,7 @@ class AuthModel extends ChangeNotifier {
 
   bool isOneOfRole(List<UserRole> roles) {
     if (this.user == null) return false;
-    return roles.contains(this.user.role);
+    return roles.contains(this.user?.role);
   }
 
   AuthResponse _handleAuthResponse(AuthResponse res) {

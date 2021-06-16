@@ -6,16 +6,16 @@ class LenraTheme extends StatelessWidget {
   final Widget child;
 
   const LenraTheme({
-    Key key,
-    this.themeData,
-    this.child,
+    Key? key,
+    required this.themeData,
+    required this.child,
   }) : super(key: key);
 
   static LenraThemeData of(BuildContext context) {
-    final LenraThemeData lenraThemeData =
-        context.dependOnInheritedWidgetOfExactType<_LenraInheritedTheme>()?.theme?.themeData;
+    final LenraThemeData? lenraThemeData =
+        context.dependOnInheritedWidgetOfExactType<_LenraInheritedTheme>()?.theme.themeData;
     assert(lenraThemeData != null, 'No LenraTheme found in context');
-    return lenraThemeData;
+    return lenraThemeData!;
   }
 
   @override
@@ -32,11 +32,10 @@ class LenraTheme extends StatelessWidget {
 
 class _LenraInheritedTheme extends InheritedTheme {
   const _LenraInheritedTheme({
-    Key key,
-    @required this.theme,
-    @required Widget child,
-  })  : assert(theme != null),
-        super(key: key, child: child);
+    Key? key,
+    required this.theme,
+    required Widget child,
+  }) : super(key: key, child: child);
 
   final LenraTheme theme;
 

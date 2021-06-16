@@ -3,11 +3,11 @@ library socket;
 import 'package:phoenix_wings/phoenix_wings.dart';
 
 class LenraChannel {
-  PhoenixChannel _channel;
-  List<Function> _errorCallbacks = [];
+  late PhoenixChannel _channel;
+  List<dynamic Function()> _errorCallbacks = [];
   LenraChannel(PhoenixSocket socket, String channelName, Map<String, dynamic> params) {
     _channel = socket.channel(channelName, params);
-    _channel.join().receive("error", (Map response) {
+    _channel.join()?.receive("error", (Map<dynamic, dynamic>? response) {
       _errorCallbacks.forEach((c) {
         c();
       });
@@ -20,19 +20,21 @@ class LenraChannel {
     _channel.leave();
   }
 
-  void onUi(Function(Map<String, dynamic>) callback) {
+  void onUi(void Function(Map<dynamic, dynamic>) callback) {
     this._channel.on("ui", (payload, ref, joinRef) {
+      if (payload == null) return;
       callback(payload);
     });
   }
 
-  void onPatchUi(Function(Map<String, dynamic>) callback) {
+  void onPatchUi(void Function(Map<dynamic, dynamic>) callback) {
     this._channel.on("patchUi", (payload, ref, joinRef) {
+      if (payload == null) return;
       callback(payload);
     });
   }
 
-  void onError(Function callback) {
+  void onError(dynamic Function() callback) {
     this._errorCallbacks.add(callback);
   }
 

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
 
 class LenraRadioThemeData {
-  MaterialStateProperty<Color> fillColor;
+  late MaterialStateProperty<Color> fillColor;
   LenraThemeData lenraTheme;
 
   LenraRadioThemeData({
-    this.lenraTheme,
+    required this.lenraTheme,
   }) {
     this.fillColor = MaterialStateProperty.resolveWith((states) {
       if (states.contains(MaterialState.disabled)) {

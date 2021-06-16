@@ -5,23 +5,24 @@ import 'package:fr_lenra_client/lenra_components/theme/lenra_theme.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
 
 class LenraButton extends StatelessWidget {
-  final Function onPressed;
+  final void Function()? onPressed;
   final String text;
   final bool disabled;
   final LenraComponentSize size;
   final LenraComponentType type;
-  final Widget leftIcon;
-  final Widget rightIcon;
+  final Widget? leftIcon;
+  final Widget? rightIcon;
 
   LenraButton({
     @required this.onPressed,
-    this.text,
+    required this.text,
     this.disabled = false,
     this.size = LenraComponentSize.Medium,
     this.type = LenraComponentType.Primary,
     this.leftIcon,
     this.rightIcon,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +38,9 @@ class LenraButton extends StatelessWidget {
       child = LenraRow(
         separationFactor: 1.5,
         children: [
-          if (this.leftIcon != null) this.leftIcon,
+          if (this.leftIcon != null) this.leftIcon!,
           Expanded(child: child),
-          if (this.rightIcon != null) this.rightIcon,
+          if (this.rightIcon != null) this.rightIcon!,
         ],
       );
     }

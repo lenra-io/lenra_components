@@ -31,7 +31,7 @@ class LenraTable extends StatelessWidget {
 
   /// Creates a [LenraTable].
   LenraTable({
-    this.children,
+    required this.children,
     this.border = false,
     this.size = LenraComponentSize.Medium,
   });
@@ -58,9 +58,9 @@ class LenraTable extends StatelessWidget {
   /// Returns a [List<TableRow>] of [TableRow] from a [List<LenraTableRow>] of [LenraTableRow].
   /// It is used to match the Flutter's [Table] children property.
   static List<TableRow> buildChildren({
-    List<LenraTableRow> children,
-    LenraTableThemeData lenraTableThemeData,
-    EdgeInsetsGeometry padding,
+    required List<LenraTableRow> children,
+    required LenraTableThemeData lenraTableThemeData,
+    required EdgeInsetsGeometry padding,
   }) {
     return children
         .map((lenraTableRow) => lenraTableRow.toTableRow(

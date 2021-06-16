@@ -17,7 +17,7 @@ extension UILenraOperationExtension on UIPatchOperation {
       case UIPatchOperation.replace:
         return UIPatchOperation.replaceChild;
       default:
-        return null;
+        throw "Unhandled UI Patch Operation";
     }
   }
 }
@@ -33,14 +33,11 @@ extension UILenraOperationStringExtension on String {
       case "replace":
         return UIPatchOperation.replace;
       default:
-        return null;
+        throw "Unhandled UI Patch Operation";
     }
   }
 
   bool isInteger() {
-    if (this == null) {
-      return false;
-    }
     return int.tryParse(this) != null;
   }
 }
@@ -51,7 +48,7 @@ class UiPatchEvent {
   List<String> propertyPathList;
   dynamic value;
   int childIndex;
-  String childId;
+  String? childId;
 
   static RegExp regex = RegExp(
       r"^(?<target>\/root(?:\/children\/\d+)*)(?<property>(?:\/children)?(?:\/(?!children)(?:[\da-zA-Z_-])+)*)$");
@@ -94,13 +91,16 @@ Breaks apart :
     UIPatchOperation operation = (patch['op'] as String).toLenraUiPatchOperation();
     dynamic value = patch['value'];
 
-    RegExpMatch match = regex.firstMatch(patch["path"]);
+    RegExpMatch? match = regex.firstMatch(patch["path"]);
     if (match == null) {
-      return null;
+      throw "Could not match path regex";
     }
 
-    String target = match.namedGroup("target");
-    String property = match.namedGroup("property");
+    String? target = match.namedGroup("target");
+    String? property = match.namedGroup("property");
+    if (target == null) throw "Could not match target group in regex";
+    if (property == null) throw "Could not match property group in regex";
+
     List<String> propertyPathList = property.split("/");
     propertyPathList.removeAt(0);
     List<String> targetPathList = target.split('/');
@@ -114,8 +114,7 @@ Breaks apart :
       int childIndex = int.parse(targetPathList.last);
       String id = targetPathList.sublist(0, targetPathList.length - 2).join('/');
 
-      return UiPatchEvent(
-          id, operation.toChildOperation(), propertyPathList, value, childIndex, target);
+      return UiPatchEvent(id, operation.toChildOperation(), propertyPathList, value, childIndex, target);
     }
 
     return UiPatchEvent(target, operation, propertyPathList, value, -1, null);

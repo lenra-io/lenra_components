@@ -10,10 +10,10 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BackofficeSideMenu extends StatelessWidget {
-  final AppResponse selectedApp;
+  final AppResponse? selectedApp;
 
   const BackofficeSideMenu({
-    Key key,
+    Key? key,
     this.selectedApp,
   }) : super(key: key);
 
@@ -100,9 +100,9 @@ class BackofficeSideMenu extends StatelessWidget {
 }
 
 class _ProjectMenu extends StatelessWidget {
-  final AppResponse selectedApp;
+  final AppResponse? selectedApp;
 
-  const _ProjectMenu({Key key, this.selectedApp}) : super(key: key);
+  const _ProjectMenu({Key? key, this.selectedApp}) : super(key: key);
 
   Widget build(BuildContext context) {
     var theme = LenraTheme.of(context);
@@ -119,20 +119,20 @@ class _ProjectMenu extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              selectedApp.name,
+              selectedApp!.name,
               style: theme.lenraTextThemeData.headline2,
             ),
             LenraRow(
               children: [
                 Icon(
                   Icons.circle,
-                  color: selectedApp.public
+                  color: selectedApp!.public
                       ? LenraColorThemeData.LENRA_CUSTOM_GREEN
                       : LenraColorThemeData.LENRA_CUSTOM_RED,
                   size: theme.baseSize,
                 ),
                 Text(
-                  "${selectedApp.public ? 'Public' : 'Private'} access",
+                  "${selectedApp!.public ? 'Public' : 'Private'} access",
                 ),
               ],
             ),
@@ -148,13 +148,13 @@ class _ProjectMenu extends StatelessWidget {
         "Envrironments",
         icon: Icons.layers_outlined,
         disabled: true,
-        route: null,
+        route: "null",
       ),
       BackofficeSideMenuRoute(
         "Builds",
         icon: Icons.bolt,
         disabled: true,
-        route: null,
+        route: "null",
       ),
       BackofficeSideMenuRoute(
         "Settings",
@@ -168,14 +168,14 @@ class _ProjectMenu extends StatelessWidget {
 
 class BackofficeSideMenuItem extends StatelessWidget {
   final String text;
-  final IconData icon;
+  final IconData? icon;
   final bool selected;
   final bool disabled;
-  final GestureTapCallback onPressed;
+  final GestureTapCallback? onPressed;
 
   const BackofficeSideMenuItem(
     this.text, {
-    Key key,
+    Key? key,
     this.icon,
     this.selected = false,
     this.disabled = false,
@@ -224,13 +224,13 @@ class BackofficeSideMenuItem extends StatelessWidget {
 class BackofficeSideMenuRoute extends StatelessWidget {
   final String text;
   final String route;
-  final IconData icon;
+  final IconData? icon;
   final bool disabled;
 
   const BackofficeSideMenuRoute(
     this.text, {
-    Key key,
-    @required this.route,
+    Key? key,
+    required this.route,
     this.icon,
     this.disabled = false,
   }) : super(key: key);

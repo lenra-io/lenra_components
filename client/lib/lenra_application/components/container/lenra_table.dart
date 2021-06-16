@@ -22,18 +22,19 @@ class LenraTableBuilder extends LenraComponentBuilder<LenraApplicationTable> {
 
 class LenraApplicationTable extends StatelessLenraComponent {
   final List<LenraTableRow> children;
-  final bool border;
+
+  final bool? border;
 
   LenraApplicationTable({
-    this.children = const [],
-    this.border,
+    required this.children,
+    required this.border,
   }) : super();
 
   @override
   Widget build(BuildContext context) {
     return LenraTable(
       children: this.children,
-      border: this.border,
+      border: this.border ?? false,
     );
   }
 }

@@ -9,12 +9,12 @@ class SimplePage extends StatelessWidget {
   final String title;
   final String message;
   final TextAlign textAlign;
-  final String backInkText;
-  final Function backInkAction;
-  final Widget child;
+  final String? backInkText;
+  final void Function()? backInkAction;
+  final Widget? child;
 
   const SimplePage({
-    Key key,
+    Key? key,
     this.title = "",
     this.message = "",
     this.textAlign = TextAlign.center,
@@ -56,8 +56,9 @@ class SimplePage extends StatelessWidget {
     }
     if (child != null) {
       if (title.isNotEmpty || message.isNotEmpty) children.add(SizedBox(height: theme.baseSize * 4));
-      children.add(child);
+      children.add(child!);
     }
+
     var size = MediaQuery.of(context).size;
     var padding = min(min(size.height * 0.08, size.width * 0.1), theme.baseSize * 10);
     return GestureDetector(
@@ -92,12 +93,13 @@ class SimplePage extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     var inkSize = 20;
     var separation = min(min(size.height * 0.05, size.width * 0.06), theme.baseSize * 6);
-    if (backInkText == null || backInkText.isEmpty)
+    if (backInkText == null || backInkText!.isEmpty) {
       return [
         SizedBox(
           height: inkSize + separation,
         )
       ];
+    }
     var linkTheme = theme.lenraTextThemeData.bodyText.copyWith(color: theme.lenraColorThemeData.primaryBackgroundColor);
     return [
       Align(
@@ -105,7 +107,7 @@ class SimplePage extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.only(bottom: separation),
           child: InkWell(
-              onTap: backInkAction ?? () {},
+              onTap: backInkAction,
               hoverColor: Colors.transparent,
               child: LenraRow(
                 separationFactor: 1.5,
@@ -115,7 +117,7 @@ class SimplePage extends StatelessWidget {
                     color: theme.lenraColorThemeData.primaryBackgroundColor,
                     size: 12,
                   ),
-                  Text(backInkText, style: linkTheme),
+                  Text(backInkText!, style: linkTheme),
                 ],
               )),
         ),

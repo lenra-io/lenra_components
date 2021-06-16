@@ -6,10 +6,6 @@ class LoginRequest extends ApiRequest {
 
   LoginRequest(this.email, this.password);
 
-  LoginRequest.fromJson(Map<String, String> json)
-      : email = json["email"],
-        password = json["password"];
-
   Map<String, String> toJson() => {
         'email': email,
         'password': password,

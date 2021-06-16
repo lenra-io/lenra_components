@@ -29,22 +29,26 @@ class LenraRadioBuilder extends LenraComponentBuilder<LenraApplicationRadio> {
 }
 
 class LenraApplicationRadio extends StatelessLenraComponent implements LenraActionable {
-  final String label;
   final String value;
   final String groupValue;
-  final bool disabled;
-  final Map<String, dynamic> listeners;
+  final String? label;
+  final bool? disabled;
+  final Map<String, dynamic>? listeners;
 
-  LenraApplicationRadio({this.value, this.label, this.groupValue, this.disabled, this.listeners}) : super();
+  LenraApplicationRadio({
+    required this.value,
+    required this.label,
+    required this.groupValue,
+    required this.disabled,
+    required this.listeners,
+  });
 
-  void onChanged(String newValue, BuildContext context) {
-    if (this.listeners != null) {
-      final Map<String, dynamic> listener = this.listeners['onChange'];
-      if (listener != null) {
-        LenraOnChangeEvent(code: listener['code'], event: {
-          "value": newValue,
-        }).dispatch(context);
-      }
+  void onChanged(String? newValue, BuildContext context) {
+    final Map<String, String>? listener = this.listeners?['onChange'];
+    if (listener != null && listener.containsKey("code")) {
+      LenraOnChangeEvent(code: listener['code']!, event: {
+        "value": newValue,
+      }).dispatch(context);
     }
   }
 
@@ -55,7 +59,7 @@ class LenraApplicationRadio extends StatelessLenraComponent implements LenraActi
       label: this.label,
       groupValue: this.groupValue,
       disabled: this.disabled ?? false,
-      onChanged: (String newValue) => this.onChanged(newValue, context),
+      onChanged: (String? newValue) => this.onChanged(newValue, context),
     );
   }
 }

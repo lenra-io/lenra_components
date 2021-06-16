@@ -15,24 +15,22 @@ class ChangePasswordForm extends StatefulWidget {
 
 class _ChangePasswordState extends State<ChangePasswordForm> {
   final _formKey = GlobalKey<FormState>();
-  String oldPassword;
-  String newPassword;
-  String newPasswordConfirmation;
+  String oldPassword = "";
+  String newPassword = "";
+  String newPasswordConfirmation = "";
 
-  bool _passwordVisible;
-  bool _passwordVisibleConfirm;
+  bool _passwordVisible = true;
+  bool _passwordVisibleConfirm = true;
 
   @override
   void initState() {
-    _passwordVisible = true;
-    _passwordVisibleConfirm = true;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     bool isChangingPassword = context.select<AuthModel, bool>((m) => m.changePasswordStatus.isFetching());
-    ApiErrors changePasswordErrors = context.select<AuthModel, ApiErrors>((m) => m.changePasswordStatus.errors);
+    ApiErrors? changePasswordErrors = context.select<AuthModel, ApiErrors?>((m) => m.changePasswordStatus.errors);
 
     return Form(
       key: _formKey,
@@ -111,7 +109,7 @@ class _ChangePasswordState extends State<ChangePasswordForm> {
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: LoadingButton(
               onPressed: () {
-                if (_formKey.currentState.validate()) {
+                if (_formKey.currentState!.validate()) {
                   this.context.read<AuthModel>().changePassword(
                         this.oldPassword,
                         this.newPassword,

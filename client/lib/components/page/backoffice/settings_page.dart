@@ -16,7 +16,7 @@ class SettingsPage extends StatelessWidget {
       "icon": 0xe952,
       "color": Colors.blue.value.toRadixString(16),
     });
-    List<BuildResponse> builds;
+    List<BuildResponse>? builds;
 
     return BackofficePage(
       selectedApp: selectedApp,

@@ -4,18 +4,18 @@ import 'package:fr_lenra_client/lenra_components/lenra_radio.dart';
 void main() {
   test('LenraRadio test', () {
     LenraRadio component = LenraRadio(
-      value: "",
+      value: "truc",
       onChanged: (T) {},
-      groupValue: "",
+      groupValue: "truc",
     );
     expect(component is LenraRadio, true);
   });
 
   test('LenraRadio test disabled', () {
     LenraRadio component = LenraRadio(
-      value: "",
+      value: "truc",
       onChanged: (T) {},
-      groupValue: "",
+      groupValue: "truc",
       disabled: true,
     );
     expect(component is LenraRadio, true);
@@ -24,9 +24,9 @@ void main() {
 
   test('LenraRadio test text', () {
     LenraRadio component = LenraRadio(
-      value: "",
+      value: "truc",
       onChanged: (T) {},
-      groupValue: "",
+      groupValue: "truc",
       label: "test",
     );
     expect(component.label, "test");

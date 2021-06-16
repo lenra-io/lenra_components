@@ -2,7 +2,10 @@
 import 'package:flutter/material.dart';
 
 class LenraEvent extends Notification {
-  LenraEvent({@required this.code, this.event}) : super();
+  LenraEvent({
+    required this.code,
+    required this.event,
+  }) : super();
   final String code;
   final Map<String, dynamic> event;
 

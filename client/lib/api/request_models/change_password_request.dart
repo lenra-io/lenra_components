@@ -7,11 +7,6 @@ class ChangePasswordRequest extends ApiRequest {
 
   ChangePasswordRequest(this.oldPassword, this.password, this.passwordConfirmation);
 
-  ChangePasswordRequest.fromJson(Map<String, String> json)
-      : oldPassword = json["oldPassword"],
-        password = json["password"],
-        passwordConfirmation = json["passwordConfirmation"];
-
   Map<String, String> toJson() => {
         'old_password': oldPassword,
         'password': password,

@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
+import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_property_mapper.dart';
 
 class LenraTableThemeData {
   LenraThemeData lenraTheme;
+  late LenraThemePropertyMapper<EdgeInsetsGeometry, LenraComponentSize> padding;
   LenraTableThemeData({
-    this.lenraTheme,
-  });
+    required this.lenraTheme,
+  }) {
+    this.padding = LenraThemePropertyMapper.resolveWith((LenraComponentSize size) {
+      return lenraTheme.paddingMap[size] ?? lenraTheme.paddingMap[LenraComponentSize.Medium]!;
+    });
+  }
 
-  EdgeInsets getPadding(LenraComponentSize size) {
-    return lenraTheme.paddingMap[size] ?? lenraTheme.paddingMap[LenraComponentSize.Medium];
+  EdgeInsetsGeometry getPadding(LenraComponentSize size) {
+    return this.padding.resolve(size);
   }
 
   Color getBorderColor() {

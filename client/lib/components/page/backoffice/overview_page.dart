@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fr_lenra_client/api/response_models/app_response.dart';
 import 'package:fr_lenra_client/api/response_models/build_response.dart';
 import 'package:fr_lenra_client/components/page/backoffice_page.dart';
 import 'package:fr_lenra_client/components/stateful_wrapper.dart';
@@ -26,12 +27,12 @@ class OverviewPage extends StatelessWidget {
     return StatefulWrapper(
       onInit: () async {
         await applicationModel.fetchUserApplications();
-        await buildModel.fetchBuilds(applicationModel.selectedApp.id);
+        if (applicationModel.selectedApp != null) await buildModel.fetchBuilds(applicationModel.selectedApp!.id);
       },
       builder: (context) {
-        var selectedApp = applicationModel.selectedApp;
+        AppResponse? selectedApp = applicationModel.selectedApp;
         // A bit dirty
-        if (applicationModel.selectedApp == null) return Center(child: CircularProgressIndicator());
+        if (selectedApp == null) return Center(child: CircularProgressIndicator());
         int appId = selectedApp.id;
         List<BuildResponse> builds =
             context.select<BuildModel, List<BuildResponse>>((model) => model.buildsForApp(appId));
@@ -42,12 +43,12 @@ class OverviewPage extends StatelessWidget {
         var hasPublishedBuild = builds.any((build) => build.status == BuildStatus.success);
 
         return BackofficePage(
-          selectedApp: applicationModel.selectedApp,
+          selectedApp: selectedApp,
           title: Text("Overview"),
           mainActionWidget: LenraButton(
             text: "Publish my application",
             disabled: hasPendingBuild,
-            onPressed: () => buildModel.createBuild(applicationModel.selectedApp.id),
+            onPressed: () => buildModel.createBuild(selectedApp.id),
           ),
           child: LenraColumn(
             separationFactor: 2,

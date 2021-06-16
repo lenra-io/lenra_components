@@ -3,24 +3,27 @@ description: Plateforme d'applications dans le Cloud
 publish_to: none
 version: 0.1.0+alpha.0
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 dependencies:
   flutter_web_plugins:
     sdk: flutter
   flutter:
     sdk: flutter
   intl: ^0.17.0
-  phoenix_wings: ^0.2.1
-  json_patch: ^2.0.0
-  http: ^0.13.0
-  mockito: ^5.0.0
-  sentry_flutter: ^5.0.0
+  # phoenix_wings: ^1.0.0
+  phoenix_wings: 
+    git:
+      url: https://github.com/pichoemr/phoenix_wings.git
+      ref: fix-nullsafety
+  http: ^0.13.3
+  sentry_flutter: ^5.1.0
   provider: ^5.0.0
-  url_launcher: ^6.0.3
+  url_launcher: ^6.0.6
 
 dev_dependencies:
   flutter_launcher_icons: "^0.9.0"
-  pedantic: ^1.9.0
+  pedantic: ^1.11.0
+  mockito: ^5.0.10
   flutter_test:
     sdk: flutter
 

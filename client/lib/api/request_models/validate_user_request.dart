@@ -5,7 +5,6 @@ class ValidateUserRequest extends ApiRequest {
 
   ValidateUserRequest(this.code);
 
-  ValidateUserRequest.fromJson(Map<String, String> json) : code = json["code"];
   dynamic toJson() => {
         "code": code,
       };

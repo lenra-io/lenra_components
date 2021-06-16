@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 class ChangeLostPasswordForm extends StatefulWidget {
   final String email;
 
-  ChangeLostPasswordForm({this.email});
+  ChangeLostPasswordForm({required this.email});
 
   @override
   _ChangeLostPasswordState createState() {
@@ -23,26 +23,23 @@ class ChangeLostPasswordForm extends StatefulWidget {
 
 class _ChangeLostPasswordState extends State<ChangeLostPasswordForm> {
   final _formKey = GlobalKey<FormState>();
-  String newPassword;
-  String newPasswordConfirmation;
+  String newPassword = "";
+  String newPasswordConfirmation = "";
 
-  String code;
+  String code = "";
   bool _passwordVisible;
   bool _passwordVisibleConfirm;
 
-  @override
-  void initState() {
-    _passwordVisible = true;
-    _passwordVisibleConfirm = true;
-    super.initState();
-  }
+  _ChangeLostPasswordState()
+      : this._passwordVisible = true,
+        this._passwordVisibleConfirm = true;
 
   @override
   Widget build(BuildContext context) {
     final LenraTextThemeData finalLenraTextThemeData = LenraTheme.of(context).lenraTextThemeData;
 
-    ApiErrors sendCodeLostPasswordErrors =
-        context.select<AuthModel, ApiErrors>((m) => m.sendCodeLostPasswordStatus.errors);
+    ApiErrors? sendCodeLostPasswordErrors =
+        context.select<AuthModel, ApiErrors?>((m) => m.sendCodeLostPasswordStatus.errors);
 
     return Form(
       key: _formKey,
@@ -89,7 +86,7 @@ class _ChangeLostPasswordState extends State<ChangeLostPasswordForm> {
             child: LenraButton(
               text: "Modifier mon mot de passe",
               onPressed: () {
-                if (_formKey.currentState.validate()) {
+                if (_formKey.currentState!.validate()) {
                   context.read<AuthModel>().sendCodeLostPassword(
                         this.code,
                         widget.email,

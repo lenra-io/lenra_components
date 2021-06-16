@@ -22,14 +22,14 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
-  String email;
-  String password;
+  String email = "";
+  String password = "";
   bool _hidePassword = true;
 
   @override
   Widget build(BuildContext context) {
     final LenraTextThemeData finalLenraTextThemeData = LenraTheme.of(context).lenraTextThemeData;
-    ApiErrors loginErrors = context.select<AuthModel, ApiErrors>((m) => m.loginStatus.errors);
+    ApiErrors? loginErrors = context.select<AuthModel, ApiErrors?>((m) => m.loginStatus.errors);
 
     return Form(
       key: _formKey,
@@ -109,7 +109,7 @@ class _LoginFormState extends State<LoginForm> {
           child: LoadingButton(
             text: "Se connecter",
             onPressed: () async {
-              if (_formKey.currentState.validate()) {
+              if (_formKey.currentState!.validate()) {
                 try {
                   var authModel = context.read<AuthModel>();
                   await authModel.login(this.email, this.password);

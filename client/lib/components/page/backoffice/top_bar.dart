@@ -6,8 +6,8 @@ class BackofficeTopBar extends StatelessWidget {
   final Widget title;
 
   const BackofficeTopBar({
-    Key key,
-    this.title,
+    Key? key,
+    required this.title,
   }) : super(key: key);
 
   @override

@@ -5,8 +5,6 @@ class AskCodeLostPasswordRequest extends ApiRequest {
 
   AskCodeLostPasswordRequest(this.email);
 
-  AskCodeLostPasswordRequest.fromJson(Map<String, String> json) : email = json["email"];
-
   Map<String, String> toJson() => {
         'email': email,
       };

@@ -23,17 +23,21 @@ class LenraImageBuilder extends LenraComponentBuilder<LenraImage> {
 
 class LenraImage extends StatelessLenraComponent {
   final String value;
-  final Color backgroundColor;
-  final double height;
-  final double width;
+  final Color? backgroundColor;
+  final double? height;
+  final double? width;
 
-  LenraImage({this.value, this.backgroundColor, this.height, this.width}) : super();
+  LenraImage({
+    required this.value,
+    required this.backgroundColor,
+    required this.height,
+    required this.width,
+  }) : super();
 
   @override
   Widget build(BuildContext context) {
     Uint8List _bytes = base64.decode(this.value.split(',').last);
 
-    return Image.memory(_bytes,
-        color: this.backgroundColor, width: this.width, height: this.height);
+    return Image.memory(_bytes, color: this.backgroundColor, width: this.width, height: this.height);
   }
 }

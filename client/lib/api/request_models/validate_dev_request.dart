@@ -5,7 +5,6 @@ class ValidateDevRequest extends ApiRequest {
 
   ValidateDevRequest(this.code);
 
-  ValidateDevRequest.fromJson(Map<String, String> json) : code = json["code"];
   dynamic toJson() => {
         "code": code,
       };

@@ -6,17 +6,17 @@ import 'package:fr_lenra_client/lenra_components/theme/lenra_color_theme_data.da
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme.dart';
 
 class BackofficePage extends StatelessWidget {
-  final AppResponse selectedApp;
-  final Widget title;
+  final AppResponse? selectedApp;
   final Widget child;
-  final Widget mainActionWidget;
+  final Widget? title;
+  final Widget? mainActionWidget;
 
   const BackofficePage({
-    Key key,
+    Key? key,
     this.selectedApp,
     this.title,
     this.mainActionWidget,
-    this.child,
+    required this.child,
   }) : super(key: key);
 
   @override
@@ -37,8 +37,8 @@ class BackofficePage extends StatelessWidget {
                     title: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        if (title != null) title,
-                        if (mainActionWidget != null) mainActionWidget,
+                        if (title != null) title!,
+                        if (mainActionWidget != null) mainActionWidget!,
                       ],
                     ),
                   ),

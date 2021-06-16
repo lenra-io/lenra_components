@@ -29,46 +29,46 @@ class LenraColorThemeData {
   static const LENRA_FUN_BLUE_BASE = Color(0xFF70CBF2);
   static const LENRA_FUN_BLUE_FADE = Color(0xFFC6EAFA);
 
-  Color primaryBackgroundColor;
-  Color primaryBackgroundHoverColor;
-  Color primaryBackgroundDisabledColor;
-  Color primaryForegroundColor;
-  Color primaryForegroundHoverColor;
-  Color primaryForegroundDisabledColor;
+  late Color primaryBackgroundColor;
+  late Color primaryBackgroundHoverColor;
+  late Color primaryBackgroundDisabledColor;
+  late Color primaryForegroundColor;
+  late Color primaryForegroundHoverColor;
+  late Color primaryForegroundDisabledColor;
 
-  Color secondaryBackgroundColor;
-  Color secondaryBackgroundHoverColor;
-  Color secondaryBackgroundDisabledColor;
-  Color secondaryForegroundColor;
-  Color secondaryForegroundHoverColor;
-  Color secondaryForegroundDisabledColor;
+  late Color secondaryBackgroundColor;
+  late Color secondaryBackgroundHoverColor;
+  late Color secondaryBackgroundDisabledColor;
+  late Color secondaryForegroundColor;
+  late Color secondaryForegroundHoverColor;
+  late Color secondaryForegroundDisabledColor;
 
-  Color tertiaryBackgroundColor;
-  Color tertiaryBackgroundHoverColor;
-  Color tertiaryBackgroundDisabledColor;
-  Color tertiaryForegroundColor;
-  Color tertiaryForegroundHoverColor;
-  Color tertiaryForegroundDisabledColor;
+  late Color tertiaryBackgroundColor;
+  late Color tertiaryBackgroundHoverColor;
+  late Color tertiaryBackgroundDisabledColor;
+  late Color tertiaryForegroundColor;
+  late Color tertiaryForegroundHoverColor;
+  late Color tertiaryForegroundDisabledColor;
 
   LenraColorThemeData({
-    Color primaryBackgroundColor,
-    Color primaryBackgroundHoverColor,
-    Color primaryBackgroundDisabledColor,
-    Color primaryForegroundColor,
-    Color primaryForegroundHoverColor,
-    Color primaryForegroundDisabledColor,
-    Color secondaryBackgroundColor,
-    Color secondaryBackgroundHoverColor,
-    Color secondaryBackgroundDisabledColor,
-    Color secondaryForegroundColor,
-    Color secondaryForegroundHoverColor,
-    Color secondaryForegroundDisabledColor,
-    Color tertiaryBackgroundColor,
-    Color tertiaryBackgroundHoverColor,
-    Color tertiaryBackgroundDisabledColor,
-    Color tertiaryForegroundColor,
-    Color tertiaryForegroundHoverColor,
-    Color tertiaryForegroundDisabledColor,
+    Color? primaryBackgroundColor,
+    Color? primaryBackgroundHoverColor,
+    Color? primaryBackgroundDisabledColor,
+    Color? primaryForegroundColor,
+    Color? primaryForegroundHoverColor,
+    Color? primaryForegroundDisabledColor,
+    Color? secondaryBackgroundColor,
+    Color? secondaryBackgroundHoverColor,
+    Color? secondaryBackgroundDisabledColor,
+    Color? secondaryForegroundColor,
+    Color? secondaryForegroundHoverColor,
+    Color? secondaryForegroundDisabledColor,
+    Color? tertiaryBackgroundColor,
+    Color? tertiaryBackgroundHoverColor,
+    Color? tertiaryBackgroundDisabledColor,
+    Color? tertiaryForegroundColor,
+    Color? tertiaryForegroundHoverColor,
+    Color? tertiaryForegroundDisabledColor,
   }) {
     this.primaryBackgroundColor = primaryBackgroundColor ?? LENRA_BLUE;
     this.primaryBackgroundHoverColor = primaryBackgroundHoverColor ?? LENRA_BLUE_HOVER;
@@ -93,24 +93,24 @@ class LenraColorThemeData {
   }
 
   copyWith({
-    Color primaryBackgroundColor,
-    Color primaryBackgroundHoverColor,
-    Color primaryBackgroundDisabledColor,
-    Color primaryForegroundColor,
-    Color primaryForegroundHoverColor,
-    Color primaryForegroundDisabledColor,
-    Color secondaryBackgroundColor,
-    Color secondaryBackgroundHoverColor,
-    Color secondaryBackgroundDisabledColor,
-    Color secondaryForegroundColor,
-    Color secondaryForegroundHoverColor,
-    Color secondaryForegroundDisabledColor,
-    Color tertiaryBackgroundColor,
-    Color tertiaryBackgroundHoverColor,
-    Color tertiaryBackgroundDisabledColor,
-    Color tertiaryForegroundColor,
-    Color tertiaryForegroundHoverColor,
-    Color tertiaryForegroundDisabledColor,
+    Color? primaryBackgroundColor,
+    Color? primaryBackgroundHoverColor,
+    Color? primaryBackgroundDisabledColor,
+    Color? primaryForegroundColor,
+    Color? primaryForegroundHoverColor,
+    Color? primaryForegroundDisabledColor,
+    Color? secondaryBackgroundColor,
+    Color? secondaryBackgroundHoverColor,
+    Color? secondaryBackgroundDisabledColor,
+    Color? secondaryForegroundColor,
+    Color? secondaryForegroundHoverColor,
+    Color? secondaryForegroundDisabledColor,
+    Color? tertiaryBackgroundColor,
+    Color? tertiaryBackgroundHoverColor,
+    Color? tertiaryBackgroundDisabledColor,
+    Color? tertiaryForegroundColor,
+    Color? tertiaryForegroundHoverColor,
+    Color? tertiaryForegroundDisabledColor,
   }) {
     return LenraColorThemeData(
       primaryBackgroundColor: primaryBackgroundColor ?? this.primaryBackgroundColor,

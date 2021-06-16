@@ -29,7 +29,7 @@ void main() {
   test('lenra table buildChildren function', () {
     List<TableRow> ltr = LenraTable.buildChildren(
       padding: EdgeInsets.symmetric(vertical: 1 * 8.0, horizontal: 2 * 8.0),
-      lenraTableThemeData: LenraTableThemeData(),
+      lenraTableThemeData: LenraTableThemeData(lenraTheme: LenraThemeData()),
       children: [
         LenraTableRow(
           children: [

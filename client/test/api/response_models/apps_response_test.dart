@@ -6,8 +6,8 @@ void main() {
   test('from json', () {
     Map<String, dynamic> json = {
       "apps": [
-        {"name": "counter-new", "icon": 60184, "color": "FFFFFF"},
-        {"name": "helloworld", "icon": 60185, "color": "FFFFFF"}
+        {"id": 1, "name": "counter-new", "icon": 60184, "color": "FFFFFF", "service_name": "service1"},
+        {"id": 2, "name": "helloworld", "icon": 60185, "color": "FFFFFF", "service_name": "service2"}
       ]
     };
     AppsResponse appsResponse = AppsResponse.fromJson(json);

@@ -17,8 +17,8 @@ class CreateProjectForm extends StatefulWidget {
 class _CreateProjectFormState extends State<CreateProjectForm> {
   final _formKey = GlobalKey<FormState>();
 
-  String projectName;
-  String gitRepository;
+  String projectName = "";
+  String gitRepository = "";
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class _CreateProjectFormState extends State<CreateProjectForm> {
             text: "Créer mon premier projet",
             loading: isLoading,
             onPressed: () async {
-              if (_formKey.currentState.validate()) {
+              if (_formKey.currentState!.validate()) {
                 try {
                   await context.read<UserApplicationModel>().createApp(this.projectName, this.gitRepository);
                   Navigator.of(context).pushNamed(LenraNavigator.HOME_ROUTE);

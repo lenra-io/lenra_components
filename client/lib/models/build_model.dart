@@ -13,7 +13,7 @@ class BuildModel extends ChangeNotifier {
   Map<int, List<BuildResponse>> buildsByApp = {};
 
   List<BuildResponse> buildsForApp(int appId) {
-    if (buildsByApp.containsKey(appId)) return buildsByApp[appId];
+    if (buildsByApp.containsKey(appId)) return buildsByApp[appId]!;
     return [];
   }
 

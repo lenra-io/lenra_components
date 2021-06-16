@@ -5,9 +5,9 @@ void main() {
   test('lenra theme data test default constructor', () {
     LenraThemeData lenraThemeData = LenraThemeData();
 
-    expect(lenraThemeData.lenraBorderThemeData != null, true);
-    expect(lenraThemeData.lenraColorThemeData != null, true);
-    expect(lenraThemeData.lenraButtonThemeData != null, true);
-    expect(lenraThemeData.lenraTextThemeData != null, true);
+    expect(lenraThemeData.lenraBorderThemeData, isNotNull);
+    expect(lenraThemeData.lenraColorThemeData, isNotNull);
+    expect(lenraThemeData.lenraButtonThemeData, isNotNull);
+    expect(lenraThemeData.lenraTextThemeData, isNotNull);
   });
 }

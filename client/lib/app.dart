@@ -11,7 +11,7 @@ import 'package:fr_lenra_client/navigation/lenra_navigator.dart';
 import 'package:provider/provider.dart';
 
 class Lenra extends StatelessWidget {
-  Lenra({Key key}) : super(key: key);
+  Lenra({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     var themeData = LenraThemeData();
@@ -23,7 +23,10 @@ class Lenra extends StatelessWidget {
         ChangeNotifierProvider<StoreModel>(create: (context) => StoreModel()),
         ChangeNotifierProxyProvider<AuthModel, LenraSocketModel>(
           create: (context) => LenraSocketModel(context.read<AuthModel>()),
-          update: (_, authModel, lenraSocketModel) => lenraSocketModel..update(authModel),
+          update: (_, authModel, lenraSocketModel) {
+            if (lenraSocketModel == null) return LenraSocketModel(authModel);
+            return lenraSocketModel..update(authModel);
+          },
         ),
       ],
       builder: (BuildContext context, _) => LenraTheme(

@@ -8,8 +8,12 @@ class CreateAppRequest extends ApiRequest {
   final Color color;
   final IconData icon;
 
-  CreateAppRequest({this.name, this.repository, this.color, this.icon})
-      : this.serviceName = name.toLowerCase().trim().replaceAll(' ', '-');
+  CreateAppRequest({
+    required this.name,
+    required this.repository,
+    required this.color,
+    required this.icon,
+  }) : this.serviceName = name.toLowerCase().trim().replaceAll(' ', '-');
 
   Map<String, dynamic> toJson() => {
         'name': name,

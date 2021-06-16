@@ -19,6 +19,6 @@ void main() {
       ),
     ));
 
-    expect(find.byType(LenraTextField) != null, true);
+    expect(find.byType(LenraTextField), findsOneWidget);
   });
 }

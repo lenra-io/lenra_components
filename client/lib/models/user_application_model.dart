@@ -37,7 +37,7 @@ class UserApplicationModel extends ChangeNotifier {
     return res.app;
   }
 
-  AppResponse get selectedApp {
+  AppResponse? get selectedApp {
     if (userApps.isEmpty) return null;
     return userApps.last;
   }

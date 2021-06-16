@@ -9,7 +9,7 @@ import 'package:fr_lenra_client/socket/lenra_channel.dart';
 import 'package:provider/provider.dart';
 
 class LenraUiController extends StatefulWidget {
-  final String appName;
+  final String? appName;
 
   LenraUiController(this.appName);
 
@@ -20,22 +20,25 @@ class LenraUiController extends StatefulWidget {
 }
 
 class _LenraUiControllerState extends State<LenraUiController> {
-  LenraChannel channel;
+  late LenraChannel channel;
   StreamController<Map<String, dynamic>> uiStream;
   StreamController<Iterable<UiPatchEvent>> patchUiStream;
   bool error = false;
   bool isInitialized = false;
+
+  _LenraUiControllerState()
+      : this.uiStream = StreamController(),
+        this.patchUiStream = StreamController();
 
   @override
   void initState() {
     debugPrint("initState ${widget.appName}");
     super.initState();
     this.channel = this.context.read<LenraSocketModel>().channel("app", {"app": widget.appName});
-    this.uiStream = StreamController();
-    this.patchUiStream = StreamController();
 
-    this.channel.onUi((Map<String, dynamic> ui) {
-      this.uiStream.add(ui);
+    this.channel.onUi((Map<dynamic, dynamic>? ui) {
+      if (ui == null) return;
+      this.uiStream.add(ui as Map<String, dynamic>);
       if (!this.isInitialized) {
         setState(() {
           this.isInitialized = true;
@@ -43,8 +46,8 @@ class _LenraUiControllerState extends State<LenraUiController> {
       }
     });
 
-    channel.onPatchUi((Map<String, dynamic> json) {
-      List<dynamic> patches = json["patch"] as List;
+    this.channel.onPatchUi((Map<dynamic, dynamic>? json) {
+      List<dynamic> patches = json?["patch"] as List;
       Iterable<UiPatchEvent> parsedPatches = patches.map((patch) {
         return UiPatchEvent.fromPatch(patch as Map<String, dynamic>);
       }).toList();
@@ -68,9 +71,7 @@ class _LenraUiControllerState extends State<LenraUiController> {
   }
 
   bool handleNotifications(LenraEvent notification) {
-    if (notification.code != null) {
-      this.channel.send('run', notification.toMap());
-    }
+    this.channel.send('run', notification.toMap());
     return true;
   }
 

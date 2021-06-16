@@ -9,7 +9,7 @@ class PageGuard extends StatefulWidget {
   final List<Guard> guards;
   final Widget child;
 
-  PageGuard({@required this.guards, @required this.child});
+  PageGuard({required this.guards, required this.child});
 
   @override
   State<StatefulWidget> createState() {
@@ -18,14 +18,14 @@ class PageGuard extends StatefulWidget {
 }
 
 class _PageGuardState extends State<PageGuard> {
-  Completer<bool> completer;
+  late Completer<bool> completer;
 
   _PageGuardState();
   @override
   void initState() {
     super.initState();
     this.completer = Completer();
-    SchedulerBinding.instance.addPostFrameCallback((_) {
+    SchedulerBinding.instance?.addPostFrameCallback((_) {
       this.checkAll(this.context);
     });
   }
@@ -53,7 +53,7 @@ class _PageGuardState extends State<PageGuard> {
     return FutureBuilder<bool>(
       future: this.completer.future,
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-        if (snapshot.hasData && snapshot.data) {
+        if (snapshot.hasData && snapshot.data!) {
           return this.widget.child;
         } else {
           return Center(child: CircularProgressIndicator());

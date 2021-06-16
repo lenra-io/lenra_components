@@ -4,7 +4,7 @@ import 'package:fr_lenra_client/components/store_page/app_list.dart';
 import 'package:fr_lenra_client/components/store_page/logout_button.dart';
 
 class StorePage extends StatefulWidget {
-  StorePage({Key key}) : super(key: key);
+  StorePage({Key? key}) : super(key: key);
 
   @override
   _StorePageState createState() => _StorePageState();

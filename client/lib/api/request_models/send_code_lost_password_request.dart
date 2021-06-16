@@ -8,12 +8,6 @@ class SendCodeLostPasswordRequest extends ApiRequest {
 
   SendCodeLostPasswordRequest(this.code, this.email, this.password, this.passwordConfirmation);
 
-  SendCodeLostPasswordRequest.fromJson(Map<String, String> json)
-      : code = json["code"],
-        email = json["email"],
-        password = json["password"],
-        passwordConfirmation = json["passwordConfirmation"];
-
   Map<String, String> toJson() => {
         'code': code,
         'email': email,

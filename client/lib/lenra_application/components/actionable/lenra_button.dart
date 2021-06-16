@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/lenra_application/components/actionable/events/lenra_on_press_event.dart';
-import 'package:fr_lenra_client/lenra_application/components/actionable/events/lenra_on_submit_event.dart';
 import 'package:fr_lenra_client/lenra_application/components/actionable/lenra_actionable.dart';
 import 'package:fr_lenra_client/lenra_application/components/lenra_component.dart';
 import 'package:fr_lenra_client/lenra_application/lenra_component_builder.dart';
@@ -23,19 +22,15 @@ class LenraButtonBuilder extends LenraComponentBuilder<LenraApplicationButton> {
 
 class LenraApplicationButton extends StatelessLenraComponent implements LenraActionable {
   final String value;
-  final bool disabled;
-  final Map<String, dynamic> listeners;
+  final bool? disabled;
+  final Map<String, dynamic>? listeners;
 
-  LenraApplicationButton({@required this.value, this.disabled, this.listeners}) : super();
+  LenraApplicationButton({required this.value, required this.disabled, required this.listeners}) : super();
 
   void onPressed(BuildContext context) {
-    if (this.listeners != null) {
-      final Map<String, dynamic> listener = this.listeners['onClick'];
-      if (listener != null) {
-        LenraOnPressEvent(code: listener['code'], event: {}).dispatch(context);
-      }
-      //? If This button is inside of a LenraForm, this push the notification to it.
-      LenraOnSubmitEvent(code: null, event: {}).dispatch(context);
+    final Map<String, String>? listener = this.listeners?['onClick'];
+    if (listener != null && listener.containsKey("code")) {
+      LenraOnPressEvent(code: listener['code']!, event: {}).dispatch(context);
     }
   }
 

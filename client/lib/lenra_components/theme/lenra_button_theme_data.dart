@@ -3,14 +3,14 @@ import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_property_mapper.dart';
 
 class LenraButtonThemeData {
-  LenraThemePropertyMapper<MaterialStateProperty<Color>, LenraComponentType> backgroundColor;
-  LenraThemePropertyMapper<MaterialStateProperty<Color>, LenraComponentType> foregroundColor;
-  LenraThemePropertyMapper<EdgeInsetsGeometry, LenraComponentSize> padding;
-  LenraThemePropertyMapper<MaterialStateProperty<BorderSide>, LenraComponentType> side;
+  late LenraThemePropertyMapper<MaterialStateProperty<Color>, LenraComponentType> backgroundColor;
+  late LenraThemePropertyMapper<MaterialStateProperty<Color>, LenraComponentType> foregroundColor;
+  late LenraThemePropertyMapper<EdgeInsetsGeometry, LenraComponentSize> padding;
+  late LenraThemePropertyMapper<MaterialStateProperty<BorderSide>, LenraComponentType> side;
   final LenraThemeData lenraTheme;
 
   LenraButtonThemeData({
-    this.lenraTheme,
+    required this.lenraTheme,
   }) {
     this.backgroundColor = LenraThemePropertyMapper.resolveWith((LenraComponentType type) {
       Map<LenraComponentType, MaterialStateProperty<Color>> map = {
@@ -75,14 +75,12 @@ class LenraButtonThemeData {
     });
 
     this.padding = LenraThemePropertyMapper.resolveWith((LenraComponentSize size) {
-      return lenraTheme.paddingMap[size] ?? lenraTheme.paddingMap[LenraComponentSize.Medium];
+      return lenraTheme.paddingMap[size] ?? lenraTheme.paddingMap[LenraComponentSize.Medium]!;
     });
 
     this.side = LenraThemePropertyMapper.resolveWith((LenraComponentType type) {
-      Map<LenraComponentType, MaterialStateProperty<BorderSide>> map = {
-        LenraComponentType.Primary: MaterialStateProperty.resolveWith((states) {
-          return null;
-        }),
+      Map<LenraComponentType, MaterialStateProperty<BorderSide>?> map = {
+        LenraComponentType.Primary: null,
         LenraComponentType.Secondary: MaterialStateProperty.resolveWith((states) {
           if (states.contains(MaterialState.disabled)) {
             return lenraTheme.lenraBorderThemeData.secondaryDisabledBorder;
@@ -91,9 +89,7 @@ class LenraButtonThemeData {
           }
           return lenraTheme.lenraBorderThemeData.secondaryBorder;
         }),
-        LenraComponentType.Tertiary: MaterialStateProperty.resolveWith((states) {
-          return null;
-        }),
+        LenraComponentType.Tertiary: null,
       };
 
       return map[type] ?? MaterialStateProperty.all(lenraTheme.lenraBorderThemeData.primaryBorder);

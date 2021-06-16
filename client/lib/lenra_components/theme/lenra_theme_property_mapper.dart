@@ -1,5 +1,5 @@
 class LenraThemePropertyMapper<T, D> {
-  T Function(D) resolver;
+  late T Function(D) resolver;
 
   T resolve(D property) {
     return resolver(property);
