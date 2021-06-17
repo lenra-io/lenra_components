@@ -34,6 +34,8 @@ class Lenra extends StatelessWidget {
         child: MaterialApp(
           title: 'Lenra',
           navigatorKey: LenraNavigator.navigatorKey,
+          onGenerateInitialRoutes: (initialRoute) =>
+              [LenraNavigator.handleGenerateRoute(RouteSettings(name: initialRoute))],
           onGenerateRoute: LenraNavigator.handleGenerateRoute,
           theme: ThemeData(
             textTheme: TextTheme(bodyText2: themeData.lenraTextThemeData.bodyText),

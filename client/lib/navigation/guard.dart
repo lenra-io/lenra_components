@@ -27,7 +27,11 @@ class Guard {
     return (BuildContext context) async {
       AuthModel authModel = context.read<AuthModel>();
       if (!authModel.isAuthenticated() && authModel.refreshStatus.isNone()) {
-        await authModel.refresh().catchError((e) {});
+        try {
+          await authModel.refresh();
+        } catch (e) {
+          return authModel.isAuthenticated() == mustBeAuthenticated;
+        }
         /*if (authModel.refreshStatus.isNone())
           // Try to auth user with refresh token
           await authModel.refresh().catchError((e) => null);

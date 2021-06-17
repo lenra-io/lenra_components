@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:fr_lenra_client/api/response_models/api_errors.dart';
 
 enum RequestStatus {
@@ -53,7 +54,10 @@ class Status<T> {
       // });
       // _listeners.clear();
       notifyListeners();
-      return Future.error(errors);
+      return Future<T>.error(errors);
+    } catch (e) {
+      debugPrint("Error: " + e.toString());
+      return Future.error(e.toString());
     }
   }
 

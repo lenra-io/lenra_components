@@ -15,6 +15,7 @@ import 'package:fr_lenra_client/components/page/register_page.dart';
 import 'package:fr_lenra_client/config/config.dart';
 import 'package:fr_lenra_client/lenra_application/lenra_ui_controller.dart';
 import 'package:fr_lenra_client/navigation/guard.dart';
+import 'package:fr_lenra_client/navigation/page_404.dart';
 import 'package:fr_lenra_client/navigation/page_guard.dart';
 
 typedef CustomPageBuilder = Widget Function(Map<String, String>);
@@ -151,12 +152,12 @@ class LenraNavigator {
     return null;
   }
 
-  static Route<dynamic>? handleGenerateRoute(RouteSettings settings) {
+  static Route<dynamic> handleGenerateRoute(RouteSettings settings) {
     debugPrint("route: ${settings.name}");
     LenraNavigator.currentRoute = settings.name;
-    if (settings.name == null) return null;
+    if (settings.name == null) return Page404.pageRoutebuilder(settings);
     Widget? page = _getFirstMatchingPage(settings.name!);
-    if (page == null) return null;
+    if (page == null) return Page404.pageRoutebuilder(settings);
     return PageRouteBuilder(
       pageBuilder: (BuildContext context, _a, _b) {
         return page;

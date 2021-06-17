@@ -5,8 +5,8 @@ enum UserRole { unverified_user, user, dev, admin }
 class User extends ApiResponse {
   int id;
   String email;
-  String firstName;
-  String lastName;
+  String? firstName;
+  String? lastName;
   UserRole role;
 
   User.fromJson(Map<String, dynamic> json)
