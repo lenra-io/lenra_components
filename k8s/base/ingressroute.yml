@@ -9,7 +9,7 @@ spec:
     - kind: Rule
       match: Host(`app.test.lenra.io`, `dev.test.lenra.io`) && Path(`/laisse-moi-entrer`)
       middlewares:
-        - name: basicauth
+        - name: auth
           namespace: traefik
         - name: redirect-to-base
           namespace: traefik
@@ -19,16 +19,19 @@ spec:
           port: 8080
       priority: 50
     - kind: Rule
-      match: Host(`app.test.lenra.io`, `dev.test.lenra.io`) && PathPrefix(`/api`, `/auth`, `/socket`, `/runner`)
+      match: Host(`app.test.lenra.io`, `dev.test.lenra.io`) && HeadersRegexp(`Cookie`, `(^|;)lenra-intra=`) && PathPrefix(`/api`, `/auth`, `/socket`, `/runner`)
+      middlewares:
+        - name: auth
+          namespace: traefik
       services:
         - kind: Service
           name: lenra-server
           port: 4000
       priority: 40
     - kind: Rule
-      match: Host(`app.test.lenra.io`, `dev.test.lenra.io`) && HeadersRegexp(`Authorization`, `^Basic `) && PathPrefix(`/`)
+      match: Host(`app.test.lenra.io`, `dev.test.lenra.io`) && HeadersRegexp(`Cookie`, `(^|;)lenra-intra=`)
       middlewares:
-        - name: basicauth
+        - name: auth
           namespace: traefik
       services:
         - kind: Service
