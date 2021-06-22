@@ -327,12 +327,10 @@ packages:
   phoenix_wings:
     dependency: "direct main"
     description:
-      path: "."
-      ref: fix-nullsafety
-      resolved-ref: "1cf136b21612ff22dea20e2cdde961c021ca09df"
-      url: "https://github.com/pichoemr/phoenix_wings.git"
-    source: git
-    version: "1.0.0"
+      name: phoenix_wings
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   plugin_platform_interface:
     dependency: transitive
     description:

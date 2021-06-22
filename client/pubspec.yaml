@@ -10,11 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   intl: ^0.17.0
-  # phoenix_wings: ^1.0.0
-  phoenix_wings: 
-    git:
-      url: https://github.com/pichoemr/phoenix_wings.git
-      ref: fix-nullsafety
+  phoenix_wings: ^1.0.2
   http: ^0.13.3
   sentry_flutter: ^5.1.0
   provider: ^5.0.0
