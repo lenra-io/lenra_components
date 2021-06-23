@@ -46,28 +46,30 @@ class LenraThemeData {
   }) {
     this.paddingMap = paddingMap ??
         {
-          LenraComponentSize.Small: EdgeInsets.symmetric(vertical: 0.5 * baseSize, horizontal: 2 * baseSize),
-          LenraComponentSize.Medium: EdgeInsets.symmetric(vertical: 1 * baseSize, horizontal: 2 * baseSize),
-          LenraComponentSize.Large: EdgeInsets.symmetric(vertical: 1.5 * baseSize, horizontal: 2 * baseSize),
+          LenraComponentSize.Small: EdgeInsets.symmetric(
+              vertical: 0.5 * baseSize, horizontal: 2 * baseSize),
+          LenraComponentSize.Medium: EdgeInsets.symmetric(
+              vertical: 1 * baseSize, horizontal: 2 * baseSize),
+          LenraComponentSize.Large: EdgeInsets.symmetric(
+              vertical: 1.5 * baseSize, horizontal: 2 * baseSize),
         };
     this.lenraColorThemeData = lenraColorThemeData ?? LenraColorThemeData();
     this.lenraTextThemeData = lenraTextThemeData ?? LenraTextThemeData();
     this.lenraBorderThemeData = lenraBorderThemeData ?? LenraBorderThemeData();
     this.lenraTableThemeData = LenraTableThemeData(
-      /* TODO: rename LenraTheme to lenraThemeData*/
-      lenraTheme: this,
+      lenraThemeData: this,
     );
     this.lenraButtonThemeData = LenraButtonThemeData(
-      lenraTheme: this,
+      lenraThemeData: this,
     );
     this.lenraRadioThemeData = LenraRadioThemeData(
-      lenraTheme: this,
+      lenraThemeData: this,
     );
     this.lenraCheckboxThemeData = LenraCheckboxThemeData(
-      lenraTheme: this,
+      lenraThemeData: this,
     );
     this.lenraTextFieldThemeData = LenraTextFieldThemeData(
-      lenraTheme: this,
+      lenraThemeData: this,
       paddingMap: this.paddingMap.map((key, value) => MapEntry(
           key,
           EdgeInsets.only(
@@ -93,13 +95,14 @@ class LenraThemeData {
     return LenraThemeData(
       baseSize: baseSize ?? this.baseSize,
       paddingMap: paddingMap ?? this.paddingMap,
-      lenraColorThemeData: lenraColorThemeData ?? this.lenraColorThemeData,
       lenraTextThemeData: lenraTextThemeData ?? this.lenraTextThemeData,
       lenraBorderThemeData: lenraBorderThemeData ?? this.lenraBorderThemeData,
       lenraButtonThemeData: lenraButtonThemeData ?? this.lenraButtonThemeData,
       lenraRadioThemeData: lenraRadioThemeData ?? this.lenraRadioThemeData,
-      lenraCheckboxThemeData: lenraCheckboxThemeData ?? this.lenraCheckboxThemeData,
-      lenraTextFieldThemeData: lenraTextFieldThemeData ?? this.lenraTextFieldThemeData,
+      lenraCheckboxThemeData:
+          lenraCheckboxThemeData ?? this.lenraCheckboxThemeData,
+      lenraTextFieldThemeData:
+          lenraTextFieldThemeData ?? this.lenraTextFieldThemeData,
     );
   }
 }

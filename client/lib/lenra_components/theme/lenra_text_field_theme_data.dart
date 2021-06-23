@@ -3,61 +3,107 @@ import 'package:fr_lenra_client/lenra_components/theme/lenra_color_theme_data.da
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
 
 class LenraTextFieldThemeData {
-  Map<LenraComponentSize, EdgeInsets> paddingMap;
-  /* TODO: rename LenraTheme to lenraThemeData*/
-  LenraThemeData lenraTheme;
+  final Map<LenraComponentSize, EdgeInsets> paddingMap;
+  final LenraThemeData lenraThemeData;
+  final BorderSide? enabledBorder;
+  final BorderSide? focusedBorder;
+  final BorderSide? errorBorder;
+  final BorderSide? focusedErrorBorder;
+  final BorderSide? disabledBorder;
+  final TextStyle? hintTextStyle;
+  final TextStyle? errorTextStyle;
 
   LenraTextFieldThemeData({
-    required this.lenraTheme,
+    required this.lenraThemeData,
     required this.paddingMap,
+    this.enabledBorder,
+    this.focusedBorder,
+    this.errorBorder,
+    this.focusedErrorBorder,
+    this.disabledBorder,
+    this.errorTextStyle,
+    this.hintTextStyle,
   });
-  InputDecoration getInputdecoration(LenraComponentSize size, bool disabled, String? hintText, bool error, bool obscure,
-      void Function()? onSuffixPressed, String? errorMessage) {
+  InputDecoration getInputdecoration(
+      LenraComponentSize size,
+      bool disabled,
+      String? hintText,
+      bool error,
+      bool obscure,
+      void Function()? onSuffixPressed,
+      String? errorMessage) {
     return InputDecoration(
       contentPadding: paddingMap[size],
       isDense: true,
       filled: false,
       border: OutlineInputBorder(
-        borderSide: BorderSide(color: LenraColorThemeData.LENRA_DISABLED_GRAY),
+        borderSide: lenraThemeData.lenraBorderThemeData.primaryDisabledBorder,
       ),
-      fillColor: (disabled) ? Colors.transparent : LenraColorThemeData.LENRA_DISABLED_GRAY,
-      hoverColor: (disabled) ? Colors.transparent : LenraColorThemeData.LENRA_DISABLED_GRAY,
+      fillColor: (disabled)
+          ? Colors.transparent
+          : LenraColorThemeData.LENRA_DISABLED_GRAY,
+      hoverColor: (disabled)
+          ? Colors.transparent
+          : LenraColorThemeData.LENRA_DISABLED_GRAY,
       enabledBorder: OutlineInputBorder(
-        borderSide: lenraTheme.lenraBorderThemeData.primaryBorder,
+        borderSide:
+            enabledBorder ?? lenraThemeData.lenraBorderThemeData.primaryBorder,
       ),
       focusedBorder: OutlineInputBorder(
-        borderSide: lenraTheme.lenraBorderThemeData.primaryHoverBorder,
+        borderSide: focusedBorder ??
+            lenraThemeData.lenraBorderThemeData.primaryHoverBorder,
       ),
       errorBorder: OutlineInputBorder(
-        borderSide: lenraTheme.lenraBorderThemeData.errorBorder,
+        borderSide:
+            errorBorder ?? lenraThemeData.lenraBorderThemeData.errorBorder,
       ),
       focusedErrorBorder: OutlineInputBorder(
-        borderSide: lenraTheme.lenraBorderThemeData.secondaryBorder,
+        borderSide: focusedErrorBorder ??
+            lenraThemeData.lenraBorderThemeData.secondaryBorder,
       ),
       disabledBorder: OutlineInputBorder(
-        borderSide: lenraTheme.lenraBorderThemeData.primaryBorder,
+        borderSide:
+            disabledBorder ?? lenraThemeData.lenraBorderThemeData.primaryBorder,
       ),
       hintText: hintText,
-      hintStyle: lenraTheme.lenraTextThemeData.disabledBodyText,
+      hintStyle:
+          hintTextStyle ?? lenraThemeData.lenraTextThemeData.disabledBodyText,
       errorText: (error) ? errorMessage : null,
-      errorStyle: lenraTheme.lenraTextThemeData.errorText,
+      errorStyle: errorTextStyle ?? lenraThemeData.lenraTextThemeData.errorText,
       suffixIcon: (onSuffixPressed != null)
           ? IconButton(
               icon: Icon(
                 obscure ? Icons.visibility_off : Icons.visibility,
               ),
-              color: lenraTheme.lenraBorderThemeData.primaryBorder.color,
-              onPressed: onSuffixPressed,
+              color: lenraThemeData.lenraBorderThemeData.primaryBorder.color,
+              onPressed: () {
+                onSuffixPressed();
+              },
             )
           : null,
     );
   }
 
   TextStyle getLabelStyle() {
-    return lenraTheme.lenraTextThemeData.bodyText;
+    return lenraThemeData.lenraTextThemeData.bodyText;
   }
 
   TextStyle getDescriptionStyle() {
-    return lenraTheme.lenraTextThemeData.disabledBodyText;
+    return lenraThemeData.lenraTextThemeData.disabledBodyText;
+  }
+
+  LenraTextFieldThemeData copyWith(LenraTextFieldThemeData incoming) {
+    return LenraTextFieldThemeData(
+      lenraThemeData: this.lenraThemeData,
+      paddingMap: incoming.paddingMap,
+      enabledBorder: incoming.enabledBorder ?? this.enabledBorder,
+      focusedBorder: incoming.focusedBorder ?? this.focusedBorder,
+      errorBorder: incoming.errorBorder ?? this.errorBorder,
+      focusedErrorBorder:
+          incoming.focusedErrorBorder ?? this.focusedErrorBorder,
+      disabledBorder: incoming.disabledBorder ?? this.disabledBorder,
+      errorTextStyle: incoming.errorTextStyle ?? this.errorTextStyle,
+      hintTextStyle: incoming.hintTextStyle ?? this.hintTextStyle,
+    );
   }
 }

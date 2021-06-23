@@ -26,7 +26,8 @@ class LenraButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LenraButtonThemeData finalLenraButtonThemeData = LenraTheme.of(context).lenraButtonThemeData;
+    final LenraButtonThemeData finalLenraButtonThemeData =
+        LenraTheme.of(context).lenraButtonThemeData;
 
     Widget child = Text(
       text,

@@ -6,7 +6,8 @@ import 'package:fr_lenra_client/lenra_components/theme/lenra_table_theme_data.da
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
 
 void main() {
-  test('lenra table row test parameterized constructor and toTableRow function', () {
+  test('lenra table row test parameterized constructor and toTableRow function',
+      () {
     LenraTableRow lenraTableRow = LenraTableRow(
       children: [
         Text("test"),
@@ -16,14 +17,15 @@ void main() {
     expect(
         lenraTableRow.toTableRow(
           padding: EdgeInsets.symmetric(vertical: 1 * 8.0, horizontal: 2 * 8.0),
-          theme: LenraTableThemeData(lenraTheme: LenraThemeData()),
+          theme: LenraTableThemeData(lenraThemeData: LenraThemeData()),
         ) is TableRow,
         true);
     expect(
         lenraTableRow
             .toTableRow(
-              padding: EdgeInsets.symmetric(vertical: 1 * 8.0, horizontal: 2 * 8.0),
-              theme: LenraTableThemeData(lenraTheme: LenraThemeData()),
+              padding:
+                  EdgeInsets.symmetric(vertical: 1 * 8.0, horizontal: 2 * 8.0),
+              theme: LenraTableThemeData(lenraThemeData: LenraThemeData()),
             )
             .children!
             .first is LenraTableCell,

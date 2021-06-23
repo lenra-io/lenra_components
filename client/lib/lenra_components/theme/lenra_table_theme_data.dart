@@ -3,27 +3,46 @@ import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_property_mapper.dart';
 
 class LenraTableThemeData {
-  LenraThemeData lenraTheme;
-  late LenraThemePropertyMapper<EdgeInsetsGeometry, LenraComponentSize> padding;
+  final LenraThemeData lenraThemeData;
+  final Color? borderColor;
+  final Color? backgroundColor;
+  late LenraThemePropertyMapper<dynamic, LenraComponentSize> padding;
+
   LenraTableThemeData({
-    required this.lenraTheme,
+    required this.lenraThemeData,
+    this.backgroundColor,
+    this.borderColor,
   }) {
-    this.padding = LenraThemePropertyMapper.resolveWith((LenraComponentSize size) {
-      return lenraTheme.paddingMap[size] ?? lenraTheme.paddingMap[LenraComponentSize.Medium]!;
+    this.padding =
+        LenraThemePropertyMapper.resolveWith((LenraComponentSize size) {
+      return lenraThemeData.paddingMap[size] ??
+          lenraThemeData.paddingMap[LenraComponentSize.Medium]!;
     });
   }
 
-  EdgeInsetsGeometry getPadding(LenraComponentSize size) {
+  EdgeInsets getPadding(LenraComponentSize size) {
     return this.padding.resolve(size);
   }
 
   Color getBorderColor() {
-    return lenraTheme.lenraBorderThemeData.primaryBorder.color;
+    return backgroundColor ??
+        lenraThemeData.lenraBorderThemeData.primaryBorder.color;
   }
 
   BoxDecoration getBoxDecoration(bool header) {
     return BoxDecoration(
-      color: header ? lenraTheme.lenraColorThemeData.primaryBackgroundColor : Colors.transparent,
+      color: header
+          ? borderColor ??
+              lenraThemeData.lenraColorThemeData.primaryBackgroundColor
+          : Colors.transparent,
+    );
+  }
+
+  LenraTableThemeData copyWith(LenraTableThemeData incoming) {
+    return LenraTableThemeData(
+      lenraThemeData: this.lenraThemeData,
+      borderColor: incoming.borderColor ?? this.borderColor,
+      backgroundColor: incoming.backgroundColor ?? this.backgroundColor,
     );
   }
 }
