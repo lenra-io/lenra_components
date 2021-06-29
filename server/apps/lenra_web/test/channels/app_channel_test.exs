@@ -64,12 +64,15 @@ defmodule LenraWeb.AppChannelTest do
     # |> AppStub.expect_deploy_app_once(%{"ok" => "200"})
 
     Ecto.Multi.new()
-    |> Ecto.Multi.insert(:inserted_application, LenraApplication.new(user.id, %{
-      name: "Counter",
-      service_name: @app_name,
-      color: "FFFFFF",
-      icon: "60189"
-    }))
+    |> Ecto.Multi.insert(
+      :inserted_application,
+      LenraApplication.new(user.id, %{
+        name: "Counter",
+        service_name: @app_name,
+        color: "FFFFFF",
+        icon: "60189"
+      })
+    )
     |> Ecto.Multi.insert(:inserted_env, fn %{inserted_application: app} ->
       Environment.new(app.id, user.id, nil, %{name: "live", is_ephemeral: false})
     end)

@@ -25,6 +25,7 @@ variables:
 
 deploy test:
   extends: .deploy kustomize force update
+  allow_failure: true
   variables:
     KUSTOMIZE_ENV: test
     LENRA_HOST: app.${CI_ENVIRONMENT_SLUG}.lenra.io
@@ -51,6 +52,7 @@ deploy test:
 
 stop test env:
   extends: .stop dynamic env
+  allow_failure: true
   needs:
     - deploy test
   rules: !reference [deploy test, rules]

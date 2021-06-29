@@ -43,6 +43,7 @@ server dockerize:
     - .build docker
   variables:
     DOCKER_IMAGE: $CI_REGISTRY_IMAGE/server
+    DOCKER_BUILD_ARGS: "CI CI_JOB_TOKEN"
   before_script:
     - !reference [.docker, before_script]
     - mkdir -p apps/ui_validator/priv/static

@@ -34,7 +34,7 @@ class _LenraUiControllerState extends State<LenraUiController> {
   void initState() {
     debugPrint("initState ${widget.appName}");
     super.initState();
-    this.channel = this.context.read<LenraSocketModel>().channel("app", {"app": widget.appName});
+    this.channel = this.context.read<SocketModel>().channel("app", {"app": widget.appName});
 
     this.channel.onUi((Map<dynamic, dynamic>? ui) {
       if (ui == null) return;

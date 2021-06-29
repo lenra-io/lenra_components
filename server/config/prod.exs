@@ -1,8 +1,7 @@
 # This is the prod config, loaded on compile time during CI/CD. This is used for staging/test and prod environments.
 # There is NO important data here, all secret/passwords and dynamic config are stored in releases.exs
 
-use Mix.Config
-
+import Config
 config :lenra, Lenra.Repo, pool_size: 10
 
 # For production, don't forget to configure the url host
@@ -20,9 +19,6 @@ config :lenra_web, LenraWeb.Endpoint,
   ],
   server: true,
   cache_static_manifest: "priv/static/cache_manifest.json"
-
-config :ui_validator,
-  json_validator_schema_dir: "priv/static/json_validator/"
 
 config :lenra,
   faas_secrets: ["gitlab-registry"]

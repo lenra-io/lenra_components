@@ -1,8 +1,7 @@
 # This is the dev config, loaded only on local on compile time so the secrets are not important.
 # DO NOT USE THESE SECRET ON PRODUCTION !
 
-use Mix.Config
-
+import Config
 # Configure your database
 config :lenra, Lenra.Repo,
   username: System.get_env("POSTGRES_USER", "postgres"),

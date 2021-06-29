@@ -35,7 +35,7 @@ defmodule Lenra.Monitor do
       [:lenra, :client_app_channel, :stop]
     ]
 
-    :telemetry.attach_many("lenra.monitor", events, &handle_event/4, nil)
+    :telemetry.attach_many("lenra.monitor", events, &Lenra.Monitor.handle_event/4, nil)
   end
 
   def handle_event([:lenra, :openfaas_runaction, :stop], measurements, metadata, _config) do

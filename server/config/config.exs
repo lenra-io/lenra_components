@@ -11,8 +11,7 @@
 # This is the BASE config, loaded at build time and it will be override by other configs
 
 # General application configuration
-use Mix.Config
-
+import Config
 # Configure the repo
 config :lenra,
   ecto_repos: [Lenra.Repo]
@@ -48,16 +47,20 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-# Use Jiffy Nif for JSON parsing in Phoenix
+# Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
 # Configure JSON validator
+# The JsonSchemata dependency is defined here because the only way to have the ex_json_schema
+# library working is by defining the remote_schema_resolver in the config.
+# The config cannot be read from the ApplicationRunner library's config directly so it has to be set here.
+# See https://github.com/jonasschmidt/ex_json_schema#loading-remote-schemata
 config :ex_json_schema,
        :remote_schema_resolver,
-       {UIValidator.JsonSchemata, :read_schema}
+       {ApplicationRunner.JsonSchemata, :read_schema}
 
-config :ui_validator,
-  json_validator_schema_dir: "../../../../../json_validator/"
+config :application_runner,
+  adapter: LenraWeb.ApplicationRunnerAdapter
 
 config :lenra,
   faas_secrets: []

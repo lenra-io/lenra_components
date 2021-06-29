@@ -43,7 +43,18 @@ defmodule LenraWeb.MixProject do
       {:sentry, "~> 8.0"},
       {:peerage, "~> 1.0"},
       {:lenra, in_umbrella: true},
-      {:utilities, in_umbrella: true}
+      private_git(:bouncer, "gitlab.com", "lenra/platform/libs/bouncer.git", "0.1.0"),
+      private_git(:application_runner, "gitlab.com", "lenra/platform/libs/application-runner.git", "0.3.0")
     ]
+  end
+
+  defp private_git(name, host, project, tag) do
+    case System.get_env("CI") do
+      "true" ->
+        {name, git: "https://gitlab-ci-token:#{System.get_env("CI_JOB_TOKEN")}@#{host}/#{project}", tag: tag}
+
+      _ ->
+        {name, git: "git@#{host}:#{project}", tag: tag}
+    end
   end
 end

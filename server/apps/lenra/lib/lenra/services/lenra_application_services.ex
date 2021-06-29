@@ -20,8 +20,8 @@ defmodule Lenra.LenraApplicationServices do
     Repo.fetch(LenraApplication, app_id)
   end
 
-  def fetch_by(clauses) do
-    Repo.fetch_by(LenraApplication, clauses)
+  def fetch_by(clauses, error \\ {:error, :error_404}) do
+    Repo.fetch_by(LenraApplication, clauses, error)
   end
 
   def create(user_id, params) do

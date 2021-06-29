@@ -1,10 +1,13 @@
 FROM elixir:1.11-alpine AS build
 
+ARG CI
+ARG CI_JOB_TOKEN
+
 # prepare build dir
 WORKDIR /app
 
 # install build dependencies
-RUN apk add --no-cache build-base git python3
+RUN apk add --no-cache build-base git python3 openssh
 
 # install hex + rebar
 RUN mix local.hex --force && \
@@ -23,7 +26,7 @@ RUN mix do deps.get, deps.compile
 RUN mix phx.digest
 
 # compile and build release
-RUN mix do compile, release
+RUN mix do compile, release lenra
 
 # prepare release image
 FROM erlang:22-alpine

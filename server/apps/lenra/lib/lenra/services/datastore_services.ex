@@ -24,8 +24,8 @@ defmodule Lenra.DatastoreServices do
   """
   def get_datastore_data(user_id, application_id) do
     case get_by(user_id: user_id, application_id: application_id) do
-      nil -> %{}
-      datastore -> datastore.data
+      nil -> {:ok, %{}}
+      datastore -> {:ok, datastore.data}
     end
   end
 

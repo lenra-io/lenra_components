@@ -6,7 +6,8 @@ defmodule LenraWeb.AppChannel do
 
   require Logger
 
-  alias Lenra.{Repo, ActionBuilder, LenraApplicationServices}
+  alias Lenra.{Repo, LenraApplicationServices}
+  alias ApplicationRunner.ActionBuilder
 
   def join("app", %{"app" => app_name}, socket) do
     AppChannelMonitor.monitor(self(), %{user_id: socket.assigns.user.id, application_name: app_name})
@@ -27,7 +28,7 @@ defmodule LenraWeb.AppChannel do
 
       {:ok, socket}
     else
-      err -> {:error, %{reason: "No app found"}}
+      _err -> {:error, %{reason: "No app found"}}
     end
   end
 
@@ -51,7 +52,7 @@ defmodule LenraWeb.AppChannel do
   defp handle_run(socket, action_key, event \\ %{}) do
     %{app_name: app_name, user: user, build_number: build_number} = socket.assigns
 
-    case ActionBuilder.listener_run({user.id, app_name}, build_number, action_key, event) do
+    case ApplicationRunner.ActionBuilder.listener_run({user.id, app_name}, build_number, action_key, event) do
       {:ok, patch} ->
         push(socket, "patchUi", %{patch: patch})
 

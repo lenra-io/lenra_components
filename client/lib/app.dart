@@ -2,9 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
+import 'package:fr_lenra_client/models/app_socket_model.dart';
 import 'package:fr_lenra_client/models/auth_model.dart';
 import 'package:fr_lenra_client/models/build_model.dart';
-import 'package:fr_lenra_client/models/socket_model.dart';
 import 'package:fr_lenra_client/models/store_model.dart';
 import 'package:fr_lenra_client/models/user_application_model.dart';
 import 'package:fr_lenra_client/navigation/lenra_navigator.dart';
@@ -21,10 +21,10 @@ class Lenra extends StatelessWidget {
         ChangeNotifierProvider<BuildModel>(create: (context) => BuildModel()),
         ChangeNotifierProvider<UserApplicationModel>(create: (context) => UserApplicationModel()),
         ChangeNotifierProvider<StoreModel>(create: (context) => StoreModel()),
-        ChangeNotifierProxyProvider<AuthModel, LenraSocketModel>(
-          create: (context) => LenraSocketModel(context.read<AuthModel>()),
+        ChangeNotifierProxyProvider<AuthModel, AppSocketModel>(
+          create: (context) => AppSocketModel(context.read<AuthModel>()),
           update: (_, authModel, lenraSocketModel) {
-            if (lenraSocketModel == null) return LenraSocketModel(authModel);
+            if (lenraSocketModel == null) return AppSocketModel(authModel);
             return lenraSocketModel..update(authModel);
           },
         ),

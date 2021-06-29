@@ -17,10 +17,6 @@ defmodule Lenra.Application do
       {Phoenix.PubSub, name: Lenra.PubSub},
       # Start guardian Sweeper to delete all expired tokens
       {Guardian.DB.Token.SweeperServer, []},
-      # Start the Cache Storage system (init all tables of storage)
-      LenraServers.Storage,
-      # Start the json validator server for the UI
-      UIValidator.JsonSchemata,
       # Start the Event Queue
       {EventQueue, &Lenra.LoadWorker.load/0},
       # Start the HTTP Client

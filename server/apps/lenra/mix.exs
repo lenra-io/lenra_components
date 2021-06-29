@@ -6,8 +6,8 @@ defmodule Lenra.MixProject do
       app: :lenra,
       version: "0.1.0",
       build_path: "../../_build",
-      config_path: "../../config/config.exs",
       deps_path: "../../deps",
+      config_path: "../../config/config.exs",
       lockfile: "../../mix.lock",
       elixir: "~> 1.11",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -44,9 +44,14 @@ defmodule Lenra.MixProject do
       {:argon2_elixir, "~> 2.0"},
       {:sentry, "~> 8.0"},
       {:bypass, "~> 2.0", only: :test},
-      {:ui_validator, in_umbrella: true},
-      {:event_queue, in_umbrella: true},
-      {:utilities, in_umbrella: true}
+      private_git(:event_queue, "gitlab.com", "lenra/platform/libs/event-queue.git", "0.1.0")
     ]
+  end
+
+  defp private_git(name, host, project, tag) do
+    case System.get_env("CI") do
+      "true" -> {name, git: "https://gitlab-ci-token:#{System.get_env("CI_JOB_TOKEN")}@#{host}/#{project}", tag: tag}
+      _ -> {name, git: "git@#{host}:#{project}", tag: tag}
+    end
   end
 end
