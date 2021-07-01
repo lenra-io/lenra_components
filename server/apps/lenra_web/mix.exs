@@ -9,7 +9,7 @@ defmodule LenraWeb.MixProject do
       config_path: "../../config/config.exs",
       deps_path: "../../deps",
       lockfile: "../../mix.lock",
-      elixir: "~> 1.11",
+      elixir: "~> 1.12",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -33,8 +33,8 @@ defmodule LenraWeb.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:phoenix, "~> 1.5.4"},
-      {:phoenix_live_dashboard, "~> 0.2"},
+      {:phoenix, "~> 1.5.9"},
+      {:phoenix_live_dashboard, "~> 0.4"},
       {:telemetry_metrics, "~> 0.4"},
       {:telemetry_poller, "~> 0.4"},
       {:plug_cowboy, "~> 2.0"},
@@ -43,8 +43,8 @@ defmodule LenraWeb.MixProject do
       {:sentry, "~> 8.0"},
       {:peerage, "~> 1.0"},
       {:lenra, in_umbrella: true},
-      private_git(:bouncer, "gitlab.com", "lenra/platform/libs/bouncer.git", "0.1.0"),
-      private_git(:application_runner, "gitlab.com", "lenra/platform/libs/application-runner.git", "0.3.0")
+      private_git(:bouncer, "gitlab.com", "lenra/platform/libs/bouncer.git", "0.2.0"),
+      private_git(:application_runner, "gitlab.com", "lenra/platform/libs/application-runner.git", "0.4.0")
     ]
   end
 

@@ -1,6 +1,6 @@
 .server job:
   extends: .subdir job
-  image: registry.gitlab.com/lenra/integration/docker-ci-elixir
+  image: registry.gitlab.com/lenra/integration/docker-ci-elixir:1.12-alpine
   variables:
     WORKDIR: server
   cache:
@@ -13,6 +13,7 @@ server build:
   extends: .server job
   stage: build
   script:
+    - mix local.hex --force
     - mix deps.get
     - mix compile
   artifacts:
@@ -33,6 +34,7 @@ server tests:
   stage: test
   coverage: '/\[TOTAL\]  (\d+.\d+)%/'
   script:
+    - mix local.hex --force
     - mix deps.get
     - mix credo --strict
     - mix coveralls --umbrella

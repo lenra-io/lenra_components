@@ -1,4 +1,4 @@
-FROM elixir:1.11-alpine AS build
+FROM elixir:1.12-alpine AS build
 
 ARG CI
 ARG CI_JOB_TOKEN

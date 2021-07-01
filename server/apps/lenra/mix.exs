@@ -9,7 +9,7 @@ defmodule Lenra.MixProject do
       deps_path: "../../deps",
       config_path: "../../config/config.exs",
       lockfile: "../../mix.lock",
-      elixir: "~> 1.11",
+      elixir: "~> 1.12",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
@@ -44,7 +44,7 @@ defmodule Lenra.MixProject do
       {:argon2_elixir, "~> 2.0"},
       {:sentry, "~> 8.0"},
       {:bypass, "~> 2.0", only: :test},
-      private_git(:event_queue, "gitlab.com", "lenra/platform/libs/event-queue.git", "0.1.0")
+      private_git(:event_queue, "gitlab.com", "lenra/platform/libs/event-queue.git", "0.2.0")
     ]
   end
 
