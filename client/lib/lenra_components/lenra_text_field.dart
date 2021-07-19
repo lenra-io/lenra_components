@@ -19,6 +19,8 @@ class LenraTextField extends StatelessWidget {
   final void Function()? onSuffixPressed;
   final LenraComponentSize size;
   final double width;
+  final int? minLines;
+  final int? maxLines;
   final FocusNode? focusNode;
   final TextEditingController? controller;
 
@@ -36,9 +38,16 @@ class LenraTextField extends StatelessWidget {
     this.onSuffixPressed,
     this.size = LenraComponentSize.Medium,
     this.width = double.infinity,
+    this.minLines,
+    this.maxLines = 1,
     this.focusNode,
     this.controller,
-  });
+  })  : assert(maxLines == null || maxLines > 0),
+        assert(minLines == null || minLines > 0),
+        assert(
+          (maxLines == null) || (minLines == null) || (maxLines >= minLines),
+          "minLines can't be greater than maxLines",
+        );
 
   @override
   Widget build(BuildContext context) {
@@ -96,6 +105,8 @@ class LenraTextField extends StatelessWidget {
       enabled: !this.disabled,
       obscureText: this.obscure,
       style: lenraTextFieldThemeData.getLabelStyle(),
+      minLines: this.minLines,
+      maxLines: this.maxLines,
       strutStyle: StrutStyle(
         leading: 0.15,
       ),

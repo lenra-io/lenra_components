@@ -15,9 +15,7 @@ Function emailValidator(Function? aditionalValidator) {
       checkNotEmpty(),
       checkLength(min: 2, max: 64),
       checkEmailFormat(),
-      (aditionalValidator != null)
-          ? aditionalValidator()
-          : (String? value) {},
+      (aditionalValidator != null) ? aditionalValidator() : (String? value) {},
     ],
   );
 }
@@ -28,9 +26,7 @@ Function passwordValidator(Function? aditionalValidator) {
       checkNotEmpty(),
       checkLength(min: 8, max: 64),
       checkPassword(),
-      (aditionalValidator != null)
-          ? aditionalValidator()
-          : (String? value) {},
+      (aditionalValidator != null) ? aditionalValidator() : (String? value) {},
     ],
   );
 }
@@ -49,6 +45,8 @@ class LenraTextFormField extends FormField<String> {
   final void Function()? onSuffixPressed;
   final LenraComponentSize size;
   final double width;
+  final int? minLines;
+  final int? maxLines;
   final FocusNode? focusNode;
   final TextEditingController? controller;
 
@@ -69,9 +67,17 @@ class LenraTextFormField extends FormField<String> {
     this.size = LenraComponentSize.Medium,
     this.onSuffixPressed,
     this.width = double.infinity,
+    this.minLines,
+    this.maxLines = 1,
     this.focusNode,
     this.controller,
-  }) : super(
+  })  : assert(maxLines == null || maxLines > 0),
+        assert(minLines == null || minLines > 0),
+        assert(
+          (maxLines == null) || (minLines == null) || (maxLines >= minLines),
+          "minLines can't be greater than maxLines",
+        ),
+        super(
           key: key,
           initialValue: initialValue,
           validator: (type == LenraTextFormFieldType.Email)
@@ -92,6 +98,8 @@ class LenraTextFormField extends FormField<String> {
               onChanged: field.didChange,
               size: size,
               width: width,
+              minLines: minLines,
+              maxLines: maxLines,
               focusNode: focusNode,
               onSuffixPressed: onSuffixPressed,
             );
