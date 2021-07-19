@@ -7,7 +7,7 @@ include:
     file: "/lib/kubernetes.yml"
   - local: "/client/.gitlab-ci.yml"
   - local: "/server/.gitlab-ci.yml"
-  - local: "/documentation/.gitlab-ci.yml"
+  #- local: "/documentation/.gitlab-ci.yml"
   - local: "/k8s/.gitlab-ci.yml"
 
 .subdir job:
