@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fr_lenra_client/lenra_components/layout/lenra_row.dart';
 import 'package:fr_lenra_client/lenra_components/lenra_button.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
 
@@ -58,5 +60,27 @@ void main() {
     ));
 
     expect(tester.getSize(find.byType(LenraButton)).height, equals(40.0));
+  });
+
+  testWidgets('LenraButton test rightIcon and leftIcon in LenraRow should not crash', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      createBaseTestWidgets(
+        MaterialApp(
+          home: Scaffold(
+            body: LenraRow(
+              fillParent: true,
+              children: [
+                LenraButton(
+                  text: "test",
+                  onPressed: () => {},
+                  leftIcon: Icon(Icons.ac_unit_outlined),
+                  rightIcon: Icon(Icons.ac_unit),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   });
 }

@@ -26,8 +26,7 @@ class LenraButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LenraButtonThemeData finalLenraButtonThemeData =
-        LenraTheme.of(context).lenraButtonThemeData;
+    final LenraButtonThemeData finalLenraButtonThemeData = LenraTheme.of(context).lenraButtonThemeData;
 
     Widget child = Text(
       text,
@@ -40,7 +39,7 @@ class LenraButton extends StatelessWidget {
         separationFactor: 1.5,
         children: [
           if (this.leftIcon != null) this.leftIcon!,
-          Expanded(child: child),
+          Flexible(child: child),
           if (this.rightIcon != null) this.rightIcon!,
         ],
       );
