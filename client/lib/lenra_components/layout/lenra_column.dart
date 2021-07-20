@@ -6,6 +6,7 @@ class LenraColumn extends LenraFlex {
     Key? key,
     double separationFactor = 1,
     bool fillParent: false,
+    MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
     CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
     required List<Widget> children,
   }) : super(
@@ -13,6 +14,7 @@ class LenraColumn extends LenraFlex {
           direction: Axis.vertical,
           separationFactor: separationFactor,
           fillParent: fillParent,
+          mainAxisAlignment: mainAxisAlignment,
           crossAxisAlignment: crossAxisAlignment,
           children: children,
         );

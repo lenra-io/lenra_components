@@ -5,6 +5,7 @@ class LenraFlex extends StatelessWidget {
   final List<Widget> children;
   final double separationFactor;
   final bool fillParent;
+  final MainAxisAlignment mainAxisAlignment;
   final CrossAxisAlignment crossAxisAlignment;
 
   final Axis direction;
@@ -14,6 +15,7 @@ class LenraFlex extends StatelessWidget {
     this.separationFactor = 1,
     this.fillParent: false,
     required this.children,
+    this.mainAxisAlignment = MainAxisAlignment.start,
     this.crossAxisAlignment = CrossAxisAlignment.center,
     required this.direction,
   }) : super(key: key);
@@ -37,6 +39,7 @@ class LenraFlex extends StatelessWidget {
 
     return Flex(
       mainAxisSize: fillParent ? MainAxisSize.max : MainAxisSize.min,
+      mainAxisAlignment: this.mainAxisAlignment,
       crossAxisAlignment: this.crossAxisAlignment,
       direction: this.direction,
       children: colChildren,
