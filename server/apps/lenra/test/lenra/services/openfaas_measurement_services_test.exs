@@ -1,25 +1,43 @@
 defmodule LenraServers.OpenfaasMeasurementServicesTest do
   use Lenra.RepoCase, async: true
 
-  alias Lenra.{OpenfaasRunActionMeasurement, OpenfaasRunActionMeasurementServices}
+  alias Lenra.{
+    OpenfaasRunActionMeasurement,
+    OpenfaasRunActionMeasurementServices,
+    LenraApplication,
+    AppUserSessionService,
+    ActionLogsService
+  }
 
   @moduledoc """
     Test the openfaas measurement services
   """
-
   setup do
-    {:ok, user: create_user()}
+    {:ok, action_logs_uuid: create_app_user_session()}
   end
 
-  defp create_user do
+  defp create_app_user_session do
+    app_session_uuid = Ecto.UUID.generate()
+    action_logs_uuid = Ecto.UUID.generate()
     {:ok, %{inserted_user: user}} = UserTestHelper.register_john_doe()
 
-    user
+    {:ok, app} =
+      Repo.insert(LenraApplication.new(user.id, %{name: "test", service_name: "test", color: "FF0000", icon: 0xEB09}))
+
+    AppUserSessionService.create(user.id, %{
+      app_name: app.service_name,
+      uuid: app_session_uuid,
+      build_number: 1
+    })
+
+    ActionLogsService.create(%{uuid: action_logs_uuid, app_user_session_uuid: app_session_uuid, action: "Test"})
+
+    action_logs_uuid
   end
 
   describe "get" do
-    test "measurement successfully", %{user: user} do
-      OpenfaasRunActionMeasurementServices.create(user.id, %{application_name: "test", duration: 1})
+    test "measurement successfully", %{action_logs_uuid: action_logs_uuid} do
+      OpenfaasRunActionMeasurementServices.create(%{action_logs_uuid: action_logs_uuid, duration: 1})
 
       tmp_measurement = Enum.at(Repo.all(OpenfaasRunActionMeasurement), 0)
 
@@ -27,49 +45,44 @@ defmodule LenraServers.OpenfaasMeasurementServicesTest do
 
       assert measurement == tmp_measurement
 
-      assert %OpenfaasRunActionMeasurement{application_name: "test", duration: 1} = measurement
+      assert %OpenfaasRunActionMeasurement{duration: 1} = measurement
 
-      assert measurement.user_id == user.id
+      assert measurement.action_logs_uuid == action_logs_uuid
     end
 
-    test "measurement which does not exist", %{user: _user} do
+    test "measurement which does not exist", %{action_logs_uuid: _action_logs_uuid} do
       assert nil == OpenfaasRunActionMeasurementServices.get(0)
     end
   end
 
   describe "get_by" do
-    test "measurement succesfully", %{user: user} do
-      OpenfaasRunActionMeasurementServices.create(user.id, %{application_name: "test", duration: 1})
+    test "measurement succesfully", %{action_logs_uuid: action_logs_uuid} do
+      OpenfaasRunActionMeasurementServices.create(%{action_logs_uuid: action_logs_uuid, duration: 1})
 
       tmp_measurement = Enum.at(Repo.all(OpenfaasRunActionMeasurement), 0)
-      measurement = OpenfaasRunActionMeasurementServices.get_by(application_name: "test", duration: 1)
+      measurement = OpenfaasRunActionMeasurementServices.get_by(duration: 1)
 
       assert tmp_measurement == measurement
 
-      assert %OpenfaasRunActionMeasurement{application_name: "test", duration: 1} = measurement
+      assert %OpenfaasRunActionMeasurement{duration: 1} = measurement
 
-      assert measurement.user_id == user.id
+      assert measurement.action_logs_uuid == action_logs_uuid
     end
 
-    test "measurement which does not exist", %{user: _user} do
-      assert nil == OpenfaasRunActionMeasurementServices.get_by(application_name: "test", duration: 1)
+    test "measurement which does not exist", %{action_logs_uuid: _action_logs_uuid} do
+      assert nil == OpenfaasRunActionMeasurementServices.get_by(duration: 1)
     end
   end
 
   describe "create" do
-    test "measurement successfully", %{user: user} do
-      OpenfaasRunActionMeasurementServices.create(user.id, %{application_name: "test", duration: 1})
+    test "measurement successfully", %{action_logs_uuid: action_logs_uuid} do
+      OpenfaasRunActionMeasurementServices.create(%{action_logs_uuid: action_logs_uuid, duration: 1})
 
       measurement = Enum.at(Repo.all(OpenfaasRunActionMeasurement), 0)
 
-      assert %OpenfaasRunActionMeasurement{application_name: "test", duration: 1} = measurement
+      assert %OpenfaasRunActionMeasurement{duration: 1} = measurement
 
-      assert measurement.user_id == user.id
-    end
-
-    test "measurement but user does not exist" do
-      error = OpenfaasRunActionMeasurementServices.create(-1, %{application_name: "test", duration: 1})
-      assert {:error, _changeset} = error
+      assert measurement.action_logs_uuid == action_logs_uuid
     end
   end
 end

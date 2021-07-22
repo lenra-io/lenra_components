@@ -22,7 +22,7 @@ defmodule AppChannelMonitor do
   def handle_call({:monitor, pid, metadata}, _from, state) do
     Process.monitor(pid)
 
-    start_time = Telemetry.start(:client_app_channel)
+    start_time = Telemetry.start(:app_user_session, metadata)
 
     {:reply, :ok, Map.put(state, pid, {start_time, metadata})}
   end
@@ -30,7 +30,7 @@ defmodule AppChannelMonitor do
   def handle_info({:DOWN, _ref, :process, pid, _reason}, state) do
     {{start_time, metadata}, new_state} = Map.pop(state, pid)
 
-    Telemetry.stop(:client_app_channel, start_time, metadata)
+    Telemetry.stop(:app_user_session, start_time, metadata)
 
     {:noreply, new_state}
   end

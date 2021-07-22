@@ -34,4 +34,15 @@ defmodule Lenra.Telemetry do
       meta
     )
   end
+
+  @doc """
+    Sends a `:event` event with Telemetry.
+  """
+  def event(event, meta \\ %{}, measurements \\ %{}) do
+    :telemetry.execute(
+      [:lenra, event, :event],
+      measurements,
+      meta
+    )
+  end
 end

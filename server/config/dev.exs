@@ -72,7 +72,8 @@ config :lenra,
   gitlab_api_url: System.get_env("GITLAB_API_URL", "https://gitlab.com/api/v4"),
   gitlab_api_token: System.get_env("GITLAB_API_TOKEN", "Zuz-dZc834q3CtU-bnX5"),
   gitlab_project_id: System.get_env("GITLAB_PROJECT_ID", "26231009"),
-  runner_secret: System.get_env("RUNNER_SECRET", "sZWshq6h0RNO9T1GgUnzLmPpDkSkDAoukmd30mTuwQAGIHYIIVdl7VD2h305")
+  runner_secret: System.get_env("RUNNER_SECRET", "sZWshq6h0RNO9T1GgUnzLmPpDkSkDAoukmd30mTuwQAGIHYIIVdl7VD2h305"),
+  faas_secrets: ["gitlab-registry"]
 
 config :peerage,
   via: Peerage.Via.List,

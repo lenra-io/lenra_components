@@ -6,19 +6,50 @@ defmodule LenraWeb.AppChannel do
 
   require Logger
 
-  alias Lenra.{Repo, LenraApplicationServices}
-  alias ApplicationRunner.ActionBuilder
+  alias Lenra.{Repo, LenraApplicationServices, Telemetry}
+  alias ApplicationRunner.{ActionBuilder, Action}
 
   def join("app", %{"app" => app_name}, socket) do
-    AppChannelMonitor.monitor(self(), %{user_id: socket.assigns.user.id, application_name: app_name})
+    action_logs_uuid = Ecto.UUID.generate()
+    app_user_session_uuid = Ecto.UUID.generate()
+
     Logger.info("Join channel for app : #{app_name}")
 
-    with {:ok, app} <- LenraApplicationServices.fetch_by(service_name: app_name, creator_id: socket.assigns.user.id),
+    with {:ok, app} <-
+           LenraApplicationServices.fetch_by(
+             service_name: app_name,
+             creator_id: socket.assigns.user.id
+           ),
          loaded_app <- Repo.preload(app, main_env: [environment: [:deployed_build]]) do
       build_number = loaded_app.main_env.environment.deployed_build.build_number
-      socket = assign(socket, app_name: app_name, build_number: build_number)
 
-      case ActionBuilder.first_run({socket.assigns.user.id, app_name}, build_number) do
+      AppChannelMonitor.monitor(self(), %{
+        user_id: socket.assigns.user.id,
+        app_user_session_uuid: app_user_session_uuid,
+        app_name: app_name,
+        build_number: build_number
+      })
+
+      socket =
+        assign(socket,
+          app_name: app_name,
+          build_number: build_number,
+          app_user_session_uuid: app_user_session_uuid,
+          action_logs_uuid: action_logs_uuid
+        )
+
+      Telemetry.event(:action_logs, %{
+        uuid: action_logs_uuid,
+        app_user_session_uuid: app_user_session_uuid,
+        action: "InitData"
+      })
+
+      case ActionBuilder.first_run(%Action{
+             action_logs_uuid: action_logs_uuid,
+             user_id: socket.assigns.user.id,
+             app_name: app_name,
+             build_number: build_number
+           }) do
         {:ok, ui} ->
           send(self(), {:send_ui, ui})
 
@@ -50,9 +81,29 @@ defmodule LenraWeb.AppChannel do
   end
 
   defp handle_run(socket, action_key, event \\ %{}) do
-    %{app_name: app_name, user: user, build_number: build_number} = socket.assigns
+    %{
+      app_name: app_name,
+      user: user,
+      build_number: build_number,
+      app_user_session_uuid: app_user_session_uuid
+    } = socket.assigns
 
-    case ApplicationRunner.ActionBuilder.listener_run({user.id, app_name}, build_number, action_key, event) do
+    uuid = Ecto.UUID.generate()
+
+    Telemetry.event(:action_logs, %{
+      uuid: uuid,
+      app_user_session_uuid: app_user_session_uuid,
+      action: action_key
+    })
+
+    case ApplicationRunner.ActionBuilder.listener_run(%Action{
+           action_logs_uuid: uuid,
+           user_id: user.id,
+           app_name: app_name,
+           build_number: build_number,
+           action_key: action_key,
+           event: event
+         }) do
       {:ok, patch} ->
         push(socket, "patchUi", %{patch: patch})
 

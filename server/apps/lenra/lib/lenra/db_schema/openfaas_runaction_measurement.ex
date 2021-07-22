@@ -6,25 +6,24 @@ defmodule Lenra.OpenfaasRunActionMeasurement do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias Lenra.{User, OpenfaasRunActionMeasurement}
+  alias Lenra.{ActionLogs, OpenfaasRunActionMeasurement}
 
   schema "openfaas_runaction_measurements" do
-    belongs_to(:user, User)
-    field(:application_name, :string)
     field(:duration, :integer)
+    belongs_to(:action_logs, ActionLogs, foreign_key: :action_logs_uuid, type: :binary_id)
 
     timestamps()
   end
 
-  def changeset(measurements, params \\ %{}) do
-    measurements
-    |> cast(params, [:application_name, :duration])
-    |> validate_required([:user_id, :application_name, :duration])
-    |> foreign_key_constraint(:user_id)
+  def changeset(measurement, params \\ %{}) do
+    measurement
+    |> cast(params, [:duration])
+    |> validate_required([:action_logs_uuid, :duration])
+    |> foreign_key_constraint(:action_logs_uuid)
   end
 
-  def new(user_id, params) do
-    %OpenfaasRunActionMeasurement{user_id: user_id}
+  def new(params) do
+    %OpenfaasRunActionMeasurement{action_logs_uuid: params.action_logs_uuid}
     |> OpenfaasRunActionMeasurement.changeset(params)
   end
 end

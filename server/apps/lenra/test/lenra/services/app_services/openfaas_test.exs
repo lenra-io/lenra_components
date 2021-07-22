@@ -22,6 +22,14 @@ defmodule LenraServers.OpenfaasTest do
     application: @john_doe_application
   }
 
+  @john_doe_action %ApplicationRunner.Action{
+    user_id: 1,
+    app_name: "StubApp",
+    build_number: 1,
+    action_name: "InitData",
+    old_data: %{"toto" => "tata"}
+  }
+
   describe "applist" do
     setup do
       faas = AppStub.create_faas_stub()
@@ -30,17 +38,17 @@ defmodule LenraServers.OpenfaasTest do
     end
 
     test "Openfaas correctly handle ok 200 and decode data", %{app: app} do
-      AppStub.stub_action_once(app, "InitData", %{"data" => "any data"})
+      AppStub.stub_action_once(app, "InitData", %{"stats" => %{"listeners" => 111_111, "ui" => 111_111}})
 
-      assert {:ok, %{"data" => "any data"}} ==
-               Openfaas.run_action(1, "StubApp", 1, "InitData", %{"toto" => "tata"})
+      assert {:ok, %{"stats" => %{"listeners" => 111_111, "ui" => 111_111}}} ==
+               Openfaas.run_action(@john_doe_action)
     end
 
     test "Openfaas correctly handle 404 not found", %{app: app} do
       AppStub.stub_action_once(app, "InitData", {:error, 404, "Not Found"})
 
       assert_raise(RuntimeError, "Openfaas error (404) Not Found", fn ->
-        Openfaas.run_action(1, "StubApp", 1, "InitData", %{"toto" => "tata"})
+        Openfaas.run_action(@john_doe_action)
       end)
     end
   end

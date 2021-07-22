@@ -5,7 +5,17 @@ defmodule LenraWeb.AppChannelTest do
   use LenraWeb.ChannelCase
   alias LenraWeb.UserSocket
   alias Lenra.FaasStub, as: AppStub
-  alias Lenra.{Repo, LenraApplication, Build, Environment, ApplicationMainEnv, Deployment}
+
+  alias Lenra.{
+    Repo,
+    LenraApplication,
+    Build,
+    Environment,
+    ApplicationMainEnv,
+    Deployment,
+    ActionLogsService,
+    AppUserSessionService
+  }
 
   setup do
     {:ok, %{inserted_user: user}} = register_john_doe()
@@ -94,14 +104,36 @@ defmodule LenraWeb.AppChannelTest do
     # and the next MainUI should not be called but taken from cache instead
     owstub
     |> AppStub.stub_app(@app_name, @build_number)
-    |> AppStub.stub_action_once("InitData", %{"data" => @data, "ui" => @ui})
-    |> AppStub.stub_action_once(@listener_name, %{"data" => @data2, "ui" => @ui2})
+    |> AppStub.stub_action_once("InitData", %{
+      "data" => @data,
+      "ui" => @ui,
+      "stats" => %{"listeners" => 111_111, "ui" => 111_111}
+    })
+    |> AppStub.stub_action_once(@listener_name, %{
+      "data" => @data2,
+      "ui" => @ui2,
+      "stats" => %{"listeners" => 111_111, "ui" => 111_111}
+    })
 
     # Join the channel
     {:ok, _, socket} = my_subscribe_and_join(socket, %{"app" => @app_name})
 
+    # check that action_logs_uuid & app_user_session_uuid are valid
+    action_logs = ActionLogsService.get_by(%{uuid: socket.assigns.action_logs_uuid})
+
+    assert is_nil(action_logs) == false
+
+    app_user_session = AppUserSessionService.get_by(%{uuid: socket.assigns.app_user_session_uuid})
+
+    assert is_nil(app_user_session) == false
     # Check that the correct data is stored into the socket
-    assert socket.assigns == %{app_name: @app_name, user: user, build_number: @build_number}
+    assert socket.assigns == %{
+             app_name: @app_name,
+             user: user,
+             build_number: @build_number,
+             action_logs_uuid: socket.assigns.action_logs_uuid,
+             app_user_session_uuid: socket.assigns.app_user_session_uuid
+           }
 
     # Check that we receive a "ui" event with the final UI
     assert_push("ui", @expected_ui)

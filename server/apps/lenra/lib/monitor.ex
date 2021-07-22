@@ -27,33 +27,61 @@ defmodule Lenra.Monitor do
 
   """
 
-  alias Lenra.{OpenfaasRunActionMeasurementServices, ClientAppMeasurementServices}
+  alias Lenra.{
+    OpenfaasRunActionMeasurementServices,
+    SocketAppMeasurementServices,
+    DockerRunMeasurementServices,
+    ActionLogsService,
+    AppUserSessionService
+  }
 
   def setup do
     events = [
       [:lenra, :openfaas_runaction, :stop],
-      [:lenra, :client_app_channel, :stop]
+      [:lenra, :action_logs, :event],
+      [:lenra, :docker_run, :event],
+      [:lenra, :app_user_session, :start],
+      [:lenra, :app_user_session, :stop]
     ]
 
     :telemetry.attach_many("lenra.monitor", events, &Lenra.Monitor.handle_event/4, nil)
   end
 
   def handle_event([:lenra, :openfaas_runaction, :stop], measurements, metadata, _config) do
-    %{user_id: user_id, application_name: application_name} = metadata
-    %{duration: duration} = measurements
-
-    OpenfaasRunActionMeasurementServices.create(
-      user_id,
-      %{application_name: application_name, duration: System.convert_time_unit(duration, :native, :nanosecond)}
-    )
+    OpenfaasRunActionMeasurementServices.create(%{
+      action_logs_uuid: metadata.uuid,
+      duration: System.convert_time_unit(measurements.duration, :native, :nanosecond)
+    })
   end
 
-  def handle_event([:lenra, :client_app_channel, :stop], measurements, metadata, _config) do
-    duration = System.convert_time_unit(measurements.duration, :native, :nanosecond)
+  def handle_event([:lenra, :docker_run, :event], measurements, metadata, _config) do
+    DockerRunMeasurementServices.create(%{
+      action_logs_uuid: metadata.uuid,
+      ui_duration: measurements.uiDuration,
+      listeners_duration: measurements.listenersTime
+    })
+  end
 
-    ClientAppMeasurementServices.create(metadata.user_id, %{
-      application_name: metadata.application_name,
-      duration: duration
+  def handle_event([:lenra, :action_logs, :event], _measurements, metadata, _config) do
+    ActionLogsService.create(%{
+      uuid: metadata.uuid,
+      app_user_session_uuid: metadata.app_user_session_uuid,
+      action: metadata.action
+    })
+  end
+
+  def handle_event([:lenra, :app_user_session, :start], _measurements, metadata, _config) do
+    AppUserSessionService.create(metadata.user_id, %{
+      uuid: metadata.app_user_session_uuid,
+      app_name: metadata.app_name,
+      build_number: metadata.build_number
+    })
+  end
+
+  def handle_event([:lenra, :app_user_session, :stop], measurements, metadata, _config) do
+    SocketAppMeasurementServices.create(%{
+      app_user_session_uuid: metadata.app_user_session_uuid,
+      duration: System.convert_time_unit(measurements.duration, :native, :nanosecond)
     })
   end
 

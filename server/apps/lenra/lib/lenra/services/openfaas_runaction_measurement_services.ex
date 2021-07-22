@@ -14,7 +14,7 @@ defmodule Lenra.OpenfaasRunActionMeasurementServices do
     Repo.get_by(OpenfaasRunActionMeasurement, clauses)
   end
 
-  def create(user_id, params) do
-    Repo.insert(OpenfaasRunActionMeasurement.new(user_id, params))
+  def create(params) do
+    Repo.insert(OpenfaasRunActionMeasurement.new(params))
   end
 end

@@ -5,6 +5,7 @@ defmodule Lenra.Openfaas do
   require Logger
 
   alias Lenra.{Telemetry, DeploymentServices}
+  alias ApplicationRunner.Action
 
   defp get_http_context do
     base_url = Application.fetch_env!(:lenra, :faas_url)
@@ -25,27 +26,31 @@ defmodule Lenra.Openfaas do
     Returns `{:ok, decoded_body}` if the HTTP Post succeed
     Returns `{:error, reason}` if the HTTP Post fail
   """
-  @spec run_action(Integer.t(), String.t(), number, String.t(), map) :: {:error, String.t()} | {:ok, map}
-  def run_action(
-        client_id,
-        app_name,
-        build_number,
-        action_code,
-        params
-      )
-      when is_binary(app_name) and is_binary(action_code) and is_map(params) do
+  @spec run_action(%Action{
+          :action_logs_uuid => :string,
+          :action_name => :string,
+          :app_name => :string,
+          :build_number => :integer,
+          :event => :string,
+          :old_data => :string,
+          :props => :string,
+          :user_id => :integer
+        }) :: {:ok, map}
+  def run_action(action)
+      when is_binary(action.app_name) and is_binary(action.action_name) and
+             is_map(%{data: action.old_data, props: action.props, event: action.event}) do
     {base_url, headers} = get_http_context()
-    function_name = get_function_name(app_name, build_number)
+    function_name = get_function_name(action.app_name, action.build_number)
 
     url = "#{base_url}/function/#{function_name}"
 
     Logger.debug("Call to Openfaas : #{function_name}")
 
     headers = [{"Content-Type", "application/json"} | headers]
-    params = Map.put(params, :action, action_code)
+    params = Map.put(%{data: action.old_data, props: action.props, event: action.event}, :action, action.action_name)
     body = Jason.encode!(params)
 
-    Logger.info("Run app #{app_name}[#{build_number}] with action #{action_code}")
+    Logger.info("Run app #{action.app_name}[#{action.build_number}] with action #{action.action_name}")
 
     start_time = Telemetry.start(:openfaas_runaction)
 
@@ -54,9 +59,26 @@ defmodule Lenra.Openfaas do
       |> Finch.request(FaasHttp)
       |> response(:get_apps)
 
-    Telemetry.stop(:openfaas_runaction, start_time, %{application_name: app_name, user_id: client_id})
+    docker_telemetry(response, action.action_logs_uuid)
+
+    Telemetry.stop(:openfaas_runaction, start_time, %{
+      user_id: action.user_id,
+      uuid: action.action_logs_uuid
+    })
 
     response
+  end
+
+  defp docker_telemetry({:ok, %{"stats" => %{"listeners" => listeners, "ui" => ui}}}, uuid) do
+    Telemetry.event(:docker_run, %{uuid: uuid}, %{
+      uiDuration: ui,
+      listenersTime: listeners
+    })
+  end
+
+  defp docker_telemetry(_response, _uuid) do
+    # credo:disable-for-next-line
+    # TODO: manage error case
   end
 
   def deploy_app(service_name, build_number) do

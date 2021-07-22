@@ -26,14 +26,14 @@ defmodule LenraServers.DatastoreServicesTest do
 
   describe "get" do
     test "data from datastore but datastore does not exist", %{app: app} do
-      assert {:ok, %{}} = DatastoreServices.get_datastore_data(app.creator_id, app.id)
+      assert {:ok, %{}} = DatastoreServices.assign_old_data(%ApplicationRunner.Action{user_id: app.creator_id}, app.id)
     end
 
     test "data from existing datastore", %{app: app} do
       DatastoreServices.upsert_data(app.creator_id, app.id, %{"data" => "test data"})
 
-      assert {:ok, %{"data" => "test data"}} ==
-               DatastoreServices.get_datastore_data(app.creator_id, app.id)
+      assert {:ok, %ApplicationRunner.Action{old_data: %{"data" => "test data"}, user_id: app.creator_id}} ==
+               DatastoreServices.assign_old_data(%ApplicationRunner.Action{user_id: app.creator_id}, app.id)
     end
 
     test "datastore", %{app: app} do
