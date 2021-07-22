@@ -44,7 +44,7 @@ defmodule LenraWeb.MixProject do
       {:peerage, "~> 1.0"},
       {:lenra, in_umbrella: true},
       private_git(:bouncer, "gitlab.com", "lenra/platform/libs/bouncer.git", "0.2.0"),
-      private_git(:application_runner, "gitlab.com", "lenra/platform/libs/application-runner.git", "0.5.0")
+      private_git(:application_runner, "gitlab.com", "lenra/platform/libs/application-runner.git", "0.6.0")
     ]
   end
 

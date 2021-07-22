@@ -81,6 +81,27 @@ defmodule Lenra.Openfaas do
     # TODO: manage error case
   end
 
+  @doc """
+  Gets a resource from an app using a stream.
+
+  Returns an `Enum`.
+  """
+  def get_app_resource(app_name, build_number, resource) do
+    {base_url, headers} = get_http_context()
+    function_name = get_function_name(app_name, build_number)
+
+    url = "#{base_url}/function/#{function_name}"
+
+    headers = [{"Content-Type", "application/json"} | headers]
+    params = Map.put(%{}, :resource, resource)
+    body = Jason.encode!(params)
+
+    Finch.build(:post, url, headers, body)
+    |> Finch.stream(FaasHttp, [], fn
+      chunk, acc -> acc ++ [chunk]
+    end)
+  end
+
   def deploy_app(service_name, build_number) do
     {base_url, headers} = get_http_context()
 
@@ -123,6 +144,10 @@ defmodule Lenra.Openfaas do
 
   defp response({:ok, %Finch.Response{status: 200, body: body}}, :get_apps) do
     {:ok, Jason.decode!(body)}
+  end
+
+  defp response({:ok, %Finch.Response{status: 200, body: body}}, :get_resource) do
+    {:ok, body}
   end
 
   defp response({:ok, %Finch.Response{status: status_code}}, :deploy_app)

@@ -13,6 +13,7 @@ class UserApplicationModel extends ChangeNotifier {
   Status<CreateAppResponse> createApplicationStatus = Status();
 
   List<AppResponse> userApps = [];
+  String? currentApp;
 
   Future<List<AppResponse>> fetchUserApplications() async {
     var res = await fetchApplicationsStatus.handle(ApplicationApi.getUserApps, notifyListeners);

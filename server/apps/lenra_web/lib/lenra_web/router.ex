@@ -1,7 +1,7 @@
 defmodule LenraWeb.Router do
   use LenraWeb, :router
 
-  alias Lenra.Guardian.{EnsureAuthenticatedPipeline, RefreshPipeline}
+  alias Lenra.Guardian.{EnsureAuthenticatedPipeline, RefreshPipeline, EnsureAuthenticatedQueryParamsPipeline}
 
   pipeline :api do
     plug :accepts, ["json"]
@@ -13,6 +13,10 @@ defmodule LenraWeb.Router do
 
   pipeline :ensure_auth do
     plug EnsureAuthenticatedPipeline
+  end
+
+  pipeline :ensure_resource_auth do
+    plug EnsureAuthenticatedQueryParamsPipeline
   end
 
   pipeline :ensure_auth_refresh do
@@ -42,10 +46,16 @@ defmodule LenraWeb.Router do
     resources "/apps", AppsController, only: [:index, :create, :delete], param: "name"
     resources "/apps/:app_id/environments", EnvsController, only: [:index, :create]
     resources "/apps/:app_id/builds", BuildsController, only: [:index, :create]
+
     resources "/apps/deployments", DeploymentsController, only: [:create]
     put "/password", UserController, :password_modification
     put "/verify/dev", UserController, :validate_dev
     get "/me/apps", AppsController, :get_user_apps
+  end
+
+  scope "/api", LenraWeb do
+    pipe_through [:api, :ensure_resource_auth]
+    get "/apps/:service_name/resources/:resource", ResourcesController, :get_app_resource
   end
 
   scope "/", LenraWeb do

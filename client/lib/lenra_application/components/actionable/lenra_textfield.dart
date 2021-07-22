@@ -101,7 +101,7 @@ class LenraApplicationTextfield extends StatelessLenraComponent implements Lenra
       inRow: this.inRow ?? false,
       error: this.error ?? false,
       onSubmitted: (value) {
-        final Map<String, String>? listener = this.listeners?['onChange'];
+        final Map<String, dynamic>? listener = this.listeners?['onChange'];
         if (listener != null && listener.containsKey("code")) {
           LenraOnEditEvent(code: listener['code']!, event: {'value': value}).dispatch(context);
         }

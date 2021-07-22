@@ -5,6 +5,7 @@ import 'package:fr_lenra_client/lenra_application/components/actionable/events/l
 import 'package:fr_lenra_client/lenra_application/lenra_ui_builder.dart';
 import 'package:fr_lenra_client/lenra_application/ui_patch.dart';
 import 'package:fr_lenra_client/models/socket_model.dart';
+import 'package:fr_lenra_client/models/user_application_model.dart';
 import 'package:fr_lenra_client/socket/lenra_channel.dart';
 import 'package:provider/provider.dart';
 
@@ -35,6 +36,7 @@ class _LenraUiControllerState extends State<LenraUiController> {
     debugPrint("initState ${widget.appName}");
     super.initState();
     this.channel = this.context.read<SocketModel>().channel("app", {"app": widget.appName});
+    context.read<UserApplicationModel>().currentApp = widget.appName;
 
     this.channel.onUi((Map<dynamic, dynamic>? ui) {
       if (ui == null) return;

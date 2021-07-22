@@ -53,6 +53,24 @@ defmodule LenraServers.OpenfaasTest do
     end
   end
 
+  describe "get_app_resource" do
+    test "openfaas not accessible" do
+      assert {:error, %Mint.TransportError{reason: :econnrefused}} ==
+               Openfaas.get_app_resource("test", 1, "download.jpeg")
+    end
+
+    test "successful for very small data" do
+      faas = AppStub.create_faas_stub()
+      app = AppStub.stub_app_resource(faas, "StubApp", 1)
+
+      AppStub.stub_resource_once(app, "download.jpeg", %{})
+
+      {:ok, res} = Openfaas.get_app_resource("StubApp", 1, "download.jpeg")
+
+      assert Keyword.get(res, :data) == "{}"
+    end
+  end
+
   describe "deploy" do
     test "app but openfaas unreachable" do
       assert_raise(RuntimeError, "Openfaas could not be reached. It should not happen.", fn ->
@@ -75,7 +93,11 @@ defmodule LenraServers.OpenfaasTest do
       AppStub.create_faas_stub()
       |> AppStub.expect_delete_app_once(%{"ok" => "200"})
 
-      res = Openfaas.delete_app_openfaas(@john_doe_application.service_name, @john_doe_build.build_number)
+      res =
+        Openfaas.delete_app_openfaas(
+          @john_doe_application.service_name,
+          @john_doe_build.build_number
+        )
 
       assert res == {:ok, 200}
     end
@@ -84,9 +106,16 @@ defmodule LenraServers.OpenfaasTest do
       AppStub.create_faas_stub()
       |> AppStub.expect_delete_app_once({:error, 400, "Bad request"})
 
-      assert_raise(RuntimeError, "Openfaas could not delete the application. It should not happen.", fn ->
-        Openfaas.delete_app_openfaas(@john_doe_application.service_name, @john_doe_build.build_number)
-      end)
+      assert_raise(
+        RuntimeError,
+        "Openfaas could not delete the application. It should not happen.",
+        fn ->
+          Openfaas.delete_app_openfaas(
+            @john_doe_application.service_name,
+            @john_doe_build.build_number
+          )
+        end
+      )
     end
 
     @tag capture_log: true
@@ -94,7 +123,11 @@ defmodule LenraServers.OpenfaasTest do
       AppStub.create_faas_stub()
       |> AppStub.expect_delete_app_once({:error, 404, "Not found"})
 
-      res = Openfaas.delete_app_openfaas(@john_doe_application.service_name, @john_doe_build.build_number)
+      res =
+        Openfaas.delete_app_openfaas(
+          @john_doe_application.service_name,
+          @john_doe_build.build_number
+        )
 
       assert res == {:ok, 404}
     end
