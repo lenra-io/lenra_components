@@ -83,4 +83,31 @@ void main() {
       ),
     );
   });
+
+  testWidgets('LenraButton should not have a border on Primary and Tertiary types', (WidgetTester tester) async {
+    var noneBorderSide = BorderSide(color: Color(0xff000000), width: 0.0, style: BorderStyle.none);
+
+    await tester.pumpWidget(createComponentTestWidgets(
+      LenraButton(
+        text: "Test",
+        type: LenraComponentType.Primary,
+        size: LenraComponentSize.Large,
+        onPressed: () {},
+      ),
+    ));
+
+    // The LenraButton component contains a TextButton which contains the style we need
+    expect((tester.widget(find.byType(TextButton)) as TextButton).style!.side!.resolve({}), equals(noneBorderSide));
+
+    await tester.pumpWidget(createComponentTestWidgets(
+      LenraButton(
+        text: "Test",
+        type: LenraComponentType.Tertiary,
+        size: LenraComponentSize.Large,
+        onPressed: () {},
+      ),
+    ));
+
+    expect((tester.widget(find.byType(TextButton)) as TextButton).style!.side!.resolve({}), equals(noneBorderSide));
+  });
 }

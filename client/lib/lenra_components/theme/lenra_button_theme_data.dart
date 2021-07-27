@@ -161,7 +161,7 @@ class LenraButtonThemeData {
                 return primaryBorder!(
                     states, this.lenraThemeData.lenraColorThemeData);
               })
-            : null,
+            : MaterialStateProperty.all(BorderSide.none),
         LenraComponentType.Secondary:
             MaterialStateProperty.resolveWith((states) {
           if (secondaryBorder != null) {
@@ -182,7 +182,7 @@ class LenraButtonThemeData {
                 return tertiaryBorder!(
                     states, this.lenraThemeData.lenraColorThemeData);
               })
-            : null,
+            : MaterialStateProperty.all(BorderSide.none),
       };
 
       return map[type] ??
