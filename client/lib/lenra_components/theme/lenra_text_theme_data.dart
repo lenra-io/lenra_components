@@ -17,7 +17,7 @@ class LenraTextThemeData {
   final double? lineHeight;
 
   LenraTextThemeData({
-    this.lineHeight,
+    this.lineHeight = 14 / 15,
     TextStyle? headline1,
     TextStyle? headline2,
     TextStyle? headline3,
@@ -47,16 +47,18 @@ class LenraTextThemeData {
         );
     this.headline4 = headline4 ??
         TextStyle(
+          fontSize: 15.0,
           fontWeight: FontWeight.w700,
         );
     this.headlineBody = headlineBody ??
         TextStyle(
+          fontSize: 15.0,
           fontWeight: FontWeight.w600,
         );
     this.bodyText = bodyText ??
         TextStyle(
           fontFamily: "Source Sans Pro",
-          fontSize: 14.0,
+          fontSize: 15.0,
           fontWeight: FontWeight.w400,
           color: LenraColorThemeData.LENRA_BLACK,
           height: lineHeight,
@@ -64,7 +66,7 @@ class LenraTextThemeData {
     this.blueBodyText = bodyText ??
         TextStyle(
           fontFamily: "Source Sans Pro",
-          fontSize: 14.0,
+          fontSize: 15.0,
           fontWeight: FontWeight.w400,
           color: LenraColorThemeData.LENRA_BLUE,
           height: lineHeight,
@@ -89,7 +91,7 @@ class LenraTextThemeData {
     this.errorText = disabledBodyText ??
         TextStyle(
           fontFamily: "Source Sans Pro",
-          fontSize: 14.0,
+          fontSize: 15.0,
           fontWeight: FontWeight.w400,
           color: Colors.red,
           height: lineHeight,
