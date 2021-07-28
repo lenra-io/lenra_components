@@ -3,6 +3,7 @@ import 'package:fr_lenra_client/lenra_components/theme/lenra_border_theme_data.d
 import 'package:fr_lenra_client/lenra_components/theme/lenra_button_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_checkbox_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_color_theme_data.dart';
+import 'package:fr_lenra_client/lenra_components/theme/lenra_menu_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_radio_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_table_theme_data.dart';
 import 'package:fr_lenra_client/lenra_components/theme/lenra_text_field_theme_data.dart';
@@ -31,6 +32,7 @@ class LenraThemeData {
   late LenraCheckboxThemeData lenraCheckboxThemeData;
   late LenraTextFieldThemeData lenraTextFieldThemeData;
   late LenraTableThemeData lenraTableThemeData;
+  late LenraMenuThemeData lenraMenuThemeData;
 
   LenraThemeData({
     this.baseSize = 8,
@@ -43,15 +45,13 @@ class LenraThemeData {
     LenraCheckboxThemeData? lenraCheckboxThemeData,
     LenraTextFieldThemeData? lenraTextFieldThemeData,
     LenraTableThemeData? lenraTableThemeData,
+    LenraMenuThemeData? lenraMenuThemeData,
   }) {
     this.paddingMap = paddingMap ??
         {
-          LenraComponentSize.Small: EdgeInsets.symmetric(
-              vertical: 0.5 * baseSize, horizontal: 2 * baseSize),
-          LenraComponentSize.Medium: EdgeInsets.symmetric(
-              vertical: 1 * baseSize, horizontal: 2 * baseSize),
-          LenraComponentSize.Large: EdgeInsets.symmetric(
-              vertical: 1.5 * baseSize, horizontal: 2 * baseSize),
+          LenraComponentSize.Small: EdgeInsets.symmetric(vertical: 0.5 * baseSize, horizontal: 2 * baseSize),
+          LenraComponentSize.Medium: EdgeInsets.symmetric(vertical: 1 * baseSize, horizontal: 2 * baseSize),
+          LenraComponentSize.Large: EdgeInsets.symmetric(vertical: 1.5 * baseSize, horizontal: 2 * baseSize),
         };
     this.lenraColorThemeData = lenraColorThemeData ?? LenraColorThemeData();
     this.lenraTextThemeData = lenraTextThemeData ?? LenraTextThemeData();
@@ -79,6 +79,9 @@ class LenraThemeData {
             right: baseSize,
           ))),
     );
+    this.lenraMenuThemeData = LenraMenuThemeData(
+      lenraThemeData: this,
+    );
   }
 
   copyWith({
@@ -91,6 +94,7 @@ class LenraThemeData {
     LenraRadioThemeData? lenraRadioThemeData,
     LenraCheckboxThemeData? lenraCheckboxThemeData,
     LenraTextFieldThemeData? lenraTextFieldThemeData,
+    LenraMenuThemeData? lenraMenuThemeData,
   }) {
     return LenraThemeData(
       baseSize: baseSize ?? this.baseSize,
@@ -99,10 +103,9 @@ class LenraThemeData {
       lenraBorderThemeData: lenraBorderThemeData ?? this.lenraBorderThemeData,
       lenraButtonThemeData: lenraButtonThemeData ?? this.lenraButtonThemeData,
       lenraRadioThemeData: lenraRadioThemeData ?? this.lenraRadioThemeData,
-      lenraCheckboxThemeData:
-          lenraCheckboxThemeData ?? this.lenraCheckboxThemeData,
-      lenraTextFieldThemeData:
-          lenraTextFieldThemeData ?? this.lenraTextFieldThemeData,
+      lenraCheckboxThemeData: lenraCheckboxThemeData ?? this.lenraCheckboxThemeData,
+      lenraTextFieldThemeData: lenraTextFieldThemeData ?? this.lenraTextFieldThemeData,
+      lenraMenuThemeData: lenraMenuThemeData ?? this.lenraMenuThemeData,
     );
   }
 }
