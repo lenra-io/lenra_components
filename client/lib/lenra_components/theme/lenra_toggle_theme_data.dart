@@ -15,7 +15,7 @@ class LenraToggleThemeData {
     } else if (disabled) {
       return LenraColorThemeData.LENRA_DISABLED_GRAY;
     } else {
-      return LenraColorThemeData.LENRA_WHITE;
+      return LenraColorThemeData.LENRA_CUSTOM_GREEN;
     }
   }
 }
