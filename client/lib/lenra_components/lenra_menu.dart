@@ -35,16 +35,14 @@ class LenraMenu extends StatelessWidget {
   }
 }
 
-class LenraMenuItem<T> extends StatelessWidget {
+class LenraMenuItem extends StatelessWidget {
   final String text;
-  final T value;
   final bool isSelected;
   final bool disabled;
-  final Function(T)? onPressed;
+  final Function()? onPressed;
 
   LenraMenuItem({
     required this.text,
-    required this.value,
     this.isSelected = false,
     this.disabled = false,
     required this.onPressed,
@@ -96,7 +94,7 @@ class LenraMenuItem<T> extends StatelessWidget {
       return InkWell(
         child: res,
         onTap: () {
-          if (!this.disabled) onPressed!(this.value);
+          if (!this.disabled) onPressed!();
         },
       );
     }

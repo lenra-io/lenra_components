@@ -7,9 +7,9 @@ import '../page/lenra_page_test_help.dart';
 void main() {
   LenraMenu basicMenu = LenraMenu(
     items: [
-      LenraMenuItem(text: "test", value: "test", onPressed: (value) {}),
-      LenraMenuItem(text: "test2", value: "test2", onPressed: (value) {}),
-      LenraMenuItem(text: "test3", value: "test3", isSelected: true, onPressed: (value) {}),
+      LenraMenuItem(text: "test", onPressed: () {}),
+      LenraMenuItem(text: "test2", onPressed: () {}),
+      LenraMenuItem(text: "test3", isSelected: true, onPressed: () {}),
     ],
   );
   test('LenraMenu test', () {
@@ -36,8 +36,7 @@ void main() {
         items: [
           LenraMenuItem(
             text: "text",
-            value: "value",
-            onPressed: (value) => {},
+            onPressed: () => {},
           ),
         ],
       ),
