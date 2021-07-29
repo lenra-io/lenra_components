@@ -35,7 +35,7 @@ class LenraToggle extends StatelessWidget {
         onChanged: (bool _value) {
           if (!this.disabled) this.onChanged(_value);
         },
-        activeColor: finalLenraToggleThemeData.get_activeColor(this.disabled),
+        activeColor: finalLenraToggleThemeData.getActiveColor(this.disabled),
         thumbColor: MaterialStateProperty.all(LenraColorThemeData.LENRA_WHITE),
       ),
     );

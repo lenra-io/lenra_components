@@ -9,7 +9,7 @@ class LenraToggleThemeData {
     required this.lenraThemeData,
     this.activeColor,
   });
-  Color get_activeColor(bool disabled) {
+  Color getActiveColor(bool disabled) {
     if (activeColor != null) {
       return this.activeColor!(disabled, lenraThemeData.lenraColorThemeData);
     } else if (disabled) {
