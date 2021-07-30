@@ -40,8 +40,21 @@ void main() {
             is Text,
         true);
     expect(
-        (tester.widget(find.byType(LenraRow)) as LenraRow).children.elementAt(1)
-            is CupertinoSwitch,
+        ((tester.widget(find.byType(LenraRow)) as LenraRow)
+                .children
+                .elementAt(1) as SizedBox)
+            .child is CupertinoSwitch,
         true);
+  });
+  testWidgets('LenraToggle size', (WidgetTester tester) async {
+    await tester.pumpWidget(createComponentTestWidgets(
+      LenraToggle(
+        value: true,
+        onChanged: (bool _value) {},
+      ),
+    ));
+
+    expect((tester.getSize(find.byType(CupertinoSwitch)).width), equals(44));
+    expect((tester.getSize(find.byType(CupertinoSwitch)).height), equals(24));
   });
 }

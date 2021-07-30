@@ -27,14 +27,18 @@ class LenraToggle extends StatelessWidget {
         textAlign: TextAlign.right,
       ));
     children.add(
-      CupertinoSwitch(
-        value: this.disabled ? true : this.value,
-        onChanged: (bool _value) {
-          if (!this.disabled) this.onChanged(_value);
-        },
-        activeColor: this.disabled
-            ? LenraColorThemeData.LENRA_DISABLED_GRAY
-            : LenraColorThemeData.LENRA_CUSTOM_GREEN,
+      SizedBox(
+        height: 24,
+        width: 44,
+        child: CupertinoSwitch(
+          value: this.disabled ? true : this.value,
+          onChanged: (bool _value) {
+            if (!this.disabled) this.onChanged(_value);
+          },
+          activeColor: this.disabled
+              ? LenraColorThemeData.LENRA_DISABLED_GRAY
+              : LenraColorThemeData.LENRA_CUSTOM_GREEN,
+        ),
       ),
     );
     if (children.length > 1) {
