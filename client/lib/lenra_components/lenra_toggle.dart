@@ -6,6 +6,7 @@ import 'package:fr_lenra_client/lenra_components/theme/lenra_color_theme_data.da
 class LenraToggle extends StatelessWidget {
   final bool value;
   late final bool disabled;
+  late final bool disabledValue;
   final Function(bool) onChanged;
   final String? label;
 
@@ -13,6 +14,7 @@ class LenraToggle extends StatelessWidget {
     required this.value,
     required this.onChanged,
     this.disabled = false,
+    this.disabledValue = true,
     this.label,
     Key? key,
   }) : super(key: key);
@@ -31,7 +33,7 @@ class LenraToggle extends StatelessWidget {
         height: 24,
         width: 44,
         child: CupertinoSwitch(
-          value: this.disabled ? true : this.value,
+          value: this.disabled ? this.disabledValue : this.value,
           onChanged: (bool _value) {
             if (!this.disabled) this.onChanged(_value);
           },
