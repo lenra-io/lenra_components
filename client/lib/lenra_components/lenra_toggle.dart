@@ -19,8 +19,6 @@ class LenraToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //final LenraToggleThemeData finalLenraToggleThemeData =
-    //    LenraTheme.of(context).lenraToggleThemeData;
     List<Widget> children = [];
 
     if (label != null)
