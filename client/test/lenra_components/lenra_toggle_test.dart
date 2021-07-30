@@ -14,6 +14,18 @@ void main() {
     expect(component is LenraToggle, true);
   });
 
+  testWidgets('LenraToggle without label', (WidgetTester tester) async {
+    await tester.pumpWidget(createComponentTestWidgets(
+      LenraToggle(
+        value: true,
+        onChanged: (bool _value) {},
+      ),
+    ));
+
+    expect(
+        (tester.widget(find.byType(CupertinoSwitch))) is CupertinoSwitch, true);
+    expect((find.byType(LenraRow)), findsNothing);
+  });
   testWidgets('LenraToggle with label', (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(
       LenraToggle(

@@ -37,6 +37,10 @@ class LenraToggle extends StatelessWidget {
             : LenraColorThemeData.LENRA_CUSTOM_GREEN,
       ),
     );
-    return LenraRow(children: children);
+    if (children.length > 1) {
+      return LenraRow(children: children);
+    } else {
+      return children.first;
+    }
   }
 }
