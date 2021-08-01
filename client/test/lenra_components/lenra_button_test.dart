@@ -110,4 +110,68 @@ void main() {
 
     expect((tester.widget(find.byType(TextButton)) as TextButton).style!.side!.resolve({}), equals(noneBorderSide));
   });
+
+  testWidgets('LenraButton text/leftIcon/rightIcon alone should not use LenraRow', (WidgetTester tester) async {
+    await tester.pumpWidget(createComponentTestWidgets(
+      LenraButton(
+        text: "Test",
+        onPressed: () {},
+      ),
+    ));
+
+    expect(find.byType(LenraRow), findsNothing);
+
+    await tester.pumpWidget(createComponentTestWidgets(
+      LenraButton(
+        leftIcon: Icon(Icons.ac_unit),
+        onPressed: () {},
+      ),
+    ));
+
+    expect(find.byType(LenraRow), findsNothing);
+
+    await tester.pumpWidget(createComponentTestWidgets(
+      LenraButton(
+        rightIcon: Icon(Icons.ac_unit),
+        onPressed: () {},
+      ),
+    ));
+
+    expect(find.byType(LenraRow), findsNothing);
+  });
+
+  testWidgets('LenraButton text/icons combinations should not crash', (WidgetTester tester) async {
+    await tester.pumpWidget(createComponentTestWidgets(
+      LenraButton(
+        text: "Test",
+        leftIcon: Icon(Icons.ac_unit),
+        onPressed: () {},
+      ),
+    ));
+
+    await tester.pumpWidget(createComponentTestWidgets(
+      LenraButton(
+        text: "Test",
+        rightIcon: Icon(Icons.ac_unit),
+        onPressed: () {},
+      ),
+    ));
+
+    await tester.pumpWidget(createComponentTestWidgets(
+      LenraButton(
+        text: "Test",
+        leftIcon: Icon(Icons.ac_unit),
+        rightIcon: Icon(Icons.ac_unit),
+        onPressed: () {},
+      ),
+    ));
+
+    await tester.pumpWidget(createComponentTestWidgets(
+      LenraButton(
+        leftIcon: Icon(Icons.ac_unit),
+        rightIcon: Icon(Icons.ac_unit),
+        onPressed: () {},
+      ),
+    ));
+  });
 }

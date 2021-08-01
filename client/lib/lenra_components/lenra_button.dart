@@ -6,7 +6,7 @@ import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
 
 class LenraButton extends StatelessWidget {
   final void Function()? onPressed;
-  final String text;
+  final String? text;
   final bool disabled;
   final LenraComponentSize size;
   final LenraComponentType type;
@@ -15,34 +15,54 @@ class LenraButton extends StatelessWidget {
 
   LenraButton({
     @required this.onPressed,
-    required this.text,
+    this.text,
     this.disabled = false,
     this.size = LenraComponentSize.Medium,
     this.type = LenraComponentType.Primary,
     this.leftIcon,
     this.rightIcon,
     Key? key,
-  }) : super(key: key);
+  })  : assert(text != null || leftIcon != null || rightIcon != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final LenraButtonThemeData finalLenraButtonThemeData = LenraTheme.of(context).lenraButtonThemeData;
 
-    Widget child = Text(
-      text,
-      textAlign: TextAlign.center,
-      strutStyle: StrutStyle(leading: 0.15),
-    );
+    List<Widget> children = [];
+    Widget res;
 
-    if (this.leftIcon != null || this.rightIcon != null) {
-      child = LenraRow(
-        separationFactor: 1.5,
-        children: [
-          if (this.leftIcon != null) this.leftIcon!,
-          Flexible(child: child),
-          if (this.rightIcon != null) this.rightIcon!,
-        ],
+    if (this.leftIcon != null) {
+      children.add(this.leftIcon!);
+    }
+
+    if (this.text != null) {
+      var tempText = Text(
+        text!,
+        textAlign: TextAlign.center,
+        strutStyle: StrutStyle(leading: 0.15),
       );
+
+      if (this.leftIcon != null || this.rightIcon != null) {
+        children.add(
+          Flexible(child: tempText),
+        );
+      } else {
+        children.add(tempText);
+      }
+    }
+
+    if (this.rightIcon != null) {
+      children.add(this.rightIcon!);
+    }
+
+    if (children.length > 1) {
+      res = LenraRow(
+        separationFactor: 1.5,
+        children: children,
+      );
+    } else {
+      res = children.first;
     }
 
     // Manage size
@@ -50,7 +70,7 @@ class LenraButton extends StatelessWidget {
       onPressed: this.disabled ? () {} : onPressed,
       child: Padding(
         padding: finalLenraButtonThemeData.getPadding(size),
-        child: child,
+        child: res,
       ),
       style: finalLenraButtonThemeData.getStyle(type),
     );
