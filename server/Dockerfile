@@ -29,7 +29,7 @@ RUN mix phx.digest
 RUN mix do compile, release lenra
 
 # prepare release image
-FROM erlang:22-alpine
+FROM erlang:24-alpine
 
 WORKDIR /app
 COPY --from=build /app/_build/prod/rel/lenra .

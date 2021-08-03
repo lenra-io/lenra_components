@@ -11,6 +11,13 @@ spec:
             - name: pvc
               mountPath: /var/lib/postgresql/data
               subPath: postgres
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "200m"
+            limits:
+              memory: "256Mi"
+              cpu: "1"
   volumeClaimTemplates:
   - metadata:
       name: pvc

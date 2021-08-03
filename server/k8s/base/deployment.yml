@@ -64,17 +64,24 @@ spec:
             initialDelaySeconds: 60
             periodSeconds: 20
             timeoutSeconds: 1
-            failureThreshold: 2
+            failureThreshold: 5
+            successThreshold: 1
+          startupProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 10
+            failureThreshold: 30
             successThreshold: 1
           resources:
             requests:
-              cpu: "100m"
+              cpu: "50m"
               memory: "100Mi"
             limits:
-              cpu: "500m"
-              memory: "500Mi"
+              cpu: "200m"
+              memory: "200Mi"
       restartPolicy: Always
       imagePullSecrets:
         - name: gitlab-registry
   revisionHistoryLimit: 2
-  progressDeadlineSeconds: 60
+  progressDeadlineSeconds: 600
