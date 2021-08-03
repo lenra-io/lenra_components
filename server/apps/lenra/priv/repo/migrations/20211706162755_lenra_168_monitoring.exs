@@ -62,9 +62,11 @@ defmodule Lenra.Repo.Migrations.Lenra168Monitoring do
     )
 
     execute(
-      "INSERT INTO app_user_session(uuid, user_id, application_id, build_number) SELECT '" <>
-        Ecto.UUID.generate() <>
-        "', c.user_id, a.id, b.id FROM
+      "CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\";"
+    )
+
+    execute(
+      "INSERT INTO app_user_session(uuid, user_id, application_id, build_number, inserted_at, updated_at) SELECT uuid_generate_v4(), c.user_id, a.id, b.id, c.inserted_at, c.updated_at FROM
         client_app_measurements c
           JOIN applications a ON c.application_name = a.service_name
           JOIN (SELECT b.id, b.creator_id FROM builds b, applications a WHERE a.id=application_id ORDER BY b.id DESC LIMIT 1) b
@@ -72,7 +74,7 @@ defmodule Lenra.Repo.Migrations.Lenra168Monitoring do
     )
 
     execute(
-      "INSERT INTO socket_app_measurements(app_user_session_uuid, duration) SELECT s.uuid,c.duration FROM client_app_measurements c
+      "INSERT INTO socket_app_measurements(app_user_session_uuid, duration, inserted_at, updated_at) SELECT s.uuid, c.duration, c.inserted_at, c.updated_at FROM client_app_measurements c
       JOIN applications a ON c.application_name = a.service_name
       JOIN app_user_session s ON s.application_id=a.id;"
     )

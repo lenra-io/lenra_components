@@ -4,11 +4,7 @@ resources:
   - ingressroute.yml
   - statefulset-postgres.yml
   - service-postgres.yml
-# vars:
-#   - name: LENRA_HOST
-#     objref:
-#       name: lenra-env
-#       kind: ConfigMap
-#       apiVersion: v1
-#     fieldref:
-#       fieldpath: metadata.annotations.lenra_host
+configMapGenerator:
+- name: init-database
+  files:
+  - init-extensions.sql
