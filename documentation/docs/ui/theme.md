@@ -1,3 +1,0 @@
-# Thèmes visuel
-
-Coming soon
