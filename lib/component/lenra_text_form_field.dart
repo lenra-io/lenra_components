@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lenra_components/lenra_text_field.dart';
+import 'lenra_text_field.dart';
 import 'package:lenra_components/theme/lenra_theme_data.dart';
 import 'package:lenra_components/utils/form_validators.dart';
 

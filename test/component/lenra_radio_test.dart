@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lenra_components/lenra_radio.dart';
+import 'package:lenra_components/component/lenra_radio.dart';
 
 void main() {
   test('LenraRadio test', () {

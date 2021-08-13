@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lenra_components/lenra_text_field.dart';
+import 'package:lenra_components/component/lenra_text_field.dart';
 import 'package:lenra_components/theme/lenra_theme_data.dart';
 
-import 'utils/lenra_page_test_help.dart';
+import '../utils/lenra_page_test_help.dart';
 
 void main() {
   const String fourLines = 'First line\n'
