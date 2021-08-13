@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:fr_lenra_client/lenra_components/theme/lenra_theme.dart';
+import 'package:lenra_components/theme/lenra_theme.dart';
 
 class LenraFlex extends StatelessWidget {
   final List<Widget> children;

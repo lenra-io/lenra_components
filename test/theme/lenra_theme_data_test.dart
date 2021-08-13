@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
+import 'package:lenra_components/theme/lenra_theme_data.dart';
 
 void main() {
   test('lenra theme data test default constructor', () {

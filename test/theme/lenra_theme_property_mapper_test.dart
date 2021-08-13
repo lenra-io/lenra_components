@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_property_mapper.dart';
+import 'package:lenra_components/theme/lenra_theme_property_mapper.dart';
 
 void main() {
   test('lenra theme property mapper test resolve', () {

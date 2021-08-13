@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
-import 'package:fr_lenra_client/lenra_components/theme/lenra_border_theme_data.dart';
-import 'package:fr_lenra_client/lenra_components/theme/lenra_button_theme_data.dart';
-import 'package:fr_lenra_client/lenra_components/theme/lenra_checkbox_theme_data.dart';
-import 'package:fr_lenra_client/lenra_components/theme/lenra_color_theme_data.dart';
-import 'package:fr_lenra_client/lenra_components/theme/lenra_menu_theme_data.dart';
-import 'package:fr_lenra_client/lenra_components/theme/lenra_radio_theme_data.dart';
-import 'package:fr_lenra_client/lenra_components/theme/lenra_table_theme_data.dart';
-import 'package:fr_lenra_client/lenra_components/theme/lenra_text_field_theme_data.dart';
-import 'package:fr_lenra_client/lenra_components/theme/lenra_text_theme_data.dart';
+import 'package:lenra_components/theme/lenra_border_theme_data.dart';
+import 'package:lenra_components/theme/lenra_button_theme_data.dart';
+import 'package:lenra_components/theme/lenra_checkbox_theme_data.dart';
+import 'package:lenra_components/theme/lenra_color_theme_data.dart';
+import 'package:lenra_components/theme/lenra_menu_theme_data.dart';
+import 'package:lenra_components/theme/lenra_radio_theme_data.dart';
+import 'package:lenra_components/theme/lenra_table_theme_data.dart';
+import 'package:lenra_components/theme/lenra_text_field_theme_data.dart';
+import 'package:lenra_components/theme/lenra_text_theme_data.dart';
 
 enum LenraComponentSize {
   Small,

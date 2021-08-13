@@ -5,7 +5,7 @@ import 'package:fr_lenra_client/components/page/simple_page.dart';
 import 'package:fr_lenra_client/models/auth_model.dart';
 import 'package:provider/provider.dart';
 
-import 'lenra_page_test_help.dart';
+import '../../../test/utils/lenra_page_test_help.dart';
 
 void main() {
   testWidgets('ActivationCodePage check SimplePage', (WidgetTester tester) async {

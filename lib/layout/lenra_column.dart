@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:fr_lenra_client/lenra_components/layout/lenra_flex.dart';
+import 'package:lenra_components/layout/lenra_flex.dart';
 
 class LenraColumn extends LenraFlex {
   LenraColumn({

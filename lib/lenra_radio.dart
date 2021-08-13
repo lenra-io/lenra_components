@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fr_lenra_client/lenra_components/theme/lenra_radio_theme_data.dart';
-import 'package:fr_lenra_client/lenra_components/theme/lenra_theme.dart';
+import 'package:lenra_components/theme/lenra_radio_theme_data.dart';
+import 'package:lenra_components/theme/lenra_theme.dart';
 
 class LenraRadio<T> extends StatelessWidget {
   final String? label;

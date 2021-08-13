@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fr_lenra_client/lenra_components/lenra_text_field.dart';
-import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
-import 'package:fr_lenra_client/utils/form_validators.dart';
+import 'package:lenra_components/lenra_text_field.dart';
+import 'package:lenra_components/theme/lenra_theme_data.dart';
+import 'package:lenra_components/utils/form_validators.dart';
 
 enum LenraTextFormFieldType {
   Password,

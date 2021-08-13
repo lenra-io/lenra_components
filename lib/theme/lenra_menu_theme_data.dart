@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fr_lenra_client/lenra_components/theme/lenra_color_theme_data.dart';
-import 'package:fr_lenra_client/lenra_components/theme/lenra_theme_data.dart';
+import 'package:lenra_components/theme/lenra_color_theme_data.dart';
+import 'package:lenra_components/theme/lenra_theme_data.dart';
 
 class LenraMenuThemeData {
   final LenraThemeData lenraThemeData;
