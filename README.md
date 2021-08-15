@@ -1,21 +1,5 @@
-# Lenra Core
+# lenra-components
 
-- [Lenra Core](#lenra-core)
-  - [Server](#server)
-  - [Client](#client)
-  - [Documentation](#documentation)
+[![codecov](https://codecov.io/gh/lenra-io/lenra_components/branch/main/graph/badge.svg?token=QNKQPMX5ME)](https://codecov.io/gh/lenra-io/lenra_components)
 
-Projet de développement de la plateforme Lenra. Ce projet contient le client Lenra, le serveur Lenra et le site de documentation.
-
-## Server
-
-Voir [Server README](server/README.md)
-
-## Client
-
-Voir [Client README](client/README.md)
-
-
-## Documentation
-
-voir Voir [Documentation README](documentation/README.md)
+The Lenra plateforme Flutter components library.

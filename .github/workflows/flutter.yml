@@ -1,0 +1,24 @@
+name: Flutter CI
+on: push
+jobs:
+  Setup-Flutter:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: subosito/flutter-action@v1.5.3
+      with:
+        flutter-version: '2.2.3'
+
+    - name: Restore packages
+      run: flutter pub get
+
+    - name: Analyze
+      run: flutter analyze --no-congratulate
+
+    - name: Run tests
+      run: flutter test --coverage
+
+    - name: Upload coverage to codecov
+      uses: codecov/codecov-action@v2
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
