@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lenra_components/lenra_components.dart';
 import 'package:lenra_components/theme/lenra_color_theme_data.dart';
@@ -29,13 +28,15 @@ class LenraToggle extends StatelessWidget {
     children.add(
       SizedBox(
         height: 24,
-        width: 44,
-        child: CupertinoSwitch(
+        //width: 44,
+        child: Switch(
           value: this.value,
           onChanged: (bool _value) {
             if (!this.disabled) this.onChanged(_value);
           },
-          activeColor: this.disabled ? LenraColorThemeData.LENRA_DISABLED_GRAY : LenraColorThemeData.LENRA_CUSTOM_GREEN,
+          activeColor: this.disabled ? LenraColorThemeData.LENRA_DISABLED_GRAY : LenraColorThemeData.LENRA_WHITE,
+          activeTrackColor:
+              this.disabled ? LenraColorThemeData.LENRA_DISABLED_GRAY : LenraColorThemeData.LENRA_CUSTOM_GREEN,
         ),
       ),
     );

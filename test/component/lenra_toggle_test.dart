@@ -21,7 +21,7 @@ void main() {
       ),
     ));
 
-    expect((tester.widget(find.byType(CupertinoSwitch))) is CupertinoSwitch, true);
+    expect((tester.widget(find.byType(Switch))) is Switch, true);
     expect((find.byType(LenraRow)), findsNothing);
   });
   testWidgets('LenraToggle with label', (WidgetTester tester) async {
@@ -46,7 +46,7 @@ void main() {
       ),
     ));
 
-    expect((tester.getSize(find.byType(CupertinoSwitch)).width), equals(44));
-    expect((tester.getSize(find.byType(CupertinoSwitch)).height), equals(24));
+    //expect((tester.getSize(find.byType(Switch)).width), equals(44));
+    expect((tester.getSize(find.byType(Switch)).height), equals(24));
   });
 }
