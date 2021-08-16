@@ -56,16 +56,14 @@ void main() {
 
     double lenraMenuExpectedHeight = 24.0 * basicMenu.items.length + 8 * 2;
 
-    // Width should be same as screen if not constrained
-    expect(tester.getSize((find.byType(LenraMenu).first)).width, equals(800.0));
+    expect(tester.getSize((find.byType(LenraMenu).first)).width, equals(115.0));
     expect(tester.getSize((find.byType(LenraMenu).first)).height, equals(lenraMenuExpectedHeight));
   });
 
   testWidgets('LenraMenuItem check size', (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(basicMenu));
 
-    // Width should be same as screen if not constrained
-    expect(tester.getSize((find.byType(LenraMenuItem).first)).width, equals(800.0));
+    expect(tester.getSize((find.byType(LenraMenuItem).first)).width, equals(115.0));
     expect(tester.getSize((find.byType(LenraMenuItem).first)).height, equals(24.0));
   });
 }
