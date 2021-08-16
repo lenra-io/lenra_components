@@ -3,7 +3,7 @@ import 'package:lenra_components/component/lenra_button.dart';
 import 'package:lenra_components/component/lenra_menu.dart';
 import 'package:lenra_components/theme/lenra_theme_data.dart';
 
-class LenraDropdownButton<T> extends StatefulWidget {
+class LenraDropdownButton extends StatefulWidget {
   final String text;
   final LenraMenu menu;
   final bool disabled;
@@ -90,8 +90,8 @@ class _Dropdown extends StatefulWidget {
   _Dropdown({
     required this.menu,
     required this.layerLink,
-    Key? key,
     required this.renderBox,
+    Key? key,
   }) : super(key: key);
 
   @override

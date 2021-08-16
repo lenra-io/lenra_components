@@ -9,8 +9,8 @@ import '../utils/lenra_page_test_help.dart';
 void main() {
   LenraMenu basicMenu = LenraMenu(
     items: [
-      LenraMenuItem(text: "one", value: 1, onPressed: (value) => {}),
-      LenraMenuItem(text: "two", value: 2, onPressed: (value) => {}),
+      LenraMenuItem(text: "one", onPressed: () => {}),
+      LenraMenuItem(text: "two", onPressed: () => {}),
     ],
   );
 
