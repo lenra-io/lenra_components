@@ -99,6 +99,7 @@ class _Dropdown extends StatefulWidget {
 }
 
 class _DropdownState extends State<_Dropdown> with TickerProviderStateMixin {
+  // TickerProviderStateMixin is used to correctly execute the fade animation of the menu
   GlobalKey overlayKey = GlobalKey();
   Offset? overlayOffset;
   bool verticalScroll = false;
