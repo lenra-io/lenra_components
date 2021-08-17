@@ -1,6 +1,6 @@
 name: lenra_components
 description: Lenra's Flutter component library.
-version: 0.0.1
+version: 0.0.0
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
