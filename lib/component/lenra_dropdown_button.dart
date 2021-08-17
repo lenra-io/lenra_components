@@ -161,16 +161,28 @@ class _DropdownState extends State<_Dropdown> {
       color: Colors.transparent,
     );
 
-    if (verticalScroll) {
+    if (verticalScroll || horizontalScroll) {
+      // TODO : This is not working, it is breaking the overlay when used with verticalScroll
+      // if (horizontalScroll) {
+      //   child = SingleChildScrollView(
+      //     scrollDirection: Axis.horizontal,
+      //     child: child,
+      //   );
+      // }
+
+      if (verticalScroll) {
+        child = SingleChildScrollView(
+          child: child,
+        );
+      }
+
       child = Container(
         color: Colors.black.withOpacity(0.5),
         child: Center(
           child: Container(
             height: MediaQuery.of(context).size.height * 0.8,
             width: MediaQuery.of(context).size.width * 0.8,
-            child: SingleChildScrollView(
-              child: child,
-            ),
+            child: child,
           ),
         ),
       );
