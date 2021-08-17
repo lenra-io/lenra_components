@@ -132,7 +132,7 @@ class _DropdownState extends State<_Dropdown> {
             var xOffset = 0.0; // Default x Offset, top left of overlay is just under bottom left of button
             var yOffset = buttonSize.height; // Default y Offset, overlay is just under button
 
-            overlayOffset = (temp as RenderBox).localToGlobal(Offset.zero);
+            //overlayOffset = (temp as RenderBox).localToGlobal(Offset.zero);
             if (overflowRight && overflowLeft) {}
 
             if (overflowRight) {
@@ -152,7 +152,7 @@ class _DropdownState extends State<_Dropdown> {
 
   @override
   Widget build(BuildContext context) {
-    var offset = widget.renderBox.localToGlobal(Offset.zero);
+    //var offset = widget.renderBox.localToGlobal(Offset.zero);
 
     return Stack(
       children: [
