@@ -155,21 +155,42 @@ class _DropdownState extends State<_Dropdown> {
   Widget build(BuildContext context) {
     //var offset = widget.renderBox.localToGlobal(Offset.zero);
 
-    Widget child = Stack(
-      children: [
-        CompositedTransformFollower(
-          offset: overlayOffset ?? Offset(0, widget.renderBox.size.height),
-          //offset: Offset(0, widget.renderBox.size.height),
-          link: widget.layerLink,
-          child: Material(key: overlayKey, child: widget.menu),
-        ),
-      ],
+    Widget child = Material(
+      key: overlayKey,
+      child: widget.menu,
+      color: Colors.transparent,
     );
 
     if (verticalScroll) {
-      child = SingleChildScrollView(child: child);
+      child = Container(
+        color: Colors.black.withOpacity(0.5),
+        child: Center(
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.8,
+            width: MediaQuery.of(context).size.width * 0.8,
+            child: SingleChildScrollView(
+              child: child,
+            ),
+          ),
+        ),
+      );
+      // ScrollView should replace CompositedTransformFollower, it should also define a container to resize the LenraMenu
+      // See IOS Pickers https://developer.apple.com/design/human-interface-guidelines/ios/controls/pickers/
+
+      // For two-sided scroll, define a SingleChildScrollView horizontally with a ListView inside
+    } else {
+      child = CompositedTransformFollower(
+        offset: overlayOffset ?? Offset(0, widget.renderBox.size.height),
+        //offset: Offset(0, widget.renderBox.size.height),
+        link: widget.layerLink,
+        child: child,
+      );
     }
 
-    return child;
+    return Stack(
+      children: [
+        child,
+      ],
+    );
   }
 }
