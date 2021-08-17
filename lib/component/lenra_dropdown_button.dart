@@ -136,6 +136,7 @@ class _DropdownState extends State<_Dropdown> with TickerProviderStateMixin {
             var xOffset = 0.0; // Default x Offset, top left of overlay is just under bottom left of button
             var yOffset = buttonSize.height; // Default y Offset, overlay is just under button
 
+            // TODO: Check if every condition is handled and respected
             if (overflowRight && overflowLeft) {
               // Add horizontal scroll
               horizontalScroll = true;
@@ -161,8 +162,6 @@ class _DropdownState extends State<_Dropdown> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    //var offset = widget.renderBox.localToGlobal(Offset.zero);
-
     Widget child = Material(
       key: overlayKey,
       child: widget.menu,
@@ -171,6 +170,7 @@ class _DropdownState extends State<_Dropdown> with TickerProviderStateMixin {
 
     if (verticalScroll || horizontalScroll) {
       // TODO : This is not working, it is breaking the overlay when used with verticalScroll
+      // TODO : Maybe allow overflowing of text ?
       if (horizontalScroll) {
         child = SingleChildScrollView(
           scrollDirection: Axis.horizontal,
@@ -188,20 +188,15 @@ class _DropdownState extends State<_Dropdown> with TickerProviderStateMixin {
         color: Colors.black.withOpacity(0.5),
         child: Center(
           child: Container(
-            height: MediaQuery.of(context).size.height * 0.8,
+            height: MediaQuery.of(context).size.height * 0.8, // TODO: Is 80% of the screen a good size ?
             width: MediaQuery.of(context).size.width * 0.8,
             child: child,
           ),
         ),
       );
-      // ScrollView should replace CompositedTransformFollower, it should also define a container to resize the LenraMenu
-      // See IOS Pickers https://developer.apple.com/design/human-interface-guidelines/ios/controls/pickers/
-
-      // For two-sided scroll, define a SingleChildScrollView horizontally with a ListView inside
     } else {
       child = CompositedTransformFollower(
         offset: overlayOffset ?? Offset(0, widget.renderBox.size.height),
-        //offset: Offset(0, widget.renderBox.size.height),
         link: widget.layerLink,
         child: child,
       );
