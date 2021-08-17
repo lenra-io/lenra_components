@@ -98,15 +98,22 @@ class _Dropdown extends StatefulWidget {
   _DropdownState createState() => _DropdownState();
 }
 
-class _DropdownState extends State<_Dropdown> {
+class _DropdownState extends State<_Dropdown> with TickerProviderStateMixin {
   GlobalKey overlayKey = GlobalKey();
   Offset? overlayOffset;
   bool verticalScroll = false;
   bool horizontalScroll = false;
 
+  late AnimationController _controller;
+
   @override
   void initState() {
     super.initState();
+
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 200),
+      vsync: this,
+    );
 
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       if (overlayOffset == null) {
@@ -125,6 +132,7 @@ class _DropdownState extends State<_Dropdown> {
           bool overflowTop = buttonOffset.dy - overlaySize.height < 0;
 
           setState(() {
+            _controller.forward();
             var xOffset = 0.0; // Default x Offset, top left of overlay is just under bottom left of button
             var yOffset = buttonSize.height; // Default y Offset, overlay is just under button
 
@@ -163,12 +171,12 @@ class _DropdownState extends State<_Dropdown> {
 
     if (verticalScroll || horizontalScroll) {
       // TODO : This is not working, it is breaking the overlay when used with verticalScroll
-      // if (horizontalScroll) {
-      //   child = SingleChildScrollView(
-      //     scrollDirection: Axis.horizontal,
-      //     child: child,
-      //   );
-      // }
+      if (horizontalScroll) {
+        child = SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: child,
+        );
+      }
 
       if (verticalScroll) {
         child = SingleChildScrollView(
@@ -199,10 +207,16 @@ class _DropdownState extends State<_Dropdown> {
       );
     }
 
-    return Stack(
-      children: [
-        child,
-      ],
+    return FadeTransition(
+      opacity: CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeIn,
+      ),
+      child: Stack(
+        children: [
+          child,
+        ],
+      ),
     );
   }
 }
