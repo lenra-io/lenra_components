@@ -101,6 +101,8 @@ class _Dropdown extends StatefulWidget {
 class _DropdownState extends State<_Dropdown> {
   GlobalKey overlayKey = GlobalKey();
   Offset? overlayOffset;
+  bool verticalScroll = false;
+  bool horizontalScroll = false;
 
   @override
   void initState() {
@@ -110,7 +112,6 @@ class _DropdownState extends State<_Dropdown> {
       if (overlayOffset == null) {
         var temp = overlayKey.currentContext?.findRenderObject();
 
-        print(temp);
         if (temp != null) {
           var tempOffset = (temp as RenderBox).localToGlobal(Offset.zero);
           var overlaySize = temp.size;
@@ -123,24 +124,24 @@ class _DropdownState extends State<_Dropdown> {
           bool overflowBottom = buttonOffset.dy + buttonSize.height + overlaySize.height > screenSize.height;
           bool overflowTop = buttonOffset.dy - overlaySize.height < 0;
 
-          print(overflowRight);
-          print(overflowLeft);
-          print(overflowBottom);
-          print(overflowTop);
-
           setState(() {
             var xOffset = 0.0; // Default x Offset, top left of overlay is just under bottom left of button
             var yOffset = buttonSize.height; // Default y Offset, overlay is just under button
 
-            //overlayOffset = (temp as RenderBox).localToGlobal(Offset.zero);
-            if (overflowRight && overflowLeft) {}
+            if (overflowRight && overflowLeft) {
+              // Add horizontal scroll
+              horizontalScroll = true;
+            }
+
+            if (overflowBottom && overflowTop) {
+              // Add vertical scroll
+              verticalScroll = true;
+            } else if (overflowBottom) {
+              yOffset = -overlaySize.height;
+            }
 
             if (overflowRight) {
               xOffset = -(overlaySize.width - buttonSize.width);
-            }
-
-            if (overflowBottom) {
-              yOffset = -overlaySize.height;
             }
 
             overlayOffset = Offset(xOffset, yOffset);
@@ -154,18 +155,21 @@ class _DropdownState extends State<_Dropdown> {
   Widget build(BuildContext context) {
     //var offset = widget.renderBox.localToGlobal(Offset.zero);
 
-    return Stack(
+    Widget child = Stack(
       children: [
-        Positioned(
-          //top: 1000 + offset.dy + widget.renderBox.size.height,
-          child: CompositedTransformFollower(
-            offset: overlayOffset ?? Offset(0, widget.renderBox.size.height),
-            //offset: Offset(0, widget.renderBox.size.height),
-            link: widget.layerLink,
-            child: Material(key: overlayKey, child: widget.menu),
-          ),
+        CompositedTransformFollower(
+          offset: overlayOffset ?? Offset(0, widget.renderBox.size.height),
+          //offset: Offset(0, widget.renderBox.size.height),
+          link: widget.layerLink,
+          child: Material(key: overlayKey, child: widget.menu),
         ),
       ],
     );
+
+    if (verticalScroll) {
+      child = SingleChildScrollView(child: child);
+    }
+
+    return child;
   }
 }
