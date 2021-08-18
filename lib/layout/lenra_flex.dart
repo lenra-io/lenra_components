@@ -7,6 +7,7 @@ class LenraFlex extends StatelessWidget {
   final bool fillParent;
   final MainAxisAlignment mainAxisAlignment;
   final CrossAxisAlignment crossAxisAlignment;
+  final bool scroll;
 
   final Axis direction;
 
@@ -18,6 +19,7 @@ class LenraFlex extends StatelessWidget {
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.crossAxisAlignment = CrossAxisAlignment.center,
     required this.direction,
+    this.scroll = false,
   }) : super(key: key);
 
   @override
@@ -37,12 +39,22 @@ class LenraFlex extends StatelessWidget {
       });
     }
 
-    return Flex(
-      mainAxisSize: fillParent ? MainAxisSize.max : MainAxisSize.min,
-      mainAxisAlignment: this.mainAxisAlignment,
-      crossAxisAlignment: this.crossAxisAlignment,
-      direction: this.direction,
-      children: colChildren,
-    );
+    if (scroll) {
+      return ListView.builder(
+        scrollDirection: this.direction,
+        itemCount: colChildren.length,
+        itemBuilder: (BuildContext context, int index) {
+          return colChildren.elementAt(index);
+        },
+      );
+    } else {
+      return Flex(
+        mainAxisSize: fillParent ? MainAxisSize.max : MainAxisSize.min,
+        mainAxisAlignment: this.mainAxisAlignment,
+        crossAxisAlignment: this.crossAxisAlignment,
+        direction: this.direction,
+        children: colChildren,
+      );
+    }
   }
 }

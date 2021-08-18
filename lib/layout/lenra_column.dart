@@ -8,6 +8,7 @@ class LenraColumn extends LenraFlex {
     bool fillParent: false,
     MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
     CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
+    bool scroll = false,
     required List<Widget> children,
   }) : super(
           key: key,
@@ -17,5 +18,6 @@ class LenraColumn extends LenraFlex {
           mainAxisAlignment: mainAxisAlignment,
           crossAxisAlignment: crossAxisAlignment,
           children: children,
+          scroll: scroll,
         );
 }

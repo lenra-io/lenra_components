@@ -9,6 +9,7 @@ class LenraRow extends LenraFlex {
     MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
     CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
     required List<Widget> children,
+    bool scroll = false,
   }) : super(
           key: key,
           direction: Axis.horizontal,
@@ -17,5 +18,6 @@ class LenraRow extends LenraFlex {
           mainAxisAlignment: mainAxisAlignment,
           crossAxisAlignment: crossAxisAlignment,
           children: children,
+          scroll: scroll,
         );
 }
