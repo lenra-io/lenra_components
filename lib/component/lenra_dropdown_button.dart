@@ -2,6 +2,52 @@ import 'package:flutter/material.dart';
 import 'package:lenra_components/component/lenra_button.dart';
 import 'package:lenra_components/theme/lenra_theme_data.dart';
 
+/// A dropdown button showing a dropdown when clicked.
+///
+/// When using a [LenraMenu] as a child, 
+/// the menu will be by default non-interactive which means that when clicking a menu item, 
+/// the state of the menu will not be updated unless it is closed and reopened.
+/// 
+/// To make the menu interactive, containing it inside a StatefulWidget is required as per the example below.
+/// This example is an interactive menu where its items are removed when clicked.
+/// 
+/// ```dart
+/// class Menu extends StatefulWidget {
+///   final List<bool> items;
+///
+///   final List<int> selectedItems;
+///
+///   const Menu({Key? key, required this.items, required this.selectedItems}) : super(key: key);
+///
+///   @override
+///   State<StatefulWidget> createState() {
+///     return MenuState();
+///   }
+/// }
+///
+/// class MenuState extends State<Menu> {
+///   @override
+///   Widget build(BuildContext context) {
+///     return LenraMenu(
+///       items: widget.items
+///           .asMap()
+///           .entries
+///           .where((e) => !widget.selectedItems.contains(e.key))
+///           .map((e) => LenraMenuItem(
+///                  text: "test ${e.key}",
+///                  isSelected: e.value,
+///                  onPressed: () => {
+///                    setState(() {
+///                      widget.selectedItems.add(e.key);
+///                   })
+///                  },
+///               ))
+///            .toList(),
+///      );
+///   }
+/// }
+///
+/// ```
 class LenraDropdownButton extends StatefulWidget {
   final String text;
   final Widget child;
@@ -118,10 +164,10 @@ class _DropdownState extends State<_Dropdown> with TickerProviderStateMixin {
 
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       if (overlayOffset == null) {
-        var temp = overlayKey.currentContext?.findRenderObject();
+        var overlay = overlayKey.currentContext?.findRenderObject();
 
-        if (temp != null) {
-          var overlaySize = (temp as RenderBox).size;
+        if (overlay != null) {
+          var overlaySize = (overlay as RenderBox).size;
           var buttonSize = widget.renderBox.size;
           var buttonOffset = widget.renderBox.localToGlobal(Offset.zero);
           var screenSize = MediaQuery.of(context).size;
@@ -136,10 +182,11 @@ class _DropdownState extends State<_Dropdown> with TickerProviderStateMixin {
             var xOffset = 0.0; // Default x Offset, top left of overlay is just under bottom left of button
             var yOffset = buttonSize.height; // Default y Offset, overlay is just under button
 
-            // TODO: Check if every condition is handled and respected
             if (overflowRight && overflowLeft) {
               // Add horizontal scroll
               horizontalScroll = true;
+            } else if (overflowRight) {
+              xOffset = -(overlaySize.width - buttonSize.width);
             }
 
             if (overflowBottom && overflowTop) {
@@ -147,10 +194,6 @@ class _DropdownState extends State<_Dropdown> with TickerProviderStateMixin {
               verticalScroll = true;
             } else if (overflowBottom) {
               yOffset = -overlaySize.height;
-            }
-
-            if (overflowRight) {
-              xOffset = -(overlaySize.width - buttonSize.width);
             }
 
             overlayOffset = Offset(xOffset, yOffset);
@@ -168,9 +211,8 @@ class _DropdownState extends State<_Dropdown> with TickerProviderStateMixin {
       color: Colors.transparent,
     );
 
+    // Handles vertical and horizontal scrolling
     if (verticalScroll || horizontalScroll) {
-      // TODO : This is not working, it is breaking the overlay when used with verticalScroll
-      // TODO : Maybe allow overflowing of text ?
       if (horizontalScroll) {
         child = SingleChildScrollView(
           scrollDirection: Axis.horizontal,
@@ -188,7 +230,7 @@ class _DropdownState extends State<_Dropdown> with TickerProviderStateMixin {
         color: Colors.black.withOpacity(0.5),
         child: Center(
           child: Container(
-            height: MediaQuery.of(context).size.height * 0.8, // TODO: Is 80% of the screen a good size ?
+            height: MediaQuery.of(context).size.height * 0.8,
             width: MediaQuery.of(context).size.width * 0.8,
             child: child,
           ),
