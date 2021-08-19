@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:lenra_components/component/lenra_button.dart';
-import 'package:lenra_components/component/lenra_menu.dart';
 import 'package:lenra_components/theme/lenra_theme_data.dart';
 
 class LenraDropdownButton extends StatefulWidget {
   final String text;
-  final LenraMenu menu;
+  final Widget child;
   final bool disabled;
   final LenraComponentSize size;
   final LenraComponentType type;
@@ -13,7 +12,7 @@ class LenraDropdownButton extends StatefulWidget {
 
   LenraDropdownButton({
     required this.text,
-    required this.menu,
+    required this.child,
     this.disabled = false,
     this.size = LenraComponentSize.Medium,
     this.type = LenraComponentType.Primary,
@@ -53,7 +52,7 @@ class _LenraDropdownButtonState extends State<LenraDropdownButton> {
           width: MediaQuery.of(context).size.width,
           child: _Dropdown(
             renderBox: renderBox,
-            menu: widget.menu,
+            child: widget.child,
             layerLink: _layerLink,
           ),
         ),
@@ -83,12 +82,12 @@ class _LenraDropdownButtonState extends State<LenraDropdownButton> {
 }
 
 class _Dropdown extends StatefulWidget {
-  final LenraMenu menu;
+  final Widget child;
   final LayerLink layerLink;
   final RenderBox renderBox;
 
   _Dropdown({
-    required this.menu,
+    required this.child,
     required this.layerLink,
     required this.renderBox,
     Key? key,
@@ -165,7 +164,7 @@ class _DropdownState extends State<_Dropdown> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     Widget child = Material(
       key: overlayKey,
-      child: widget.menu,
+      child: widget.child,
       color: Colors.transparent,
     );
 
