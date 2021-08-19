@@ -25,6 +25,7 @@ class LenraDropdownButton extends StatefulWidget {
 }
 
 class _LenraDropdownButtonState extends State<LenraDropdownButton> {
+  // [_layerLink] is used to make sure the child of [LenraDropdownButton] is correctly following the [LenraDropdownButton] when scrolling.
   final LayerLink _layerLink = LayerLink();
   late OverlayEntry _overlayEntry;
   bool showOverlay = false;
@@ -120,8 +121,7 @@ class _DropdownState extends State<_Dropdown> with TickerProviderStateMixin {
         var temp = overlayKey.currentContext?.findRenderObject();
 
         if (temp != null) {
-          var tempOffset = (temp as RenderBox).localToGlobal(Offset.zero);
-          var overlaySize = temp.size;
+          var overlaySize = (temp as RenderBox).size;
           var buttonSize = widget.renderBox.size;
           var buttonOffset = widget.renderBox.localToGlobal(Offset.zero);
           var screenSize = MediaQuery.of(context).size;
