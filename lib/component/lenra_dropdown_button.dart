@@ -4,13 +4,13 @@ import 'package:lenra_components/theme/lenra_theme_data.dart';
 
 /// A dropdown button showing a dropdown when clicked.
 ///
-/// When using a [LenraMenu] as a child, 
-/// the menu will be by default non-interactive which means that when clicking a menu item, 
+/// When using a [LenraMenu] as a child,
+/// the menu will be by default non-interactive which means that when clicking a menu item,
 /// the state of the menu will not be updated unless it is closed and reopened.
-/// 
+///
 /// To make the menu interactive, containing it inside a StatefulWidget is required as per the example below.
 /// This example is an interactive menu where its items are removed when clicked.
-/// 
+///
 /// ```dart
 /// class Menu extends StatefulWidget {
 ///   final List<bool> items;
@@ -179,8 +179,10 @@ class _DropdownState extends State<_Dropdown> with TickerProviderStateMixin {
 
           setState(() {
             _controller.forward();
-            var xOffset = 0.0; // Default x Offset, top left of overlay is just under bottom left of button
-            var yOffset = buttonSize.height; // Default y Offset, overlay is just under button
+            // Default x Offset, top left of overlay is just under bottom left of button
+            var xOffset = 0.0;
+            // Default y Offset, overlay is just under button
+            var yOffset = buttonSize.height;
 
             if (overflowRight && overflowLeft) {
               // Add horizontal scroll
