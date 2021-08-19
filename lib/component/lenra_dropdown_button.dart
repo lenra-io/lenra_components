@@ -126,10 +126,10 @@ class _DropdownState extends State<_Dropdown> with TickerProviderStateMixin {
           var buttonOffset = widget.renderBox.localToGlobal(Offset.zero);
           var screenSize = MediaQuery.of(context).size;
 
-          bool overflowRight = tempOffset.dx + overlaySize.width > screenSize.width;
-          bool overflowLeft = buttonOffset.dx + buttonSize.width - overlaySize.width < 0;
-          bool overflowBottom = buttonOffset.dy + buttonSize.height + overlaySize.height > screenSize.height;
-          bool overflowTop = buttonOffset.dy - overlaySize.height < 0;
+          bool overflowRight = buttonOffset.dx + overlaySize.width >= screenSize.width;
+          bool overflowLeft = buttonOffset.dx + buttonSize.width - overlaySize.width <= 0;
+          bool overflowBottom = buttonOffset.dy + buttonSize.height + overlaySize.height >= screenSize.height;
+          bool overflowTop = buttonOffset.dy - overlaySize.height <= 0;
 
           setState(() {
             _controller.forward();
