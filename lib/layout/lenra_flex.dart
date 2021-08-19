@@ -18,7 +18,7 @@ class LenraFlex extends StatelessWidget {
     this.fillParent: false,
     required this.children,
     this.mainAxisAlignment = MainAxisAlignment.start,
-    this.crossAxisAlignment = CrossAxisAlignment.center,
+    this.crossAxisAlignment = CrossAxisAlignment.start,
     required this.direction,
     this.scroll = false,
   }) : super(key: key);
@@ -40,32 +40,33 @@ class LenraFlex extends StatelessWidget {
       });
     }
 
+    Flex flex = Flex(
+      mainAxisSize: fillParent ? MainAxisSize.max : MainAxisSize.min,
+      mainAxisAlignment: this.mainAxisAlignment,
+      crossAxisAlignment: this.crossAxisAlignment,
+      direction: this.direction,
+      children: colChildren,
+    );
+
     if (scroll) {
-      //return ListView.builder(
-      //  scrollDirection: this.direction,
-      //  itemCount: colChildren.length,
-      //  shrinkWrap: true,
-      //  itemBuilder: (BuildContext context, int index) {
-      //    return colChildren.elementAt(index);
-      //  },
-      //);
-      return SingleChildScrollView(
-        child: Flex(
-          mainAxisSize: fillParent ? MainAxisSize.max : MainAxisSize.min,
-          mainAxisAlignment: this.mainAxisAlignment,
-          crossAxisAlignment: this.crossAxisAlignment,
-          direction: this.direction,
-          children: colChildren,
+      return Container(
+        child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            return SingleChildScrollView(
+                scrollDirection: this.direction,
+                child: this.fillParent
+                    ? Container(
+                        constraints: BoxConstraints(
+                          minHeight: constraints.maxHeight,
+                        ),
+                        child: flex,
+                      )
+                    : flex);
+          },
         ),
       );
     } else {
-      return Flex(
-        mainAxisSize: fillParent ? MainAxisSize.max : MainAxisSize.min,
-        mainAxisAlignment: this.mainAxisAlignment,
-        crossAxisAlignment: this.crossAxisAlignment,
-        direction: this.direction,
-        children: colChildren,
-      );
+      return flex;
     }
   }
 }
