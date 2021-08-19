@@ -7,6 +7,7 @@ class LenraToggle extends StatefulWidget {
   final ValueChanged<bool> onChanged;
   final Color activeColor;
   final Color inactiveColor;
+  final Color disabledColor;
   final String? label;
   final Color labelColor;
   final bool disabled;
@@ -16,6 +17,7 @@ class LenraToggle extends StatefulWidget {
     required this.onChanged,
     this.activeColor = LenraColorThemeData.LENRA_CUSTOM_GREEN,
     this.inactiveColor = LenraColorThemeData.LENRA_DISABLED_GRAY,
+    this.disabledColor = LenraColorThemeData.LENRA_DISABLED_GRAY,
     this.label,
     this.labelColor = LenraColorThemeData.LENRA_BLACK,
     this.disabled = false,
@@ -44,23 +46,25 @@ class _LenraToggleState extends State<LenraToggle> with SingleTickerProviderStat
   @override
   Widget build(BuildContext context) {
     _switch = Container(
-      width: 44.0,
+      //change in variable all value
+      width: 40.0,
       height: 24.0,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30.0),
+          borderRadius: BorderRadius.circular(24.0),
           color: widget.disabled
-              ? LenraColorThemeData.LENRA_DISABLED_GRAY
+              ? widget.disabledColor
               : _thumbAnimation.value == Alignment.centerLeft
                   ? widget.inactiveColor
                   : widget.activeColor),
       child: Row(
         children: [
           _thumbAnimation.value == Alignment.centerRight
-              ? Padding(
-                  padding: const EdgeInsets.only(left: 11.0, right: 11.0),
+              ? SizedBox(
+                  //calculate this size with the track and thumb size
+                  width: 18.0,
                 )
-              : Padding(
-                  padding: const EdgeInsets.only(left: 1.0, right: 1.0),
+              : SizedBox(
+                  width: 2.0,
                 ),
           Align(
             alignment: _thumbAnimation.value,
