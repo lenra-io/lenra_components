@@ -150,6 +150,7 @@ class _DropdownState extends State<_Dropdown> with TickerProviderStateMixin {
   Offset? overlayOffset;
   bool verticalScroll = false;
   bool horizontalScroll = false;
+  Size buttonSize = Size.zero;
 
   late AnimationController _controller;
 
@@ -168,7 +169,7 @@ class _DropdownState extends State<_Dropdown> with TickerProviderStateMixin {
 
         if (overlay != null) {
           var overlaySize = (overlay as RenderBox).size;
-          var buttonSize = widget.renderBox.size;
+          buttonSize = widget.renderBox.size;
           var buttonOffset = widget.renderBox.localToGlobal(Offset.zero);
           var screenSize = MediaQuery.of(context).size;
 
@@ -242,7 +243,10 @@ class _DropdownState extends State<_Dropdown> with TickerProviderStateMixin {
       child = CompositedTransformFollower(
         offset: overlayOffset ?? Offset(0, widget.renderBox.size.height),
         link: widget.layerLink,
-        child: child,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(minWidth: buttonSize.width),
+          child: child,
+        ),
       );
     }
 
