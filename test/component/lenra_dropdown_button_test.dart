@@ -99,28 +99,26 @@ void main() {
         Axis.vertical);
   });
 
-  // testWidgets(
-  //     'LenraDropdownButton child should be vertically and horizontally scrollable when there is too much big menuItems.',
-  //     (WidgetTester tester) async {
-  //   await tester.pumpWidget(createComponentTestWidgets(LenraDropdownButton(
-  //     text: "basic",
-  //     child: LenraMenu(
-  //       items: List.filled(
-  //           30, LenraMenuItem(text: "One big menuItem One big menuItem One big menuItem", onPressed: () => {})),
-  //     ),
-  //   )));
+  testWidgets(
+      'LenraDropdownButton child should be vertically and horizontally scrollable when there is too much big menuItems.',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(createComponentTestWidgets(LenraDropdownButton(
+      text: "basic",
+      child: LenraMenu(
+        items: List.filled(
+            30, LenraMenuItem(text: "One big menuItem One big menuItem One big menuItem", onPressed: () => {})),
+      ),
+    )));
 
-  //   await tester.tap(find.byType(LenraDropdownButton));
-  //   await tester.pumpAndSettle();
-  //   await tester.pumpAndSettle();
+    await tester.tap(find.byType(LenraDropdownButton));
+    await tester.pumpAndSettle();
+    await tester.pumpAndSettle();
 
-  //   expect(find.byType(SingleChildScrollView), findsNWidgets(2));
+    expect(find.byType(SingleChildScrollView), findsNWidgets(2));
 
-  //   tester.widgetList(find.byType(SingleChildScrollView)).toList().map((e) {
-  //     print((e as SingleChildScrollView).scrollDirection);
-  //   });
+    var widgetList = tester.widgetList(find.byType(SingleChildScrollView)).toList();
 
-  //   // expect((tester.firstWidget(find.byType(SingleChildScrollView)) as SingleChildScrollView).scrollDirection,
-  //   //     Axis.vertical);
-  // });
+    expect((widgetList[0] as SingleChildScrollView).scrollDirection, Axis.vertical);
+    expect((widgetList[1] as SingleChildScrollView).scrollDirection, Axis.horizontal);
+  });
 }
