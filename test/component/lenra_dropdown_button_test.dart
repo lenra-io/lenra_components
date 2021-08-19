@@ -16,7 +16,7 @@ void main() {
 
   LenraDropdownButton basicDropdown = LenraDropdownButton(
     text: "basic",
-    menu: basicMenu,
+    child: basicMenu,
   );
 
   test('LenraDropdownButton test parameterized constructor', () {
@@ -25,14 +25,14 @@ void main() {
       text: "disabled",
       size: LenraComponentSize.Large,
       type: LenraComponentType.Secondary,
-      menu: basicMenu,
+      child: basicMenu,
     );
 
     expect(lenraDropdownButton.disabled, true);
     expect(lenraDropdownButton.text, "disabled");
     expect(lenraDropdownButton.size, LenraComponentSize.Large);
     expect(lenraDropdownButton.type, LenraComponentType.Secondary);
-    expect(lenraDropdownButton.menu, basicMenu);
+    expect(lenraDropdownButton.child, basicMenu);
     expect(lenraDropdownButton.icon.toString(), Icon(Icons.expand_more_outlined).toString());
   });
 
