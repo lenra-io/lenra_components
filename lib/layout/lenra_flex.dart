@@ -3,17 +3,18 @@ import 'package:lenra_components/theme/lenra_theme.dart';
 
 class LenraFlex extends StatelessWidget {
   final List<Widget> children;
-  final double separationFactor;
+  final double spacing;
   final bool fillParent;
   final MainAxisAlignment mainAxisAlignment;
   final CrossAxisAlignment crossAxisAlignment;
   final bool scroll;
+  //TODO: Add spacing (Lenra-300)
 
   final Axis direction;
 
   LenraFlex({
     Key? key,
-    this.separationFactor = 1,
+    this.spacing = 0,
     this.fillParent: false,
     required this.children,
     this.mainAxisAlignment = MainAxisAlignment.start,
@@ -25,10 +26,10 @@ class LenraFlex extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> colChildren = children;
-    if (separationFactor > 0) {
+    if (spacing > 0) {
       var theme = LenraTheme.of(context);
       colChildren = [];
-      var space = separationFactor * theme.baseSize;
+      var space = spacing * theme.baseSize;
       children.asMap().forEach((key, value) {
         if (key > 0)
           colChildren.add(SizedBox(
@@ -40,12 +41,22 @@ class LenraFlex extends StatelessWidget {
     }
 
     if (scroll) {
-      return ListView.builder(
-        scrollDirection: this.direction,
-        itemCount: colChildren.length,
-        itemBuilder: (BuildContext context, int index) {
-          return colChildren.elementAt(index);
-        },
+      //return ListView.builder(
+      //  scrollDirection: this.direction,
+      //  itemCount: colChildren.length,
+      //  shrinkWrap: true,
+      //  itemBuilder: (BuildContext context, int index) {
+      //    return colChildren.elementAt(index);
+      //  },
+      //);
+      return SingleChildScrollView(
+        child: Flex(
+          mainAxisSize: fillParent ? MainAxisSize.max : MainAxisSize.min,
+          mainAxisAlignment: this.mainAxisAlignment,
+          crossAxisAlignment: this.crossAxisAlignment,
+          direction: this.direction,
+          children: colChildren,
+        ),
       );
     } else {
       return Flex(

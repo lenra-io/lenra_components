@@ -58,7 +58,7 @@ class LenraButton extends StatelessWidget {
 
     if (children.length > 1) {
       res = LenraRow(
-        separationFactor: 1.5,
+        spacing: 1.5,
         children: children,
       );
     } else {

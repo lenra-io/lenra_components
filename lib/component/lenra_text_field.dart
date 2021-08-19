@@ -70,7 +70,7 @@ class LenraTextField extends StatelessWidget {
 
     if (inRow && labelWidget != null) {
       colChildren.add(LenraRow(
-        separationFactor: 2,
+        spacing: 2,
         children: [
           labelWidget,
           Expanded(child: textField),
@@ -89,7 +89,7 @@ class LenraTextField extends StatelessWidget {
     }
     if (colChildren.length > 1) {
       textField = LenraColumn(
-        separationFactor: 0.5,
+        spacing: 0.5,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: colChildren,
       );

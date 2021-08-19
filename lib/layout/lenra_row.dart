@@ -4,7 +4,7 @@ import 'package:lenra_components/layout/lenra_flex.dart';
 class LenraRow extends LenraFlex {
   LenraRow({
     Key? key,
-    double separationFactor = 1,
+    double spacing = 0,
     bool fillParent: false,
     MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
     CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
@@ -13,7 +13,7 @@ class LenraRow extends LenraFlex {
   }) : super(
           key: key,
           direction: Axis.horizontal,
-          separationFactor: separationFactor,
+          spacing: spacing,
           fillParent: fillParent,
           mainAxisAlignment: mainAxisAlignment,
           crossAxisAlignment: crossAxisAlignment,
