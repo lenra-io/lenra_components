@@ -28,6 +28,7 @@ class LenraMenu extends StatelessWidget {
           bottom: theme.baseSize,
         ),
         child: LenraColumn(
+          spacing: 1,
           children: this.items,
         ),
       ),
