@@ -44,7 +44,7 @@ void main() {
       ),
     ));
 
-    expect((tester.getSize(find.byType(LenraToggle)).width), equals(44));
+    expect((tester.getSize(find.byType(LenraToggle)).width), equals(40));
     expect((tester.getSize(find.byType(LenraToggle)).height), equals(24));
   });
 }

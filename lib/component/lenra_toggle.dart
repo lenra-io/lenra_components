@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:lenra_components/lenra_components.dart';
 import 'package:lenra_components/theme/lenra_color_theme_data.dart';
 
+//TODO: move this value in Theme
+const double THUMB_RADIUS_RATIO = 3;
+const double TRACK_WIDTH_RATIO = 5;
+const double TRACK_HEIGHT_RATIO = 3;
+const double THUMB_PADDING_RATIO = 0.3;
+
 class LenraToggle extends StatefulWidget {
   final bool value;
   final ValueChanged<bool> onChanged;
@@ -45,12 +51,18 @@ class _LenraToggleState extends State<LenraToggle> with SingleTickerProviderStat
 
   @override
   Widget build(BuildContext context) {
+    final LenraThemeData finalLenraThemeData = LenraTheme.of(context);
+
+    final int thumbPadding = (finalLenraThemeData.baseSize * THUMB_PADDING_RATIO).toInt();
+    final double thumbRadius = (finalLenraThemeData.baseSize * THUMB_RADIUS_RATIO) - thumbPadding;
+    final double trackWidth = finalLenraThemeData.baseSize * TRACK_WIDTH_RATIO;
+    final double trackHeight = finalLenraThemeData.baseSize * TRACK_HEIGHT_RATIO;
+
     _switch = Container(
-      //change in variable all value
-      width: 40.0,
-      height: 24.0,
+      width: trackWidth,
+      height: trackHeight,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(24.0),
+          borderRadius: BorderRadius.circular(finalLenraThemeData.baseSize * thumbRadius),
           color: widget.disabled
               ? widget.disabledColor
               : _thumbAnimation.value == Alignment.centerLeft
@@ -60,26 +72,26 @@ class _LenraToggleState extends State<LenraToggle> with SingleTickerProviderStat
         children: [
           _thumbAnimation.value == Alignment.centerRight
               ? SizedBox(
-                  //calculate this size with the track and thumb size
-                  width: 18.0,
+                  width: trackWidth - thumbRadius - thumbPadding,
                 )
               : SizedBox(
-                  width: 2.0,
+                  width: thumbPadding.toDouble(),
                 ),
           Align(
             alignment: _thumbAnimation.value,
             child: Container(
-              width: 20.0,
-              height: 20.0,
+              width: thumbRadius,
+              height: thumbRadius,
               decoration: BoxDecoration(shape: BoxShape.circle, color: LenraColorThemeData.LENRA_WHITE),
             ),
           ),
           _thumbAnimation.value == Alignment.centerLeft
-              ? Padding(
-                  padding: const EdgeInsets.only(left: 11.0, right: 11.0),
+              ? SizedBox(
+                  //calculate this size with the track and thumb size
+                  width: trackWidth - thumbRadius - thumbPadding,
                 )
-              : Padding(
-                  padding: const EdgeInsets.only(left: 1.0, right: 1.0),
+              : SizedBox(
+                  width: thumbPadding.toDouble(),
                 ),
         ],
       ),
