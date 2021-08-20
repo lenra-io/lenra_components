@@ -46,7 +46,7 @@ class _LenraToggleState extends State<LenraToggle> with SingleTickerProviderStat
     _thumbAnimation = AlignmentTween(
             begin: widget.value ? Alignment(1.0, 0.0) : Alignment(-1.0, 0.0),
             end: widget.value ? Alignment(-1.0, 0.0) : Alignment(1.0, 0.0))
-        .animate(CurvedAnimation(parent: _animationController, curve: Curves.linear));
+        .animate(_animationController.drive(CurveTween(curve: Curves.linear)));
   }
 
   @override
