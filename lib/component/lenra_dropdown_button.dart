@@ -48,13 +48,13 @@ import 'package:lenra_components/theme/lenra_theme_data.dart';
 /// }
 ///
 /// ```
-/// 
+///
 /// And to instantiate this Menu
-/// 
+///
 /// ```dart
 /// List<bool> items = List.filled(30, false);
 /// List<int> selectedItems = [];
-/// 
+///
 /// LenraDropdownButton(
 ///   text: "test",
 ///   child: Menu(items: items, selectedItems: selectedItems),
