@@ -47,4 +47,22 @@ void main() {
     expect((tester.getSize(find.byType(LenraToggle)).width), equals(40));
     expect((tester.getSize(find.byType(LenraToggle)).height), equals(24));
   });
+
+  testWidgets('LenraToggle tap should change the state', (WidgetTester tester) async {
+    bool value = false;
+    await tester.pumpWidget(createComponentTestWidgets(
+      LenraToggle(
+        value: value,
+        onChanged: (bool _value) {
+          value = _value;
+        },
+      ),
+    ));
+    expect(value == false, true);
+
+    await tester.tap(find.byType(LenraToggle));
+    await tester.pumpAndSettle();
+
+    expect(value == true, true);
+  });
 }
