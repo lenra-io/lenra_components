@@ -30,19 +30,64 @@ class LenraFlex extends StatelessWidget {
       var theme = LenraTheme.of(context);
       colChildren = [];
       var space = spacing * theme.baseSize;
-      children.asMap().forEach((key, value) {
-        if (key > 0)
-          colChildren.add(SizedBox(
+      if (this.mainAxisAlignment == MainAxisAlignment.spaceAround ||
+          this.mainAxisAlignment == MainAxisAlignment.spaceEvenly) {
+        colChildren.addAll([
+          SizedBox(
+            width: 0,
+            height: 0,
+          ),
+          SizedBox(
             width: this.direction == Axis.horizontal ? space : 0,
             height: this.direction == Axis.vertical ? space : 0,
-          ));
-        colChildren.add(value);
-      });
+          ),
+        ]);
+      }
+      children.asMap().forEach(
+        (key, value) {
+          if (key > 0) {
+            if (this.mainAxisAlignment == MainAxisAlignment.spaceAround) {
+              colChildren.addAll([
+                SizedBox(
+                  width: this.direction == Axis.horizontal ? space : 0,
+                  height: this.direction == Axis.vertical ? space : 0,
+                ),
+                SizedBox(
+                  width: 0,
+                  height: 0,
+                ),
+              ]);
+            }
+            colChildren.add(SizedBox(
+              width: this.direction == Axis.horizontal ? space : 0,
+              height: this.direction == Axis.vertical ? space : 0,
+            ));
+          }
+
+          colChildren.add(value);
+        },
+      );
+      if (this.mainAxisAlignment == MainAxisAlignment.spaceAround ||
+          this.mainAxisAlignment == MainAxisAlignment.spaceEvenly) {
+        colChildren.addAll([
+          SizedBox(
+            width: 0,
+            height: 0,
+          ),
+          SizedBox(
+            width: this.direction == Axis.horizontal ? space : 0,
+            height: this.direction == Axis.vertical ? space : 0,
+          ),
+        ]);
+      }
     }
 
     Flex flex = Flex(
       mainAxisSize: fillParent ? MainAxisSize.max : MainAxisSize.min,
-      mainAxisAlignment: this.mainAxisAlignment,
+      mainAxisAlignment: (this.mainAxisAlignment == MainAxisAlignment.spaceAround ||
+              this.mainAxisAlignment == MainAxisAlignment.spaceEvenly)
+          ? MainAxisAlignment.spaceBetween
+          : this.mainAxisAlignment,
       crossAxisAlignment: this.crossAxisAlignment,
       direction: this.direction,
       children: colChildren,
