@@ -10,8 +10,10 @@ class LenraMenu extends StatelessWidget {
   final List<LenraMenuItem> items;
 
   LenraMenu({
+    Key? key,
     required this.items,
-  }) : assert(items.isNotEmpty);
+  })  : assert(items.isNotEmpty),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,11 +49,12 @@ class LenraMenuItem extends StatelessWidget {
   final Function()? onPressed;
 
   LenraMenuItem({
+    Key? key,
     required this.text,
     this.isSelected = false,
     this.disabled = false,
     required this.onPressed,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
