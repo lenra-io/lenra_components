@@ -27,8 +27,10 @@ class LenraMenu extends StatelessWidget {
           top: theme.baseSize,
           bottom: theme.baseSize,
         ),
+        // IntrinsicWidth is used to ensure that the LenraMenu is correctly sized and will not crash the app.
         child: IntrinsicWidth(
           child: LenraColumn(
+            // Stretching the items on the horizontal axis to ensure that they take the full width of the LenraMenu
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: this.items,
           ),
@@ -56,42 +58,41 @@ class LenraMenuItem extends StatelessWidget {
     final LenraMenuThemeData lenraMenuThemeData = LenraTheme.of(context).lenraMenuThemeData;
     final LenraThemeData theme = LenraTheme.of(context);
 
-    Container res = Container(
-      child: LenraRow(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(left: theme.baseSize),
-            child: this.isSelected
-                ? Icon(
-                    Icons.done,
-                    size: theme.baseSize,
-                    color: LenraColorThemeData.LENRA_WHITE,
-                  )
-                : SizedBox(
-                    width: theme.baseSize,
-                  ),
+    LenraRow res = LenraRow(
+      children: [
+        Padding(
+          padding: EdgeInsets.only(left: theme.baseSize),
+          child: this.isSelected
+              ? Icon(
+                  Icons.done,
+                  size: theme.baseSize,
+                  color: LenraColorThemeData.LENRA_WHITE,
+                )
+              : SizedBox(
+                  width: theme.baseSize,
+                ),
+        ),
+        Padding(
+          // TODO: Check if Figma is correct because we should not have to divide baseSize by such numbers
+          //  Text is 14 and LenraMenuItem is 24 so vertical is 5 top 5 bottom.
+          //  On Figma it is : Text 19 and vertical top 2.5 bottom 2.5 which is worse
+          padding: EdgeInsets.symmetric(
+            horizontal: theme.baseSize,
+            vertical: theme.baseSize / 1.6,
           ),
-          Padding(
-            // TODO: Check if Figma is correct because we should not have to divide baseSize by such numbers
-            //  Text is 14 and LenraMenuItem is 24 so vertical is 5 top 5 bottom.
-            //  On Figma it is : Text 19 and vertical top 2.5 bottom 2.5 which is worse
-            padding: EdgeInsets.symmetric(
-              horizontal: theme.baseSize,
-              vertical: theme.baseSize / 1.6,
-            ),
-            child: Text(
-              text,
-              style: this.disabled ? theme.lenraTextThemeData.disabledBodyText : lenraMenuThemeData.menuText,
-            ),
+          child: Text(
+            text,
+            style: this.disabled ? theme.lenraTextThemeData.disabledBodyText : lenraMenuThemeData.menuText,
           ),
-        ],
-      ),
+        ),
+      ],
     );
 
     if (this.disabled) {
       return res;
     } else {
       // According to Flutter documentation an InkWell must have a Material ancestor
+      // See https://api.flutter.dev/flutter/material/InkWell-class.html
       return Material(
         color: this.isSelected ? LenraColorThemeData.LENRA_BLUE : Colors.transparent,
         child: InkWell(
