@@ -57,7 +57,6 @@ class LenraMenuItem extends StatelessWidget {
       color: this.isSelected ? LenraColorThemeData.LENRA_BLUE : Colors.transparent,
       child: LenraRow(
         fillParent: true,
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Padding(
             padding: EdgeInsets.only(left: theme.baseSize),
