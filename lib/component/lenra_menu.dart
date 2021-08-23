@@ -27,8 +27,11 @@ class LenraMenu extends StatelessWidget {
           top: theme.baseSize,
           bottom: theme.baseSize,
         ),
-        child: LenraColumn(
-          children: this.items,
+        child: IntrinsicWidth(
+          child: LenraColumn(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: this.items,
+          ),
         ),
       ),
     );
@@ -54,9 +57,7 @@ class LenraMenuItem extends StatelessWidget {
     final LenraThemeData theme = LenraTheme.of(context);
 
     Container res = Container(
-      color: this.isSelected ? LenraColorThemeData.LENRA_BLUE : Colors.transparent,
       child: LenraRow(
-        fillParent: true,
         children: [
           Padding(
             padding: EdgeInsets.only(left: theme.baseSize),
@@ -90,11 +91,15 @@ class LenraMenuItem extends StatelessWidget {
     if (this.disabled) {
       return res;
     } else {
-      return InkWell(
-        child: res,
-        onTap: () {
-          if (!this.disabled) onPressed!();
-        },
+      // According to Flutter documentation an InkWell must have a Material ancestor
+      return Material(
+        color: this.isSelected ? LenraColorThemeData.LENRA_BLUE : Colors.transparent,
+        child: InkWell(
+          child: res,
+          onTap: () {
+            onPressed!();
+          },
+        ),
       );
     }
   }
