@@ -21,7 +21,6 @@ class LenraMenu extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        borderRadius: theme.lenraBorderThemeData.borderRadius,
         color: LenraColorThemeData.LENRA_BLACK,
       ),
       child: Padding(
@@ -29,13 +28,9 @@ class LenraMenu extends StatelessWidget {
           top: theme.baseSize,
           bottom: theme.baseSize,
         ),
-        // IntrinsicWidth is used to ensure that the LenraMenu is correctly sized and will not crash the app.
-        child: IntrinsicWidth(
-          child: LenraColumn(
-            // Stretching the items on the horizontal axis to ensure that they take the full width of the LenraMenu
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: this.items,
-          ),
+        child: LenraColumn(
+          separationFactor: 0,
+          children: this.items,
         ),
       ),
     );
@@ -46,6 +41,7 @@ class LenraMenuItem extends StatelessWidget {
   final String text;
   final bool isSelected;
   final bool disabled;
+  final Widget? icon;
   final Function()? onPressed;
 
   LenraMenuItem({
@@ -53,6 +49,7 @@ class LenraMenuItem extends StatelessWidget {
     required this.text,
     this.isSelected = false,
     this.disabled = false,
+    this.icon,
     required this.onPressed,
   }) : super(key: key);
 
@@ -61,37 +58,34 @@ class LenraMenuItem extends StatelessWidget {
     final LenraMenuThemeData lenraMenuThemeData = LenraTheme.of(context).lenraMenuThemeData;
     final LenraThemeData theme = LenraTheme.of(context);
 
-    LenraRow res = LenraRow(
-      children: [
-        Padding(
-          padding: EdgeInsets.only(left: theme.baseSize),
-          child: this.isSelected
-              ? Icon(
-                  Icons.done,
-                  size: theme.baseSize,
-                  color: LenraColorThemeData.LENRA_WHITE,
-                )
-              : SizedBox(
-                  width: theme.baseSize,
-                ),
-        ),
-        Padding(
-          // TODO: Check if Figma is correct because we should not have to divide baseSize by such numbers
-          //  Text is 14 and LenraMenuItem is 24 so vertical is 5 top 5 bottom.
-          //  On Figma it is : Text 19 and vertical top 2.5 bottom 2.5 which is worse
-          padding: EdgeInsets.symmetric(
-            horizontal: theme.baseSize,
-            vertical: theme.baseSize / 1.6,
+    Widget res = Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: theme.baseSize,
+        vertical: theme.baseSize,
+      ),
+      child: LenraRow(
+        separationFactor: 1,
+        fillParent: true,
+        children: [
+          Container(
+            width: theme.baseSize * 2,
+            child: this.isSelected
+                ? this.icon ?? Icon(
+                    Icons.done,
+                    size: theme.baseSize * 2,
+                    color: LenraColorThemeData.LENRA_WHITE,
+                  )
+                : null,
           ),
-          child: Text(
+          Text(
             text,
             style: this.disabled ? theme.lenraTextThemeData.disabledBodyText : lenraMenuThemeData.menuText,
           ),
-        ),
-      ],
+        ],
+      ),
     );
 
-    if (this.disabled) {
+    if (this.disabled || onPressed == null) {
       return res;
     } else {
       // According to Flutter documentation an InkWell must have a Material ancestor
@@ -100,6 +94,7 @@ class LenraMenuItem extends StatelessWidget {
         color: this.isSelected ? LenraColorThemeData.LENRA_BLUE : Colors.transparent,
         child: InkWell(
           child: res,
+          hoverColor: LenraColorThemeData.LENRA_BLUE_HOVER,
           onTap: () {
             onPressed!();
           },
