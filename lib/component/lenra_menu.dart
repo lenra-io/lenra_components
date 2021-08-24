@@ -52,7 +52,7 @@ class LenraMenuItem extends StatelessWidget {
     this.isSelected = false,
     this.disabled = false,
     this.icon,
-    required this.onPressed,
+    this.onPressed,
   }) : super(key: key);
 
   @override
