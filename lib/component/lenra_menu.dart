@@ -29,6 +29,7 @@ class LenraMenu extends StatelessWidget {
           bottom: theme.baseSize,
         ),
         child: LenraColumn(
+          /// No space between MenuItems
           separationFactor: 0,
           children: this.items,
         ),
@@ -59,22 +60,21 @@ class LenraMenuItem extends StatelessWidget {
     final LenraThemeData theme = LenraTheme.of(context);
 
     Widget res = Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: theme.baseSize,
-        vertical: theme.baseSize,
+      padding: EdgeInsets.all(
+        theme.baseSize,
       ),
       child: LenraRow(
-        separationFactor: 1,
         fillParent: true,
         children: [
           Container(
             width: theme.baseSize * 2,
             child: this.isSelected
-                ? this.icon ?? Icon(
-                    Icons.done,
-                    size: theme.baseSize * 2,
-                    color: LenraColorThemeData.LENRA_WHITE,
-                  )
+                ? this.icon ??
+                    Icon(
+                      Icons.done,
+                      size: theme.baseSize * 2,
+                      color: LenraColorThemeData.LENRA_WHITE,
+                    )
                 : null,
           ),
           Text(
