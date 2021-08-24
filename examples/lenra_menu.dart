@@ -85,6 +85,25 @@ class _MyLenraMenuState extends State<MyLenraMenu> {
               ],
             ),
           ),
+          // Disabled LenraMenu
+          Container(
+            width: MediaQuery.of(context).size.width * 0.5,
+            child: LenraMenu(
+              items: [
+                LenraMenuItem(
+                  text: "menu item",
+                  disabled: true,
+                  onPressed: () => {},
+                ),
+                LenraMenuItem(
+                  text: "selected menu item",
+                  disabled: true,
+                  isSelected: true,
+                  onPressed: () => {},
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
