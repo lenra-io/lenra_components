@@ -3,12 +3,13 @@ import 'package:lenra_components/theme/lenra_theme.dart';
 
 class LenraFlex extends StatelessWidget {
   final List<Widget> children;
+  //Multiplaying factor of the theme BaseSize (8)
   final double spacing;
   final bool fillParent;
   final MainAxisAlignment mainAxisAlignment;
   final CrossAxisAlignment crossAxisAlignment;
   final bool scroll;
-  //TODO: Add spacing (Lenra-300)
+  //TODO (Lenra-300): Add padding
 
   final Axis direction;
 
