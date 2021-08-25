@@ -58,11 +58,11 @@ void main() {
         },
       ),
     ));
-    expect(value == false, true);
+    expect(value, false);
 
     await tester.tap(find.byType(LenraToggle));
     await tester.pumpAndSettle();
 
-    expect(value == true, true);
+    expect(value, true);
   });
 }
