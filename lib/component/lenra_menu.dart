@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lenra_components/layout/lenra_column.dart';
 import 'package:lenra_components/layout/lenra_row.dart';
+import 'package:lenra_components/lenra_components.dart';
 import 'package:lenra_components/theme/lenra_color_theme_data.dart';
 import 'package:lenra_components/theme/lenra_menu_theme_data.dart';
 import 'package:lenra_components/theme/lenra_theme.dart';
@@ -10,8 +11,10 @@ class LenraMenu extends StatelessWidget {
   final List<LenraMenuItem> items;
 
   LenraMenu({
+    Key? key,
     required this.items,
-  }) : assert(items.isNotEmpty);
+  })  : assert(items.isNotEmpty),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +22,6 @@ class LenraMenu extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        borderRadius: theme.lenraBorderThemeData.borderRadius,
         color: LenraColorThemeData.LENRA_BLACK,
       ),
       child: Padding(
@@ -28,6 +30,8 @@ class LenraMenu extends StatelessWidget {
           bottom: theme.baseSize,
         ),
         child: LenraColumn(
+          /// No space between MenuItems
+          separationFactor: 0,
           children: this.items,
         ),
       ),
@@ -39,63 +43,65 @@ class LenraMenuItem extends StatelessWidget {
   final String text;
   final bool isSelected;
   final bool disabled;
+  final Widget? icon;
   final Function()? onPressed;
 
   LenraMenuItem({
+    Key? key,
     required this.text,
     this.isSelected = false,
     this.disabled = false,
-    required this.onPressed,
-  });
+    this.icon,
+    this.onPressed,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final LenraMenuThemeData lenraMenuThemeData = LenraTheme.of(context).lenraMenuThemeData;
     final LenraThemeData theme = LenraTheme.of(context);
 
-    Container res = Container(
-      color: this.isSelected ? LenraColorThemeData.LENRA_BLUE : Colors.transparent,
+    Widget res = Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: theme.baseSize,
+        vertical: theme.baseSize / 2,
+      ),
       child: LenraRow(
         fillParent: true,
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Padding(
-            padding: EdgeInsets.only(left: theme.baseSize),
+          Container(
+            height: theme.baseSize * 2,
+            width: theme.baseSize * 2,
             child: this.isSelected
-                ? Icon(
-                    Icons.done,
-                    size: theme.baseSize,
-                    color: LenraColorThemeData.LENRA_WHITE,
-                  )
-                : SizedBox(
-                    width: theme.baseSize,
-                  ),
+                ? this.icon ??
+                    Icon(
+                      Icons.done,
+                      size: theme.baseSize * 2,
+                      color: this.disabled ? LenraColorThemeData.LENRA_DISABLED_GRAY : LenraColorThemeData.LENRA_WHITE,
+                    )
+                : null,
           ),
-          Padding(
-            // TODO: Check if Figma is correct because we should not have to divide baseSize by such numbers
-            //  Text is 14 and LenraMenuItem is 24 so vertical is 5 top 5 bottom.
-            //  On Figma it is : Text 19 and vertical top 2.5 bottom 2.5 which is worse
-            padding: EdgeInsets.symmetric(
-              horizontal: theme.baseSize,
-              vertical: theme.baseSize / 1.6,
-            ),
-            child: Text(
-              text,
-              style: this.disabled ? theme.lenraTextThemeData.disabledBodyText : lenraMenuThemeData.menuText,
-            ),
+          Text(
+            text,
+            style: this.disabled ? theme.lenraTextThemeData.disabledBodyText : lenraMenuThemeData.menuText,
           ),
         ],
       ),
     );
 
-    if (this.disabled) {
+    if (this.disabled || onPressed == null) {
       return res;
     } else {
-      return InkWell(
-        child: res,
-        onTap: () {
-          if (!this.disabled) onPressed!();
-        },
+      // According to Flutter documentation an InkWell must have a Material ancestor
+      // See https://api.flutter.dev/flutter/material/InkWell-class.html
+      return Material(
+        color: this.isSelected ? LenraColorThemeData.LENRA_BLUE : Colors.transparent,
+        child: InkWell(
+          child: res,
+          hoverColor: LenraColorThemeData.LENRA_BLUE_HOVER,
+          onTap: () {
+            onPressed!();
+          },
+        ),
       );
     }
   }
