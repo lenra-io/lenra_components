@@ -41,7 +41,7 @@ class _LenraToggleState extends State<LenraToggle> with SingleTickerProviderStat
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 300));
+    _animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 150));
     animation = CurvedAnimation(
       parent: _animationController,
       curve: Curves.easeIn,
