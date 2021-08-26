@@ -6,7 +6,7 @@ import 'package:lenra_components/theme/lenra_color_theme_data.dart';
 const double THUMB_RADIUS_RATIO = 3;
 const double TRACK_WIDTH_RATIO = 5;
 const double TRACK_HEIGHT_RATIO = 3;
-const double THUMB_PADDING_RATIO = 0.3;
+const double THUMB_PADDING_RATIO = 0.2;
 
 class LenraToggle extends StatefulWidget {
   final bool value;
@@ -35,19 +35,71 @@ class LenraToggle extends StatefulWidget {
 }
 
 class _LenraToggleState extends State<LenraToggle> with SingleTickerProviderStateMixin {
-  late Animation _thumbAnimation;
   late AnimationController _animationController;
-  late Widget _switch;
+  late CurvedAnimation animation;
 
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 60));
-    _thumbAnimation = AlignmentTween(
-            begin: widget.value ? Alignment(1.0, 0.0) : Alignment(-1.0, 0.0),
-            end: widget.value ? Alignment(-1.0, 0.0) : Alignment(1.0, 0.0))
-        .animate(_animationController.drive(CurveTween(curve: Curves.linear)));
+    _animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 300));
+    animation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeIn,
+      reverseCurve: Curves.easeOut,
+    );
   }
+
+  @override
+  void didUpdateWidget(LenraToggle oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.value != widget.value) {
+      if (_animationController.isCompleted) {
+        _animationController.reverse();
+      } else {
+        _animationController.forward();
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: widget.disabled
+            ? () {}
+            : () {
+                widget.value ? widget.onChanged(false) : widget.onChanged(true);
+              },
+        child: widget.label != null
+            ? LenraRow(
+                children: [
+                  Text(
+                    widget.label!,
+                    style: TextStyle(
+                      color: widget.labelColor,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 15.0,
+                    ),
+                  ),
+                  LenraSwitch(animation: animation, toggle: widget),
+                ],
+              )
+            : LenraSwitch(animation: animation, toggle: widget),
+      ),
+    );
+  }
+}
+
+class LenraSwitch extends AnimatedWidget {
+  final LenraToggle toggle;
+  final Animation<double> animation;
+
+  const LenraSwitch({
+    Key? key,
+    required this.animation,
+    required this.toggle,
+  }) : super(key: key, listenable: animation);
 
   @override
   Widget build(BuildContext context) {
@@ -57,76 +109,24 @@ class _LenraToggleState extends State<LenraToggle> with SingleTickerProviderStat
     final double thumbRadius = (finalLenraThemeData.baseSize * THUMB_RADIUS_RATIO) - thumbPadding;
     final double trackWidth = finalLenraThemeData.baseSize * TRACK_WIDTH_RATIO;
     final double trackHeight = finalLenraThemeData.baseSize * TRACK_HEIGHT_RATIO;
+    final ColorTween colorTween = ColorTween(begin: toggle.inactiveColor, end: toggle.activeColor);
+    final AlignmentTween alignTween = AlignmentTween(begin: Alignment.centerLeft, end: Alignment.centerRight);
 
-    _switch = Container(
+    return Container(
       width: trackWidth,
       height: trackHeight,
+      padding: EdgeInsets.only(left: thumbPadding.toDouble(), right: thumbPadding.toDouble()),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(finalLenraThemeData.baseSize * thumbRadius),
-          color: widget.disabled
-              ? widget.disabledColor
-              : _thumbAnimation.value == Alignment.centerLeft
-                  ? widget.inactiveColor
-                  : widget.activeColor),
-      child: Row(
-        children: [
-          _thumbAnimation.value == Alignment.centerRight
-              ? SizedBox(
-                  width: trackWidth - thumbRadius - thumbPadding,
-                )
-              : SizedBox(
-                  width: thumbPadding.toDouble(),
-                ),
-          Align(
-            alignment: _thumbAnimation.value,
-            child: Container(
-              width: thumbRadius,
-              height: thumbRadius,
-              decoration: BoxDecoration(shape: BoxShape.circle, color: LenraColorThemeData.LENRA_WHITE),
-            ),
-          ),
-          _thumbAnimation.value == Alignment.centerLeft
-              ? SizedBox(
-                  //calculate this size with the track and thumb size
-                  width: trackWidth - thumbRadius - thumbPadding,
-                )
-              : SizedBox(
-                  width: thumbPadding.toDouble(),
-                ),
-        ],
+          color: toggle.disabled ? toggle.disabledColor : colorTween.evaluate(this.animation)),
+      child: Align(
+        alignment: alignTween.evaluate(animation),
+        child: Container(
+          width: thumbRadius,
+          height: thumbRadius,
+          decoration: BoxDecoration(shape: BoxShape.circle, color: LenraColorThemeData.LENRA_WHITE),
+        ),
       ),
-    );
-    return AnimatedBuilder(
-      animation: _animationController,
-      builder: (context, child) {
-        return GestureDetector(
-          onTap: widget.disabled
-              ? () {}
-              : () {
-                  if (_animationController.isCompleted) {
-                    _animationController.reverse();
-                  } else {
-                    _animationController.forward();
-                  }
-                  widget.value ? widget.onChanged(false) : widget.onChanged(true);
-                },
-          child: widget.label != null
-              ? LenraRow(
-                  children: [
-                    Text(
-                      widget.label!,
-                      style: TextStyle(
-                        color: widget.labelColor,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 15.0,
-                      ),
-                    ),
-                    _switch,
-                  ],
-                )
-              : _switch,
-        );
-      },
     );
   }
 }
