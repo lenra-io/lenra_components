@@ -106,14 +106,10 @@ class _LenraDropdownButtonState extends State<LenraDropdownButton> {
       builder: (context) => GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () => toggleOverlay(context),
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: _Dropdown(
-            renderBox: renderBox,
-            child: widget.child,
-            layerLink: _layerLink,
-          ),
+        child: _Dropdown(
+          renderBox: renderBox,
+          child: widget.child,
+          layerLink: _layerLink,
         ),
       ),
     );

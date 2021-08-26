@@ -33,17 +33,19 @@ class _MyDropdownButtonState extends State<MyDropdownButton> {
         children: [
           LenraDropdownButton(
             text: "Dropdown",
-            child: LenraMenu(
-              items: [
-                LenraMenuItem(
-                  text: "MenuItem",
-                  onPressed: () => {},
-                ),
-                LenraMenuItem(
-                  text: "MenuItem2",
-                  onPressed: () => {},
-                ),
-              ],
+            child: IntrinsicWidth(
+              child: LenraMenu(
+                items: [
+                  LenraMenuItem(
+                    text: "MenuItem",
+                    onPressed: () => {},
+                  ),
+                  LenraMenuItem(
+                    text: "MenuItem2MenuItem2MenuItem2",
+                    onPressed: () => {},
+                  ),
+                ],
+              ),
             ),
           ),
         ],
