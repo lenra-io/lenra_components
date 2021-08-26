@@ -104,6 +104,24 @@ class _MyLenraMenuState extends State<MyLenraMenu> {
               ],
             ),
           ),
+          // Custom Icon LenraMenu
+          Container(
+            width: MediaQuery.of(context).size.width * 0.5,
+            child: LenraMenu(
+              items: [
+                LenraMenuItem(
+                  icon: Icon(
+                    Icons.airplanemode_active,
+                    color: Colors.white,
+                    size: 16,
+                  ),
+                  isSelected: true,
+                  text: "custom icon",
+                  onPressed: () => {},
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
