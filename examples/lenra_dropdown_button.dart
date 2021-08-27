@@ -31,20 +31,23 @@ class _MyDropdownButtonState extends State<MyDropdownButton> {
       ),
       body: LenraColumn(
         children: [
+          Text("A basic LenraDropdownButton"),
           LenraDropdownButton(
-            text: "Dropdown",
+              text: "Basic",
+              child: IntrinsicWidth(
+                child: LenraMenu(
+                  items: [
+                    LenraMenuItem(text: "First"),
+                    LenraMenuItem(text: "Second"),
+                  ],
+                ),
+              )),
+          Text("A LenraDropdownButton is automatically enabling scrolling when its menu content overflows"),
+          LenraDropdownButton(
+            text: "Scrolling Dropdown",
             child: IntrinsicWidth(
               child: LenraMenu(
-                items: [
-                  LenraMenuItem(
-                    text: "MenuItem",
-                    onPressed: () => {},
-                  ),
-                  LenraMenuItem(
-                    text: "MenuItem2MenuItem2MenuItem2",
-                    onPressed: () => {},
-                  ),
-                ],
+                items: List.filled(30, LenraMenuItem(text: "item", onPressed: () => {})),
               ),
             ),
           ),

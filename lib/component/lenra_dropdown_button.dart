@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lenra_components/component/lenra_button.dart';
+import 'package:lenra_components/layout/lenra_flex.dart';
 import 'package:lenra_components/theme/lenra_theme_data.dart';
 
 /// A dropdown button showing a dropdown when clicked.
@@ -239,6 +240,7 @@ class _DropdownState extends State<_Dropdown> with TickerProviderStateMixin {
 
       child = Container(
         color: Colors.black.withOpacity(0.5),
+        height: MediaQuery.of(context).size.height,
         child: Center(
           child: Container(
             height: MediaQuery.of(context).size.height * 0.8,
@@ -263,7 +265,9 @@ class _DropdownState extends State<_Dropdown> with TickerProviderStateMixin {
         parent: _controller,
         curve: Curves.easeIn,
       ),
-      child: Stack(
+      child: LenraFlex(
+        fillParent: true,
+        direction: Axis.vertical,
         children: [
           child,
         ],
