@@ -60,6 +60,7 @@ class LenraMenuItem extends StatelessWidget {
     final LenraMenuThemeData lenraMenuThemeData = LenraTheme.of(context).lenraMenuThemeData;
     final LenraThemeData theme = LenraTheme.of(context);
 
+    /// LenraMenuItem can be disabled both by the [disabled] or [onPressed] parameters.
     bool isDisabled = this.disabled || onPressed == null;
 
     Widget res = Padding(
