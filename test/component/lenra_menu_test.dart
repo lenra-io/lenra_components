@@ -54,7 +54,7 @@ void main() {
   testWidgets('LenraMenu check size', (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(basicMenu));
 
-    double lenraMenuExpectedHeight = 24.0 * basicMenu.items.length + 8.0 * 4;
+    double lenraMenuExpectedHeight = 24.0 * basicMenu.items.length + 8 * 2;
 
     // Width should be same as screen if not constrained
     expect(tester.getSize((find.byType(LenraMenu).first)).width, equals(800.0));
