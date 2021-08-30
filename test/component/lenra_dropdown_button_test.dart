@@ -84,8 +84,10 @@ void main() {
       (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(LenraDropdownButton(
       text: "basic",
-      child: LenraMenu(
-        items: List.filled(30, LenraMenuItem(text: "item", onPressed: () => {})),
+      child: IntrinsicWidth(
+        child: LenraMenu(
+          items: List.filled(30, LenraMenuItem(text: "item", onPressed: () => {})),
+        ),
       ),
     )));
 
