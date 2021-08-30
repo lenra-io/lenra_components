@@ -34,7 +34,6 @@ void main() {
     ));
 
     expect((tester.widget(find.byType(LenraRow)) as LenraRow).children.first is Text, true);
-    //expect(((tester.widget(find.byType(LenraRow)) as LenraRow).children.elementAt(1)) is Container, true);
   });
   testWidgets('LenraToggle size', (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(
