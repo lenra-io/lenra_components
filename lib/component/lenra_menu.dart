@@ -41,18 +41,18 @@ class LenraMenu extends StatelessWidget {
 
 class LenraMenuItem extends StatelessWidget {
   final String text;
+  final Function()? onPressed;
   final bool isSelected;
   final bool disabled;
   final Widget? icon;
-  final Function()? onPressed;
 
   LenraMenuItem({
     Key? key,
     required this.text,
+    required this.onPressed,
     this.isSelected = false,
     this.disabled = false,
     this.icon,
-    this.onPressed,
   }) : super(key: key);
 
   @override
