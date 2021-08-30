@@ -29,29 +29,48 @@ class _MyDropdownButtonState extends State<MyDropdownButton> {
       appBar: AppBar(
         title: const Text('LenraMenu'),
       ),
-      body: LenraColumn(
-        children: [
-          Text("A basic LenraDropdownButton"),
-          LenraDropdownButton(
-              text: "Basic",
+      body: Center(
+        child: LenraColumn(
+          children: [
+            Text("A basic LenraDropdownButton"),
+            LenraDropdownButton(
+                text: "Basic",
+                child: IntrinsicWidth(
+                  child: LenraMenu(
+                    items: [
+                      LenraMenuItem(
+                        text: "First",
+                        onPressed: () => {},
+                      ),
+                      LenraMenuItem(
+                        text: "Second",
+                        onPressed: () => {},
+                      ),
+                    ],
+                  ),
+                )),
+            Text("A LenraDropdownButton is automatically enabling scrolling when its menu content overflows"),
+            LenraDropdownButton(
+              text: "Scrolling Dropdown",
               child: IntrinsicWidth(
                 child: LenraMenu(
-                  items: [
-                    LenraMenuItem(text: "First"),
-                    LenraMenuItem(text: "Second"),
-                  ],
+                  items: List.filled(60, LenraMenuItem(text: "item", onPressed: () => {})),
                 ),
-              )),
-          Text("A LenraDropdownButton is automatically enabling scrolling when its menu content overflows"),
-          LenraDropdownButton(
-            text: "Scrolling Dropdown",
-            child: IntrinsicWidth(
-              child: LenraMenu(
-                items: List.filled(30, LenraMenuItem(text: "item", onPressed: () => {})),
               ),
             ),
-          ),
-        ],
+            Text("Anything can be given as a child to LenraDropdownButton"),
+            LenraDropdownButton(
+              text: "custom child",
+              child: Text(
+                "custom",
+                style: TextStyle(
+                  backgroundColor: Colors.grey,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
