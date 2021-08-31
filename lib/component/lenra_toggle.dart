@@ -16,6 +16,7 @@ class LenraToggle extends StatefulWidget {
   final Color disabledColor = LenraColorThemeData.GREY_LIGHT;
   final String? label;
   final Color labelColor = LenraColorThemeData.BLACK_MOON;
+  final Color disabledLabelColor = LenraColorThemeData.GREY_NATURE;
   final bool disabled;
 
   const LenraToggle({
@@ -87,7 +88,7 @@ class _LenraToggleState extends State<LenraToggle> with SingleTickerProviderStat
     return Text(
       widget.label!,
       style: TextStyle(
-        color: widget.labelColor,
+        color: widget.disabled ? widget.disabledLabelColor : widget.labelColor,
         fontWeight: FontWeight.w400,
         fontSize: 15.0,
       ),
