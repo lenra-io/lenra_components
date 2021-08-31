@@ -13,6 +13,12 @@ class LenraColorThemeData {
   static const LENRA_CUSTOM_YELLOW = Color(0xFFF6C28B);
   static const LENRA_CUSTOM_GREEN = Color(0xFF57C0B3);
 
+  static const GREY_SUPER_LIGHT = Color(0xFFF0F2F5);
+  static const GREY_LIGHT = Color(0xFFDCE0E7);
+  static const GREY_NATURE = Color(0xFFA9B2C4);
+  static const GREY_DARK_GREY = Color(0xFFF7A8598);
+  static const BLACK_MOON = Color(0xFF212121);
+
   static const LENRA_FUN_RED_PULSE = Color(0xFFE92236);
   static const LENRA_FUN_RED_BASE = Color(0xFFF27A86);
   static const LENRA_FUN_RED_FADE = Color(0xFFFACACF);
