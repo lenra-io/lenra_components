@@ -9,7 +9,7 @@ import '../utils/lenra_page_test_help.dart';
 
 void main() {
   test('LenraToggle test', () {
-    LenraToggle component = LenraToggle(value: true, onChanged: (bool _value) {});
+    LenraToggle component = LenraToggle(value: true, onPressed: () {});
     expect(component is LenraToggle, true);
   });
 
@@ -17,7 +17,7 @@ void main() {
     await tester.pumpWidget(createComponentTestWidgets(
       LenraToggle(
         value: true,
-        onChanged: (bool _value) {},
+        onPressed: () {},
       ),
     ));
 
@@ -28,7 +28,7 @@ void main() {
     await tester.pumpWidget(createComponentTestWidgets(
       LenraToggle(
         value: true,
-        onChanged: (bool _value) {},
+        onPressed: () {},
         label: "test",
       ),
     ));
@@ -39,7 +39,7 @@ void main() {
     await tester.pumpWidget(createComponentTestWidgets(
       LenraToggle(
         value: true,
-        onChanged: (bool _value) {},
+        onPressed: () {},
       ),
     ));
 
@@ -52,8 +52,8 @@ void main() {
     await tester.pumpWidget(createComponentTestWidgets(
       LenraToggle(
         value: value,
-        onChanged: (bool _value) {
-          value = _value;
+        onPressed: () {
+          value = !value;
         },
       ),
     ));
