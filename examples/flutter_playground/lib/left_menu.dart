@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class LeftMenu extends StatelessWidget {
   LeftMenu({Key? key, required this.onMenuTapped, required this.currentMenu}) : super(key: key);
 
-  Function(String) onMenuTapped;
-  String currentMenu;
+  final Function(String) onMenuTapped;
+  final String currentMenu;
 
   static const FLEX_EXAMPLE = "Flex";
   static const TOGGLE_EXAMPLE = "Toggle";
