@@ -26,93 +26,136 @@ class LenraFlex extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> colChildren = children;
-    if (spacing > 0) {
-      var theme = LenraTheme.of(context);
-      colChildren = [];
-      var space = spacing * theme.baseSize;
-      if (this.mainAxisAlignment == MainAxisAlignment.spaceAround ||
-          this.mainAxisAlignment == MainAxisAlignment.spaceEvenly) {
-        colChildren.addAll([
-          SizedBox(
-            width: 0,
-            height: 0,
-          ),
-          SizedBox(
-            width: this.direction == Axis.horizontal ? space : 0,
-            height: this.direction == Axis.vertical ? space : 0,
-          ),
-        ]);
-      }
-      children.asMap().forEach(
-        (key, value) {
-          if (key > 0) {
-            if (this.mainAxisAlignment == MainAxisAlignment.spaceAround) {
-              colChildren.addAll([
-                SizedBox(
-                  width: this.direction == Axis.horizontal ? space : 0,
-                  height: this.direction == Axis.vertical ? space : 0,
-                ),
-                SizedBox(
-                  width: 0,
-                  height: 0,
-                ),
-              ]);
-            }
-            colChildren.add(SizedBox(
-              width: this.direction == Axis.horizontal ? space : 0,
-              height: this.direction == Axis.vertical ? space : 0,
-            ));
-          }
-
-          colChildren.add(value);
-        },
-      );
-      if (this.mainAxisAlignment == MainAxisAlignment.spaceAround ||
-          this.mainAxisAlignment == MainAxisAlignment.spaceEvenly) {
-        colChildren.addAll([
-          SizedBox(
-            width: 0,
-            height: 0,
-          ),
-          SizedBox(
-            width: this.direction == Axis.horizontal ? space : 0,
-            height: this.direction == Axis.vertical ? space : 0,
-          ),
-        ]);
-      }
-    }
-
-    Flex flex = Flex(
-      mainAxisSize: fillParent ? MainAxisSize.max : MainAxisSize.min,
-      mainAxisAlignment: (this.mainAxisAlignment == MainAxisAlignment.spaceAround ||
-              this.mainAxisAlignment == MainAxisAlignment.spaceEvenly)
-          ? MainAxisAlignment.spaceBetween
-          : this.mainAxisAlignment,
-      crossAxisAlignment: this.crossAxisAlignment,
-      direction: this.direction,
-      children: colChildren,
-    );
+    Flex flex = _buildFlex(context);
 
     if (scroll) {
-      return Container(
-        child: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) {
-            return SingleChildScrollView(
-                scrollDirection: this.direction,
-                child: this.fillParent
-                    ? Container(
-                        constraints: BoxConstraints(
-                          minHeight: constraints.maxHeight,
-                        ),
-                        child: flex,
-                      )
-                    : flex);
-          },
-        ),
-      );
+      return _buildScrollable(flex);
     } else {
       return flex;
     }
+  }
+
+  Widget _buildScrollable(Widget flex) {
+    return Container(
+      child: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          return SingleChildScrollView(
+              scrollDirection: this.direction,
+              child: this.fillParent
+                  ? Container(
+                      constraints: _getScrollableContainerConstraints(constraints),
+                      child: flex,
+                    )
+                  : flex);
+        },
+      ),
+    );
+  }
+
+  BoxConstraints _getScrollableContainerConstraints(BoxConstraints constraints) {
+    if (this.direction == Axis.vertical) return BoxConstraints(minHeight: constraints.maxHeight);
+
+    return BoxConstraints(minWidth: constraints.maxWidth);
+  }
+
+  Flex _buildFlex(BuildContext context) {
+    return Flex(
+      mainAxisSize: fillParent ? MainAxisSize.max : MainAxisSize.min,
+      mainAxisAlignment: mainAxisAlignment,
+      crossAxisAlignment: this.crossAxisAlignment,
+      direction: this.direction,
+      children: _buildSpacedChildren(context),
+      textBaseline: TextBaseline.alphabetic,
+    );
+  }
+
+  List<Widget> _buildSpacedChildren(BuildContext context) {
+    List<Widget> spacedChildren = [];
+    var theme = LenraTheme.of(context);
+    var space = this.spacing * theme.baseSize;
+
+    if (this._isSpaceEvenly()) {
+      spacedChildren.add(this._buildSizedBox(space));
+    }
+
+    if (this._isSpaceAround()) {
+      spacedChildren.add(this._buildSizedBox(space / 2));
+    }
+
+    this.children.asMap().forEach(
+      (key, value) {
+        if (key != 0) {
+          spacedChildren.add(this._buildSizedBox(space));
+        }
+        spacedChildren.add(value);
+      },
+    );
+
+    if (this._isSpaceEvenly()) {
+      spacedChildren.add(this._buildSizedBox(space));
+    }
+
+    if (this._isSpaceAround()) {
+      spacedChildren.add(this._buildSizedBox(space / 2));
+    }
+    return spacedChildren;
+  }
+
+  /*List<Widget> _buildSpacedChildren(BuildContext context) {
+    List<Widget> spacedChildren = [];
+    var theme = LenraTheme.of(context);
+    var space = this.spacing * theme.baseSize;
+
+    if (this._isSpaceAroundOrEvenly()) {
+      spacedChildren.addAll([
+        this._buildEmptyBox(),
+        this._buildSizedBox(space),
+      ]);
+    }
+    this.children.asMap().forEach(
+      (key, value) {
+        if (key > 0) {
+          if (this.mainAxisAlignment == MainAxisAlignment.spaceAround) {
+            spacedChildren.addAll([
+              this._buildEmptyBox(),
+              this._buildSizedBox(space),
+            ]);
+          }
+          spacedChildren.add(this._buildSizedBox(space));
+        }
+
+        spacedChildren.add(value);
+      },
+    );
+    if (this._isSpaceAroundOrEvenly()) {
+      spacedChildren.addAll([
+        _buildEmptyBox(),
+        _buildSizedBox(space),
+      ]);
+    }
+
+    return spacedChildren;
+  }*/
+
+  bool _isSpaceAround() {
+    return this.mainAxisAlignment == MainAxisAlignment.spaceAround;
+  }
+
+  bool _isSpaceEvenly() {
+    return this.mainAxisAlignment == MainAxisAlignment.spaceEvenly;
+  }
+
+  Widget _buildSizedBox(double space) {
+    return SizedBox(
+      width: this.direction == Axis.horizontal ? space : 0,
+      height: this.direction == Axis.vertical ? space : 0,
+    );
+  }
+
+  Widget _buildEmptyBox() {
+    return SizedBox(
+      width: 0,
+      height: 0,
+    );
   }
 }

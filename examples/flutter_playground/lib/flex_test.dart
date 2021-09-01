@@ -28,30 +28,41 @@ class _FlexTestState extends State<FlexTest> {
   ];
 
   bool vertical = false;
-  bool takeAllWidth = false;
+  bool fillParent = false;
+  bool scrollable = false;
   double width = 250;
-  double height = 200;
+  double height = 75;
   double spacing = 1;
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: EdgeInsets.all(20),
-      child: LenraFlex(
-        children: [
-          buildProperties(),
-          buildTable(),
-        ],
-        direction: Axis.vertical,
-      ),
+    return LenraFlex(
+      children: [
+        buildProperties(),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: buildTable(),
+        )
+      ],
+      direction: Axis.vertical,
+      scroll: true,
     );
   }
 
   Widget buildProperties() {
     return LenraFlex(
+      fillParent: true,
       children: [
         Spacer(),
+        LenraCheckbox(
+          label: "Scrollable",
+          value: this.scrollable,
+          onChanged: (b) => setState(() {
+            this.scrollable = !this.scrollable;
+          }),
+        ),
         LenraFlex(
+          direction: Axis.vertical,
           children: [
             LenraCheckbox(
               label: "Vertical",
@@ -61,50 +72,63 @@ class _FlexTestState extends State<FlexTest> {
               }),
             ),
             LenraCheckbox(
-              label: "Take All width",
-              value: this.takeAllWidth,
+              label: "fillParent",
+              value: this.fillParent,
               onChanged: (b) => setState(() {
-                this.takeAllWidth = !this.takeAllWidth;
+                this.fillParent = !this.fillParent;
               }),
             ),
           ],
+        ),
+        LenraFlex(
           direction: Axis.vertical,
+          children: [
+            Text("Spacing (${spacing.toStringAsPrecision(3)} = ${(spacing * 8).round().toString()}px)"),
+            Slider(
+              value: spacing,
+              min: 0.0,
+              max: 10.0,
+              label: spacing.round().toString(),
+              onChanged: (double value) {
+                setState(() {
+                  spacing = value;
+                });
+              },
+            ),
+          ],
         ),
-        Text("Spacing"),
-        Slider(
-          value: spacing,
-          min: 0.0,
-          max: 10.0,
-          label: spacing.round().toString(),
-          onChanged: (double value) {
-            setState(() {
-              spacing = value;
-            });
-          },
+        LenraFlex(
+          direction: Axis.vertical,
+          children: [
+            Text("Width (${width.round().toString()})"),
+            Slider(
+              value: width,
+              min: 0.0,
+              max: 500.0,
+              onChanged: (double value) {
+                setState(() {
+                  width = value;
+                });
+              },
+            ),
+          ],
         ),
-        Text("Width"),
-        Slider(
-          value: width,
-          min: 0.0,
-          max: 500.0,
-          label: width.round().toString(),
-          onChanged: (double value) {
-            setState(() {
-              width = value;
-            });
-          },
-        ),
-        Text("Height"),
-        Slider(
-          value: height,
-          min: 0.0,
-          max: 500.0,
-          label: height.round().toString(),
-          onChanged: (double value) {
-            setState(() {
-              height = value;
-            });
-          },
+        LenraFlex(
+          direction: Axis.vertical,
+          children: [
+            Text("Height (${height.round().toString()})"),
+            Slider(
+              value: height,
+              min: 0.0,
+              max: 500.0,
+              label: height.round().toString(),
+              onChanged: (double value) {
+                setState(() {
+                  height = value;
+                });
+              },
+            ),
+          ],
         ),
         Spacer(),
       ],
@@ -113,19 +137,9 @@ class _FlexTestState extends State<FlexTest> {
     );
   }
 
-  Table buildTable() {
-    var columnWidth =
-        takeAllWidth ? FlexColumnWidth() : FixedColumnWidth(width);
-    return Table(
-      columnWidths: <int, TableColumnWidth>{
-        0: columnWidth,
-        1: columnWidth,
-        2: columnWidth,
-        3: columnWidth,
-        4: columnWidth,
-        5: columnWidth,
-      },
-      defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+  Widget buildTable() {
+    return LenraFlex(
+      direction: Axis.vertical,
       children: mainAxisAlignments
           .map((e) => buildFlexLine(
                 direction: vertical ? Axis.vertical : Axis.horizontal,
@@ -134,16 +148,15 @@ class _FlexTestState extends State<FlexTest> {
           .toList()
             ..insert(
               0,
-              TableRow(
-                children:
-                    crossAxisAlignments.map((e) => Text(e.toString())).toList()
-                      ..insert(0, Text("-")),
+              LenraFlex(
+                direction: Axis.horizontal,
+                children: crossAxisAlignments.map((e) => buildText(e.toString())).toList()..insert(0, buildText("-")),
               ),
             ),
     );
   }
 
-  TableRow buildFlexLine({
+  Widget buildFlexLine({
     required Axis direction,
     required MainAxisAlignment mainAxisAlignment,
   }) {
@@ -154,9 +167,20 @@ class _FlexTestState extends State<FlexTest> {
         crossAxisAlignment: e,
       );
     }).toList()
-      ..insert(0, Text(mainAxisAlignment.toString()));
-    return TableRow(
+      ..insert(0, buildText(mainAxisAlignment.toString()));
+    return LenraFlex(
+      direction: Axis.horizontal,
       children: children,
+    );
+  }
+
+  Widget buildText(String text) {
+    return Container(
+      width: width,
+      height: height,
+      child: Center(
+        child: Text(text),
+      ),
     );
   }
 
@@ -168,14 +192,23 @@ class _FlexTestState extends State<FlexTest> {
       padding: EdgeInsets.all(5),
       child: Container(
         height: height,
-        child: LenraFlex(
-          children: buildList(),
-          direction: direction,
-          spacing: spacing,
-          mainAxisAlignment: mainAxisAlignment,
-          crossAxisAlignment: crossAxisAlignment,
-        ),
+        width: width,
         color: Colors.grey,
+        child: Align(
+          alignment: Alignment.topLeft,
+          child: Container(
+            color: Colors.lightBlue,
+            child: LenraFlex(
+              scroll: scrollable,
+              fillParent: fillParent,
+              children: buildList(),
+              direction: direction,
+              spacing: spacing,
+              mainAxisAlignment: mainAxisAlignment,
+              crossAxisAlignment: crossAxisAlignment,
+            ),
+          ),
+        ),
       ),
     );
   }

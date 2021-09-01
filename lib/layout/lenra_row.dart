@@ -7,7 +7,7 @@ class LenraRow extends LenraFlex {
     double spacing = 0,
     bool fillParent: false,
     MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
-    CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
+    CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.start,
     required List<Widget> children,
     bool scroll = false,
   }) : super(
