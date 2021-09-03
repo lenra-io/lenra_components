@@ -20,8 +20,8 @@ class LenraStyledContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: this.child,
-      color: this.backgroundColor,
       decoration: BoxDecoration(
+        color: this.backgroundColor,
         border: this.border,
         borderRadius: this.borderRadius,
         boxShadow: this.boxShadow != null ? [this.boxShadow!] : null,
