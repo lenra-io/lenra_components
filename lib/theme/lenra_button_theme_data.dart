@@ -33,7 +33,7 @@ class LenraButtonThemeData {
   }) {
     backgroundColor = LenraThemePropertyMapper.resolveWith((LenraComponentType type) {
       final Map<LenraComponentType, MaterialStateProperty<Color>> map = {
-        LenraComponentType.Primary: MaterialStateProperty.resolveWith((states) {
+        LenraComponentType.primary: MaterialStateProperty.resolveWith((states) {
           if (primaryBackgroundColor != null) {
             return primaryBackgroundColor!(states, lenraThemeData.lenraColorThemeData);
           } else {
@@ -45,7 +45,7 @@ class LenraButtonThemeData {
             return lenraThemeData.lenraColorThemeData.primaryBackgroundColor;
           }
         }),
-        LenraComponentType.Secondary: MaterialStateProperty.resolveWith((states) {
+        LenraComponentType.secondary: MaterialStateProperty.resolveWith((states) {
           if (secondaryBackgroundColor != null) {
             return secondaryBackgroundColor!(states, lenraThemeData.lenraColorThemeData);
           } else {
@@ -57,7 +57,7 @@ class LenraButtonThemeData {
             return lenraThemeData.lenraColorThemeData.secondaryBackgroundColor;
           }
         }),
-        LenraComponentType.Tertiary: MaterialStateProperty.resolveWith((states) {
+        LenraComponentType.tertiary: MaterialStateProperty.resolveWith((states) {
           if (tertiaryBackgroundColor != null) {
             return tertiaryBackgroundColor!(states, lenraThemeData.lenraColorThemeData);
           } else {
@@ -76,7 +76,7 @@ class LenraButtonThemeData {
 
     foregroundColor = LenraThemePropertyMapper.resolveWith((LenraComponentType type) {
       final Map<LenraComponentType, MaterialStateProperty<Color>> map = {
-        LenraComponentType.Primary: MaterialStateProperty.resolveWith((states) {
+        LenraComponentType.primary: MaterialStateProperty.resolveWith((states) {
           if (primaryForegroundColor != null) {
             return primaryForegroundColor!(states, lenraThemeData.lenraColorThemeData);
           } else {
@@ -88,7 +88,7 @@ class LenraButtonThemeData {
             return lenraThemeData.lenraColorThemeData.primaryForegroundColor;
           }
         }),
-        LenraComponentType.Secondary: MaterialStateProperty.resolveWith((states) {
+        LenraComponentType.secondary: MaterialStateProperty.resolveWith((states) {
           if (secondaryForegroundColor != null) {
             return secondaryForegroundColor!(states, lenraThemeData.lenraColorThemeData);
           } else {
@@ -100,7 +100,7 @@ class LenraButtonThemeData {
             return lenraThemeData.lenraColorThemeData.secondaryForegroundColor;
           }
         }),
-        LenraComponentType.Tertiary: MaterialStateProperty.resolveWith((states) {
+        LenraComponentType.tertiary: MaterialStateProperty.resolveWith((states) {
           if (tertiaryForegroundColor != null) {
             return tertiaryForegroundColor!(states, lenraThemeData.lenraColorThemeData);
           } else {
@@ -119,12 +119,12 @@ class LenraButtonThemeData {
 
     side = LenraThemePropertyMapper.resolveWith((LenraComponentType type) {
       final Map<LenraComponentType, MaterialStateProperty<BorderSide>?> map = {
-        LenraComponentType.Primary: (primaryBorder != null)
+        LenraComponentType.primary: (primaryBorder != null)
             ? MaterialStateProperty.resolveWith((states) {
                 return primaryBorder!(states, lenraThemeData.lenraColorThemeData);
               })
             : MaterialStateProperty.all(BorderSide.none),
-        LenraComponentType.Secondary: MaterialStateProperty.resolveWith((states) {
+        LenraComponentType.secondary: MaterialStateProperty.resolveWith((states) {
           if (secondaryBorder != null) {
             return secondaryBorder!(states, lenraThemeData.lenraColorThemeData);
           } else {
@@ -136,7 +136,7 @@ class LenraButtonThemeData {
             return lenraThemeData.lenraBorderThemeData.secondaryBorder;
           }
         }),
-        LenraComponentType.Tertiary: (tertiaryBorder != null)
+        LenraComponentType.tertiary: (tertiaryBorder != null)
             ? MaterialStateProperty.resolveWith((states) {
                 return tertiaryBorder!(states, lenraThemeData.lenraColorThemeData);
               })
@@ -147,7 +147,7 @@ class LenraButtonThemeData {
     });
 
     padding = LenraThemePropertyMapper.resolveWith((LenraComponentSize size) {
-      return lenraThemeData.paddingMap[size] ?? lenraThemeData.paddingMap[LenraComponentSize.Medium]!;
+      return lenraThemeData.paddingMap[size] ?? lenraThemeData.paddingMap[LenraComponentSize.medium]!;
     });
   }
 

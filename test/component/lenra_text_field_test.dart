@@ -20,7 +20,7 @@ void main() {
   testWidgets('Test LenraTextField Small size', (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(
       LenraTextField(
-        size: LenraComponentSize.Small,
+        size: LenraComponentSize.small,
         onChanged: (String test) {},
       ),
     ));
@@ -30,7 +30,7 @@ void main() {
   testWidgets('Test LenraTextField Medium size', (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(
       LenraTextField(
-        size: LenraComponentSize.Medium,
+        size: LenraComponentSize.medium,
         onChanged: (String test) {},
       ),
     ));
@@ -41,7 +41,7 @@ void main() {
   testWidgets('Test LenraTextField Large size', (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(
       LenraTextField(
-        size: LenraComponentSize.Large,
+        size: LenraComponentSize.large,
         onChanged: (String test) {},
       ),
     ));

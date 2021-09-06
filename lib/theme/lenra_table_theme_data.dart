@@ -14,7 +14,7 @@ class LenraTableThemeData {
     this.borderColor,
   }) {
     padding = LenraThemePropertyMapper.resolveWith((LenraComponentSize size) {
-      return lenraThemeData.paddingMap[size] ?? lenraThemeData.paddingMap[LenraComponentSize.Medium]!;
+      return lenraThemeData.paddingMap[size] ?? lenraThemeData.paddingMap[LenraComponentSize.medium]!;
     });
   }
 

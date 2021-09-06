@@ -31,27 +31,27 @@ class LenraTextThemeData {
     TextStyle? errorText,
   }) {
     this.headline1 = headline1 ??
-        TextStyle(
+        const TextStyle(
           fontSize: 24.0,
           fontWeight: FontWeight.w700,
         );
     this.headline2 = headline2 ??
-        TextStyle(
+        const TextStyle(
           fontSize: 20.0,
           fontWeight: FontWeight.w700,
         );
     this.headline3 = headline3 ??
-        TextStyle(
+        const TextStyle(
           fontSize: 16.0,
           fontWeight: FontWeight.w700,
         );
     this.headline4 = headline4 ??
-        TextStyle(
+        const TextStyle(
           fontSize: 15.0,
           fontWeight: FontWeight.w700,
         );
     this.headlineBody = headlineBody ??
-        TextStyle(
+        const TextStyle(
           fontSize: 15.0,
           fontWeight: FontWeight.w600,
         );
@@ -72,11 +72,11 @@ class LenraTextThemeData {
           height: lineHeight,
         );
     this.subtext = subtext ??
-        TextStyle(
+        const TextStyle(
           fontSize: 12.0,
         );
     this.disabledBodyText = disabledBodyText ??
-        TextStyle(
+        const TextStyle(
           color: LenraColorThemeData.LENRA_DISABLED_GRAY,
         );
 

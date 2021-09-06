@@ -19,7 +19,7 @@ class LenraMenuThemeData {
   LenraMenuThemeData copyWith(LenraMenuThemeData incoming) {
     return LenraMenuThemeData(
       lenraThemeData: lenraThemeData,
-      menuText: incoming.menuText ?? this.menuText,
+      menuText: incoming.menuText ?? menuText,
     );
   }
 }
