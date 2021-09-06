@@ -1,3 +1,5 @@
 analyzer:
   exclude:
     - examples
+    
+include: package:lint/analysis_options_package.yaml
