@@ -76,7 +76,7 @@ class _LenraToggleState extends State<LenraToggle> with SingleTickerProviderStat
   Widget _buildWidget() {
     var lenraSwitch = _LenraSwitch(animation: animation, toggle: widget);
     if (widget.label == null) return lenraSwitch;
-    return LenraRow(
+    return LenraFlex(
       children: [
         _buildLabel(),
         lenraSwitch,
