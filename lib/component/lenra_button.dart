@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lenra_components/layout/lenra_row.dart';
+import 'package:lenra_components/layout/lenra_flex.dart';
 import 'package:lenra_components/theme/lenra_button_theme_data.dart';
 import 'package:lenra_components/theme/lenra_theme.dart';
 import 'package:lenra_components/theme/lenra_theme_data.dart';
@@ -57,7 +57,7 @@ class LenraButton extends StatelessWidget {
     }
 
     if (children.length > 1) {
-      res = LenraRow(
+      res = LenraFlex(
         spacing: 1.5,
         children: children,
       );

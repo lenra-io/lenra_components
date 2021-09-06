@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lenra_components/layout/lenra_row.dart';
 import 'package:lenra_components/lenra_components.dart';
 
 import '../utils/lenra_page_test_help.dart';
@@ -97,11 +96,11 @@ void testFor({
 }
 
 void main() {
-  test('LenraRow test', () {
-    LenraRow component = LenraRow(
+  test('LenraFlex test', () {
+    LenraFlex component = LenraFlex(
       children: [],
     );
-    expect(component is LenraRow, true);
+    expect(component is LenraFlex, true);
   });
 
   testFor(

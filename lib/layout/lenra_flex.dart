@@ -9,19 +9,18 @@ class LenraFlex extends StatelessWidget {
   final MainAxisAlignment mainAxisAlignment;
   final CrossAxisAlignment crossAxisAlignment;
   final bool scroll;
-  //TODO (Lenra-300): Add padding
 
   final Axis direction;
 
   LenraFlex({
     Key? key,
-    this.spacing = 0,
+    this.spacing: 0,
     this.fillParent: false,
     required this.children,
-    this.mainAxisAlignment = MainAxisAlignment.start,
-    this.crossAxisAlignment = CrossAxisAlignment.start,
-    required this.direction,
-    this.scroll = false,
+    this.mainAxisAlignment: MainAxisAlignment.start,
+    this.crossAxisAlignment: CrossAxisAlignment.start,
+    this.direction: Axis.horizontal,
+    this.scroll: false,
   }) : super(key: key);
 
   @override
@@ -101,42 +100,6 @@ class LenraFlex extends StatelessWidget {
     return spacedChildren;
   }
 
-  /*List<Widget> _buildSpacedChildren(BuildContext context) {
-    List<Widget> spacedChildren = [];
-    var theme = LenraTheme.of(context);
-    var space = this.spacing * theme.baseSize;
-
-    if (this._isSpaceAroundOrEvenly()) {
-      spacedChildren.addAll([
-        this._buildEmptyBox(),
-        this._buildSizedBox(space),
-      ]);
-    }
-    this.children.asMap().forEach(
-      (key, value) {
-        if (key > 0) {
-          if (this.mainAxisAlignment == MainAxisAlignment.spaceAround) {
-            spacedChildren.addAll([
-              this._buildEmptyBox(),
-              this._buildSizedBox(space),
-            ]);
-          }
-          spacedChildren.add(this._buildSizedBox(space));
-        }
-
-        spacedChildren.add(value);
-      },
-    );
-    if (this._isSpaceAroundOrEvenly()) {
-      spacedChildren.addAll([
-        _buildEmptyBox(),
-        _buildSizedBox(space),
-      ]);
-    }
-
-    return spacedChildren;
-  }*/
-
   bool _isSpaceAround() {
     return this.mainAxisAlignment == MainAxisAlignment.spaceAround;
   }
@@ -149,13 +112,6 @@ class LenraFlex extends StatelessWidget {
     return SizedBox(
       width: this.direction == Axis.horizontal ? space : 0,
       height: this.direction == Axis.vertical ? space : 0,
-    );
-  }
-
-  Widget _buildEmptyBox() {
-    return SizedBox(
-      width: 0,
-      height: 0,
     );
   }
 }
