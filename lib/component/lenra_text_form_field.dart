@@ -80,9 +80,9 @@ class LenraTextFormField extends FormField<String> {
         super(
           key: key,
           initialValue: initialValue,
-          validator: (type == LenraTextFormFieldType.Email)
+          validator: (type == LenraTextFormFieldType.email)
               ? emailValidator(validator)
-              : (type == LenraTextFormFieldType.Password)
+              : (type == LenraTextFormFieldType.password)
                   ? passwordValidator(validator)
                   : validator,
           builder: (FormFieldState field) {
