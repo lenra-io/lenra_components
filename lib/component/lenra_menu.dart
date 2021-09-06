@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lenra_components/layout/lenra_column.dart';
-import 'package:lenra_components/layout/lenra_row.dart';
 import 'package:lenra_components/lenra_components.dart';
 import 'package:lenra_components/theme/lenra_color_theme_data.dart';
 import 'package:lenra_components/theme/lenra_menu_theme_data.dart';
@@ -29,9 +27,8 @@ class LenraMenu extends StatelessWidget {
           top: theme.baseSize,
           bottom: theme.baseSize,
         ),
-        child: LenraColumn(
-          /// No space between MenuItems
-          separationFactor: 0,
+        child: LenraFlex(
+          direction: Axis.vertical,
           children: this.items,
         ),
       ),
@@ -68,7 +65,7 @@ class LenraMenuItem extends StatelessWidget {
         horizontal: theme.baseSize,
         vertical: theme.baseSize / 2,
       ),
-      child: LenraRow(
+      child: LenraFlex(
         fillParent: true,
         children: [
           Container(

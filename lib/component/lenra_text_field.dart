@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lenra_components/layout/lenra_column.dart';
-import 'package:lenra_components/layout/lenra_row.dart';
+import 'package:lenra_components/layout/lenra_flex.dart';
 import 'package:lenra_components/theme/lenra_text_field_theme_data.dart';
 import 'package:lenra_components/theme/lenra_theme.dart';
 import 'package:lenra_components/theme/lenra_theme_data.dart';
@@ -69,8 +68,8 @@ class LenraTextField extends StatelessWidget {
     List<Widget> colChildren = [];
 
     if (inRow && labelWidget != null) {
-      colChildren.add(LenraRow(
-        separationFactor: 2,
+      colChildren.add(LenraFlex(
+        spacing: 2,
         children: [
           labelWidget,
           Expanded(child: textField),
@@ -88,8 +87,9 @@ class LenraTextField extends StatelessWidget {
       ));
     }
     if (colChildren.length > 1) {
-      textField = LenraColumn(
-        separationFactor: 0.5,
+      textField = LenraFlex(
+        direction: Axis.vertical,
+        spacing: 0.5,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: colChildren,
       );
