@@ -98,7 +98,7 @@ class LenraTextThemeData {
         );
   }
 
-  copyWith({
+  LenraTextThemeData copyWith({
     double? lineHeight,
     TextStyle? headline1,
     TextStyle? headline2,

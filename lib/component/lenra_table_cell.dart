@@ -4,8 +4,12 @@ import 'package:flutter/material.dart';
 class LenraTableCell extends TableCell {
   final bool verticalCenter;
 
-  LenraTableCell({child = const SizedBox.shrink(), this.verticalCenter = false})
-      : super(
+  const LenraTableCell({
+    Key? key,
+    Widget child = const SizedBox.shrink(),
+    this.verticalCenter = false,
+  }) : super(
+          key: key,
           child: child,
         );
 }

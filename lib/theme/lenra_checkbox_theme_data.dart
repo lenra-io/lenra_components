@@ -4,7 +4,7 @@ import 'package:lenra_components/theme/lenra_theme_data.dart';
 
 class LenraCheckboxThemeData {
   final LenraThemeData lenraThemeData;
-  final Function(bool, LenraTextThemeData)? textStyle;
+  final TextStyle Function(bool, LenraTextThemeData)? textStyle;
 
   LenraCheckboxThemeData({
     required this.lenraThemeData,
@@ -12,17 +12,13 @@ class LenraCheckboxThemeData {
   });
   TextStyle getTextStyle(bool disabled) {
     if (textStyle != null) {
-      return textStyle!(disabled, this.lenraThemeData.lenraTextThemeData);
+      return textStyle!(disabled, lenraThemeData.lenraTextThemeData);
     } else {
-      return disabled
-          ? lenraThemeData.lenraTextThemeData.disabledBodyText
-          : lenraThemeData.lenraTextThemeData.bodyText;
+      return disabled ? lenraThemeData.lenraTextThemeData.disabledBodyText : lenraThemeData.lenraTextThemeData.bodyText;
     }
   }
 
   LenraCheckboxThemeData copyWith(LenraCheckboxThemeData incoming) {
-    return LenraCheckboxThemeData(
-        lenraThemeData: this.lenraThemeData,
-        textStyle: incoming.textStyle ?? this.textStyle);
+    return LenraCheckboxThemeData(lenraThemeData: lenraThemeData, textStyle: incoming.textStyle ?? textStyle);
   }
 }

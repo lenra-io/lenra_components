@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'lenra_text_field.dart';
+import 'package:lenra_components/component/lenra_text_field.dart';
 import 'package:lenra_components/theme/lenra_theme_data.dart';
 import 'package:lenra_components/utils/form_validators.dart';
 
 enum LenraTextFormFieldType {
-  Password,
-  Email,
-  Normal,
+  password,
+  email,
+  normal,
 }
 
 Function emailValidator(Function? aditionalValidator) {
@@ -58,7 +58,7 @@ class LenraTextFormField extends FormField<String> {
     this.hintText = "",
     this.description = "",
     this.errorMessage,
-    this.type = LenraTextFormFieldType.Normal,
+    this.type = LenraTextFormFieldType.normal,
     this.obscure = false,
     this.disabled = false,
     this.inRow = false,
@@ -105,7 +105,8 @@ class LenraTextFormField extends FormField<String> {
             );
           },
         );
-
+        
+  @override
   FormFieldState<String> createState() => _LenraTextFormField();
 }
 

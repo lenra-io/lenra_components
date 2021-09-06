@@ -4,10 +4,10 @@ import 'package:lenra_components/theme/lenra_text_theme_data.dart';
 
 void main() {
   test('lenra text theme data test merge', () {
-    LenraTextThemeData lenraTextThemeDataDefault = LenraTextThemeData();
+    final LenraTextThemeData lenraTextThemeDataDefault = LenraTextThemeData();
 
-    LenraTextThemeData merged = lenraTextThemeDataDefault.copyWith(
-        bodyText: TextStyle(
+    final LenraTextThemeData merged = lenraTextThemeDataDefault.copyWith(
+        bodyText: const TextStyle(
       color: Colors.red,
       fontFamily: "Source Sans Pro",
       fontSize: 14.0,
