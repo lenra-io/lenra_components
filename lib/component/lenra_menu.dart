@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lenra_components/layout/lenra_column.dart';
-import 'package:lenra_components/layout/lenra_row.dart';
 import 'package:lenra_components/lenra_components.dart';
 import 'package:lenra_components/theme/lenra_color_theme_data.dart';
 import 'package:lenra_components/theme/lenra_menu_theme_data.dart';
@@ -29,9 +27,8 @@ class LenraMenu extends StatelessWidget {
           top: theme.baseSize,
           bottom: theme.baseSize,
         ),
-        child: LenraColumn(
-          /// No space between MenuItems
-          separationFactor: 0,
+        child: LenraFlex(
+          direction: Axis.vertical,
           children: this.items,
         ),
       ),
@@ -41,18 +38,18 @@ class LenraMenu extends StatelessWidget {
 
 class LenraMenuItem extends StatelessWidget {
   final String text;
+  final Function()? onPressed;
   final bool isSelected;
   final bool disabled;
   final Widget? icon;
-  final Function()? onPressed;
 
   LenraMenuItem({
     Key? key,
     required this.text,
+    required this.onPressed,
     this.isSelected = false,
     this.disabled = false,
     this.icon,
-    this.onPressed,
   }) : super(key: key);
 
   @override
@@ -60,12 +57,15 @@ class LenraMenuItem extends StatelessWidget {
     final LenraMenuThemeData lenraMenuThemeData = LenraTheme.of(context).lenraMenuThemeData;
     final LenraThemeData theme = LenraTheme.of(context);
 
+    /// LenraMenuItem can be disabled both by the [disabled] or [onPressed] parameters.
+    bool isDisabled = this.disabled || onPressed == null;
+
     Widget res = Padding(
       padding: EdgeInsets.symmetric(
         horizontal: theme.baseSize,
         vertical: theme.baseSize / 2,
       ),
-      child: LenraRow(
+      child: LenraFlex(
         fillParent: true,
         children: [
           Container(
@@ -76,19 +76,19 @@ class LenraMenuItem extends StatelessWidget {
                     Icon(
                       Icons.done,
                       size: theme.baseSize * 2,
-                      color: this.disabled ? LenraColorThemeData.LENRA_DISABLED_GRAY : LenraColorThemeData.LENRA_WHITE,
+                      color: isDisabled ? LenraColorThemeData.LENRA_DISABLED_GRAY : LenraColorThemeData.LENRA_WHITE,
                     )
                 : null,
           ),
           Text(
             text,
-            style: this.disabled ? theme.lenraTextThemeData.disabledBodyText : lenraMenuThemeData.menuText,
+            style: isDisabled ? theme.lenraTextThemeData.disabledBodyText : lenraMenuThemeData.menuText,
           ),
         ],
       ),
     );
 
-    if (this.disabled || onPressed == null) {
+    if (isDisabled) {
       return res;
     } else {
       // According to Flutter documentation an InkWell must have a Material ancestor
