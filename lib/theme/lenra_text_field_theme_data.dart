@@ -33,8 +33,8 @@ class LenraTextFieldThemeData {
       border: OutlineInputBorder(
         borderSide: lenraThemeData.lenraBorderThemeData.primaryDisabledBorder,
       ),
-      fillColor: (disabled) ? Colors.transparent : LenraColorThemeData.LENRA_DISABLED_GRAY,
-      hoverColor: (disabled) ? Colors.transparent : LenraColorThemeData.LENRA_DISABLED_GRAY,
+      fillColor: (disabled) ? Colors.transparent : LenraColorThemeData.lenraDisabledGray,
+      hoverColor: (disabled) ? Colors.transparent : LenraColorThemeData.lenraDisabledGray,
       enabledBorder: OutlineInputBorder(
         borderSide: enabledBorder ?? lenraThemeData.lenraBorderThemeData.primaryBorder,
       ),

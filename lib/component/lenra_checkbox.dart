@@ -9,7 +9,7 @@ class LenraCheckbox extends StatelessWidget {
 
   final void Function(bool?)? onChanged;
 
-  LenraCheckbox({
+  const LenraCheckbox({
     Key? key,
     this.label,
     required this.value,
@@ -22,11 +22,11 @@ class LenraCheckbox extends StatelessWidget {
     final LenraCheckboxThemeData finalLenraCheckboxThemeData = LenraTheme.of(context).lenraCheckboxThemeData;
 
     Widget checkbox = Checkbox(
-      value: this.value,
-      onChanged: this.disabled ? (e) {} : this.onChanged ?? (e) => null,
+      value: value,
+      onChanged: disabled ? (e) {} : onChanged ?? (e) => {},
       tristate: true,
     );
-    if (this.label == null) {
+    if (label == null) {
       return checkbox;
     }
 
@@ -34,7 +34,7 @@ class LenraCheckbox extends StatelessWidget {
       children: [
         checkbox,
         Text(
-          this.label!,
+          label!,
           style: finalLenraCheckboxThemeData.getTextStyle(disabled),
         ),
       ],

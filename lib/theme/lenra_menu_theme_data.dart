@@ -12,7 +12,7 @@ class LenraMenuThemeData {
   }) {
     this.menuText = menuText ??
         lenraThemeData.lenraTextThemeData.bodyText.copyWith(
-          color: LenraColorThemeData.LENRA_WHITE,
+          color: LenraColorThemeData.lenraWhite,
         );
   }
 

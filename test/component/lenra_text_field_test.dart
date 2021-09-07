@@ -57,7 +57,7 @@ void main() {
 
   testWidgets('Test LenraTextField minLines size', (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(
-      LenraTextField(
+      const LenraTextField(
         minLines: 2,
         maxLines: null,
       ),
@@ -68,7 +68,7 @@ void main() {
 
   testWidgets('Test LenraTextField minLines size with text doesnt expand', (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(
-      LenraTextField(
+      const LenraTextField(
         minLines: 1,
         maxLines: 1,
       ),
@@ -81,7 +81,7 @@ void main() {
 
   testWidgets('Test LenraTextField maxLines size', (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(
-      LenraTextField(
+      const LenraTextField(
         maxLines: 4,
       ),
     ));
@@ -91,7 +91,7 @@ void main() {
 
   testWidgets('Test LenraTextField maxLines size with text expands', (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(
-      LenraTextField(
+      const LenraTextField(
         minLines: 2,
         maxLines: 6,
       ),

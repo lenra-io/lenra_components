@@ -7,8 +7,8 @@ import 'package:lenra_components/theme/lenra_theme_data.dart';
 
 void main() {
   test('lenra table row test parameterized constructor and toTableRow function', () {
-    LenraTableRow lenraTableRow = LenraTableRow(
-      children: const [
+    LenraTableRow lenraTableRow = const LenraTableRow(
+      children: [
         Text("test"),
       ],
     );

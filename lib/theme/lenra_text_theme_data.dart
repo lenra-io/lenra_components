@@ -60,7 +60,7 @@ class LenraTextThemeData {
           fontFamily: "Source Sans Pro",
           fontSize: 15.0,
           fontWeight: FontWeight.w400,
-          color: LenraColorThemeData.LENRA_BLACK,
+          color: LenraColorThemeData.lenraBlack,
           height: lineHeight,
         );
     this.blueBodyText = bodyText ??
@@ -68,7 +68,7 @@ class LenraTextThemeData {
           fontFamily: "Source Sans Pro",
           fontSize: 15.0,
           fontWeight: FontWeight.w400,
-          color: LenraColorThemeData.LENRA_BLUE,
+          color: LenraColorThemeData.lenraBlue,
           height: lineHeight,
         );
     this.subtext = subtext ??
@@ -77,7 +77,7 @@ class LenraTextThemeData {
         );
     this.disabledBodyText = disabledBodyText ??
         const TextStyle(
-          color: LenraColorThemeData.LENRA_DISABLED_GRAY,
+          color: LenraColorThemeData.lenraDisabledGray,
         );
 
     this.underDescriptionText = underDescriptionText ??
@@ -85,7 +85,7 @@ class LenraTextThemeData {
           fontFamily: "Source Sans Pro",
           fontSize: 12.0,
           fontWeight: FontWeight.w400,
-          color: LenraColorThemeData.LENRA_GREY_TEXT,
+          color: LenraColorThemeData.lenraGreyText,
           height: lineHeight,
         );
     this.errorText = disabledBodyText ??

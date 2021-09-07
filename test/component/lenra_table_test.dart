@@ -10,12 +10,12 @@ import '../utils/lenra_page_test_help.dart';
 
 void main() {
   test('lenra table test parameterized constructor', () {
-    LenraTable lenraTable = LenraTable(
+    LenraTable lenraTable = const LenraTable(
       border: true,
       size: LenraComponentSize.large,
       children: [
         LenraTableRow(
-          children: const [
+          children: [
             Text("test"),
           ],
         ),
@@ -31,8 +31,8 @@ void main() {
       padding: const EdgeInsets.symmetric(vertical: 1 * 8.0, horizontal: 2 * 8.0),
       lenraTableThemeData: LenraTableThemeData(lenraThemeData: LenraThemeData()),
       children: [
-        LenraTableRow(
-          children: const [
+        const LenraTableRow(
+          children: [
             Text("test"),
           ],
         ),
@@ -44,10 +44,10 @@ void main() {
 
   testWidgets('Test LenraTable Small size', (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(
-      LenraTable(
+      const LenraTable(
         size: LenraComponentSize.small,
         children: [
-          LenraTableRow(children: const [
+          LenraTableRow(children: [
             Text("test"),
           ])
         ],
@@ -58,10 +58,10 @@ void main() {
   });
   testWidgets('Test LenraTable Medium size', (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(
-      LenraTable(
+      const LenraTable(
         size: LenraComponentSize.medium,
         children: [
-          LenraTableRow(children: const [
+          LenraTableRow(children: [
             Text("test"),
           ])
         ],
@@ -73,11 +73,11 @@ void main() {
 
   testWidgets('Test LenraTable Large size', (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(
-      LenraTable(
+      const LenraTable(
         size: LenraComponentSize.large,
         border: true,
         children: [
-          LenraTableRow(children: const [
+          LenraTableRow(children: [
             Text("test"),
           ])
         ],

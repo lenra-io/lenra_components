@@ -7,7 +7,7 @@ void main() {
     LenraColorThemeData lenraColorThemeDataDefault = LenraColorThemeData();
     LenraColorThemeData lenraColorThemeData = LenraColorThemeData(primaryBackgroundColor: Colors.red);
 
-    expect(lenraColorThemeDataDefault.primaryBackgroundColor, LenraColorThemeData.LENRA_BLUE);
+    expect(lenraColorThemeDataDefault.primaryBackgroundColor, LenraColorThemeData.lenraBlue);
     expect(lenraColorThemeData.primaryBackgroundColor, Colors.red);
   });
 }

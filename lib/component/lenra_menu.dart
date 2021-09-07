@@ -19,8 +19,8 @@ class LenraMenu extends StatelessWidget {
     final LenraThemeData theme = LenraTheme.of(context);
 
     return Container(
-      decoration: BoxDecoration(
-        color: LenraColorThemeData.LENRA_BLACK,
+      decoration: const BoxDecoration(
+        color: LenraColorThemeData.lenraBlack,
       ),
       child: Padding(
         padding: EdgeInsets.only(
@@ -29,7 +29,7 @@ class LenraMenu extends StatelessWidget {
         ),
         child: LenraFlex(
           direction: Axis.vertical,
-          children: this.items,
+          children: items,
         ),
       ),
     );
@@ -43,7 +43,7 @@ class LenraMenuItem extends StatelessWidget {
   final bool disabled;
   final Widget? icon;
 
-  LenraMenuItem({
+  const LenraMenuItem({
     Key? key,
     required this.text,
     required this.onPressed,
@@ -58,7 +58,7 @@ class LenraMenuItem extends StatelessWidget {
     final LenraThemeData theme = LenraTheme.of(context);
 
     /// LenraMenuItem can be disabled both by the [disabled] or [onPressed] parameters.
-    bool isDisabled = this.disabled || onPressed == null;
+    bool isDisabled = disabled || onPressed == null;
 
     Widget res = Padding(
       padding: EdgeInsets.symmetric(
@@ -68,15 +68,15 @@ class LenraMenuItem extends StatelessWidget {
       child: LenraFlex(
         fillParent: true,
         children: [
-          Container(
+          SizedBox(
             height: theme.baseSize * 2,
             width: theme.baseSize * 2,
-            child: this.isSelected
-                ? this.icon ??
+            child: isSelected
+                ? icon ??
                     Icon(
                       Icons.done,
                       size: theme.baseSize * 2,
-                      color: isDisabled ? LenraColorThemeData.LENRA_DISABLED_GRAY : LenraColorThemeData.LENRA_WHITE,
+                      color: isDisabled ? LenraColorThemeData.lenraDisabledGray : LenraColorThemeData.lenraWhite,
                     )
                 : null,
           ),
@@ -94,10 +94,10 @@ class LenraMenuItem extends StatelessWidget {
       // According to Flutter documentation an InkWell must have a Material ancestor
       // See https://api.flutter.dev/flutter/material/InkWell-class.html
       return Material(
-        color: this.isSelected ? LenraColorThemeData.LENRA_BLUE : Colors.transparent,
+        color: isSelected ? LenraColorThemeData.lenraBlue : Colors.transparent,
         child: InkWell(
           child: res,
-          hoverColor: LenraColorThemeData.LENRA_BLUE_HOVER,
+          hoverColor: LenraColorThemeData.lenraBlueHover,
           onTap: () {
             onPressed!();
           },

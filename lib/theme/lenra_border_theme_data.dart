@@ -25,24 +25,22 @@ class LenraBorderThemeData {
     BorderSide? secondaryBorder,
     BorderSide? secondaryHoverBorder,
     BorderSide? secondaryDisabledBorder,
-    BorderSide? tertiaryBorder,
-    BorderSide? tertiaryHoverBorder,
-    BorderSide? tertiaryDisabledBorder,
+    this.tertiaryBorder,
+    this.tertiaryHoverBorder,
+    this.tertiaryDisabledBorder,
     BorderSide? errorBorder,
   }) {
     /* TODO: set default value for all border*/
     this.borderRadius = borderRadius ?? BorderRadius.circular(4.0);
-    this.primaryBorder = primaryBorder ?? BorderSide(color: Colors.grey);
-    this.primaryHoverBorder = primaryHoverBorder ?? BorderSide(color: LenraColorThemeData.LENRA_BLUE);
-    this.primaryDisabledBorder = primaryDisabledBorder ?? BorderSide(color: LenraColorThemeData.LENRA_DISABLED_GRAY);
-    this.secondaryBorder = secondaryBorder ?? BorderSide(color: LenraColorThemeData.LENRA_BLUE);
-    this.secondaryHoverBorder = secondaryHoverBorder ?? BorderSide(color: LenraColorThemeData.LENRA_BLUE);
+    this.primaryBorder = primaryBorder ?? const BorderSide(color: Colors.grey);
+    this.primaryHoverBorder = primaryHoverBorder ?? const BorderSide(color: LenraColorThemeData.lenraBlue);
+    this.primaryDisabledBorder =
+        primaryDisabledBorder ?? const BorderSide(color: LenraColorThemeData.lenraDisabledGray);
+    this.secondaryBorder = secondaryBorder ?? const BorderSide(color: LenraColorThemeData.lenraBlue);
+    this.secondaryHoverBorder = secondaryHoverBorder ?? const BorderSide(color: LenraColorThemeData.lenraBlue);
     this.secondaryDisabledBorder =
-        secondaryDisabledBorder ?? BorderSide(color: LenraColorThemeData.LENRA_BLUE_UNAVAILABLE);
-    this.tertiaryBorder = tertiaryBorder;
-    this.tertiaryHoverBorder = tertiaryHoverBorder;
-    this.tertiaryDisabledBorder = tertiaryDisabledBorder;
-    this.errorBorder = errorBorder ?? BorderSide(color: LenraColorThemeData.LENRA_CUSTOM_RED);
+        secondaryDisabledBorder ?? const BorderSide(color: LenraColorThemeData.lenraBlueUnavailable);
+    this.errorBorder = errorBorder ?? const BorderSide(color: LenraColorThemeData.lenraCustomRed);
   }
 
   copyWith({

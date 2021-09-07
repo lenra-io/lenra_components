@@ -64,7 +64,7 @@ class LenraTextFormField extends FormField<String> {
     this.inRow = false,
     this.onSubmitted,
     this.onChanged,
-    this.size = LenraComponentSize.Medium,
+    this.size = LenraComponentSize.medium,
     this.onSuffixPressed,
     this.width = double.infinity,
     this.minLines,
@@ -105,7 +105,7 @@ class LenraTextFormField extends FormField<String> {
             );
           },
         );
-        
+
   @override
   FormFieldState<String> createState() => _LenraTextFormField();
 }
