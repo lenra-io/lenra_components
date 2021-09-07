@@ -5,7 +5,7 @@ class LenraStyledContainer extends StatelessWidget {
   final Border? border;
   final BorderRadius? borderRadius;
   final BoxShadow? boxShadow;
-  final Color? backgroundColor;
+  final Color? color;
 
   LenraStyledContainer({
     Key? key,
@@ -13,7 +13,7 @@ class LenraStyledContainer extends StatelessWidget {
     this.border,
     this.borderRadius,
     this.boxShadow,
-    this.backgroundColor,
+    this.color,
   }) : super(key: key);
 
   @override
@@ -21,7 +21,7 @@ class LenraStyledContainer extends StatelessWidget {
     return Container(
       child: this.child,
       decoration: BoxDecoration(
-        color: this.backgroundColor,
+        color: this.color,
         border: this.border,
         borderRadius: this.borderRadius,
         boxShadow: this.boxShadow != null ? [this.boxShadow!] : null,

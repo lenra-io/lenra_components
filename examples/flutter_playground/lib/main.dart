@@ -5,7 +5,7 @@ import 'package:lenra_components/theme/lenra_theme_data.dart';
 import 'left_menu.dart';
 import 'pages/flex_test.dart';
 import 'pages/lenra_flex_expanded.dart';
-import 'pages/my_lenra_styled_container.dart';
+import 'pages/lenra_styled_container_test.dart';
 import 'pages/toggle_test.dart';
 import 'pages/my_lenra_menu.dart';
 
@@ -61,7 +61,7 @@ class _MyAppState extends State<MyApp> {
       case LeftMenu.MENU_EXAMPLE:
         return MyLenraMenu();
       case LeftMenu.STYLED_CONTAINER_EXAMPLE:
-        return MyLenraStyledContainer();
+        return LenraStyledContainerTest();
     }
     return Text("N/A");
   }
