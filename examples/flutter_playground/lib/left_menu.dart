@@ -29,7 +29,7 @@ class LeftMenu extends StatelessWidget {
         createMenu(context, 'Flex with Expanded', FLEX_EXPANDED_EXAMPLE),
         createMenu(context, 'Toggle Examples', TOGGLE_EXAMPLE),
         createMenu(context, 'Menu Examples', MENU_EXAMPLE),
-        createMenu(context, 'Sickers Examples', STICKER_EXAMPLE),
+        createMenu(context, 'Stickers Examples', STICKER_EXAMPLE),
         createMenu(context, 'Styled Container Examples', STYLED_CONTAINER_EXAMPLE),
       ],
     );
