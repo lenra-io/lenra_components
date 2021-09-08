@@ -28,26 +28,27 @@ class _MyLenraMenuState extends State<MyLenraMenu> {
             ),
           ],
         ),
-        // Constrained LenraMenu
+
         Container(
-          width: MediaQuery.of(context).size.width * 0.5,
+          width: double.infinity,
           child: LenraMenu(
             items: [
               LenraMenuItem(
-                text: "menu item",
+                text: "Fill Parent item",
                 onPressed: () => {},
               ),
               LenraMenuItem(
-                text: "selected menu item",
+                text: List.filled(100, "Long ").join(),
                 isSelected: true,
                 onPressed: () => {},
               ),
             ],
           ),
         ),
+
         // Interactive LenraMenu
         Container(
-          width: MediaQuery.of(context).size.width * 0.5,
+          width: 600,
           child: LenraMenu(
             items: [
               LenraMenuItem(
@@ -67,42 +68,38 @@ class _MyLenraMenuState extends State<MyLenraMenu> {
             ],
           ),
         ),
+
         // Disabled LenraMenu
-        Container(
-          width: MediaQuery.of(context).size.width * 0.5,
-          child: LenraMenu(
-            items: [
-              LenraMenuItem(
-                text: "menu item",
-                disabled: true,
-                onPressed: () => {},
-              ),
-              LenraMenuItem(
-                text: "selected menu item",
-                disabled: true,
-                isSelected: true,
-                onPressed: () => {},
-              ),
-            ],
-          ),
+        LenraMenu(
+          items: [
+            LenraMenuItem(
+              text: "menu item",
+              disabled: true,
+              onPressed: () => {},
+            ),
+            LenraMenuItem(
+              text: "selected menu item",
+              disabled: true,
+              isSelected: true,
+              onPressed: () => {},
+            ),
+          ],
         ),
+
         // Custom Icon LenraMenu
-        Container(
-          width: MediaQuery.of(context).size.width * 0.5,
-          child: LenraMenu(
-            items: [
-              LenraMenuItem(
-                icon: Icon(
-                  Icons.airplanemode_active,
-                  color: Colors.white,
-                  size: 16,
-                ),
-                isSelected: true,
-                text: "custom icon",
-                onPressed: () => {},
+        LenraMenu(
+          items: [
+            LenraMenuItem(
+              icon: Icon(
+                Icons.airplanemode_active,
+                color: Colors.white,
+                size: 16,
               ),
-            ],
-          ),
+              isSelected: true,
+              text: "custom icon",
+              onPressed: () => {},
+            ),
+          ],
         ),
       ],
     );

@@ -14,7 +14,7 @@ class LenraButton extends StatelessWidget {
   final Widget? rightIcon;
 
   LenraButton({
-    @required this.onPressed,
+    required this.onPressed,
     this.text,
     this.disabled = false,
     this.size = LenraComponentSize.Medium,
@@ -67,7 +67,7 @@ class LenraButton extends StatelessWidget {
 
     // Manage size
     return TextButton(
-      onPressed: this.disabled ? () {} : onPressed,
+      onPressed: this.disabled ? null : onPressed,
       child: Padding(
         padding: finalLenraButtonThemeData.getPadding(size),
         child: res,

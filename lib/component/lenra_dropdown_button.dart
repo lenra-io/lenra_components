@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lenra_components/component/lenra_button.dart';
-import 'package:lenra_components/layout/lenra_flex.dart';
 import 'package:lenra_components/theme/lenra_theme_data.dart';
+import 'package:lenra_components/utils/overlay_entry_factory.dart';
 
 /// A dropdown button showing a dropdown when clicked.
 ///
@@ -86,16 +86,17 @@ class LenraDropdownButton extends StatefulWidget {
 class _LenraDropdownButtonState extends State<LenraDropdownButton> {
   // [_layerLink] is used to make sure the child of [LenraDropdownButton] is correctly following the [LenraDropdownButton] when scrolling.
   final LayerLink _layerLink = LayerLink();
-  late OverlayEntry _overlayEntry;
+  OverlayEntry? _overlayEntry;
   bool showOverlay = false;
 
   toggleOverlay(BuildContext context) async {
     if (showOverlay) {
-      this._overlayEntry.remove();
+      this._overlayEntry?.remove();
       showOverlay = !showOverlay;
     } else {
-      this._overlayEntry = this._createOverlayEntry();
-      Overlay.of(context)!.insert(this._overlayEntry);
+      if (this._overlayEntry == null) this._overlayEntry = this._createOverlayEntry();
+
+      Overlay.of(context)!.insert(this._overlayEntry!);
       showOverlay = !showOverlay;
     }
   }
@@ -103,8 +104,8 @@ class _LenraDropdownButtonState extends State<LenraDropdownButton> {
   OverlayEntry _createOverlayEntry() {
     RenderBox renderBox = context.findRenderObject() as RenderBox;
 
-    OverlayEntry overlayEntry = OverlayEntry(
-      builder: (context) => GestureDetector(
+    return OverlayEntryFactory.withTheme(
+      child: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () => toggleOverlay(context),
         child: _Dropdown(
@@ -113,10 +114,8 @@ class _LenraDropdownButtonState extends State<LenraDropdownButton> {
           layerLink: _layerLink,
         ),
       ),
+      context: context,
     );
-
-    this._overlayEntry = overlayEntry;
-    return this._overlayEntry;
   }
 
   @override
@@ -167,7 +166,7 @@ class _DropdownState extends State<_Dropdown> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
-    _controller = AnimationController(
+    this._controller = AnimationController(
       duration: const Duration(milliseconds: 200),
       vsync: this,
     );
@@ -177,101 +176,145 @@ class _DropdownState extends State<_Dropdown> with TickerProviderStateMixin {
         var overlay = overlayKey.currentContext?.findRenderObject();
 
         if (overlay != null) {
-          var overlaySize = (overlay as RenderBox).size;
-          buttonSize = widget.renderBox.size;
-          var buttonOffset = widget.renderBox.localToGlobal(Offset.zero);
-          var screenSize = MediaQuery.of(context).size;
-
-          bool overflowRight = buttonOffset.dx + overlaySize.width >= screenSize.width;
-          bool overflowLeft = buttonOffset.dx + buttonSize.width - overlaySize.width <= 0;
-          bool overflowBottom = buttonOffset.dy + buttonSize.height + overlaySize.height >= screenSize.height;
-          bool overflowTop = buttonOffset.dy - overlaySize.height <= 0;
-
-          setState(() {
-            _controller.forward();
-            // Default x Offset, top left of overlay is just under bottom left of button
-            var xOffset = 0.0;
-            // Default y Offset, overlay is just under button
-            var yOffset = buttonSize.height;
-
-            if (overflowRight && overflowLeft) {
-              // Add horizontal scroll
-              horizontalScroll = true;
-            } else if (overflowRight) {
-              xOffset = -(overlaySize.width - buttonSize.width);
-            }
-
-            if (overflowBottom && overflowTop) {
-              // Add vertical scroll
-              verticalScroll = true;
-            } else if (overflowBottom) {
-              yOffset = -overlaySize.height;
-            }
-
-            overlayOffset = Offset(xOffset, yOffset);
-          });
+          _updateOverlayOffset(overlay);
         }
       }
     });
   }
 
+  void _updateOverlayOffset(RenderObject overlay) {
+    var overlaySize = (overlay as RenderBox).size;
+    buttonSize = widget.renderBox.size;
+    var buttonOffset = widget.renderBox.localToGlobal(Offset.zero);
+    var screenSize = MediaQuery.of(context).size;
+
+    bool overflowRight = buttonOffset.dx + overlaySize.width >= screenSize.width;
+    bool overflowLeft = buttonOffset.dx + buttonSize.width - overlaySize.width <= 0;
+    bool overflowBottom = buttonOffset.dy + buttonSize.height + overlaySize.height >= screenSize.height;
+    bool overflowTop = buttonOffset.dy - overlaySize.height <= 0;
+
+    setState(() {
+      _controller.forward();
+      // Default x Offset, top left of overlay is just under bottom left of button
+      var xOffset = 0.0;
+      // Default y Offset, overlay is just under button
+      var yOffset = buttonSize.height;
+
+      if (overflowRight && overflowLeft) {
+        // Add horizontal scroll
+        this.horizontalScroll = true;
+      } else if (overflowRight) {
+        xOffset = -(overlaySize.width - buttonSize.width);
+      }
+
+      if (overflowBottom && overflowTop) {
+        // Add vertical scroll
+        this.verticalScroll = true;
+      } else if (overflowBottom) {
+        yOffset = -overlaySize.height;
+      }
+
+      this.overlayOffset = Offset(xOffset, yOffset);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    Widget child = Material(
-      key: overlayKey,
-      child: widget.child,
-      color: Colors.transparent,
-    );
+    Widget child;
 
-    // Handles vertical and horizontal scrolling
     if (verticalScroll || horizontalScroll) {
-      if (horizontalScroll) {
-        child = SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: child,
-        );
-      }
-
-      if (verticalScroll) {
-        child = SingleChildScrollView(
-          child: child,
-        );
-      }
-
-      child = Container(
-        color: Colors.black.withOpacity(0.5),
-        height: MediaQuery.of(context).size.height,
-        child: Center(
-          child: Container(
-            height: MediaQuery.of(context).size.height * 0.8,
-            width: MediaQuery.of(context).size.width * 0.8,
-            child: child,
-          ),
-        ),
-      );
+      child = this._buildFullscreenMenu();
     } else {
-      child = CompositedTransformFollower(
-        offset: overlayOffset ?? Offset(0, widget.renderBox.size.height),
-        link: widget.layerLink,
-        child: ConstrainedBox(
-          constraints: BoxConstraints(minWidth: buttonSize.width),
-          child: child,
-        ),
-      );
+      child = this._buildContextualMenu();
     }
 
+    return this._addAnimation(child);
+  }
+
+  Widget _buildContextualMenu() {
+    Widget child = this._buildOverlay();
+    child = this._addMinWidth(child);
+    child = this._addAlignment(child);
+    return this._addOffsetAndLink(child);
+  }
+
+  Widget _buildFullscreenMenu() {
+    Widget child = this._buildOverlay();
+    child = this._forceTakeWidth(child);
+    child = this._addAlignment(child);
+
+    if (verticalScroll) child = this._addVerticalScroll(child);
+
+    return this._addDarkBackground(child);
+  }
+
+  Widget _forceTakeWidth(Widget child) {
+    return Container(
+      width: double.infinity,
+      child: child,
+    );
+  }
+
+  Widget _addMinWidth(Widget child) {
+    return ConstrainedBox(
+      constraints: BoxConstraints(minWidth: buttonSize.width),
+      child: child,
+    );
+  }
+
+  Widget _addAlignment(Widget child) {
+    return Align(alignment: Alignment.topLeft, child: child);
+  }
+
+  Widget _buildOverlay() {
+    return Material(
+      key: overlayKey,
+      child: widget.child,
+    );
+  }
+
+  Widget _addAnimation(Widget child) {
     return FadeTransition(
       opacity: CurvedAnimation(
-        parent: _controller,
+        parent: this._controller,
         curve: Curves.easeIn,
       ),
-      child: LenraFlex(
-        fillParent: true,
-        direction: Axis.vertical,
-        children: [
-          child,
-        ],
+      child: child,
+    );
+  }
+
+  Widget _addOffsetAndLink(Widget child) {
+    return CompositedTransformFollower(
+      offset: overlayOffset ?? Offset(0, widget.renderBox.size.height),
+      link: widget.layerLink,
+      child: child,
+    );
+  }
+
+  Widget _addVerticalScroll(Widget child) {
+    return SingleChildScrollView(
+      child: child,
+    );
+  }
+
+  Widget _addDarkBackground(Widget child) {
+    return Container(
+      color: Colors.black.withOpacity(0.3),
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      child: Center(
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.8,
+          width: MediaQuery.of(context).size.width * 0.8,
+          child: child,
+        ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    this._controller.dispose();
+    super.dispose();
   }
 }

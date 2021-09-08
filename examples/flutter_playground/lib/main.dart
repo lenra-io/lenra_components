@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_playground/pages/flex_test.dart';
-import 'package:flutter_playground/left_menu.dart';
-import 'package:flutter_playground/pages/lenra_flex_expanded.dart';
-import 'package:flutter_playground/pages/my_lenra_menu.dart';
-import 'package:flutter_playground/pages/toggle_test.dart';
 import 'package:lenra_components/theme/lenra_theme.dart';
 import 'package:lenra_components/theme/lenra_theme_data.dart';
+
+import 'left_menu.dart';
+import 'pages/dropdown_example.dart';
+import 'pages/my_lenra_menu.dart';
+import 'pages/lenra_flex_expanded.dart';
+import 'pages/flex_test.dart';
+import 'pages/toggle_test.dart';
 
 void main() {
   runApp(MyApp());
@@ -58,6 +60,8 @@ class _MyAppState extends State<MyApp> {
         return ToggleTest();
       case LeftMenu.MENU_EXAMPLE:
         return MyLenraMenu();
+      case LeftMenu.DROPDOWN_EXAMPLE:
+        return DropdownExample();
     }
     return Text("N/A");
   }

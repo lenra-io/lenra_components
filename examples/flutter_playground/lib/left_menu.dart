@@ -10,6 +10,7 @@ class LeftMenu extends StatelessWidget {
   static const FLEX_EXPANDED_EXAMPLE = "FlexExpanded";
   static const TOGGLE_EXAMPLE = "Toggle";
   static const MENU_EXAMPLE = "menu";
+  static const DROPDOWN_EXAMPLE = "Dropdown";
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +28,7 @@ class LeftMenu extends StatelessWidget {
         createMenu(context, 'Flex with Expanded', FLEX_EXPANDED_EXAMPLE),
         createMenu(context, 'Toggle Examples', TOGGLE_EXAMPLE),
         createMenu(context, 'Menu Examples', MENU_EXAMPLE),
+        createMenu(context, 'Dropdown Examples', DROPDOWN_EXAMPLE),
       ],
     );
   }

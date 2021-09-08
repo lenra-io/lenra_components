@@ -14,7 +14,7 @@ class LenraCheckbox extends StatelessWidget {
     this.label,
     required this.value,
     this.disabled = false,
-    @required this.onChanged,
+    required this.onChanged,
   }) : super(key: key);
 
   @override
@@ -23,7 +23,7 @@ class LenraCheckbox extends StatelessWidget {
 
     Widget checkbox = Checkbox(
       value: this.value,
-      onChanged: this.disabled ? (e) {} : this.onChanged ?? (e) => null,
+      onChanged: this.disabled ? null : this.onChanged,
       tristate: true,
     );
     if (this.label == null) {

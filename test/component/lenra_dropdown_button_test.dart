@@ -74,7 +74,7 @@ void main() {
     await tester.pumpAndSettle();
     await tester.pumpAndSettle();
 
-    expect(find.byType(SingleChildScrollView), findsOneWidget);
+    expect(find.byType(SingleChildScrollView), findsNWidgets(2));
 
     expect((tester.firstWidget(find.byType(SingleChildScrollView)) as SingleChildScrollView).scrollDirection,
         Axis.horizontal);
@@ -84,10 +84,8 @@ void main() {
       (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(LenraDropdownButton(
       text: "basic",
-      child: IntrinsicWidth(
-        child: LenraMenu(
-          items: List.filled(30, LenraMenuItem(text: "item", onPressed: () => {})),
-        ),
+      child: LenraMenu(
+        items: List.filled(30, LenraMenuItem(text: "item", onPressed: () => {})),
       ),
     )));
 
@@ -95,7 +93,7 @@ void main() {
     await tester.pumpAndSettle();
     await tester.pumpAndSettle();
 
-    expect(find.byType(SingleChildScrollView), findsOneWidget);
+    expect(find.byType(SingleChildScrollView), findsNWidgets(31));
 
     expect((tester.firstWidget(find.byType(SingleChildScrollView)) as SingleChildScrollView).scrollDirection,
         Axis.vertical);
@@ -116,7 +114,7 @@ void main() {
     await tester.pumpAndSettle();
     await tester.pumpAndSettle();
 
-    expect(find.byType(SingleChildScrollView), findsNWidgets(2));
+    expect(find.byType(SingleChildScrollView), findsNWidgets(31));
 
     var widgetList = tester.widgetList(find.byType(SingleChildScrollView)).toList();
 
