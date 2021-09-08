@@ -11,6 +11,7 @@ class LeftMenu extends StatelessWidget {
   static const TOGGLE_EXAMPLE = "Toggle";
   static const MENU_EXAMPLE = "menu";
   static const STICKER_EXAMPLE = "Stickers";
+  static const STYLED_CONTAINER_EXAMPLE = "styledContainer";
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +30,7 @@ class LeftMenu extends StatelessWidget {
         createMenu(context, 'Toggle Examples', TOGGLE_EXAMPLE),
         createMenu(context, 'Menu Examples', MENU_EXAMPLE),
         createMenu(context, 'Sickers Examples', STICKER_EXAMPLE),
+        createMenu(context, 'Styled Container Examples', STYLED_CONTAINER_EXAMPLE),
       ],
     );
   }
