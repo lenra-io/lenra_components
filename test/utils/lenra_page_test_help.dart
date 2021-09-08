@@ -3,11 +3,12 @@ import 'package:lenra_components/theme/lenra_theme.dart';
 import 'package:lenra_components/theme/lenra_theme_data.dart';
 
 Widget createBaseTestWidgets(Widget child) {
-  return LenraTheme(
-    themeData: LenraThemeData(),
-    child: Directionality(
-      textDirection: TextDirection.ltr,
-      child: child,
+  return MaterialApp(
+    home: LenraTheme(
+      themeData: LenraThemeData(),
+      child: Scaffold(
+        body: child,
+      ),
     ),
   );
 }

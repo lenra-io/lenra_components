@@ -11,8 +11,6 @@ export 'component/lenra_text_field.dart';
 export 'component/lenra_text_form_field.dart';
 
 export 'layout/lenra_flex.dart';
-export 'layout/lenra_row.dart';
-export 'layout/lenra_column.dart';
 
 export 'theme/base_material_theme_data.dart';
 export 'theme/lenra_border_theme_data.dart';

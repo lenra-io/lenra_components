@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lenra_components/layout/lenra_row.dart';
 import 'package:lenra_components/component/lenra_button.dart';
+import 'package:lenra_components/layout/lenra_flex.dart';
 import 'package:lenra_components/theme/lenra_theme_data.dart';
 
 import '../utils/lenra_page_test_help.dart';
@@ -67,7 +67,7 @@ void main() {
       createBaseTestWidgets(
         MaterialApp(
           home: Scaffold(
-            body: LenraRow(
+            body: LenraFlex(
               fillParent: true,
               children: [
                 LenraButton(
@@ -119,7 +119,7 @@ void main() {
       ),
     ));
 
-    expect(find.byType(LenraRow), findsNothing);
+    expect(find.byType(LenraFlex), findsNothing);
 
     await tester.pumpWidget(createComponentTestWidgets(
       LenraButton(
@@ -128,7 +128,7 @@ void main() {
       ),
     ));
 
-    expect(find.byType(LenraRow), findsNothing);
+    expect(find.byType(LenraFlex), findsNothing);
 
     await tester.pumpWidget(createComponentTestWidgets(
       LenraButton(
@@ -137,7 +137,7 @@ void main() {
       ),
     ));
 
-    expect(find.byType(LenraRow), findsNothing);
+    expect(find.byType(LenraFlex), findsNothing);
   });
 
   testWidgets('LenraButton text/icons combinations should not crash', (WidgetTester tester) async {
