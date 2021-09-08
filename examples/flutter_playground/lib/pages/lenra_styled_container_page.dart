@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lenra_components/layout/lenra_styled_container.dart';
 import 'package:lenra_components/lenra_components.dart';
 
-class LenraStyledContainerTest extends StatelessWidget {
+class LenraStyledContainerPage extends StatelessWidget {
   final List<bool> selectedItems = [false, false];
 
   @override
