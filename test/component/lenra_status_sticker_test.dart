@@ -10,15 +10,15 @@ void main() {
   
 
   test('LenraStatusSticker test', () {
-    LenraStatusSticker component = LenraStatusSticker(color: LenraColorThemeData.LENRA_CUSTOM_GREEN);
+    LenraStatusSticker component = const LenraStatusSticker(color: LenraColorThemeData.lenraCustomGreen);
 
     expect(component is LenraStatusSticker, true);
   });
 
   testWidgets('LenraStatusSticker size', (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(
-      LenraStatusSticker(
-        color: LenraColorThemeData.LENRA_CUSTOM_GREEN,
+      const LenraStatusSticker(
+        color: LenraColorThemeData.lenraCustomGreen,
       ),
     ));
 
@@ -32,11 +32,11 @@ void main() {
 
   testWidgets('LenraStatusSticker custom color', (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(
-      LenraStatusSticker(
-        color: LenraColorThemeData.LENRA_CUSTOM_GREEN,
+      const LenraStatusSticker(
+        color: LenraColorThemeData.lenraCustomGreen,
       ),
     ));
 
-    expect((tester.widget(find.byType(LenraStatusSticker)) as LenraStatusSticker).color, LenraColorThemeData.LENRA_CUSTOM_GREEN);
+    expect((tester.widget(find.byType(LenraStatusSticker)) as LenraStatusSticker).color, LenraColorThemeData.lenraCustomGreen);
   });
 }

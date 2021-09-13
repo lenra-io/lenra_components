@@ -5,7 +5,7 @@ import 'package:lenra_components/theme/lenra_theme_data.dart';
 class LenraStatusSticker extends StatelessWidget {
   final Color? color;
 
-  LenraStatusSticker({
+  const LenraStatusSticker({
     Key? key,
     required this.color,
   }) : super(key: key);
@@ -19,7 +19,7 @@ class LenraStatusSticker extends StatelessWidget {
       height: lenraThemeData.baseSize,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: this.color,
+        color: color,
       ),
     );
   }
