@@ -4,13 +4,13 @@ import 'package:lenra_components/component/lenra_table_cell.dart';
 
 void main() {
   test('lenra table row test parameterized constructor and toTableRow function', () {
-    LenraTableCell lenraTableCell = LenraTableCell(
+    LenraTableCell lenraTableCell = const LenraTableCell(
       child: Text("test"),
     );
 
     expect(lenraTableCell.child is Text, true);
 
-    LenraTableCell emptyLenraTableCell = LenraTableCell();
+    LenraTableCell emptyLenraTableCell = const LenraTableCell();
     TableCell emptyTableCell = emptyLenraTableCell;
     expect(emptyTableCell.child is SizedBox, true);
   });

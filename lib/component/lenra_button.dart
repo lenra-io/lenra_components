@@ -13,12 +13,12 @@ class LenraButton extends StatelessWidget {
   final Widget? leftIcon;
   final Widget? rightIcon;
 
-  LenraButton({
+  const LenraButton({
     @required this.onPressed,
     this.text,
     this.disabled = false,
-    this.size = LenraComponentSize.Medium,
-    this.type = LenraComponentType.Primary,
+    this.size = LenraComponentSize.medium,
+    this.type = LenraComponentType.primary,
     this.leftIcon,
     this.rightIcon,
     Key? key,
@@ -32,18 +32,18 @@ class LenraButton extends StatelessWidget {
     List<Widget> children = [];
     Widget res;
 
-    if (this.leftIcon != null) {
-      children.add(this.leftIcon!);
+    if (leftIcon != null) {
+      children.add(leftIcon!);
     }
 
-    if (this.text != null) {
+    if (text != null) {
       var tempText = Text(
         text!,
         textAlign: TextAlign.center,
-        strutStyle: StrutStyle(leading: 0.15),
+        strutStyle: const StrutStyle(leading: 0.15),
       );
 
-      if (this.leftIcon != null || this.rightIcon != null) {
+      if (leftIcon != null || rightIcon != null) {
         children.add(
           Flexible(child: tempText),
         );
@@ -52,8 +52,8 @@ class LenraButton extends StatelessWidget {
       }
     }
 
-    if (this.rightIcon != null) {
-      children.add(this.rightIcon!);
+    if (rightIcon != null) {
+      children.add(rightIcon!);
     }
 
     if (children.length > 1) {
@@ -67,7 +67,7 @@ class LenraButton extends StatelessWidget {
 
     // Manage size
     return TextButton(
-      onPressed: this.disabled ? () {} : onPressed,
+      onPressed: disabled ? () {} : onPressed,
       child: Padding(
         padding: finalLenraButtonThemeData.getPadding(size),
         child: res,

@@ -8,7 +8,7 @@ import '../utils/lenra_page_test_help.dart';
 
 Widget createIn100x100Container(Widget child) {
   return createBaseTestWidgets(
-    Container(
+    SizedBox(
       width: containerWidth,
       height: containerHeight,
       child: Align(
@@ -23,12 +23,12 @@ Widget createIn100x100Container(Widget child) {
 
 List<Widget> createTwo10x10Container() {
   return [
-    Container(
+    const SizedBox(
       key: Key("A"),
       width: width,
       height: height,
     ),
-    Container(
+    const SizedBox(
       key: Key("B"),
       width: width,
       height: height,
@@ -87,17 +87,17 @@ void testFor({
       ),
     );
 
-    expect(tester.getTopLeft(find.byKey(Key("A"))), equals(aTLOffset));
-    expect(tester.getTopLeft(find.byKey(Key("B"))), equals(bTLOffset));
+    expect(tester.getTopLeft(find.byKey(const Key("A"))), equals(aTLOffset));
+    expect(tester.getTopLeft(find.byKey(const Key("B"))), equals(bTLOffset));
 
-    expect(tester.getTopLeft(find.byType(LenraFlex)), equals(Offset(0, 0)));
+    expect(tester.getTopLeft(find.byType(LenraFlex)), equals(const Offset(0, 0)));
     expect(tester.getBottomRight(find.byType(LenraFlex)), equals(lFBROffset));
   });
 }
 
 void main() {
   test('LenraFlex test', () {
-    LenraFlex component = LenraFlex(
+    LenraFlex component = const LenraFlex(
       children: [],
     );
     expect(component is LenraFlex, true);
@@ -109,9 +109,9 @@ void main() {
     fillParent: true,
     spacing: 0,
     direction: Axis.horizontal,
-    aTLOffset: Offset(containerWidth / 2 - width, 0),
-    bTLOffset: Offset(containerWidth / 2, 0),
-    lFBROffset: Offset(100, 10),
+    aTLOffset: const Offset(containerWidth / 2 - width, 0),
+    bTLOffset: const Offset(containerWidth / 2, 0),
+    lFBROffset: const Offset(100, 10),
   );
 
   testFor(
@@ -120,9 +120,9 @@ void main() {
     fillParent: false,
     spacing: 1,
     direction: Axis.horizontal,
-    aTLOffset: Offset(0, 0),
-    bTLOffset: Offset(width + 8, 0),
-    lFBROffset: Offset(width * 2 + 8, height),
+    aTLOffset: const Offset(0, 0),
+    bTLOffset: const Offset(width + 8, 0),
+    lFBROffset: const Offset(width * 2 + 8, height),
   );
   /*testFor(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,

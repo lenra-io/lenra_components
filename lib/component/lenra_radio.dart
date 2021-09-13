@@ -9,7 +9,7 @@ class LenraRadio<T> extends StatelessWidget {
   final bool disabled;
   final void Function(T?)? onChanged;
 
-  LenraRadio({
+  const LenraRadio({
     this.label,
     required this.value,
     required this.groupValue,
@@ -23,18 +23,18 @@ class LenraRadio<T> extends StatelessWidget {
     final LenraRadioThemeData finalLenraRadioThemeData = LenraTheme.of(context).lenraRadioThemeData;
 
     Widget radio = Radio<T>(
-      value: this.value,
-      groupValue: this.groupValue,
+      value: value,
+      groupValue: groupValue,
       fillColor: finalLenraRadioThemeData.fillColor,
-      onChanged: this.disabled ? null : this.onChanged ?? (e) => null,
+      onChanged: disabled ? null : onChanged ?? (e) => {},
     );
 
-    if (this.label == null) return radio;
+    if (label == null) return radio;
 
     return Row(
       children: <Widget>[
         radio,
-        Text(this.label!, style: finalLenraRadioThemeData.getTextStyle(disabled)),
+        Text(label!, style: finalLenraRadioThemeData.getTextStyle(disabled)),
       ],
     );
   }

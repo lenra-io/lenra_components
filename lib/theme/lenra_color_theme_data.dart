@@ -1,39 +1,39 @@
 import 'package:flutter/material.dart';
 
 class LenraColorThemeData {
-  static const LENRA_WHITE = Colors.white;
-  static const LENRA_BLUE = Color(0xFF1269ED);
-  static const LENRA_BLUE_UNAVAILABLE = Color(0xFFD0E1FB);
-  static const LENRA_BLUE_HOVER = Color(0xFF0D4DAE);
-  static const LENRA_DISABLED_GRAY = Color(0xFFA9B2C4);
-  static const LENRA_GREY_TEXT = Color(0xFF8B97AD);
-  static const LENRA_BLACK = Color(0xFF1E232C);
-  static const LENRA_CUSTOM_RED = Color(0xFFF27A86);
-  static const LENRA_CUSTOM_BLUE = Color(0xFF70CBF2);
-  static const LENRA_CUSTOM_YELLOW = Color(0xFFF6C28B);
-  static const LENRA_CUSTOM_GREEN = Color(0xFF57C0B3);
+  static const lenraWhite = Colors.white;
+  static const lenraBlue = Color(0xFF1269ED);
+  static const lenraBlueUnavailable = Color(0xFFD0E1FB);
+  static const lenraBlueHover = Color(0xFF0D4DAE);
+  static const lenraDisabledGray = Color(0xFFA9B2C4);
+  static const lenraGreyText = Color(0xFF8B97AD);
+  static const lenraBlack = Color(0xFF1E232C);
+  static const lenraCustomRed = Color(0xFFF27A86);
+  static const lenraCustomBlue = Color(0xFF70CBF2);
+  static const lenraCustomYellow = Color(0xFFF6C28B);
+  static const lenraCustomGreen = Color(0xFF57C0B3);
 
-  static const GREY_SUPER_LIGHT = Color(0xFFF0F2F5);
-  static const GREY_LIGHT = Color(0xFFDCE0E7);
-  static const GREY_NATURE = Color(0xFFA9B2C4);
-  static const GREY_DARK_GREY = Color(0xFFF7A8598);
-  static const BLACK_MOON = Color(0xFF1E232C);
+  static const greySuperLight = Color(0xFFF0F2F5);
+  static const greyLight = Color(0xFFDCE0E7);
+  static const greyNature = Color(0xFFA9B2C4);
+  static const greyDarkGrey = Color(0xFF7A8598);
+  static const blackMoon = Color(0xFF1E232C);
 
-  static const LENRA_FUN_RED_PULSE = Color(0xFFE92236);
-  static const LENRA_FUN_RED_BASE = Color(0xFFF27A86);
-  static const LENRA_FUN_RED_FADE = Color(0xFFFACACF);
+  static const lenraFunRedPulse = Color(0xFFE92236);
+  static const lenraFunRedBase = Color(0xFFF27A86);
+  static const lenraFunRedFade = Color(0xFFFACACF);
 
-  static const LENRA_FUN_YELLOW_PULSE = Color(0xFFEF902C);
-  static const LENRA_FUN_YELLOW_BASE = Color(0xFFF6C28B);
-  static const LENRA_FUN_YELLOW_FADE = Color(0xFFFBE7D1);
+  static const lenraFunYellowPulse = Color(0xFFEF902C);
+  static const lenraFunYellowBase = Color(0xFFF6C28B);
+  static const lenraFunYellowFade = Color(0xFFFBE7D1);
 
-  static const LENRA_FUN_GREEN_PULSE = Color(0xFF389589);
-  static const LENRA_FUN_GREEN_BASE = Color(0xFF57C0B3);
-  static const LENRA_FUN_GREEN_FADE = Color(0xFFBCE6E1);
+  static const lenraFunGreenPulse = Color(0xFF389589);
+  static const lenraFunGreenBase = Color(0xFF57C0B3);
+  static const lenraFunGreenFade = Color(0xFFBCE6E1);
 
-  static const LENRA_FUN_BLUE_PULSE = Color(0xFF19ACEA);
-  static const LENRA_FUN_BLUE_BASE = Color(0xFF70CBF2);
-  static const LENRA_FUN_BLUE_FADE = Color(0xFFC6EAFA);
+  static const lenraFunBluePulse = Color(0xFF19ACEA);
+  static const lenraFunBlueBase = Color(0xFF70CBF2);
+  static const lenraFunBlueFade = Color(0xFFC6EAFA);
 
   late Color primaryBackgroundColor;
   late Color primaryBackgroundHoverColor;
@@ -76,26 +76,26 @@ class LenraColorThemeData {
     Color? tertiaryForegroundHoverColor,
     Color? tertiaryForegroundDisabledColor,
   }) {
-    this.primaryBackgroundColor = primaryBackgroundColor ?? LENRA_BLUE;
-    this.primaryBackgroundHoverColor = primaryBackgroundHoverColor ?? LENRA_BLUE_HOVER;
-    this.primaryBackgroundDisabledColor = primaryBackgroundDisabledColor ?? LENRA_BLUE_UNAVAILABLE;
-    this.primaryForegroundColor = primaryForegroundColor ?? LENRA_WHITE;
-    this.primaryForegroundHoverColor = primaryForegroundHoverColor ?? LENRA_WHITE;
-    this.primaryForegroundDisabledColor = primaryForegroundDisabledColor ?? LENRA_WHITE;
+    this.primaryBackgroundColor = primaryBackgroundColor ?? lenraBlue;
+    this.primaryBackgroundHoverColor = primaryBackgroundHoverColor ?? lenraBlueHover;
+    this.primaryBackgroundDisabledColor = primaryBackgroundDisabledColor ?? lenraBlueUnavailable;
+    this.primaryForegroundColor = primaryForegroundColor ?? lenraWhite;
+    this.primaryForegroundHoverColor = primaryForegroundHoverColor ?? lenraWhite;
+    this.primaryForegroundDisabledColor = primaryForegroundDisabledColor ?? lenraWhite;
 
     this.secondaryBackgroundColor = secondaryBackgroundColor ?? Colors.transparent;
-    this.secondaryBackgroundHoverColor = secondaryBackgroundHoverColor ?? LENRA_BLUE_UNAVAILABLE;
+    this.secondaryBackgroundHoverColor = secondaryBackgroundHoverColor ?? lenraBlueUnavailable;
     this.secondaryBackgroundDisabledColor = secondaryBackgroundDisabledColor ?? Colors.transparent;
-    this.secondaryForegroundColor = secondaryForegroundColor ?? LENRA_BLUE;
-    this.secondaryForegroundHoverColor = secondaryForegroundHoverColor ?? LENRA_BLUE;
-    this.secondaryForegroundDisabledColor = secondaryForegroundDisabledColor ?? LENRA_BLUE_UNAVAILABLE;
+    this.secondaryForegroundColor = secondaryForegroundColor ?? lenraBlue;
+    this.secondaryForegroundHoverColor = secondaryForegroundHoverColor ?? lenraBlue;
+    this.secondaryForegroundDisabledColor = secondaryForegroundDisabledColor ?? lenraBlueUnavailable;
 
     this.tertiaryBackgroundColor = tertiaryBackgroundColor ?? Colors.transparent;
-    this.tertiaryBackgroundHoverColor = tertiaryBackgroundHoverColor ?? LENRA_BLUE_UNAVAILABLE;
+    this.tertiaryBackgroundHoverColor = tertiaryBackgroundHoverColor ?? lenraBlueUnavailable;
     this.tertiaryBackgroundDisabledColor = tertiaryBackgroundDisabledColor ?? Colors.transparent;
-    this.tertiaryForegroundColor = tertiaryForegroundColor ?? LENRA_BLUE;
-    this.tertiaryForegroundHoverColor = tertiaryForegroundHoverColor ?? LENRA_BLUE;
-    this.tertiaryForegroundDisabledColor = tertiaryForegroundDisabledColor ?? LENRA_BLUE_UNAVAILABLE;
+    this.tertiaryForegroundColor = tertiaryForegroundColor ?? lenraBlue;
+    this.tertiaryForegroundHoverColor = tertiaryForegroundHoverColor ?? lenraBlue;
+    this.tertiaryForegroundDisabledColor = tertiaryForegroundDisabledColor ?? lenraBlueUnavailable;
   }
 
   copyWith({

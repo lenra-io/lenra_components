@@ -12,15 +12,15 @@ class LenraFlex extends StatelessWidget {
 
   final Axis direction;
 
-  LenraFlex({
+  const LenraFlex({
     Key? key,
-    this.spacing: 0,
-    this.fillParent: false,
+    this.spacing = 0,
+    this.fillParent = false,
     required this.children,
-    this.mainAxisAlignment: MainAxisAlignment.start,
-    this.crossAxisAlignment: CrossAxisAlignment.start,
-    this.direction: Axis.horizontal,
-    this.scroll: false,
+    this.mainAxisAlignment = MainAxisAlignment.start,
+    this.crossAxisAlignment = CrossAxisAlignment.start,
+    this.direction = Axis.horizontal,
+    this.scroll = false,
   }) : super(key: key);
 
   @override
@@ -35,24 +35,22 @@ class LenraFlex extends StatelessWidget {
   }
 
   Widget _buildScrollable(Widget flex) {
-    return Container(
-      child: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          return SingleChildScrollView(
-              scrollDirection: this.direction,
-              child: this.fillParent
-                  ? Container(
-                      constraints: _getScrollableContainerConstraints(constraints),
-                      child: flex,
-                    )
-                  : flex);
-        },
-      ),
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return SingleChildScrollView(
+            scrollDirection: direction,
+            child: fillParent
+                ? Container(
+                    constraints: _getScrollableContainerConstraints(constraints),
+                    child: flex,
+                  )
+                : flex);
+      },
     );
   }
 
   BoxConstraints _getScrollableContainerConstraints(BoxConstraints constraints) {
-    if (this.direction == Axis.vertical) return BoxConstraints(minHeight: constraints.maxHeight);
+    if (direction == Axis.vertical) return BoxConstraints(minHeight: constraints.maxHeight);
 
     return BoxConstraints(minWidth: constraints.maxWidth);
   }
@@ -61,8 +59,8 @@ class LenraFlex extends StatelessWidget {
     return Flex(
       mainAxisSize: fillParent ? MainAxisSize.max : MainAxisSize.min,
       mainAxisAlignment: mainAxisAlignment,
-      crossAxisAlignment: this.crossAxisAlignment,
-      direction: this.direction,
+      crossAxisAlignment: crossAxisAlignment,
+      direction: direction,
       children: _buildSpacedChildren(context),
       textBaseline: TextBaseline.alphabetic,
     );
@@ -71,47 +69,47 @@ class LenraFlex extends StatelessWidget {
   List<Widget> _buildSpacedChildren(BuildContext context) {
     List<Widget> spacedChildren = [];
     var theme = LenraTheme.of(context);
-    var space = this.spacing * theme.baseSize;
+    var space = spacing * theme.baseSize;
 
-    if (this._isSpaceEvenly()) {
-      spacedChildren.add(this._buildSizedBox(space));
+    if (_isSpaceEvenly()) {
+      spacedChildren.add(_buildSizedBox(space));
     }
 
-    if (this._isSpaceAround()) {
-      spacedChildren.add(this._buildSizedBox(space / 2));
+    if (_isSpaceAround()) {
+      spacedChildren.add(_buildSizedBox(space / 2));
     }
 
-    this.children.asMap().forEach(
+    children.asMap().forEach(
       (key, value) {
         if (key != 0) {
-          spacedChildren.add(this._buildSizedBox(space));
+          spacedChildren.add(_buildSizedBox(space));
         }
         spacedChildren.add(value);
       },
     );
 
-    if (this._isSpaceEvenly()) {
-      spacedChildren.add(this._buildSizedBox(space));
+    if (_isSpaceEvenly()) {
+      spacedChildren.add(_buildSizedBox(space));
     }
 
-    if (this._isSpaceAround()) {
-      spacedChildren.add(this._buildSizedBox(space / 2));
+    if (_isSpaceAround()) {
+      spacedChildren.add(_buildSizedBox(space / 2));
     }
     return spacedChildren;
   }
 
   bool _isSpaceAround() {
-    return this.mainAxisAlignment == MainAxisAlignment.spaceAround;
+    return mainAxisAlignment == MainAxisAlignment.spaceAround;
   }
 
   bool _isSpaceEvenly() {
-    return this.mainAxisAlignment == MainAxisAlignment.spaceEvenly;
+    return mainAxisAlignment == MainAxisAlignment.spaceEvenly;
   }
 
   Widget _buildSizedBox(double space) {
     return SizedBox(
-      width: this.direction == Axis.horizontal ? space : 0,
-      height: this.direction == Axis.vertical ? space : 0,
+      width: direction == Axis.horizontal ? space : 0,
+      height: direction == Axis.vertical ? space : 0,
     );
   }
 }

@@ -19,7 +19,7 @@ void main() {
   testWidgets('LenraMenu error empty items', (WidgetTester tester) async {
     expect(() async {
       await tester.pumpWidget(createAppTestWidgets(LenraMenu(
-        items: [],
+        items: const [],
       )));
     }, throwsAssertionError);
   });

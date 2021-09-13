@@ -12,14 +12,14 @@ class LenraMenuThemeData {
   }) {
     this.menuText = menuText ??
         lenraThemeData.lenraTextThemeData.bodyText.copyWith(
-          color: LenraColorThemeData.LENRA_WHITE,
+          color: LenraColorThemeData.lenraWhite,
         );
   }
 
   LenraMenuThemeData copyWith(LenraMenuThemeData incoming) {
     return LenraMenuThemeData(
       lenraThemeData: lenraThemeData,
-      menuText: incoming.menuText ?? this.menuText,
+      menuText: incoming.menuText ?? menuText,
     );
   }
 }

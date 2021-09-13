@@ -10,15 +10,15 @@ import 'package:lenra_components/theme/lenra_text_field_theme_data.dart';
 import 'package:lenra_components/theme/lenra_text_theme_data.dart';
 
 enum LenraComponentSize {
-  Small,
-  Medium,
-  Large,
+  small,
+  medium,
+  large,
 }
 
 enum LenraComponentType {
-  Primary,
-  Secondary,
-  Tertiary,
+  primary,
+  secondary,
+  tertiary,
 }
 
 class LenraThemeData {
@@ -49,9 +49,9 @@ class LenraThemeData {
   }) {
     this.paddingMap = paddingMap ??
         {
-          LenraComponentSize.Small: EdgeInsets.symmetric(vertical: 0.5 * baseSize, horizontal: 2 * baseSize),
-          LenraComponentSize.Medium: EdgeInsets.symmetric(vertical: 1 * baseSize, horizontal: 2 * baseSize),
-          LenraComponentSize.Large: EdgeInsets.symmetric(vertical: 1.5 * baseSize, horizontal: 2 * baseSize),
+          LenraComponentSize.small: EdgeInsets.symmetric(vertical: 0.5 * baseSize, horizontal: 2 * baseSize),
+          LenraComponentSize.medium: EdgeInsets.symmetric(vertical: 1 * baseSize, horizontal: 2 * baseSize),
+          LenraComponentSize.large: EdgeInsets.symmetric(vertical: 1.5 * baseSize, horizontal: 2 * baseSize),
         };
     this.lenraColorThemeData = lenraColorThemeData ?? LenraColorThemeData();
     this.lenraTextThemeData = lenraTextThemeData ?? LenraTextThemeData();
