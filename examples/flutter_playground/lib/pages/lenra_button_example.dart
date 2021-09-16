@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:lenra_components/layout/lenra_flex.dart';
 import 'package:lenra_components/lenra_components.dart';
 
-class LenraButtonPage extends StatefulWidget {
-  const LenraButtonPage({Key? key}) : super(key: key);
+class LenraButtonExample extends StatefulWidget {
+  const LenraButtonExample({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _LenraButtonPageState();
+    return _LenraButtonExampleState();
   }
 }
 
-class _LenraButtonPageState extends State<LenraButtonPage> {
+class _LenraButtonExampleState extends State<LenraButtonExample> {
   @override
   Widget build(BuildContext context) {
     return Center(
