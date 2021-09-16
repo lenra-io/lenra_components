@@ -5,7 +5,7 @@ class LenraFlexExpanded extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LenraFlex(
-      children: this.buildColumns(),
+      children: buildColumns(),
       direction: Axis.vertical,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       scroll: false,

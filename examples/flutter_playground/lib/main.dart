@@ -32,7 +32,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var currentMenu = LeftMenu.FLEX_EXAMPLE;
+  var currentMenu = LeftMenu.flexExample;
 
   @override
   Widget build(BuildContext context) {
@@ -63,17 +63,17 @@ class _MyAppState extends State<MyApp> {
 
   Widget buildBody() {
     switch (currentMenu) {
-      case LeftMenu.FLEX_EXAMPLE:
+      case LeftMenu.flexExample:
         return FlexTest();
-      case LeftMenu.FLEX_EXPANDED_EXAMPLE:
+      case LeftMenu.flexExpandedExample:
         return LenraFlexExpanded();
-      case LeftMenu.TOGGLE_EXAMPLE:
+      case LeftMenu.toggleExample:
         return const ToggleExample();
-      case LeftMenu.MENU_EXAMPLE:
+      case LeftMenu.menuExample:
         return MyLenraMenu();
-      case LeftMenu.DROPDOWN_EXAMPLE:
+      case LeftMenu.dropdownExample:
         return DropdownExample();
-      case LeftMenu.STICKER_EXAMPLE:
+      case LeftMenu.stickerExample:
         return StatusStickerExample();
       case LeftMenu.containerExample:
         return ContainerExample();
