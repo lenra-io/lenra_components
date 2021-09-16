@@ -65,6 +65,12 @@ class _LenraToggleState extends State<LenraToggle> with SingleTickerProviderStat
   }
 
   @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return widget.disabled ? _buildWidget() : _buildInteractiveWidget();
   }
