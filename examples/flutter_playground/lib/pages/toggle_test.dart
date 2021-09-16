@@ -47,6 +47,12 @@ class _ToggleTestState extends State<ToggleTest> {
               },
               disabled: true,
             ),
+            LenraToggle(
+              label: "Disabled & activated by default",
+              value: !toggleValue,
+              disabled: true,
+              onPressed: () {},
+            ),
           ],
           direction: Axis.horizontal,
         ),
