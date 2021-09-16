@@ -67,7 +67,7 @@ class LenraButton extends StatelessWidget {
 
     // Manage size
     return TextButton(
-      onPressed: disabled ? () {} : onPressed,
+      onPressed: disabled ? null : onPressed,
       child: Padding(
         padding: finalLenraButtonThemeData.getPadding(size),
         child: res,
