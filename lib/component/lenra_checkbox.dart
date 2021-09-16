@@ -23,7 +23,7 @@ class LenraCheckbox extends StatelessWidget {
 
     Widget checkbox = Checkbox(
       value: value,
-      onChanged: disabled ? (e) {} : onChanged ?? (e) => {},
+      onChanged: disabled ? null : onChanged ?? (e) => {},
       tristate: true,
     );
     if (label == null) {
