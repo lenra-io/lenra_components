@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:lenra_components/component/lenra_toggle.dart';
 import 'package:lenra_components/layout/lenra_flex.dart';
 import 'package:lenra_components/lenra_components.dart';
 
-class LenraCheckboxPage extends StatefulWidget {
-  const LenraCheckboxPage({Key? key}) : super(key: key);
+class CheckboxExample extends StatefulWidget {
+  const CheckboxExample({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _LenraCheckboxPageState();
+    return _CheckboxExampleState();
   }
 }
 
-class _LenraCheckboxPageState extends State<LenraCheckboxPage> {
+class _CheckboxExampleState extends State<CheckboxExample> {
   bool value = true;
 
   @override
