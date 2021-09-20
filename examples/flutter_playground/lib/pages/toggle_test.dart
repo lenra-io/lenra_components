@@ -17,32 +17,33 @@ class _ToggleTestState extends State<ToggleTest> {
       child: Transform.scale(
         scale: 1,
         child: LenraFlex(
+          direction: Axis.vertical,
           children: [
             LenraToggle(
-              label: "First toggle",
-              value: this.toggleValue,
+              label: "First toggle ($toggleValue)",
+              value: toggleValue,
               onPressed: () {
                 setState(() {
-                  this.toggleValue = !this.toggleValue;
+                  toggleValue = !toggleValue;
                 });
               },
             ),
             LenraToggle(
               label: "Second toggle",
-              value: this.toggleValue,
+              value: toggleValue,
               onPressed: () {
                 setState(() {
-                  this.toggleValue = !this.toggleValue;
+                  toggleValue = !toggleValue;
                 });
               },
             ),
             LenraToggle(
               label:
                   "This is a very long text that has absolutely no utility apart to test the utility of a very long text",
-              value: this.toggleValue,
+              value: toggleValue,
               onPressed: () {
                 setState(() {
-                  this.toggleValue = !this.toggleValue;
+                  toggleValue = !toggleValue;
                 });
               },
               disabled: true,
@@ -54,7 +55,6 @@ class _ToggleTestState extends State<ToggleTest> {
               onPressed: () {},
             ),
           ],
-          direction: Axis.horizontal,
         ),
       ),
     );
