@@ -17,23 +17,20 @@ class _CheckboxExampleState extends State<CheckboxExample> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Transform.scale(
-        scale: 1,
-        child: LenraFlex(
-          direction: Axis.horizontal,
-          children: [
-            LenraCheckbox(label: "Basic", value: false, onChanged: (e) {}),
-            LenraCheckbox(label: "Disabled", disabled: true, value: true, onChanged: (e) {}),
-            LenraCheckbox(
-                label: "Interactive",
-                value: value,
-                onChanged: (e) {
-                  setState(() {
-                    value = !value;
-                  });
-                }),
-          ],
-        ),
+      child: LenraFlex(
+        direction: Axis.horizontal,
+        children: [
+          LenraCheckbox(label: "Basic", value: false, onChanged: (e) {}),
+          LenraCheckbox(label: "Disabled", disabled: true, value: true, onChanged: (e) {}),
+          LenraCheckbox(
+              label: "Interactive",
+              value: value,
+              onChanged: (e) {
+                setState(() {
+                  value = !value;
+                });
+              }),
+        ],
       ),
     );
   }
