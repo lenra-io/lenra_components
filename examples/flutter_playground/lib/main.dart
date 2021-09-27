@@ -4,6 +4,7 @@ import 'package:lenra_components/theme/lenra_theme.dart';
 import 'package:lenra_components/theme/lenra_theme_data.dart';
 
 import 'left_menu.dart';
+import 'pages/button_example.dart';
 import 'pages/flex_test.dart';
 import 'pages/my_lenra_menu.dart';
 import 'pages/lenra_flex_expanded.dart';
@@ -66,6 +67,8 @@ class _MyAppState extends State<MyApp> {
         return StatusStickerExample();
       case LeftMenu.STYLED_CONTAINER_EXAMPLE:
         return LenraStyledContainerPage();
+      case LeftMenu.buttonExample:
+        return const ButtonExample();
     }
     return Text("N/A");
   }
