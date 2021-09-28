@@ -31,9 +31,7 @@ class LenraRadioThemeData {
     if (textStyle != null) {
       return textStyle!(disabled, lenraThemeData.lenraTextThemeData);
     } else {
-      return disabled
-          ? lenraThemeData.lenraTextThemeData.disabledBodyText
-          : lenraThemeData.lenraTextThemeData.blueBodyText;
+      return disabled ? lenraThemeData.lenraTextThemeData.disabledBodyText : lenraThemeData.lenraTextThemeData.bodyText;
     }
   }
 

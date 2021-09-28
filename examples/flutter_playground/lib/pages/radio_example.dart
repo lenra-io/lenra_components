@@ -20,35 +20,35 @@ class _RadioExampleState extends State<RadioExample> {
           label: "Basic",
           value: 1,
           groupValue: 2,
-          onChanged: (e) {},
+          onPressed: () {},
         ),
         LenraRadio(
           label: "Selected",
           value: 1,
           groupValue: 1,
-          onChanged: (e) {},
+          onPressed: () {},
         ),
         LenraRadio(
           label: "Disabled",
           disabled: true,
           value: 1,
           groupValue: 2,
-          onChanged: (e) {},
+          onPressed: () {},
         ),
         LenraRadio(
           label: "Disabled selected",
           disabled: true,
           value: 1,
           groupValue: 1,
-          onChanged: (e) {},
+          onPressed: () {},
         ),
         LenraRadio(
           label: "Interactive 1",
           value: 1,
           groupValue: groupValue,
-          onChanged: (int? e) {
+          onPressed: () {
             setState(() {
-              groupValue = e!;
+              groupValue = 1;
             });
           },
         ),
@@ -56,9 +56,9 @@ class _RadioExampleState extends State<RadioExample> {
           label: "Interactive 2",
           value: 2,
           groupValue: groupValue,
-          onChanged: (int? e) {
+          onPressed: () {
             setState(() {
-              groupValue = e!;
+              groupValue = 2;
             });
           },
         ),
@@ -66,9 +66,9 @@ class _RadioExampleState extends State<RadioExample> {
           label: "Interactive 3",
           value: 3,
           groupValue: groupValue,
-          onChanged: (int? e) {
+          onPressed: () {
             setState(() {
-              groupValue = e!;
+              groupValue = 3;
             });
           },
         ),
