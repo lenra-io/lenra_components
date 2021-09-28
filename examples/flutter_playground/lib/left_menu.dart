@@ -12,6 +12,7 @@ class LeftMenu extends StatelessWidget {
   static const MENU_EXAMPLE = "menu";
   static const STICKER_EXAMPLE = "Stickers";
   static const STYLED_CONTAINER_EXAMPLE = "styledContainer";
+  static const checkboxExample = "checkboxExample";
   static const buttonExample = "buttonExample";
 
   @override
@@ -32,6 +33,7 @@ class LeftMenu extends StatelessWidget {
         createMenu(context, 'Menu Examples', MENU_EXAMPLE),
         createMenu(context, 'Stickers Examples', STICKER_EXAMPLE),
         createMenu(context, 'Styled Container Examples', STYLED_CONTAINER_EXAMPLE),
+        createMenu(context, 'Checkbox Example', checkboxExample),
         createMenu(context, 'Button Examples', buttonExample),
       ],
     );

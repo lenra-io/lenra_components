@@ -9,7 +9,7 @@ class StatusStickerExample extends StatelessWidget {
       appBar: AppBar(
         title: const Text('LenraStatusSticker'),
       ),
-      body: Center(
+      body: const Center(
         child: LenraFlex(
           direction: Axis.vertical,
           spacing: 1,
