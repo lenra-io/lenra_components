@@ -57,7 +57,7 @@ class _FlexTestState extends State<FlexTest> {
         LenraCheckbox(
           label: "Scrollable",
           value: this.scrollable,
-          onChanged: (b) => setState(() {
+          onPressed: () => setState(() {
             this.scrollable = !this.scrollable;
           }),
         ),
@@ -67,14 +67,14 @@ class _FlexTestState extends State<FlexTest> {
             LenraCheckbox(
               label: "Vertical",
               value: this.vertical,
-              onChanged: (b) => setState(() {
+              onPressed: () => setState(() {
                 this.vertical = !this.vertical;
               }),
             ),
             LenraCheckbox(
               label: "fillParent",
               value: this.fillParent,
-              onChanged: (b) => setState(() {
+              onPressed: () => setState(() {
                 this.fillParent = !this.fillParent;
               }),
             ),

@@ -20,12 +20,12 @@ class _CheckboxExampleState extends State<CheckboxExample> {
       child: LenraFlex(
         direction: Axis.horizontal,
         children: [
-          LenraCheckbox(label: "Basic", value: false, onChanged: (e) {}),
-          LenraCheckbox(label: "Disabled", disabled: true, value: true, onChanged: (e) {}),
+          LenraCheckbox(label: "Basic", value: false, onPressed: () {}),
+          LenraCheckbox(label: "Disabled", disabled: true, value: true, onPressed: () {}),
           LenraCheckbox(
               label: "Interactive",
               value: value,
-              onChanged: (e) {
+              onPressed: () {
                 setState(() {
                   value = !value;
                 });
