@@ -7,15 +7,19 @@ class LenraCheckbox extends StatelessWidget {
   final bool value;
   final bool disabled;
 
-  final void Function(bool?)? onChanged;
+  final void Function()? onPressed;
 
   const LenraCheckbox({
     Key? key,
     this.label,
     required this.value,
     this.disabled = false,
-    @required this.onChanged,
+    required this.onPressed,
   }) : super(key: key);
+
+  void onCheckboxPressed(bool? b) {
+    if (onPressed != null) onPressed!();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +27,7 @@ class LenraCheckbox extends StatelessWidget {
 
     Widget checkbox = Checkbox(
       value: value,
-      onChanged: disabled ? (e) {} : onChanged ?? (e) => {},
+      onChanged: disabled ? null : onCheckboxPressed,
       tristate: true,
     );
     if (label == null) {

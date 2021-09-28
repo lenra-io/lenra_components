@@ -9,7 +9,7 @@ class StatusStickerExample extends StatelessWidget {
       appBar: AppBar(
         title: const Text('LenraStatusSticker'),
       ),
-      body: Center(
+      body: const Center(
         child: LenraFlex(
           direction: Axis.vertical,
           spacing: 1,
@@ -18,7 +18,7 @@ class StatusStickerExample extends StatelessWidget {
               spacing: 1,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                LenraStatusSticker(color: LenraColorThemeData.LENRA_FUN_GREEN_PULSE),
+                LenraStatusSticker(color: LenraColorThemeData.lenraFunGreenPulse),
                 Text("OK"),
               ],
             ),
@@ -26,7 +26,7 @@ class StatusStickerExample extends StatelessWidget {
               spacing: 1,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                LenraStatusSticker(color: LenraColorThemeData.LENRA_FUN_YELLOW_PULSE),
+                LenraStatusSticker(color: LenraColorThemeData.lenraFunYellowPulse),
                 Text("In Progress"),
               ],
             ),
@@ -34,7 +34,7 @@ class StatusStickerExample extends StatelessWidget {
               spacing: 1,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                LenraStatusSticker(color: LenraColorThemeData.LENRA_FUN_RED_PULSE),
+                LenraStatusSticker(color: LenraColorThemeData.lenraFunRedPulse),
                 Text("Error"),
               ],
             ),
