@@ -9,6 +9,7 @@ import 'pages/flex_test.dart';
 import 'pages/checkbox_example.dart';
 import 'pages/my_lenra_menu.dart';
 import 'pages/lenra_flex_expanded.dart';
+import 'pages/radio_example.dart';
 import 'pages/toggle_test.dart';
 import 'pages/status_sticker_example.dart';
 import 'pages/lenra_styled_container_page.dart';
@@ -68,6 +69,8 @@ class _MyAppState extends State<MyApp> {
         return StatusStickerExample();
       case LeftMenu.STYLED_CONTAINER_EXAMPLE:
         return LenraStyledContainerPage();
+      case LeftMenu.radioExample:
+        return RadioExample();
       case LeftMenu.checkboxExample:
         return const CheckboxExample();
       case LeftMenu.buttonExample:
