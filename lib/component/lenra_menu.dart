@@ -6,7 +6,7 @@ import 'package:lenra_components/theme/lenra_theme.dart';
 import 'package:lenra_components/theme/lenra_theme_data.dart';
 
 class LenraMenu extends StatelessWidget {
-  final List<LenraMenuItem> items;
+  final List<Widget> items;
 
   LenraMenu({
     Key? key,
