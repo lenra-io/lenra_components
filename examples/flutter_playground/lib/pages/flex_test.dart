@@ -193,20 +193,18 @@ class _FlexTestState extends State<FlexTest> {
       child: Container(
         height: height,
         width: width,
+        alignment: Alignment.topLeft,
         color: Colors.grey,
-        child: Align(
-          alignment: Alignment.topLeft,
-          child: Container(
-            color: Colors.lightBlue,
-            child: LenraFlex(
-              scroll: scrollable,
-              fillParent: fillParent,
-              children: buildList(),
-              direction: direction,
-              spacing: spacing,
-              mainAxisAlignment: mainAxisAlignment,
-              crossAxisAlignment: crossAxisAlignment,
-            ),
+        child: Container(
+          color: Colors.lightBlue,
+          child: LenraFlex(
+            scroll: scrollable,
+            fillParent: fillParent,
+            children: buildList(),
+            direction: direction,
+            spacing: spacing,
+            mainAxisAlignment: mainAxisAlignment,
+            crossAxisAlignment: crossAxisAlignment,
           ),
         ),
       ),

@@ -14,7 +14,7 @@ class LenraButton extends StatelessWidget {
   final Widget? rightIcon;
 
   const LenraButton({
-    @required this.onPressed,
+    required this.onPressed,
     this.text,
     this.disabled = false,
     this.size = LenraComponentSize.medium,

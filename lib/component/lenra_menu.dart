@@ -19,19 +19,22 @@ class LenraMenu extends StatelessWidget {
     final LenraThemeData theme = LenraTheme.of(context);
 
     return Container(
-      decoration: const BoxDecoration(
-        color: LenraColorThemeData.lenraBlack,
+      color: LenraColorThemeData.lenraBlack,
+      padding: EdgeInsets.only(
+        top: theme.baseSize,
+        bottom: theme.baseSize,
       ),
-      child: Padding(
-        padding: EdgeInsets.only(
-          top: theme.baseSize,
-          bottom: theme.baseSize,
-        ),
-        child: LenraFlex(
-          direction: Axis.vertical,
-          children: items,
-        ),
+      child: IntrinsicWidth(
+        child: _buildItems(),
       ),
+    );
+  }
+
+  Widget _buildItems() {
+    return LenraFlex(
+      fillParent: false,
+      direction: Axis.vertical,
+      children: items,
     );
   }
 }
@@ -54,55 +57,71 @@ class LenraMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LenraMenuThemeData lenraMenuThemeData = LenraTheme.of(context).lenraMenuThemeData;
+    Widget res = _buildLine(context);
+
+    if (!disabled) {
+      res = _addInteractivity(res);
+    }
+    return res;
+  }
+
+  Widget _buildLine(BuildContext context) {
     final LenraThemeData theme = LenraTheme.of(context);
 
-    /// LenraMenuItem can be disabled both by the [disabled] or [onPressed] parameters.
-    bool isDisabled = disabled || onPressed == null;
-
-    Widget res = Padding(
+    return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: theme.baseSize,
         vertical: theme.baseSize / 2,
       ),
       child: LenraFlex(
+        spacing: 1,
+        crossAxisAlignment: CrossAxisAlignment.center,
         fillParent: true,
         children: [
-          SizedBox(
-            height: theme.baseSize * 2,
-            width: theme.baseSize * 2,
-            child: isSelected
-                ? icon ??
-                    Icon(
-                      Icons.done,
-                      size: theme.baseSize * 2,
-                      color: isDisabled ? LenraColorThemeData.lenraDisabledGray : LenraColorThemeData.lenraWhite,
-                    )
-                : null,
-          ),
-          Text(
-            text,
-            style: isDisabled ? theme.lenraTextThemeData.disabledBodyText : lenraMenuThemeData.menuText,
-          ),
+          _buildIconSpace(theme),
+          _buildText(theme),
         ],
       ),
     );
+  }
 
-    if (isDisabled) {
-      return res;
-    } else {
-      // According to Flutter documentation an InkWell must have a Material ancestor
-      // See https://api.flutter.dev/flutter/material/InkWell-class.html
-      return Material(
-        color: isSelected ? LenraColorThemeData.lenraBlue : Colors.transparent,
-        child: InkWell(
-          child: res,
-          hoverColor: LenraColorThemeData.lenraBlueHover,
-          onTap: () {
-            onPressed!();
-          },
+  Widget _buildText(LenraThemeData theme) {
+    final LenraMenuThemeData lenraMenuThemeData = theme.lenraMenuThemeData;
+
+    return Flexible(
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Text(
+          text,
+          overflow: TextOverflow.fade,
+          maxLines: 1,
+          softWrap: false,
+          style: disabled ? theme.lenraTextThemeData.disabledBodyText : lenraMenuThemeData.menuText,
         ),
-      );
-    }
+      ),
+    );
+  }
+
+  Widget _buildIconSpace(LenraThemeData theme) {
+    return SizedBox(
+      height: theme.baseSize * 2,
+      width: theme.baseSize * 2,
+      child: icon,
+    );
+  }
+
+  Widget _addInteractivity(Widget child) {
+    // According to Flutter documentation an InkWell must have a Material ancestor
+    // See https://api.flutter.dev/flutter/material/InkWell-class.html
+    return Material(
+      color: isSelected ? LenraColorThemeData.lenraBlue : Colors.transparent,
+      child: InkWell(
+        child: child,
+        hoverColor: isSelected ? LenraColorThemeData.lenraBlue : LenraColorThemeData.lenraBlueHover,
+        onTap: () {
+          onPressed!();
+        },
+      ),
+    );
   }
 }

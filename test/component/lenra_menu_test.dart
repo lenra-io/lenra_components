@@ -45,19 +45,12 @@ void main() {
     expect((find.byType(Icon)), findsNothing);
   });
 
-  testWidgets('LenraMenuItem should have an Icon if selected', (WidgetTester tester) async {
-    await tester.pumpWidget(createComponentTestWidgets(basicMenu));
-
-    expect((find.byType(Icon)), findsOneWidget);
-  });
-
   testWidgets('LenraMenu check size', (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(basicMenu));
 
     double lenraMenuExpectedHeight = 24.0 * basicMenu.items.length + 8 * 2;
 
-    // Width should be same as screen if not constrained
-    expect(tester.getSize((find.byType(LenraMenu).first)).width, equals(800.0));
+    expect(tester.getSize((find.byType(LenraMenu).first)).width, lessThan(800.0));
     expect(tester.getSize((find.byType(LenraMenu).first)).height, equals(lenraMenuExpectedHeight));
   });
 
@@ -65,7 +58,7 @@ void main() {
     await tester.pumpWidget(createComponentTestWidgets(basicMenu));
 
     // Width should be same as screen if not constrained
-    expect(tester.getSize((find.byType(LenraMenuItem).first)).width, equals(800.0));
+    expect(tester.getSize((find.byType(LenraMenuItem).first)).width, lessThan(800.0));
     expect(tester.getSize((find.byType(LenraMenuItem).first)).height, equals(24.0));
   });
 }
