@@ -11,8 +11,8 @@ void main() {
     LenraButton lenraButton = LenraButton(
       disabled: true,
       text: "disabled",
-      size: LenraComponentSize.Large,
-      type: LenraComponentType.Secondary,
+      size: LenraComponentSize.large,
+      type: LenraComponentType.secondary,
       leftIcon: null,
       rightIcon: null,
       onPressed: () {},
@@ -20,8 +20,8 @@ void main() {
 
     expect(lenraButton.disabled, true);
     expect(lenraButton.text, "disabled");
-    expect(lenraButton.size, LenraComponentSize.Large);
-    expect(lenraButton.type, LenraComponentType.Secondary);
+    expect(lenraButton.size, LenraComponentSize.large);
+    expect(lenraButton.type, LenraComponentType.secondary);
     expect(lenraButton.leftIcon, null);
     expect(lenraButton.rightIcon, null);
   });
@@ -30,7 +30,7 @@ void main() {
     await tester.pumpWidget(createComponentTestWidgets(
       LenraButton(
         text: "Test",
-        size: LenraComponentSize.Small,
+        size: LenraComponentSize.small,
         onPressed: () {},
       ),
     ));
@@ -42,7 +42,7 @@ void main() {
     await tester.pumpWidget(createComponentTestWidgets(
       LenraButton(
         text: "Test",
-        size: LenraComponentSize.Medium,
+        size: LenraComponentSize.medium,
         onPressed: () {},
       ),
     ));
@@ -54,7 +54,7 @@ void main() {
     await tester.pumpWidget(createComponentTestWidgets(
       LenraButton(
         text: "Test",
-        size: LenraComponentSize.Large,
+        size: LenraComponentSize.large,
         onPressed: () {},
       ),
     ));
@@ -73,8 +73,8 @@ void main() {
                 LenraButton(
                   text: "test",
                   onPressed: () => {},
-                  leftIcon: Icon(Icons.ac_unit_outlined),
-                  rightIcon: Icon(Icons.ac_unit),
+                  leftIcon: const Icon(Icons.ac_unit_outlined),
+                  rightIcon: const Icon(Icons.ac_unit),
                 ),
               ],
             ),
@@ -85,13 +85,13 @@ void main() {
   });
 
   testWidgets('LenraButton should not have a border on Primary and Tertiary types', (WidgetTester tester) async {
-    var noneBorderSide = BorderSide(color: Color(0xff000000), width: 0.0, style: BorderStyle.none);
+    var noneBorderSide = const BorderSide(color: Color(0xff000000), width: 0.0, style: BorderStyle.none);
 
     await tester.pumpWidget(createComponentTestWidgets(
       LenraButton(
         text: "Test",
-        type: LenraComponentType.Primary,
-        size: LenraComponentSize.Large,
+        type: LenraComponentType.primary,
+        size: LenraComponentSize.large,
         onPressed: () {},
       ),
     ));
@@ -102,8 +102,8 @@ void main() {
     await tester.pumpWidget(createComponentTestWidgets(
       LenraButton(
         text: "Test",
-        type: LenraComponentType.Tertiary,
-        size: LenraComponentSize.Large,
+        type: LenraComponentType.tertiary,
+        size: LenraComponentSize.large,
         onPressed: () {},
       ),
     ));
@@ -123,7 +123,7 @@ void main() {
 
     await tester.pumpWidget(createComponentTestWidgets(
       LenraButton(
-        leftIcon: Icon(Icons.ac_unit),
+        leftIcon: const Icon(Icons.ac_unit),
         onPressed: () {},
       ),
     ));
@@ -132,7 +132,7 @@ void main() {
 
     await tester.pumpWidget(createComponentTestWidgets(
       LenraButton(
-        rightIcon: Icon(Icons.ac_unit),
+        rightIcon: const Icon(Icons.ac_unit),
         onPressed: () {},
       ),
     ));
@@ -144,7 +144,7 @@ void main() {
     await tester.pumpWidget(createComponentTestWidgets(
       LenraButton(
         text: "Test",
-        leftIcon: Icon(Icons.ac_unit),
+        leftIcon: const Icon(Icons.ac_unit),
         onPressed: () {},
       ),
     ));
@@ -152,7 +152,7 @@ void main() {
     await tester.pumpWidget(createComponentTestWidgets(
       LenraButton(
         text: "Test",
-        rightIcon: Icon(Icons.ac_unit),
+        rightIcon: const Icon(Icons.ac_unit),
         onPressed: () {},
       ),
     ));
@@ -160,16 +160,16 @@ void main() {
     await tester.pumpWidget(createComponentTestWidgets(
       LenraButton(
         text: "Test",
-        leftIcon: Icon(Icons.ac_unit),
-        rightIcon: Icon(Icons.ac_unit),
+        leftIcon: const Icon(Icons.ac_unit),
+        rightIcon: const Icon(Icons.ac_unit),
         onPressed: () {},
       ),
     ));
 
     await tester.pumpWidget(createComponentTestWidgets(
       LenraButton(
-        leftIcon: Icon(Icons.ac_unit),
-        rightIcon: Icon(Icons.ac_unit),
+        leftIcon: const Icon(Icons.ac_unit),
+        rightIcon: const Icon(Icons.ac_unit),
         onPressed: () {},
       ),
     ));

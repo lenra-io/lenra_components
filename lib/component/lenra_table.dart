@@ -30,11 +30,12 @@ class LenraTable extends StatelessWidget {
   final LenraComponentSize size;
 
   /// Creates a [LenraTable].
-  LenraTable({
+  const LenraTable({
+    Key? key,
     required this.children,
     this.border = false,
-    this.size = LenraComponentSize.Medium,
-  });
+    this.size = LenraComponentSize.medium,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

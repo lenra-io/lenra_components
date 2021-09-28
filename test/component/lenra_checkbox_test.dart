@@ -5,7 +5,7 @@ void main() {
   test('lenra checkbox test parameterized constructor', () {
     LenraCheckbox lenraCheckbox = LenraCheckbox(
       label: "test",
-      onChanged: (T) {},
+      onPressed: () {},
       value: true,
       disabled: true,
     );

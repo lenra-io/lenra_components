@@ -31,27 +31,27 @@ class LenraTextThemeData {
     TextStyle? errorText,
   }) {
     this.headline1 = headline1 ??
-        TextStyle(
+        const TextStyle(
           fontSize: 24.0,
           fontWeight: FontWeight.w700,
         );
     this.headline2 = headline2 ??
-        TextStyle(
+        const TextStyle(
           fontSize: 20.0,
           fontWeight: FontWeight.w700,
         );
     this.headline3 = headline3 ??
-        TextStyle(
+        const TextStyle(
           fontSize: 16.0,
           fontWeight: FontWeight.w700,
         );
     this.headline4 = headline4 ??
-        TextStyle(
+        const TextStyle(
           fontSize: 15.0,
           fontWeight: FontWeight.w700,
         );
     this.headlineBody = headlineBody ??
-        TextStyle(
+        const TextStyle(
           fontSize: 15.0,
           fontWeight: FontWeight.w600,
         );
@@ -60,7 +60,7 @@ class LenraTextThemeData {
           fontFamily: "Source Sans Pro",
           fontSize: 15.0,
           fontWeight: FontWeight.w400,
-          color: LenraColorThemeData.LENRA_BLACK,
+          color: LenraColorThemeData.lenraBlack,
           height: lineHeight,
         );
     this.blueBodyText = bodyText ??
@@ -68,16 +68,16 @@ class LenraTextThemeData {
           fontFamily: "Source Sans Pro",
           fontSize: 15.0,
           fontWeight: FontWeight.w400,
-          color: LenraColorThemeData.LENRA_BLUE,
+          color: LenraColorThemeData.lenraBlue,
           height: lineHeight,
         );
     this.subtext = subtext ??
-        TextStyle(
+        const TextStyle(
           fontSize: 12.0,
         );
     this.disabledBodyText = disabledBodyText ??
-        TextStyle(
-          color: LenraColorThemeData.LENRA_DISABLED_GRAY,
+        const TextStyle(
+          color: LenraColorThemeData.lenraDisabledGray,
         );
 
     this.underDescriptionText = underDescriptionText ??
@@ -85,7 +85,7 @@ class LenraTextThemeData {
           fontFamily: "Source Sans Pro",
           fontSize: 12.0,
           fontWeight: FontWeight.w400,
-          color: LenraColorThemeData.LENRA_GREY_TEXT,
+          color: LenraColorThemeData.lenraGreyText,
           height: lineHeight,
         );
     this.errorText = disabledBodyText ??
@@ -98,7 +98,7 @@ class LenraTextThemeData {
         );
   }
 
-  copyWith({
+  LenraTextThemeData copyWith({
     double? lineHeight,
     TextStyle? headline1,
     TextStyle? headline2,

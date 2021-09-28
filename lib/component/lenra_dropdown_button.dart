@@ -69,12 +69,12 @@ class LenraDropdownButton extends StatefulWidget {
   final LenraComponentType type;
   final Widget? icon;
 
-  LenraDropdownButton({
+  const LenraDropdownButton({
     required this.text,
     required this.child,
     this.disabled = false,
-    this.size = LenraComponentSize.Medium,
-    this.type = LenraComponentType.Primary,
+    this.size = LenraComponentSize.medium,
+    this.type = LenraComponentType.primary,
     this.icon = const Icon(Icons.expand_more_outlined),
     Key? key,
   }) : super(key: key);
@@ -91,12 +91,12 @@ class _LenraDropdownButtonState extends State<LenraDropdownButton> {
 
   toggleOverlay(BuildContext context) async {
     if (showOverlay) {
-      this._overlayEntry?.remove();
+      _overlayEntry?.remove();
       showOverlay = !showOverlay;
     } else {
-      if (this._overlayEntry == null) this._overlayEntry = this._createOverlayEntry();
+      _overlayEntry ??= _createOverlayEntry();
 
-      Overlay.of(context)!.insert(this._overlayEntry!);
+      Overlay.of(context)!.insert(_overlayEntry!);
       showOverlay = !showOverlay;
     }
   }
@@ -121,7 +121,7 @@ class _LenraDropdownButtonState extends State<LenraDropdownButton> {
   @override
   Widget build(BuildContext context) {
     return CompositedTransformTarget(
-      link: this._layerLink,
+      link: _layerLink,
       child: LenraButton(
         text: widget.text,
         onPressed: () {
@@ -141,7 +141,7 @@ class _Dropdown extends StatefulWidget {
   final LayerLink layerLink;
   final RenderBox renderBox;
 
-  _Dropdown({
+  const _Dropdown({
     required this.child,
     required this.layerLink,
     required this.renderBox,
@@ -166,7 +166,7 @@ class _DropdownState extends State<_Dropdown> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
-    this._controller = AnimationController(
+    _controller = AnimationController(
       duration: const Duration(milliseconds: 200),
       vsync: this,
     );
@@ -202,19 +202,19 @@ class _DropdownState extends State<_Dropdown> with TickerProviderStateMixin {
 
       if (overflowRight && overflowLeft) {
         // Add horizontal scroll
-        this.horizontalScroll = true;
+        horizontalScroll = true;
       } else if (overflowRight) {
         xOffset = -(overlaySize.width - buttonSize.width);
       }
 
       if (overflowBottom && overflowTop) {
         // Add vertical scroll
-        this.verticalScroll = true;
+        verticalScroll = true;
       } else if (overflowBottom) {
         yOffset = -overlaySize.height;
       }
 
-      this.overlayOffset = Offset(xOffset, yOffset);
+      overlayOffset = Offset(xOffset, yOffset);
     });
   }
 
@@ -223,33 +223,33 @@ class _DropdownState extends State<_Dropdown> with TickerProviderStateMixin {
     Widget child;
 
     if (verticalScroll || horizontalScroll) {
-      child = this._buildFullscreenMenu();
+      child = _buildFullscreenMenu();
     } else {
-      child = this._buildContextualMenu();
+      child = _buildContextualMenu();
     }
 
-    return this._addAnimation(child);
+    return _addAnimation(child);
   }
 
   Widget _buildContextualMenu() {
-    Widget child = this._buildOverlay();
-    child = this._addMinWidth(child);
-    child = this._addAlignment(child);
-    return this._addOffsetAndLink(child);
+    Widget child = _buildOverlay();
+    child = _addMinWidth(child);
+    child = _addAlignment(child);
+    return _addOffsetAndLink(child);
   }
 
   Widget _buildFullscreenMenu() {
-    Widget child = this._buildOverlay();
-    child = this._forceTakeWidth(child);
-    child = this._addAlignment(child);
+    Widget child = _buildOverlay();
+    child = _forceTakeWidth(child);
+    child = _addAlignment(child);
 
-    if (verticalScroll) child = this._addVerticalScroll(child);
+    if (verticalScroll) child = _addVerticalScroll(child);
 
-    return this._addDarkBackground(child);
+    return _addDarkBackground(child);
   }
 
   Widget _forceTakeWidth(Widget child) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: child,
     );
@@ -276,7 +276,7 @@ class _DropdownState extends State<_Dropdown> with TickerProviderStateMixin {
   Widget _addAnimation(Widget child) {
     return FadeTransition(
       opacity: CurvedAnimation(
-        parent: this._controller,
+        parent: _controller,
         curve: Curves.easeIn,
       ),
       child: child,
@@ -303,7 +303,7 @@ class _DropdownState extends State<_Dropdown> with TickerProviderStateMixin {
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       child: Center(
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height * 0.8,
           width: MediaQuery.of(context).size.width * 0.8,
           child: child,
@@ -314,7 +314,7 @@ class _DropdownState extends State<_Dropdown> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    this._controller.dispose();
+    _controller.dispose();
     super.dispose();
   }
 }

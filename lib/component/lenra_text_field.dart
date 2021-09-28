@@ -23,7 +23,8 @@ class LenraTextField extends StatelessWidget {
   final FocusNode? focusNode;
   final TextEditingController? controller;
 
-  LenraTextField({
+  const LenraTextField({
+    Key? key,
     this.label,
     this.hintText,
     this.description,
@@ -35,7 +36,7 @@ class LenraTextField extends StatelessWidget {
     this.onChanged,
     this.onSubmitted,
     this.onSuffixPressed,
-    this.size = LenraComponentSize.Medium,
+    this.size = LenraComponentSize.medium,
     this.width = double.infinity,
     this.minLines,
     this.maxLines = 1,
@@ -46,21 +47,22 @@ class LenraTextField extends StatelessWidget {
         assert(
           (maxLines == null) || (minLines == null) || (maxLines >= minLines),
           "minLines can't be greater than maxLines",
-        );
+        ),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final theme = LenraTheme.of(context);
     final LenraTextFieldThemeData lenraTextFieldThemeData = theme.lenraTextFieldThemeData;
 
-    Text? labelWidget = (this.label == null || this.label!.isEmpty)
+    Text? labelWidget = (label == null || label!.isEmpty)
         ? null
         : Text(
-            this.label!,
+            label!,
             style: lenraTextFieldThemeData.getLabelStyle(),
             textAlign: TextAlign.left,
           );
-    Widget textField = this.buildTextField(
+    Widget textField = buildTextField(
       context,
       lenraTextFieldThemeData,
     );
@@ -79,9 +81,9 @@ class LenraTextField extends StatelessWidget {
       if (labelWidget != null) colChildren.add(labelWidget);
       colChildren.add(textField);
     }
-    if (this.description != null && this.description!.isNotEmpty && !this.error) {
+    if (description != null && description!.isNotEmpty && !error) {
       colChildren.add(Text(
-        this.description!,
+        description!,
         style: lenraTextFieldThemeData.getDescriptionStyle(),
         textAlign: TextAlign.left,
       ));
@@ -102,20 +104,20 @@ class LenraTextField extends StatelessWidget {
 
   Widget buildTextField(BuildContext context, LenraTextFieldThemeData lenraTextFieldThemeData) {
     return TextField(
-      enabled: !this.disabled,
-      obscureText: this.obscure,
+      enabled: !disabled,
+      obscureText: obscure,
       style: lenraTextFieldThemeData.getLabelStyle(),
-      minLines: this.minLines,
-      maxLines: this.maxLines,
-      strutStyle: StrutStyle(
+      minLines: minLines,
+      maxLines: maxLines,
+      strutStyle: const StrutStyle(
         leading: 0.15,
       ),
       controller: controller,
       focusNode: focusNode,
       decoration: lenraTextFieldThemeData.getInputdecoration(
           size, disabled, hintText, error, obscure, onSuffixPressed, errorMessage),
-      onSubmitted: this.onSubmitted,
-      onChanged: this.onChanged,
+      onSubmitted: onSubmitted,
+      onChanged: onChanged,
     );
   }
 }

@@ -10,9 +10,9 @@ import '../utils/lenra_page_test_help.dart';
 
 void main() {
   test('lenra table test parameterized constructor', () {
-    LenraTable lenraTable = LenraTable(
+    LenraTable lenraTable = const LenraTable(
       border: true,
-      size: LenraComponentSize.Large,
+      size: LenraComponentSize.large,
       children: [
         LenraTableRow(
           children: [
@@ -23,16 +23,15 @@ void main() {
     );
 
     expect(lenraTable.border, true);
-    expect(lenraTable.size, LenraComponentSize.Large);
+    expect(lenraTable.size, LenraComponentSize.large);
   });
 
   test('lenra table buildChildren function', () {
     List<TableRow> ltr = LenraTable.buildChildren(
-      padding: EdgeInsets.symmetric(vertical: 1 * 8.0, horizontal: 2 * 8.0),
-      lenraTableThemeData:
-          LenraTableThemeData(lenraThemeData: LenraThemeData()),
+      padding: const EdgeInsets.symmetric(vertical: 1 * 8.0, horizontal: 2 * 8.0),
+      lenraTableThemeData: LenraTableThemeData(lenraThemeData: LenraThemeData()),
       children: [
-        LenraTableRow(
+        const LenraTableRow(
           children: [
             Text("test"),
           ],
@@ -45,8 +44,8 @@ void main() {
 
   testWidgets('Test LenraTable Small size', (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(
-      LenraTable(
-        size: LenraComponentSize.Small,
+      const LenraTable(
+        size: LenraComponentSize.small,
         children: [
           LenraTableRow(children: [
             Text("test"),
@@ -59,8 +58,8 @@ void main() {
   });
   testWidgets('Test LenraTable Medium size', (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(
-      LenraTable(
-        size: LenraComponentSize.Medium,
+      const LenraTable(
+        size: LenraComponentSize.medium,
         children: [
           LenraTableRow(children: [
             Text("test"),
@@ -74,8 +73,8 @@ void main() {
 
   testWidgets('Test LenraTable Large size', (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(
-      LenraTable(
-        size: LenraComponentSize.Large,
+      const LenraTable(
+        size: LenraComponentSize.large,
         border: true,
         children: [
           LenraTableRow(children: [

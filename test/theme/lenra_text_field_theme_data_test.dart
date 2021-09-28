@@ -4,8 +4,7 @@ import 'package:lenra_components/theme/lenra_theme_data.dart';
 
 void main() {
   test('LenraTextFieldThemeData test', () {
-    LenraTextFieldThemeData theme = LenraTextFieldThemeData(
-        lenraThemeData: LenraThemeData(), paddingMap: {});
+    LenraTextFieldThemeData theme = LenraTextFieldThemeData(lenraThemeData: LenraThemeData(), paddingMap: {});
     expect(theme is LenraTextFieldThemeData, true);
   });
 }

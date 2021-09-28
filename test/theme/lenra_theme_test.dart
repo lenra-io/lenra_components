@@ -5,7 +5,7 @@ import 'package:lenra_components/theme/lenra_theme_data.dart';
 
 void main() {
   test('lenra theme test parameterized constructor', () {
-    Text text = Text("test");
+    Text text = const Text("test");
 
     LenraTheme lenraTheme = LenraTheme(
       themeData: LenraThemeData(),

@@ -11,6 +11,11 @@ class LeftMenu extends StatelessWidget {
   static const TOGGLE_EXAMPLE = "Toggle";
   static const MENU_EXAMPLE = "menu";
   static const DROPDOWN_EXAMPLE = "Dropdown";
+  static const STICKER_EXAMPLE = "Stickers";
+  static const STYLED_CONTAINER_EXAMPLE = "styledContainer";
+  static const radioExample = "radioExample";
+  static const checkboxExample = "checkboxExample";
+  static const buttonExample = "buttonExample";
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +34,18 @@ class LeftMenu extends StatelessWidget {
         createMenu(context, 'Toggle Examples', TOGGLE_EXAMPLE),
         createMenu(context, 'Menu Examples', MENU_EXAMPLE),
         createMenu(context, 'Dropdown Examples', DROPDOWN_EXAMPLE),
+        createMenu(context, 'Stickers Examples', STICKER_EXAMPLE),
+        createMenu(context, 'Styled Container Examples', STYLED_CONTAINER_EXAMPLE),
+        createMenu(context, 'Radio Examples', radioExample),
+        createMenu(context, 'Checkbox Example', checkboxExample),
+        createMenu(context, 'Button Examples', buttonExample),
       ],
     );
   }
 
   Widget createMenu(BuildContext context, String title, String id) {
     return ListTile(
-      title: Text(title, style: TextStyle(color: id == this.currentMenu ? Colors.grey : Colors.blue)),
+      title: Text(title, style: TextStyle(color: id == currentMenu ? Colors.grey : Colors.blue)),
       onTap: () {
         onMenuTapped(id);
         Navigator.of(context).pop();

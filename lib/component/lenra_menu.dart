@@ -19,13 +19,13 @@ class LenraMenu extends StatelessWidget {
     final LenraThemeData theme = LenraTheme.of(context);
 
     return Container(
-      color: LenraColorThemeData.LENRA_BLACK,
+      color: LenraColorThemeData.lenraBlack,
       padding: EdgeInsets.only(
         top: theme.baseSize,
         bottom: theme.baseSize,
       ),
       child: IntrinsicWidth(
-        child: this._buildItems(),
+        child: _buildItems(),
       ),
     );
   }
@@ -34,7 +34,7 @@ class LenraMenu extends StatelessWidget {
     return LenraFlex(
       fillParent: false,
       direction: Axis.vertical,
-      children: this.items,
+      children: items,
     );
   }
 }
@@ -46,7 +46,7 @@ class LenraMenuItem extends StatelessWidget {
   final bool disabled;
   final Widget? icon;
 
-  LenraMenuItem({
+  const LenraMenuItem({
     Key? key,
     required this.text,
     required this.onPressed,
@@ -57,10 +57,10 @@ class LenraMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget res = this._buildLine(context);
+    Widget res = _buildLine(context);
 
-    if (!this.disabled) {
-      res = this._addInteractivity(res);
+    if (!disabled) {
+      res = _addInteractivity(res);
     }
     return res;
   }
@@ -78,8 +78,8 @@ class LenraMenuItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         fillParent: true,
         children: [
-          this._buildIconSpace(theme),
-          this._buildText(theme),
+          _buildIconSpace(theme),
+          _buildText(theme),
         ],
       ),
     );
@@ -96,17 +96,17 @@ class LenraMenuItem extends StatelessWidget {
           overflow: TextOverflow.fade,
           maxLines: 1,
           softWrap: false,
-          style: this.disabled ? theme.lenraTextThemeData.disabledBodyText : lenraMenuThemeData.menuText,
+          style: disabled ? theme.lenraTextThemeData.disabledBodyText : lenraMenuThemeData.menuText,
         ),
       ),
     );
   }
 
   Widget _buildIconSpace(LenraThemeData theme) {
-    return Container(
+    return SizedBox(
       height: theme.baseSize * 2,
       width: theme.baseSize * 2,
-      child: this.icon,
+      child: icon,
     );
   }
 
@@ -114,10 +114,10 @@ class LenraMenuItem extends StatelessWidget {
     // According to Flutter documentation an InkWell must have a Material ancestor
     // See https://api.flutter.dev/flutter/material/InkWell-class.html
     return Material(
-      color: this.isSelected ? LenraColorThemeData.LENRA_BLUE : Colors.transparent,
+      color: isSelected ? LenraColorThemeData.lenraBlue : Colors.transparent,
       child: InkWell(
         child: child,
-        hoverColor: this.isSelected ? LenraColorThemeData.LENRA_BLUE : LenraColorThemeData.LENRA_BLUE_HOVER,
+        hoverColor: isSelected ? LenraColorThemeData.lenraBlue : LenraColorThemeData.lenraBlueHover,
         onTap: () {
           onPressed!();
         },

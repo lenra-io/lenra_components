@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lenra_components/layout/lenra_flex.dart';
-import '../../lib/component/lenra_toggle.dart';
+import 'package:lenra_components/component/lenra_toggle.dart';
 
 import '../utils/lenra_page_test_help.dart';
 

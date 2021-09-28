@@ -6,7 +6,7 @@ class LenraThemePropertyMapper<T, D> {
   }
 
   LenraThemePropertyMapper.all(T value) {
-    this.resolver = (D property) => value;
+    resolver = (D property) => value;
   }
 
   LenraThemePropertyMapper.resolveWith(this.resolver);

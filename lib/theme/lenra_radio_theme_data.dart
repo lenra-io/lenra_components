@@ -6,22 +6,20 @@ import 'package:lenra_components/theme/lenra_theme_data.dart';
 class LenraRadioThemeData {
   late MaterialStateProperty<Color> fillColor;
   final LenraThemeData lenraThemeData;
-  final Function(Set<MaterialState>, LenraColorThemeData)? backgroundColor;
-  final Function(bool, LenraTextThemeData)? textStyle;
+  final Color Function(Set<MaterialState>, LenraColorThemeData)? backgroundColor;
+  final TextStyle Function(bool, LenraTextThemeData)? textStyle;
 
   LenraRadioThemeData({
     required this.lenraThemeData,
     this.backgroundColor,
     this.textStyle,
   }) {
-    this.fillColor = MaterialStateProperty.resolveWith((states) {
+    fillColor = MaterialStateProperty.resolveWith((states) {
       if (backgroundColor != null) {
-        return backgroundColor!(
-            states, this.lenraThemeData.lenraColorThemeData);
+        return backgroundColor!(states, lenraThemeData.lenraColorThemeData);
       } else {
         if (states.contains(MaterialState.disabled)) {
-          return lenraThemeData
-              .lenraColorThemeData.primaryBackgroundDisabledColor;
+          return lenraThemeData.lenraColorThemeData.primaryBackgroundDisabledColor;
         } else {
           return lenraThemeData.lenraColorThemeData.primaryBackgroundColor;
         }
@@ -31,19 +29,17 @@ class LenraRadioThemeData {
 
   TextStyle getTextStyle(bool disabled) {
     if (textStyle != null) {
-      return textStyle!(disabled, this.lenraThemeData.lenraTextThemeData);
+      return textStyle!(disabled, lenraThemeData.lenraTextThemeData);
     } else {
-      return disabled
-          ? lenraThemeData.lenraTextThemeData.disabledBodyText
-          : lenraThemeData.lenraTextThemeData.blueBodyText;
+      return disabled ? lenraThemeData.lenraTextThemeData.disabledBodyText : lenraThemeData.lenraTextThemeData.bodyText;
     }
   }
 
   LenraRadioThemeData copyWith(LenraRadioThemeData incoming) {
     return LenraRadioThemeData(
       lenraThemeData: lenraThemeData,
-      backgroundColor: incoming.backgroundColor ?? this.backgroundColor,
-      textStyle: incoming.textStyle ?? this.textStyle,
+      backgroundColor: incoming.backgroundColor ?? backgroundColor,
+      textStyle: incoming.textStyle ?? textStyle,
     );
   }
 }

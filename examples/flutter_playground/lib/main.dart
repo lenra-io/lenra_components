@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:lenra_components/theme/lenra_theme.dart';
 import 'package:lenra_components/theme/lenra_theme_data.dart';
 
@@ -8,6 +9,15 @@ import 'pages/my_lenra_menu.dart';
 import 'pages/lenra_flex_expanded.dart';
 import 'pages/flex_test.dart';
 import 'pages/toggle_test.dart';
+import 'pages/button_example.dart';
+import 'pages/flex_test.dart';
+import 'pages/checkbox_example.dart';
+import 'pages/my_lenra_menu.dart';
+import 'pages/lenra_flex_expanded.dart';
+import 'pages/radio_example.dart';
+import 'pages/toggle_test.dart';
+import 'pages/status_sticker_example.dart';
+import 'pages/lenra_styled_container_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -38,7 +48,7 @@ class _MyAppState extends State<MyApp> {
               currentMenu: currentMenu,
               onMenuTapped: (newMenu) {
                 setState(() {
-                  this.currentMenu = newMenu;
+                  currentMenu = newMenu;
                 });
               },
             ),
@@ -62,7 +72,17 @@ class _MyAppState extends State<MyApp> {
         return MyLenraMenu();
       case LeftMenu.DROPDOWN_EXAMPLE:
         return DropdownExample();
+      case LeftMenu.STICKER_EXAMPLE:
+        return StatusStickerExample();
+      case LeftMenu.STYLED_CONTAINER_EXAMPLE:
+        return LenraStyledContainerPage();
+      case LeftMenu.radioExample:
+        return const RadioExample();
+      case LeftMenu.checkboxExample:
+        return const CheckboxExample();
+      case LeftMenu.buttonExample:
+        return const ButtonExample();
     }
-    return Text("N/A");
+    return const Text("N/A");
   }
 }
