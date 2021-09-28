@@ -44,6 +44,12 @@ class _LenraToggleState extends State<LenraToggle> with SingleTickerProviderStat
       curve: Curves.easeIn,
       reverseCurve: Curves.easeOut,
     );
+
+    if (widget.value) {
+      _animationController.forward();
+    } else {
+      _animationController.reverse();
+    }
   }
 
   @override
@@ -51,11 +57,17 @@ class _LenraToggleState extends State<LenraToggle> with SingleTickerProviderStat
     super.didUpdateWidget(oldWidget);
     if (oldWidget.value != widget.value) {
       if (widget.value) {
-        _animationController.reverse();
-      } else {
         _animationController.forward();
+      } else {
+        _animationController.reverse();
       }
     }
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   @override
