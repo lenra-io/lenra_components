@@ -29,7 +29,7 @@ class _MyLenraMenuState extends State<MyLenraMenu> {
           ],
         ),
 
-        Container(
+        SizedBox(
           width: double.infinity,
           child: LenraMenu(
             items: [
@@ -47,7 +47,7 @@ class _MyLenraMenuState extends State<MyLenraMenu> {
         ),
 
         // Interactive LenraMenu
-        Container(
+        SizedBox(
           width: 600,
           child: LenraMenu(
             items: [
@@ -90,7 +90,7 @@ class _MyLenraMenuState extends State<MyLenraMenu> {
         LenraMenu(
           items: [
             LenraMenuItem(
-              icon: Icon(
+              icon: const Icon(
                 Icons.airplanemode_active,
                 color: Colors.white,
                 size: 16,
@@ -99,6 +99,15 @@ class _MyLenraMenuState extends State<MyLenraMenu> {
               text: "custom icon",
               onPressed: () => {},
             ),
+          ],
+        ),
+        // Custom children
+        const Text("Custom children"),
+        LenraMenu(
+          items: const [
+            Text("My item 1"),
+            Text("My item 2"),
+            Text("My item 3"),
           ],
         ),
       ],
