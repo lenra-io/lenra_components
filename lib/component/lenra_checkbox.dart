@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lenra_components/layout/lenra_flex.dart';
 import 'package:lenra_components/theme/lenra_checkbox_theme_data.dart';
 import 'package:lenra_components/theme/lenra_theme.dart';
 
@@ -23,7 +24,8 @@ class LenraCheckbox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LenraCheckboxThemeData finalLenraCheckboxThemeData = LenraTheme.of(context).lenraCheckboxThemeData;
+    final LenraCheckboxThemeData finalLenraCheckboxThemeData =
+        LenraTheme.of(context).lenraCheckboxThemeData;
 
     Widget checkbox = Checkbox(
       value: value,
@@ -34,7 +36,7 @@ class LenraCheckbox extends StatelessWidget {
       return checkbox;
     }
 
-    return Row(
+    return LenraFlex(
       children: [
         checkbox,
         Text(
