@@ -24,8 +24,7 @@ class LenraCheckbox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LenraCheckboxThemeData finalLenraCheckboxThemeData =
-        LenraTheme.of(context).lenraCheckboxThemeData;
+    final LenraCheckboxThemeData finalLenraCheckboxThemeData = LenraTheme.of(context).lenraCheckboxThemeData;
 
     Widget checkbox = Checkbox(
       value: value,
