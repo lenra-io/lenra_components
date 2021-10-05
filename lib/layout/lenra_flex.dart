@@ -29,8 +29,6 @@ class LenraFlex extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget flex = _buildFlex(context);
 
-    
-
     if (scroll) {
       return _buildScrollable(flex);
     } else {
