@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lenra_components/layout/lenra_flex.dart';
 import 'package:lenra_components/theme/lenra_checkbox_theme_data.dart';
 import 'package:lenra_components/theme/lenra_theme.dart';
 
@@ -34,7 +35,7 @@ class LenraCheckbox extends StatelessWidget {
       return checkbox;
     }
 
-    return Row(
+    return LenraFlex(
       children: [
         checkbox,
         Text(
