@@ -26,5 +26,4 @@ export 'theme/lenra_theme.dart';
 export 'theme/lenra_theme_data.dart';
 export 'theme/lenra_theme_property_mapper.dart';
 
-export 'utils/color_parser.dart';
 export 'utils/form_validators.dart';
