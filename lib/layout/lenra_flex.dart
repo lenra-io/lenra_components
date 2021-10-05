@@ -69,7 +69,7 @@ class LenraFlex extends StatelessWidget {
 
     if (padding != null) {
       flex = Padding(
-        padding: padding!,
+        padding: padding! * LenraTheme.of(context).baseSize,
         child: flex,
       );
     }
