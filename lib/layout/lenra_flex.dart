@@ -29,6 +29,8 @@ class LenraFlex extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget flex = _buildFlex(context);
 
+    
+
     if (scroll) {
       return _buildScrollable(flex);
     } else {
@@ -69,7 +71,7 @@ class LenraFlex extends StatelessWidget {
 
     if (padding != null) {
       flex = Padding(
-        padding: padding!,
+        padding: padding! * LenraTheme.of(context).baseSize,
         child: flex,
       );
     }
