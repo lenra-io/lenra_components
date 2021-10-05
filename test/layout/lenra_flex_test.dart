@@ -124,6 +124,33 @@ void main() {
     bTLOffset: const Offset(width + 8, 0),
     lFBROffset: const Offset(width * 2 + 8, height),
   );
+
+  testWidgets('Padding is properly wrapping Flex', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      createIn100x100Container(
+        LenraFlex(
+          padding: const EdgeInsets.all(10.0),
+          fillParent: true,
+          children: createTwo10x10Container(),
+        ),
+      ),
+    );
+
+    expect(find.byType(Padding), findsOneWidget);
+  });
+
+  testWidgets('Flex should have no padding by default', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      createIn100x100Container(
+        LenraFlex(
+          fillParent: true,
+          children: createTwo10x10Container(),
+        ),
+      ),
+    );
+
+    expect(find.byType(Padding), findsNothing);
+  });
   /*testFor(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
     crossAxisAlignment: CrossAxisAlignment.start,

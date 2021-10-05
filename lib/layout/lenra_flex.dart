@@ -9,6 +9,7 @@ class LenraFlex extends StatelessWidget {
   final MainAxisAlignment mainAxisAlignment;
   final CrossAxisAlignment crossAxisAlignment;
   final bool scroll;
+  final EdgeInsets? padding;
 
   final Axis direction;
 
@@ -21,11 +22,12 @@ class LenraFlex extends StatelessWidget {
     this.crossAxisAlignment = CrossAxisAlignment.start,
     this.direction = Axis.horizontal,
     this.scroll = false,
+    this.padding,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Flex flex = _buildFlex(context);
+    Widget flex = _buildFlex(context);
 
     if (scroll) {
       return _buildScrollable(flex);
@@ -55,8 +57,8 @@ class LenraFlex extends StatelessWidget {
     return BoxConstraints(minWidth: constraints.maxWidth);
   }
 
-  Flex _buildFlex(BuildContext context) {
-    return Flex(
+  Widget _buildFlex(BuildContext context) {
+    Widget flex = Flex(
       mainAxisSize: fillParent ? MainAxisSize.max : MainAxisSize.min,
       mainAxisAlignment: mainAxisAlignment,
       crossAxisAlignment: crossAxisAlignment,
@@ -64,6 +66,15 @@ class LenraFlex extends StatelessWidget {
       children: _buildSpacedChildren(context),
       textBaseline: TextBaseline.alphabetic,
     );
+
+    if (padding != null) {
+      flex = Padding(
+        padding: padding!,
+        child: flex,
+      );
+    }
+
+    return flex;
   }
 
   List<Widget> _buildSpacedChildren(BuildContext context) {
