@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lenra_components/lenra_components.dart';
 import 'package:lenra_components/theme/lenra_color_theme_data.dart';
 
 class LenraTextThemeData {
@@ -13,6 +14,8 @@ class LenraTextThemeData {
   late TextStyle disabledBodyText;
   late TextStyle underDescriptionText;
   late TextStyle errorText;
+
+  late LenraThemePropertyMapper<TextStyle, LenraTextType> textStyle;
 
   final double? lineHeight;
 
@@ -96,6 +99,37 @@ class LenraTextThemeData {
           color: Colors.red,
           height: lineHeight,
         );
+
+    textStyle = LenraThemePropertyMapper.resolveWith((LenraTextType type) {
+      switch (type) {
+        case LenraTextType.headline1:
+          return headline1!;
+        case LenraTextType.headline2:
+          return headline2!;
+        case LenraTextType.headline3:
+          return headline3!;
+        case LenraTextType.headline4:
+          return headline4!;
+        case LenraTextType.headlineBody:
+          return headlineBody!;
+        case LenraTextType.bodyText:
+          return bodyText!;
+        case LenraTextType.blueBodyText:
+          return blueBodyText!;
+        case LenraTextType.subtext:
+          return subtext!;
+        case LenraTextType.disabledBodyText:
+          return disabledBodyText!;
+        case LenraTextType.underDescriptionText:
+          return underDescriptionText!;
+        case LenraTextType.errorText:
+          return errorText!;
+      }
+    });
+  }
+
+  TextStyle getStyle(LenraTextType type) {
+    return textStyle.resolve(type);
   }
 
   LenraTextThemeData copyWith({
