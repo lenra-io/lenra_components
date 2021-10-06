@@ -4,7 +4,7 @@ import 'package:lenra_components/theme/lenra_theme.dart';
 import 'package:lenra_components/theme/lenra_theme_data.dart';
 
 class LenraText extends StatelessWidget {
-  final String? text;
+  final String text;
   final LenraTextStyle style;
 
   const LenraText(
@@ -18,7 +18,7 @@ class LenraText extends StatelessWidget {
     final LenraTextThemeData finalLenraTextThemeData = LenraTheme.of(context).lenraTextThemeData;
 
     return Text(
-      text!,
+      text,
       style: finalLenraTextThemeData.getStyle(style),
     );
   }
