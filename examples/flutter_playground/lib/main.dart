@@ -18,6 +18,7 @@ import 'pages/radio_example.dart';
 import 'pages/toggle_test.dart';
 import 'pages/status_sticker_example.dart';
 import 'pages/lenra_styled_container_page.dart';
+import 'pages/textfield_example.dart';
 
 void main() {
   runApp(MyApp());
@@ -82,6 +83,8 @@ class _MyAppState extends State<MyApp> {
         return const CheckboxExample();
       case LeftMenu.buttonExample:
         return const ButtonExample();
+      case LeftMenu.textefieldExample:
+        return const TextfieldExample();
     }
     return const Text("N/A");
   }
