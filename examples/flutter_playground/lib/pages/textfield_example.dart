@@ -29,13 +29,11 @@ class _TextfieldExampleState extends State<TextfieldExample> {
         ),
         LenraTextField(
           label: "size large + hintText",
-          width: 150,
           hintText: "Hint Text",
           size: LenraComponentSize.large,
         ),
         LenraTextField(
           label: "size default + minLines = maxLines ",
-          size: LenraComponentSize.large,
           minLines: 3,
           maxLines: 5,
         ),
