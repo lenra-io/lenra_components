@@ -15,7 +15,7 @@ class LenraTextThemeData {
   late TextStyle underDescriptionText;
   late TextStyle errorText;
 
-  late LenraThemePropertyMapper<TextStyle, LenraTextType> textStyle;
+  late LenraThemePropertyMapper<TextStyle, LenraTextStyle> textStyle;
 
   final double? lineHeight;
 
@@ -100,35 +100,35 @@ class LenraTextThemeData {
           height: lineHeight,
         );
 
-    textStyle = LenraThemePropertyMapper.resolveWith((LenraTextType type) {
+    textStyle = LenraThemePropertyMapper.resolveWith((LenraTextStyle type) {
       switch (type) {
-        case LenraTextType.headline1:
-          return headline1!;
-        case LenraTextType.headline2:
-          return headline2!;
-        case LenraTextType.headline3:
-          return headline3!;
-        case LenraTextType.headline4:
-          return headline4!;
-        case LenraTextType.headlineBody:
-          return headlineBody!;
-        case LenraTextType.bodyText:
-          return bodyText!;
-        case LenraTextType.blueBodyText:
-          return blueBodyText!;
-        case LenraTextType.subtext:
-          return subtext!;
-        case LenraTextType.disabledBodyText:
-          return disabledBodyText!;
-        case LenraTextType.underDescriptionText:
-          return underDescriptionText!;
-        case LenraTextType.errorText:
-          return errorText!;
+        case LenraTextStyle.headline1:
+          return this.headline1;
+        case LenraTextStyle.headline2:
+          return this.headline2;
+        case LenraTextStyle.headline3:
+          return this.headline3;
+        case LenraTextStyle.headline4:
+          return this.headline4;
+        case LenraTextStyle.headlineBody:
+          return this.headlineBody;
+        case LenraTextStyle.bodyText:
+          return this.bodyText;
+        case LenraTextStyle.blueBodyText:
+          return this.blueBodyText;
+        case LenraTextStyle.subtext:
+          return this.subtext;
+        case LenraTextStyle.disabledBodyText:
+          return this.disabledBodyText;
+        case LenraTextStyle.underDescriptionText:
+          return this.underDescriptionText;
+        case LenraTextStyle.errorText:
+          return this.errorText;
       }
     });
   }
 
-  TextStyle getStyle(LenraTextType type) {
+  TextStyle getStyle(LenraTextStyle type) {
     return textStyle.resolve(type);
   }
 

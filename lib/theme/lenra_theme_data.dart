@@ -21,7 +21,7 @@ enum LenraComponentType {
   tertiary,
 }
 
-enum LenraTextType {
+enum LenraTextStyle {
   headline1,
   headline2,
   headline3,

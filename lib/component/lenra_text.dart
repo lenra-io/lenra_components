@@ -5,11 +5,11 @@ import 'package:lenra_components/theme/lenra_theme_data.dart';
 
 class LenraText extends StatelessWidget {
   final String? text;
-  final LenraTextType type;
+  final LenraTextStyle style;
 
-  const LenraText({
-    required this.text,
-    this.type = LenraTextType.bodyText,
+  const LenraText(
+    this.text, {
+    this.style = LenraTextStyle.bodyText,
     Key? key,
   }) : super(key: key);
 
@@ -19,7 +19,7 @@ class LenraText extends StatelessWidget {
 
     return Text(
       text!,
-      style: finalLenraTextThemeData.getStyle(type),
+      style: finalLenraTextThemeData.getStyle(style),
     );
   }
 }
