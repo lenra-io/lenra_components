@@ -21,6 +21,20 @@ enum LenraComponentType {
   tertiary,
 }
 
+enum LenraTextType {
+  headline1,
+  headline2,
+  headline3,
+  headline4,
+  headlineBody,
+  bodyText,
+  blueBodyText,
+  subtext,
+  disabledBodyText,
+  underDescriptionText,
+  errorText,
+}
+
 class LenraThemeData {
   final double baseSize;
   late Map<LenraComponentSize, EdgeInsets> paddingMap;
