@@ -100,8 +100,8 @@ class LenraTextThemeData {
           height: lineHeight,
         );
 
-    textStyle = LenraThemePropertyMapper.resolveWith((LenraTextStyle type) {
-      switch (type) {
+    textStyle = LenraThemePropertyMapper.resolveWith((LenraTextStyle lenraTextStyle) {
+      switch (lenraTextStyle) {
         case LenraTextStyle.headline1:
           return this.headline1;
         case LenraTextStyle.headline2:
@@ -128,8 +128,8 @@ class LenraTextThemeData {
     });
   }
 
-  TextStyle getStyle(LenraTextStyle type) {
-    return textStyle.resolve(type);
+  TextStyle getStyle(LenraTextStyle lenraTextStyle) {
+    return textStyle.resolve(lenraTextStyle);
   }
 
   LenraTextThemeData copyWith({
