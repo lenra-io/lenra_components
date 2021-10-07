@@ -124,6 +124,8 @@ class LenraTextThemeData {
           return this.underDescriptionText;
         case LenraTextStyle.errorText:
           return this.errorText;
+        default:
+          return this.bodyText;
       }
     });
   }
