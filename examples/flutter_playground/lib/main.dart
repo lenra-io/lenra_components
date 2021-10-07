@@ -79,7 +79,7 @@ class _MyAppState extends State<MyApp> {
         return const CheckboxExample();
       case LeftMenu.buttonExample:
         return const ButtonExample();
-      case LeftMenu.texteFieldExample:
+      case LeftMenu.textFieldExample:
         return const TextFieldExample();
     }
     return const Text("N/A");
