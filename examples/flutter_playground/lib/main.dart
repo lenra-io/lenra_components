@@ -10,14 +10,11 @@ import 'pages/lenra_flex_expanded.dart';
 import 'pages/flex_test.dart';
 import 'pages/toggle_test.dart';
 import 'pages/button_example.dart';
-import 'pages/flex_test.dart';
 import 'pages/checkbox_example.dart';
-import 'pages/my_lenra_menu.dart';
-import 'pages/lenra_flex_expanded.dart';
 import 'pages/radio_example.dart';
-import 'pages/toggle_test.dart';
 import 'pages/status_sticker_example.dart';
 import 'pages/lenra_styled_container_page.dart';
+import 'pages/textfield_example.dart';
 
 void main() {
   runApp(MyApp());
@@ -82,6 +79,8 @@ class _MyAppState extends State<MyApp> {
         return const CheckboxExample();
       case LeftMenu.buttonExample:
         return const ButtonExample();
+      case LeftMenu.textFieldExample:
+        return const TextFieldExample();
     }
     return const Text("N/A");
   }
