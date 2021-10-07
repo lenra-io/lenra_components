@@ -3,14 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:lenra_components/lenra_components.dart';
 
-class TextfieldExample extends StatefulWidget {
-  const TextfieldExample({Key? key}) : super(key: key);
+class TextFieldExample extends StatefulWidget {
+  const TextFieldExample({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _TextfieldExampleState();
+  State<StatefulWidget> createState() => _TextFieldExampleState();
 }
 
-class _TextfieldExampleState extends State<TextfieldExample> {
+class _TextFieldExampleState extends State<TextFieldExample> {
   @override
   Widget build(BuildContext context) {
     return LenraFlex(
