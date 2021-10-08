@@ -60,6 +60,7 @@ class LenraButton extends StatelessWidget {
       res = LenraFlex(
         spacing: 1.5,
         children: children,
+        crossAxisAlignment: CrossAxisAlignment.center,
       );
     } else {
       res = children.first;
