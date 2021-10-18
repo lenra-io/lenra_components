@@ -87,6 +87,11 @@ class LenraStyledContainerPage extends StatelessWidget {
             ),
           ],
         ),
+        const LenraStyledContainer(
+          child: Text("Padding"),
+          color: Colors.blue,
+          padding: EdgeInsets.all(30),
+        ),
       ],
     );
   }

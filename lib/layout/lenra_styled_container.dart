@@ -6,6 +6,7 @@ class LenraStyledContainer extends StatelessWidget {
   final BorderRadius? borderRadius;
   final BoxShadow? boxShadow;
   final Color? color;
+  final EdgeInsets? padding;
 
   const LenraStyledContainer({
     Key? key,
@@ -14,12 +15,14 @@ class LenraStyledContainer extends StatelessWidget {
     this.borderRadius,
     this.boxShadow,
     this.color,
+    this.padding,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: child,
+      padding: padding,
       decoration: BoxDecoration(
         color: color,
         border: border,
