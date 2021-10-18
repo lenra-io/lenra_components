@@ -36,6 +36,7 @@ class LenraCheckbox extends StatelessWidget {
     }
 
     return LenraFlex(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         checkbox,
         Text(
