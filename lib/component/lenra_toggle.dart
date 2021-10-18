@@ -89,6 +89,7 @@ class _LenraToggleState extends State<LenraToggle> with SingleTickerProviderStat
     var lenraSwitch = _LenraSwitch(animation: animation, toggle: widget);
     if (widget.label == null) return lenraSwitch;
     return LenraFlex(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         _buildLabel(),
         lenraSwitch,
