@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 import 'package:lenra_components/theme/lenra_theme.dart';
 
 class LenraFlex extends StatelessWidget {
@@ -10,6 +10,9 @@ class LenraFlex extends StatelessWidget {
   final CrossAxisAlignment crossAxisAlignment;
   final bool scroll;
   final EdgeInsets? padding;
+  final TextDirection? textDirection;
+  final VerticalDirection verticalDirection;
+  final TextBaseline? textBaseline;
 
   final Axis direction;
 
@@ -23,6 +26,9 @@ class LenraFlex extends StatelessWidget {
     this.direction = Axis.horizontal,
     this.scroll = false,
     this.padding,
+    this.textDirection,
+    this.verticalDirection = VerticalDirection.down,
+    this.textBaseline,
   }) : super(key: key);
 
   @override
@@ -64,7 +70,9 @@ class LenraFlex extends StatelessWidget {
       crossAxisAlignment: crossAxisAlignment,
       direction: direction,
       children: _buildSpacedChildren(context),
-      textBaseline: TextBaseline.alphabetic,
+      textBaseline: textBaseline ?? TextBaseline.alphabetic,
+      textDirection: textDirection,
+      verticalDirection: verticalDirection,
     );
 
     if (padding != null) {
