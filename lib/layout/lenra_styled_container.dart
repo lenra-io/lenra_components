@@ -3,22 +3,16 @@ import 'package:lenra_components/theme/lenra_theme.dart';
 
 class LenraStyledContainer extends StatelessWidget {
   final Widget child;
-  final Border? border;
-  final BorderRadius? borderRadius;
-  final BoxShadow? boxShadow;
-  final Color? color;
   final EdgeInsets? padding;
   final BoxConstraints? constraints;
+  final BoxDecoration? decoration;
 
   const LenraStyledContainer({
     Key? key,
     required this.child,
-    this.border,
-    this.borderRadius,
-    this.boxShadow,
-    this.color,
     this.padding,
     this.constraints,
+    this.decoration,
   }) : super(key: key);
 
   @override
@@ -28,13 +22,8 @@ class LenraStyledContainer extends StatelessWidget {
     return Container(
       child: child,
       padding: padding != null ? padding! * theme.baseSize : padding,
-      decoration: BoxDecoration(
-        color: color,
-        border: border,
-        borderRadius: borderRadius,
-        boxShadow: boxShadow != null ? [boxShadow!] : null,
-      ),
       constraints: constraints,
+      decoration: decoration,
     );
   }
 }
