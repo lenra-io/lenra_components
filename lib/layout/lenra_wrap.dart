@@ -27,11 +27,12 @@ class LenraWrap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = LenraTheme.of(context);
     return Wrap(
       children: children,
       direction: direction,
-      spacing: spacing * LenraTheme.of(context).baseSize,
-      runSpacing: runSpacing * LenraTheme.of(context).baseSize,
+      spacing: spacing * theme.baseSize,
+      runSpacing: runSpacing * theme.baseSize,
       crossAxisAlignment: crossAxisAlignment,
       alignment: alignment,
       runAlignment: runAlignment,
