@@ -30,25 +30,13 @@ class LenraWrap extends StatelessWidget {
     return Wrap(
       children: children,
       direction: direction,
-      spacing: _buildSpacing(context),
-      runSpacing: _buildRunSpacing(context),
+      spacing: spacing * LenraTheme.of(context).baseSize,
+      runSpacing: runSpacing * LenraTheme.of(context).baseSize,
       crossAxisAlignment: crossAxisAlignment,
       alignment: alignment,
       runAlignment: runAlignment,
       textDirection: textDirection,
       verticalDirection: verticalDirection,
     );
-  }
-
-  double _buildSpacing(BuildContext context) {
-    var theme = LenraTheme.of(context);
-    var space = spacing * theme.baseSize;
-    return space;
-  }
-
-  double _buildRunSpacing(BuildContext context) {
-    var theme = LenraTheme.of(context);
-    var space = runSpacing * theme.baseSize;
-    return space;
   }
 }
