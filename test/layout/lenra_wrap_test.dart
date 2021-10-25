@@ -31,23 +31,22 @@ void main() {
     await tester.pumpWidget(
       createComponentTestWidgets(
         const LenraWrap(
-          alignment: WrapAlignment.spaceBetween,
-          runAlignment: WrapAlignment.spaceBetween,
           children: [
             Text("foo"),
             Text("bar"),
-            Text("test"),
-            Text("lorem"),
-            Text("ipsum"),
+            Text(
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin maximus in sapien id lacinia. Donec vitae erat a metus tristique laoreet at vitae libero. Vivamus non metus elementum, ornare nisi vel, posuere justo. Sed vel odio in nisi eleifend vehicula. Sed dictum mi nec turpis vulputate malesuada. Morbi iaculis faucibus diam nec tempor. Fusce eu molestie urna. Etiam dapibus enim non metus ultrices, ut mattis orci aliquam. Proin iaculis justo nec pulvinar maximus. Cras justo quam, tempor sit amet vestibulum vitae, suscipit a sem. Nunc facilisis, nibh a condimentum viverra, arcu est auctor neque, iaculis pellentesque tellus tellus id metus. Aliquam id elit lectus. Vivamus imperdiet ligula feugiat, fermentum nibh maximus, finibus neque. Aenean magna nisi, porttitor et scelerisque ornare, gravida quis metus.",
+            ),
           ],
         ),
       ),
     );
-
-    expect(find.text("foo"), findsOneWidget);
-    expect(find.text("bar"), findsOneWidget);
-    expect(find.text("test"), findsOneWidget);
-    expect(find.text("lorem"), findsOneWidget);
-    expect(find.text("ipsum"), findsOneWidget);
+    await tester.pump();
+    expect(tester.getSize(find.text("foo")), tester.getSize(find.text("bar")));
+    var largeBox = tester.getSize(find.text(
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin maximus in sapien id lacinia. Donec vitae erat a metus tristique laoreet at vitae libero. Vivamus non metus elementum, ornare nisi vel, posuere justo. Sed vel odio in nisi eleifend vehicula. Sed dictum mi nec turpis vulputate malesuada. Morbi iaculis faucibus diam nec tempor. Fusce eu molestie urna. Etiam dapibus enim non metus ultrices, ut mattis orci aliquam. Proin iaculis justo nec pulvinar maximus. Cras justo quam, tempor sit amet vestibulum vitae, suscipit a sem. Nunc facilisis, nibh a condimentum viverra, arcu est auctor neque, iaculis pellentesque tellus tellus id metus. Aliquam id elit lectus. Vivamus imperdiet ligula feugiat, fermentum nibh maximus, finibus neque. Aenean magna nisi, porttitor et scelerisque ornare, gravida quis metus.",
+    ));
+    var smallBox = tester.getSize(find.text("foo"));
+    expect(largeBox == smallBox, false);
   });
 }
