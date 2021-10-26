@@ -51,9 +51,10 @@ void main() {
   });
 
   testWidgets('Test LenraWrap positioning', (WidgetTester tester) async {
-    await tester.pumpWidget(createComponentTestWidgets(
+    await tester.pumpWidget(createBaseTestWidgets(
       const LenraWrap(
         spacing: 20,
+        runSpacing: 2,
         children: [
           Text("foo"),
           Text("bar"),
@@ -67,7 +68,7 @@ void main() {
       ),
     ));
     await tester.pump();
-    expect(tester.getTopLeft(find.text("foo")), const Offset(41, 286));
-    expect(tester.getTopLeft(find.text("ipsum")), const Offset(41, 300));
+    expect(tester.getTopLeft(find.text("foo")), const Offset(0, 0));
+    expect(tester.getTopLeft(find.text("ipsum")), const Offset(0, 30));
   });
 }
