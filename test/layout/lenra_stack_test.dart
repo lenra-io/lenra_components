@@ -17,7 +17,6 @@ void main() {
     expect(stack.children.length, 2);
     expect(stack.alignment, AlignmentDirectional.topStart);
     expect(stack.fit, StackFit.loose);
-    expect(stack.textDirection, null);
   });
 
   testWidgets('Test LenraStack children', (WidgetTester tester) async {
