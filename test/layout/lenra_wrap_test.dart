@@ -49,4 +49,25 @@ void main() {
     var smallBox = tester.getSize(find.text("foo"));
     expect(largeBox == smallBox, false);
   });
+
+  testWidgets('Test LenraWrap positioning', (WidgetTester tester) async {
+    await tester.pumpWidget(createComponentTestWidgets(
+      const LenraWrap(
+        spacing: 20,
+        children: [
+          Text("foo"),
+          Text("bar"),
+          Text("test"),
+          Text("lorem"),
+          Text("ipsum"),
+          Text("dolor"),
+          Text("sit"),
+          Text("amet"),
+        ],
+      ),
+    ));
+    await tester.pump();
+    expect(tester.getTopLeft(find.text("foo")), const Offset(41, 286));
+    expect(tester.getTopLeft(find.text("ipsum")), const Offset(41, 300));
+  });
 }
