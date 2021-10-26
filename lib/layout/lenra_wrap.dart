@@ -9,7 +9,7 @@ class LenraWrap extends StatelessWidget {
   final WrapCrossAlignment crossAxisAlignment;
   final WrapAlignment alignment;
   final WrapAlignment runAlignment;
-  final TextDirection? textDirection;
+  final TextDirection? horizontalDirection;
   final VerticalDirection verticalDirection;
 
   const LenraWrap({
@@ -21,7 +21,7 @@ class LenraWrap extends StatelessWidget {
     this.crossAxisAlignment = WrapCrossAlignment.start,
     this.alignment = WrapAlignment.start,
     this.runAlignment = WrapAlignment.start,
-    this.textDirection,
+    this.horizontalDirection,
     this.verticalDirection = VerticalDirection.down,
   }) : super(key: key);
 
@@ -36,7 +36,7 @@ class LenraWrap extends StatelessWidget {
       crossAxisAlignment: crossAxisAlignment,
       alignment: alignment,
       runAlignment: runAlignment,
-      textDirection: textDirection,
+      textDirection: horizontalDirection,
       verticalDirection: verticalDirection,
     );
   }
