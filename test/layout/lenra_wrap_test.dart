@@ -24,7 +24,7 @@ void main() {
     expect(wrap.spacing, 0);
     expect(wrap.runSpacing, 0);
     expect(wrap.verticalDirection, VerticalDirection.down);
-    expect(wrap.textDirection, null);
+    expect(wrap.horizontalDirection, null);
   });
 
   testWidgets('Test LenraWrap children', (WidgetTester tester) async {
