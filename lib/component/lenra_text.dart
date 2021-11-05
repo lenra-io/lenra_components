@@ -1,25 +1,31 @@
-import 'package:flutter/material.dart';
-import 'package:lenra_components/theme/lenra_text_theme_data.dart';
-import 'package:lenra_components/theme/lenra_theme.dart';
-import 'package:lenra_components/theme/lenra_theme_data.dart';
+import 'package:flutter/widgets.dart';
 
 class LenraText extends StatelessWidget {
   final String text;
-  final LenraTextStyle style;
+  final TextStyle? style;
+  final List<TextSpan> children;
+  final Locale locale;
+  final String? semanticsLabel;
+  final bool? spellOut;
 
   const LenraText(
+    this.children,
+    this.locale,
     this.text, {
-    this.style = LenraTextStyle.bodyText,
+    this.style,
+    this.semanticsLabel,
+    this.spellOut,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final LenraTextThemeData finalLenraTextThemeData = LenraTheme.of(context).lenraTextThemeData;
-
-    return Text(
-      text,
-      style: finalLenraTextThemeData.getStyle(style),
-    );
+    return Text.rich(TextSpan(
+        children: children,
+        text: text,
+        locale: locale,
+        style: style,
+        semanticsLabel: semanticsLabel,
+        spellOut: spellOut));
   }
 }
