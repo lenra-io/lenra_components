@@ -10,11 +10,11 @@ class LenraText extends StatelessWidget {
 
   const LenraText({
     this.children,
-    this.locale,
+    this.locale = const Locale("en", "EN"),
     required this.text,
     this.style,
     this.semanticsLabel,
-    this.spellOut,
+    this.spellOut = false,
     Key? key,
   }) : super(key: key);
 
