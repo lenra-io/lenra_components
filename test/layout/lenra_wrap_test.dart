@@ -27,48 +27,19 @@ void main() {
     expect(wrap.horizontalDirection, null);
   });
 
-  testWidgets('Test LenraWrap children', (WidgetTester tester) async {
-    await tester.pumpWidget(
-      createComponentTestWidgets(
-        const LenraWrap(
-          children: [
-            Text("foo"),
-            Text("bar"),
-            Text(
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin maximus in sapien id lacinia. Donec vitae erat a metus tristique laoreet at vitae libero. Vivamus non metus elementum, ornare nisi vel, posuere justo. Sed vel odio in nisi eleifend vehicula. Sed dictum mi nec turpis vulputate malesuada. Morbi iaculis faucibus diam nec tempor. Fusce eu molestie urna. Etiam dapibus enim non metus ultrices, ut mattis orci aliquam. Proin iaculis justo nec pulvinar maximus. Cras justo quam, tempor sit amet vestibulum vitae, suscipit a sem. Nunc facilisis, nibh a condimentum viverra, arcu est auctor neque, iaculis pellentesque tellus tellus id metus. Aliquam id elit lectus. Vivamus imperdiet ligula feugiat, fermentum nibh maximus, finibus neque. Aenean magna nisi, porttitor et scelerisque ornare, gravida quis metus.",
-            ),
-          ],
-        ),
-      ),
-    );
-    await tester.pump();
-    expect(tester.getSize(find.text("foo")), tester.getSize(find.text("bar")));
-    var largeBox = tester.getSize(find.text(
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin maximus in sapien id lacinia. Donec vitae erat a metus tristique laoreet at vitae libero. Vivamus non metus elementum, ornare nisi vel, posuere justo. Sed vel odio in nisi eleifend vehicula. Sed dictum mi nec turpis vulputate malesuada. Morbi iaculis faucibus diam nec tempor. Fusce eu molestie urna. Etiam dapibus enim non metus ultrices, ut mattis orci aliquam. Proin iaculis justo nec pulvinar maximus. Cras justo quam, tempor sit amet vestibulum vitae, suscipit a sem. Nunc facilisis, nibh a condimentum viverra, arcu est auctor neque, iaculis pellentesque tellus tellus id metus. Aliquam id elit lectus. Vivamus imperdiet ligula feugiat, fermentum nibh maximus, finibus neque. Aenean magna nisi, porttitor et scelerisque ornare, gravida quis metus.",
-    ));
-    var smallBox = tester.getSize(find.text("foo"));
-    expect(largeBox == smallBox, false);
-  });
-
   testWidgets('Test LenraWrap positioning', (WidgetTester tester) async {
     await tester.pumpWidget(createBaseTestWidgets(
       const LenraWrap(
-        spacing: 20,
+        spacing: 100,
         runSpacing: 2,
         children: [
           Text("foo"),
           Text("bar"),
-          Text("test"),
-          Text("lorem"),
-          Text("ipsum"),
-          Text("dolor"),
-          Text("sit"),
-          Text("amet"),
         ],
       ),
     ));
     await tester.pump();
     expect(tester.getTopLeft(find.text("foo")), const Offset(0, 0));
-    expect(tester.getTopLeft(find.text("ipsum")), const Offset(0, 30));
+    expect(tester.getTopLeft(find.text("bar")), const Offset(0, 30));
   });
 }
