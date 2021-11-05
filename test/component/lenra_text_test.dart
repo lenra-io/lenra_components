@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lenra_components/component/lenra_text.dart';
 
-import '../utils/lenra_page_test_help.dart';
-
 void main() {
   test('LenraText parameterized constructor', () {
     var style = const TextStyle(
