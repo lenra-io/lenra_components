@@ -22,12 +22,13 @@ class LenraText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text.rich(
       TextSpan(
-          text: text,
-          children: children,
-          style: style,
-          locale: locale,
-          semanticsLabel: semanticsLabel,
-          spellOut: spellOut),
+        text: text,
+        children: children,
+        style: style,
+        locale: locale,
+        semanticsLabel: semanticsLabel,
+        spellOut: spellOut,
+      ),
     );
   }
 }
