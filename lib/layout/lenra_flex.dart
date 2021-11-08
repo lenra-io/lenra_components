@@ -10,7 +10,7 @@ class LenraFlex extends StatelessWidget {
   final CrossAxisAlignment crossAxisAlignment;
   final bool scroll;
   final EdgeInsets? padding;
-  final TextDirection? textDirection;
+  final TextDirection? horizontalDirection;
   final VerticalDirection verticalDirection;
   final TextBaseline? textBaseline;
 
@@ -26,7 +26,7 @@ class LenraFlex extends StatelessWidget {
     this.direction = Axis.horizontal,
     this.scroll = false,
     this.padding,
-    this.textDirection,
+    this.horizontalDirection,
     this.verticalDirection = VerticalDirection.down,
     this.textBaseline,
   }) : super(key: key);
@@ -71,7 +71,7 @@ class LenraFlex extends StatelessWidget {
       direction: direction,
       children: _buildSpacedChildren(context),
       textBaseline: textBaseline ?? TextBaseline.alphabetic,
-      textDirection: textDirection,
+      textDirection: horizontalDirection,
       verticalDirection: verticalDirection,
     );
 
