@@ -21,7 +21,7 @@ class LenraText extends StatelessWidget {
   TextSpan _toTextSpan(LenraText text) {
     return TextSpan(
       text: text.text,
-      children: text.children?.map(_toTextSpan).toList(), // Check if children is null
+      children: text.children?.map(_toTextSpan).toList(),
       style: text.style,
       locale: text.locale,
       semanticsLabel: text.semanticsLabel,
@@ -34,7 +34,7 @@ class LenraText extends StatelessWidget {
     return Text.rich(
       TextSpan(
         text: text,
-        children: children?.map(_toTextSpan).toList(), // Check if children is null
+        children: children?.map(_toTextSpan).toList(),
         style: style,
         locale: locale,
         semanticsLabel: semanticsLabel,
