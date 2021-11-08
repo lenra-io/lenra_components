@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 
 class LenraText extends StatelessWidget {
   final String text;
-  final List<TextSpan>? children;
+  final List<LenraText>? children;
   final TextStyle? style;
   final Locale? locale;
   final String? semanticsLabel;
@@ -18,12 +18,23 @@ class LenraText extends StatelessWidget {
     this.spellOut,
   }) : super(key: key);
 
+  TextSpan _toTextSpan(LenraText text) {
+    return TextSpan(
+      text: text.text,
+      children: text.children?.map(_toTextSpan).toList(), // Check if children is null
+      style: text.style,
+      locale: text.locale,
+      semanticsLabel: text.semanticsLabel,
+      spellOut: text.spellOut,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Text.rich(
       TextSpan(
         text: text,
-        children: children,
+        children: children?.map(_toTextSpan).toList(), // Check if children is null
         style: style,
         locale: locale,
         semanticsLabel: semanticsLabel,
