@@ -152,4 +152,23 @@ void main() {
 
     expect(tester.getTopLeft(find.byKey(const Key("sb1"))), const Offset(800, 0));
   });
+
+   testWidgets('LenraWrap verticalDirection should work', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      createBaseTestWidgets(
+        const SizedBox.expand(
+          child: LenraWrap(
+            verticalDirection: VerticalDirection.up,
+            children: [
+              SizedBox(key: Key("sb1")),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    await tester.pump();
+
+    expect(tester.getTopLeft(find.byKey(const Key("sb1"))), const Offset(0, 600));
+  });
 }
