@@ -74,7 +74,7 @@ List<Widget> createCircles() {
     Container(
       width: 80,
       height: 80,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         shape: BoxShape.circle,
         color: Colors.red,
       ),
@@ -82,7 +82,7 @@ List<Widget> createCircles() {
     Container(
       width: 60,
       height: 60,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         shape: BoxShape.circle,
         color: Colors.lightBlue,
       ),
