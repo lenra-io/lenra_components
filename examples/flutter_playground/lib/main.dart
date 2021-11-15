@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_playground/pages/overlay_entry_example.dart';
 
 import 'package:lenra_components/theme/lenra_theme.dart';
 import 'package:lenra_components/theme/lenra_theme_data.dart';
@@ -81,6 +82,8 @@ class _MyAppState extends State<MyApp> {
         return const ButtonExample();
       case LeftMenu.textFieldExample:
         return const TextFieldExample();
+      case LeftMenu.overlayEntryExample:
+        return const OverlayEntryExample();
     }
     return const Text("N/A");
   }
