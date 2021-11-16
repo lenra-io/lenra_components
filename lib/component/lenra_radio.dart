@@ -1,48 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:lenra_components/layout/lenra_flex.dart';
-import 'package:lenra_components/theme/lenra_radio_theme_data.dart';
-import 'package:lenra_components/theme/lenra_theme.dart';
+import 'package:lenra_components/theme/lenra_radio_style.dart';
 
 class LenraRadio<T> extends StatelessWidget {
-  final String? label;
+  final LenraRadioStyle? style;
+  final bool autofocus;
+  final FocusNode? focusNode;
+  final T? groupValue;
+  final MaterialTapTargetSize? materialTapTargetSize;
+  final ValueChanged<T?>? onPressed;
+  final bool toggleable;
   final T value;
-  final T groupValue;
-  final bool disabled;
-  final void Function()? onPressed;
 
   const LenraRadio({
-    this.label,
-    required this.value,
-    required this.groupValue,
-    required this.onPressed,
-    this.disabled = false,
     Key? key,
+    this.style,
+    this.autofocus = false,
+    this.focusNode,
+    required this.groupValue,
+    this.materialTapTargetSize,
+    required this.onPressed,
+    this.toggleable = false,
+    required this.value,
   }) : super(key: key);
-
-  void onRadioChanged(T? newValue) {
-    if (onPressed != null) {
-      onPressed!();
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
-    final LenraRadioThemeData finalLenraRadioThemeData = LenraTheme.of(context).lenraRadioThemeData;
-
-    Widget radio = Radio<T>(
-        value: value,
-        groupValue: groupValue,
-        fillColor: finalLenraRadioThemeData.fillColor,
-        onChanged: disabled ? null : onRadioChanged);
-
-    if (label == null) return radio;
-
-    return LenraFlex(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        radio,
-        Text(label!, style: finalLenraRadioThemeData.getTextStyle(disabled)),
-      ],
+    return Radio<T>(
+      activeColor: style?.activeColor,
+      focusColor: style?.focusColor,
+      hoverColor: style?.hoverColor,
+      splashRadius: style?.splashRadius,
+      visualDensity: style?.visualDensity,
+      autofocus: autofocus,
+      focusNode: focusNode,
+      materialTapTargetSize: materialTapTargetSize,
+      groupValue: groupValue,
+      onChanged: onPressed,
+      toggleable: toggleable,
+      value: value,
     );
   }
 }
