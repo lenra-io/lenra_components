@@ -24,4 +24,18 @@ void main() {
 
     await tester.tap(find.byType(Slider));
   });
+
+  testWidgets('Test LenraSlider properties are properly passed to Slider', (WidgetTester tester) async {
+    await tester.pumpWidget(createComponentTestWidgets(
+      const LenraSlider(
+        divisions: 5,
+        label: "Foo",
+      ),
+    ));
+
+    Slider slider = tester.widget(find.byType(Slider));
+    expect(slider.divisions, 5);
+    expect(slider.label, "Foo");
+    expect(slider.autofocus, false);
+  });
 }
