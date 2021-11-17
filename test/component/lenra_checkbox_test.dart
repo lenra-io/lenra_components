@@ -5,7 +5,7 @@ import 'package:lenra_components/component/lenra_checkbox.dart';
 import '../utils/lenra_page_test_help.dart';
 
 void main() {
-  testWidgets('Test LenraCheckbox value', (WidgetTester tester) async {
+  testWidgets('Test LenraCheckbox value and tristate', (WidgetTester tester) async {
     bool? value = false;
 
     await tester.pumpWidget(createComponentTestWidgets(

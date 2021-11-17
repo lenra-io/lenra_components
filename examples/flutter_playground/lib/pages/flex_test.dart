@@ -54,29 +54,44 @@ class _FlexTestState extends State<FlexTest> {
       fillParent: true,
       children: [
         Spacer(),
-        LenraCheckbox(
-          label: "Scrollable",
-          value: this.scrollable,
-          onPressed: () => setState(() {
-            this.scrollable = !this.scrollable;
-          }),
+        LenraFlex(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            LenraCheckbox(
+              value: this.scrollable,
+              onPressed: (bool? v) => setState(() {
+                this.scrollable = !this.scrollable;
+              }),
+            ),
+            const Text("Scrollable"),
+          ],
         ),
         LenraFlex(
           direction: Axis.vertical,
           children: [
-            LenraCheckbox(
-              label: "Vertical",
-              value: this.vertical,
-              onPressed: () => setState(() {
-                this.vertical = !this.vertical;
-              }),
+            LenraFlex(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                LenraCheckbox(
+                  value: this.vertical,
+                  onPressed: (bool? v) => setState(() {
+                    this.vertical = !this.vertical;
+                  }),
+                ),
+                const Text("Vertical"),
+              ],
             ),
-            LenraCheckbox(
-              label: "fillParent",
-              value: this.fillParent,
-              onPressed: () => setState(() {
-                this.fillParent = !this.fillParent;
-              }),
+            LenraFlex(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                LenraCheckbox(
+                  value: this.fillParent,
+                  onPressed: (bool? v) => setState(() {
+                    this.fillParent = !this.fillParent;
+                  }),
+                ),
+                const Text("fillParent"),
+              ],
             ),
           ],
         ),
