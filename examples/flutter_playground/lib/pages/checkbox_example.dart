@@ -27,30 +27,45 @@ class _CheckboxExampleState extends State<CheckboxExample> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            LenraCheckbox(
-              value: false,
-              onPressed: (bool? v) {},
+            const LenraFlex(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                LenraCheckbox(
+                  value: true,
+                  onPressed: null,
+                ),
+                Text("Disabled"),
+              ],
             ),
-            const LenraCheckbox(
-              value: true,
-              onPressed: null,
+            LenraFlex(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                LenraCheckbox(
+                  value: value,
+                  onPressed: (bool? v) {
+                    setState(() {
+                      value = !value;
+                    });
+                  },
+                ),
+                const Text("Basic"),
+              ],
             ),
-            LenraCheckbox(
-              value: value,
-              onPressed: (bool? v) {
-                setState(() {
-                  value = !value;
-                });
-              },
+            LenraFlex(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                LenraCheckbox(
+                  value: triValue,
+                  tristate: true,
+                  onPressed: (bool? v) {
+                    setState(() {
+                      triValue = v;
+                    });
+                  },
+                ),
+                const Text("Tristate"),
+              ],
             ),
-            LenraCheckbox(
-                value: triValue,
-                tristate: true,
-                onPressed: (bool? v) {
-                  setState(() {
-                    triValue = v;
-                  });
-                })
           ],
         ),
       ],

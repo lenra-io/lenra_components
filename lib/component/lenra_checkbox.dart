@@ -21,16 +21,12 @@ class LenraCheckbox extends StatelessWidget {
     this.autofocus = false,
   }) : super(key: key);
 
-  void onCheckboxPressed(bool? b) {
-    if (onPressed != null) onPressed!(b);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Checkbox(
       value: value,
       tristate: tristate,
-      onChanged: onCheckboxPressed,
+      onChanged: onPressed,
       materialTapTargetSize: materialTapTargetSize,
       focusNode: focusNode,
       autofocus: autofocus,
