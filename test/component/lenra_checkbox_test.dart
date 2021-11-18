@@ -78,6 +78,14 @@ void main() {
 
   testWidgets('Test LenraCheckbox style', (WidgetTester tester) async {
     bool value = false;
+    Color activeColor = Colors.blue.shade50;
+    Color checkColor = Colors.blue.shade100;
+    Color focusColor = Colors.blue.shade200;
+    Color hoverColor = Colors.blue.shade300;
+    double splashRadius = 10.0;
+    VisualDensity visualDensity = VisualDensity.compact;
+    const CircleBorder shape = CircleBorder();
+    const BorderSide side = BorderSide(width: 10);
 
     await tester.pumpWidget(createComponentTestWidgets(
       StatefulBuilder(
@@ -90,14 +98,14 @@ void main() {
               });
             },
             style: LenraCheckboxStyle(
-              activeColor: Colors.blue.shade50,
-              checkColor: Colors.blue.shade100,
-              focusColor: Colors.blue.shade200,
-              hoverColor: Colors.blue.shade300,
-              splashRadius: 10.0,
-              visualDensity: VisualDensity.compact,
-              shape: const CircleBorder(),
-              side: const BorderSide(width: 10),
+              activeColor: activeColor,
+              checkColor: checkColor,
+              focusColor: focusColor,
+              hoverColor: hoverColor,
+              splashRadius: splashRadius,
+              visualDensity: visualDensity,
+              shape: shape,
+              side: side,
             ),
           );
         },
@@ -105,13 +113,13 @@ void main() {
     ));
 
     Checkbox checkbox = tester.widget<Checkbox>(find.byType(Checkbox));
-    expect(checkbox.activeColor, Colors.blue.shade50);
-    expect(checkbox.checkColor, Colors.blue.shade100);
-    expect(checkbox.focusColor, Colors.blue.shade200);
-    expect(checkbox.hoverColor, Colors.blue.shade300);
-    expect(checkbox.splashRadius, 10.0);
-    expect(checkbox.visualDensity, VisualDensity.compact);
-    expect(checkbox.shape.runtimeType, CircleBorder);
-    expect(checkbox.side!.width, 10);
+    expect(checkbox.activeColor, activeColor);
+    expect(checkbox.checkColor, checkColor);
+    expect(checkbox.focusColor, focusColor);
+    expect(checkbox.hoverColor, hoverColor);
+    expect(checkbox.splashRadius, splashRadius);
+    expect(checkbox.visualDensity, visualDensity);
+    expect(checkbox.shape.runtimeType, shape.runtimeType);
+    expect(checkbox.side!.width, side.width);
   });
 }
