@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:lenra_components/layout/lenra_container.dart';
 import 'package:lenra_components/lenra_components.dart';
 
-class LenraContainerPage extends StatelessWidget {
+class ContainerExample extends StatelessWidget {
   final List<bool> selectedItems = [false, false];
 
-  LenraContainerPage({Key? key}) : super(key: key);
+  ContainerExample({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,19 +24,19 @@ class LenraContainerPage extends StatelessWidget {
               decoration: const BoxDecoration(
                 color: Colors.purple,
               ),
-              child: this.square("Purple"),
+              child: square("Purple"),
             ),
             LenraContainer(
               decoration: const BoxDecoration(
                 color: Colors.green,
               ),
-              child: this.square("Green"),
+              child: square("Green"),
             ),
             LenraContainer(
               decoration: const BoxDecoration(
                 color: Colors.orange,
               ),
-              child: this.square("Orange"),
+              child: square("Orange"),
             ),
           ],
         ),
@@ -50,14 +50,14 @@ class LenraContainerPage extends StatelessWidget {
                 color: const Color(0xFFEEEEEE),
                 border: Border.all(width: 1),
               ),
-              child: this.square("Border 1px"),
+              child: square("Border 1px"),
             ),
             LenraContainer(
               decoration: BoxDecoration(
                 color: const Color(0xFFEEEEEE),
                 border: Border.all(width: 3, color: Colors.lightBlue),
               ),
-              child: this.square("Border color"),
+              child: square("Border color"),
             ),
             LenraContainer(
               decoration: BoxDecoration(
@@ -65,7 +65,7 @@ class LenraContainerPage extends StatelessWidget {
                 border: Border.all(width: 3, color: Colors.lightBlue),
                 borderRadius: const BorderRadius.all(Radius.circular(20)),
               ),
-              child: this.square("BorderRadius"),
+              child: square("BorderRadius"),
             ),
           ],
         ),
@@ -79,7 +79,7 @@ class LenraContainerPage extends StatelessWidget {
                 color: const Color(0xFFEEEEEE),
                 boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.2), offset: const Offset(2, 2), blurRadius: 2)],
               ),
-              child: this.square("Shadow"),
+              child: square("Shadow"),
             ),
             LenraContainer(
               decoration: BoxDecoration(
@@ -88,7 +88,7 @@ class LenraContainerPage extends StatelessWidget {
                   BoxShadow(color: Colors.purple.withOpacity(0.4), offset: const Offset(3, 3), blurRadius: 2)
                 ],
               ),
-              child: this.square("Shadow color"),
+              child: square("Shadow color"),
             ),
             LenraContainer(
               decoration: BoxDecoration(
@@ -107,7 +107,7 @@ class LenraContainerPage extends StatelessWidget {
                   ),
                 ],
               ),
-              child: this.square("All in one"),
+              child: square("All in one"),
             ),
           ],
         ),
