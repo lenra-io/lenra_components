@@ -47,6 +47,7 @@ class LeftMenu extends StatelessWidget {
         createMenu(context, 'Wrap Examples', wrapExample),
         createMenu(context, 'stackExample', stackExample),
         createMenu(context, 'overlayEntry Example', overlayEntryExample),
+        createMenu(context, 'OverlayEntry Examples', overlayEntryExample),
       ],
     );
   }
