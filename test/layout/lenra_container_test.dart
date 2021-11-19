@@ -60,4 +60,22 @@ void main() {
 
     expect(tester.getSize(find.byType(LenraContainer)), const Size(800, 600));
   });
+
+  testWidgets('LenraContainer test decoration', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      createComponentTestWidgets(
+        LenraContainer(
+          child: const SizedBox(),
+          decoration: BoxDecoration(
+            border: Border.all(width: 2.0),
+            color: Colors.blue,
+          ),
+        ),
+      ),
+    );
+
+    BoxDecoration decoration = tester.widget<Container>(find.byType(Container)).decoration as BoxDecoration;
+    expect(decoration.color, Colors.blue);
+    expect(decoration.border!.bottom.width, 2.0);
+  });
 }
