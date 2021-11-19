@@ -2,18 +2,35 @@ import 'package:flutter/widgets.dart';
 import 'package:lenra_components/theme/lenra_theme.dart';
 
 class LenraFlex extends StatelessWidget {
+  /// The children of the `LenraFlex`.
   final List<Widget> children;
-  //Multiplaying factor of the theme BaseSize (8)
+
+  /// The spacing between each element of the `LenraFlex`. The value is multiplied by the theme's `baseSize`.
   final double spacing;
+
+  /// Whether the `LenraFlex` should fill its parent.
   final bool fillParent;
+
+  /// The alignment of the children along the main axis (`direction`).
   final MainAxisAlignment mainAxisAlignment;
+
+  /// The alignment of the children along the cross axis (opposite of `direction`).
   final CrossAxisAlignment crossAxisAlignment;
+
+  /// Whether the `LenraFlex` should be scrollable when it overflows.
   final bool scroll;
+
+  /// The padding around the `LenraFlex`.
   final EdgeInsets? padding;
+
+  /// Defines in which order the children should be layed out horizontally.
   final TextDirection? horizontalDirection;
+
+  /// Defines in which order the children should be layed out vertically.
   final VerticalDirection verticalDirection;
   final TextBaseline? textBaseline;
 
+  /// The direction to use as the main axis for laying out the children.
   final Axis direction;
 
   const LenraFlex({
