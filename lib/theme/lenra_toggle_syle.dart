@@ -11,6 +11,8 @@ class LenraToggleStyle {
   final ImageProvider<Object>? activeThumbImage;
   final ImageProvider<Object>? inactiveThumbImage;
   final MaterialTapTargetSize? materialTapTargetSize;
+  final ImageErrorListener? onActiveThumbImageError;
+  final ImageErrorListener? onInactiveThumbImageError;
 
   const LenraToggleStyle({
     this.inactiveThumbColor,
@@ -20,5 +22,7 @@ class LenraToggleStyle {
     this.activeThumbImage,
     this.inactiveThumbImage,
     this.materialTapTargetSize,
+    this.onInactiveThumbImageError,
+    this.onActiveThumbImageError,
   });
 }
