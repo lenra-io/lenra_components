@@ -96,6 +96,7 @@ class LTextField extends StatelessWidget {
       controller: controller,
       style: style?.textStyle,
       cursorColor: style?.cursorColor,
+      cursorHeight: style?.cursorHeight,
       cursorRadius: style?.cursorRadius,
       cursorWidth: style?.cursorWidth ?? 2.0,
       decoration: style?.decoration,
