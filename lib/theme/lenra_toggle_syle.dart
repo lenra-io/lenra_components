@@ -8,9 +8,6 @@ class LenraToggleStyle {
   final Color? inactiveThumbColor;
   final Color? hoverColor;
   final Color? focusColor;
-  final MaterialStateProperty<Color>? overlayColor;
-  final MaterialStateProperty<Color>? thumbColor;
-  final MaterialStateProperty<Color>? trackColor;
   final ImageProvider<Object>? activeThumbImage;
   final ImageErrorListener? onActiveThumbImageError;
   final ImageProvider<Object>? inactiveThumbImage;
@@ -22,9 +19,6 @@ class LenraToggleStyle {
     this.activeTrackColor,
     this.hoverColor,
     this.focusColor,
-    this.overlayColor,
-    this.thumbColor,
-    this.trackColor,
     this.activeThumbImage,
     this.inactiveThumbImage,
     this.onActiveThumbImageError,

@@ -43,10 +43,7 @@ class LenraToggle extends StatelessWidget {
       onActiveThumbImageError: style?.onActiveThumbImageError,
       onChanged: onPressed,
       onInactiveThumbImageError: style?.onInactiveThumbImageError,
-      overlayColor: style?.overlayColor,
       splashRadius: splashRadius,
-      thumbColor: style?.thumbColor,
-      trackColor: style?.trackColor,
     );
   }
 }
