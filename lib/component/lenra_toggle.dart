@@ -9,7 +9,6 @@ class LenraToggle extends StatelessWidget {
   final bool value;
   final ValueChanged<bool> onPressed;
   final double? splashRadius;
-  final FocusNode? focusNode;
   final bool autofocus;
   final DragStartBehavior dragStartBehavior;
 
@@ -19,7 +18,6 @@ class LenraToggle extends StatelessWidget {
     required this.onPressed,
     this.splashRadius,
     this.autofocus = true,
-    this.focusNode,
     this.dragStartBehavior = DragStartBehavior.start,
     Key? key,
   }) : super(key: key);
@@ -34,7 +32,6 @@ class LenraToggle extends StatelessWidget {
       autofocus: autofocus,
       dragStartBehavior: dragStartBehavior,
       focusColor: style?.focusColor,
-      focusNode: focusNode,
       hoverColor: style?.hoverColor,
       inactiveThumbColor: style?.inactiveThumbColor,
       inactiveThumbImage: style?.inactiveThumbImage,
