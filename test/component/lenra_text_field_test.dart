@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lenra_components/component/lenra_text_field.dart';
-import 'package:lenra_components/theme/text_field_style.dart';
+import 'package:lenra_components/theme/lenra_text_field_style.dart';
 
 import '../utils/lenra_page_test_help.dart';
 
@@ -13,7 +13,7 @@ void main() {
   testWidgets('Test LenraTextField style', (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(
       LenraTextField(
-        style: TextFieldStyle(
+        style: LenraTextFieldStyle(
           cursorColor: Colors.red,
           cursorHeight: 10,
           cursorRadius: const Radius.circular(3),

@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-class TextFieldStyle {
+class LenraTextFieldStyle {
   final Color? cursorColor;
   final double? cursorHeight;
   final Radius? cursorRadius;
@@ -18,7 +18,7 @@ class TextFieldStyle {
   final TextAlign? textAlign;
   final TextAlignVertical? textAlignVertical;
 
-  TextFieldStyle({
+  LenraTextFieldStyle({
     this.cursorColor,
     this.cursorHeight,
     this.cursorRadius,

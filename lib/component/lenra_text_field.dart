@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lenra_components/theme/text_field_style.dart';
+import 'package:lenra_components/theme/lenra_text_field_style.dart';
 
 class LenraTextField extends StatelessWidget {
   final bool autocorrect;
@@ -11,7 +11,7 @@ class LenraTextField extends StatelessWidget {
   final bool autofocus;
   final InputCounterWidgetBuilder? buildCounter;
   final TextEditingController? controller;
-  final TextFieldStyle? style;
+  final LenraTextFieldStyle? style;
   final DragStartBehavior dragStartBehavior;
   final bool? enabled;
   final bool enableIMEPersonalizedLearning;
