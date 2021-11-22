@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:lenra_components/component/text_field.dart';
 import 'package:lenra_components/lenra_components.dart';
+import 'package:lenra_components/theme/text_field_style.dart';
 
 class TextFieldExample extends StatefulWidget {
   const TextFieldExample({Key? key}) : super(key: key);
@@ -41,7 +43,21 @@ class _TextFieldExampleState extends State<TextFieldExample> {
           label: "error + errorMessage",
           errorMessage: "errorMessage",
           error: true,
-        )
+        ),
+        LTextField(
+          style: TextFieldStyle(
+            decoration: InputDecoration(
+              labelText: "label",
+              hintText: "hint",
+              errorText: "error",
+              helperText: "helper",
+              prefixText: "prefix",
+              suffixText: "suffix",
+              counterText: "counter",
+              semanticCounterText: "semanticCounter",
+            ),
+          ),
+        ),
       ],
     );
   }
