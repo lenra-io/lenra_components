@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lenra_components/theme/lenra_toggle_syle.dart';
 
-// ignore: todo
 //TODO: move this value in Theme
 
 class LenraToggle extends StatelessWidget {
