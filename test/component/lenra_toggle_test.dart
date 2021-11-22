@@ -40,22 +40,28 @@ void main() {
     expect(style.materialTapTargetSize, MaterialTapTargetSize.padded);
   });
 
-  // testWidgets('Test onPressed', (WidgetTester tester) async {
-  //   var isSwitched = false;
-  //   LenraToggle lenraToggle = LenraToggle(
-  //     key: const Key('myKey'),
-  //     value: isSwitched,
-  //     onPressed: (newValue) {
-  //       setState(() {
-  //         isSwitched = newValue;
-  //       });
-  //     },
-  //   );
-  //   await tester.pumpWidget(lenraToggle);
-  //   expect(lenraToggle.value, false);
-  //   await tester.tap(find.byKey(const Key('myKey')));
-  //   expect(lenraToggle.value, true);
-  // });
+  testWidgets('Test onPressed', (WidgetTester tester) async {
+    var value = false;
+    await tester.pumpWidget(Directionality(
+        textDirection: TextDirection.ltr,
+        child: StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+          return Material(
+              child: LenraToggle(
+            key: const Key('myKey'),
+            value: value,
+            onPressed: (newValue) {
+              setState(() {
+                value = newValue;
+              });
+            },
+          ));
+        })));
+
+    expect(value, false);
+    await tester.tap(find.byKey(const Key('myKey')));
+    await tester.pump();
+    expect(value, true);
+  });
 }
 
 void setState(Null Function() param0) {}
