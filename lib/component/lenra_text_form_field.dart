@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lenra_components/component/lenra_text_field.dart';
+import 'package:lenra_components/component/lenra_text_field_old.dart';
 import 'package:lenra_components/theme/lenra_theme_data.dart';
 import 'package:lenra_components/utils/form_validators.dart';
 
@@ -86,7 +86,7 @@ class LenraTextFormField extends FormField<String> {
                   ? passwordValidator(validator)
                   : validator,
           builder: (FormFieldState field) {
-            return LenraTextField(
+            return LenraTextFieldOld(
               label: label,
               hintText: hintText,
               description: description,

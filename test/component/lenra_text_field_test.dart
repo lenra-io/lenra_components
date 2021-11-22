@@ -1,107 +1,59 @@
+import 'dart:ui';
+
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lenra_components/component/lenra_text_field.dart';
-import 'package:lenra_components/theme/lenra_theme_data.dart';
+import 'package:lenra_components/theme/text_field_style.dart';
 
 import '../utils/lenra_page_test_help.dart';
 
 void main() {
-  const String fourLines = 'First line\n'
-      'Second line\n'
-      'Third line\n'
-      'Fourth line';
-
-  test('LenraTextField test', () {
-    LenraTextField component = LenraTextField(
-      onChanged: (String test) {},
-    );
-    expect(component is LenraTextField, true);
-  });
-
-  testWidgets('Test LenraTextField Small size', (WidgetTester tester) async {
+  /// The LenraTextField widget defined in this project just passes its properties to the Flutter's TextField widget
+  /// except for the style. So we're testing that the style is properly applied to the LenraTextField widget.
+  testWidgets('Test LenraTextField style', (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(
       LenraTextField(
-        size: LenraComponentSize.small,
-        onChanged: (String test) {},
+        style: TextFieldStyle(
+          cursorColor: Colors.red,
+          cursorHeight: 10,
+          cursorRadius: const Radius.circular(3),
+          cursorWidth: 10,
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+          ),
+          keyboardAppearance: Brightness.dark,
+          obscuringCharacter: '*',
+          scrollPadding: const EdgeInsets.all(10),
+          selectionHeightStyle: BoxHeightStyle.max,
+          selectionWidthStyle: BoxWidthStyle.max,
+          strutStyle: null,
+          textStyle: const TextStyle(
+            color: Colors.red,
+            fontSize: 10,
+            fontWeight: FontWeight.bold,
+          ),
+          textAlign: TextAlign.center,
+          textAlignVertical: TextAlignVertical.center,
+        ),
       ),
     ));
 
-    expect(tester.getSize(find.byType(LenraTextField)).height, equals(24.0));
-  });
-  testWidgets('Test LenraTextField Medium size', (WidgetTester tester) async {
-    await tester.pumpWidget(createComponentTestWidgets(
-      LenraTextField(
-        size: LenraComponentSize.medium,
-        onChanged: (String test) {},
-      ),
-    ));
-
-    expect(tester.getSize(find.byType(LenraTextField)).height, equals(32.0));
-  });
-
-  testWidgets('Test LenraTextField Large size', (WidgetTester tester) async {
-    await tester.pumpWidget(createComponentTestWidgets(
-      LenraTextField(
-        size: LenraComponentSize.large,
-        onChanged: (String test) {},
-      ),
-    ));
-
-    expect(tester.getSize(find.byType(LenraTextField)).height, equals(40.0));
-  });
-
-  testWidgets('Test LenraTextField error minLines greater than maxLines', (WidgetTester tester) async {
-    expect(() async {
-      await tester.pumpWidget(createAppTestWidgets(LenraTextField(minLines: 3)));
-    }, throwsAssertionError);
-  });
-
-  testWidgets('Test LenraTextField minLines size', (WidgetTester tester) async {
-    await tester.pumpWidget(createComponentTestWidgets(
-      const LenraTextField(
-        minLines: 2,
-        maxLines: null,
-      ),
-    ));
-
-    expect(tester.getSize(find.byType(LenraTextField)).height, equals(48.0));
-  });
-
-  testWidgets('Test LenraTextField minLines size with text doesnt expand', (WidgetTester tester) async {
-    await tester.pumpWidget(createComponentTestWidgets(
-      const LenraTextField(
-        minLines: 1,
-        maxLines: 1,
-      ),
-    ));
-
-    await tester.enterText(find.byType(LenraTextField), fourLines);
-
-    expect(tester.getSize(find.byType(LenraTextField)).height, equals(32.0));
-  });
-
-  testWidgets('Test LenraTextField maxLines size', (WidgetTester tester) async {
-    await tester.pumpWidget(createComponentTestWidgets(
-      const LenraTextField(
-        maxLines: 4,
-      ),
-    ));
-
-    expect(tester.getSize(find.byType(LenraTextField)).height, equals(80.0));
-  });
-
-  testWidgets('Test LenraTextField maxLines size with text expands', (WidgetTester tester) async {
-    await tester.pumpWidget(createComponentTestWidgets(
-      const LenraTextField(
-        minLines: 2,
-        maxLines: 6,
-      ),
-    ));
-
-    expect(tester.getSize(find.byType(LenraTextField)).height, equals(48.0));
-
-    await tester.enterText(find.byType(LenraTextField), fourLines);
-    await tester.pump();
-
-    expect(tester.getSize(find.byType(LenraTextField)).height, equals(80.0));
+    final TextField textField = tester.widget(find.byType(TextField));
+    expect(textField.cursorColor, Colors.red);
+    expect(textField.cursorHeight, 10);
+    expect(textField.cursorRadius, const Radius.circular(3));
+    expect(textField.cursorWidth, 10);
+    expect(textField.decoration?.border.runtimeType, OutlineInputBorder);
+    expect(textField.keyboardAppearance, Brightness.dark);
+    expect(textField.obscuringCharacter, '*');
+    expect(textField.scrollPadding, const EdgeInsets.all(10));
+    expect(textField.selectionHeightStyle, BoxHeightStyle.max);
+    expect(textField.selectionWidthStyle, BoxWidthStyle.max);
+    expect(textField.strutStyle, null);
+    expect(textField.style?.color, Colors.red);
+    expect(textField.style?.fontSize, 10);
+    expect(textField.style?.fontWeight, FontWeight.bold);
+    expect(textField.textAlign, TextAlign.center);
+    expect(textField.textAlignVertical, TextAlignVertical.center);
   });
 }

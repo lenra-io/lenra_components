@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lenra_components/component/lenra_text_field.dart';
+import 'package:lenra_components/component/lenra_text_field_old.dart';
 import 'package:lenra_components/component/lenra_text_form_field.dart';
 
 import '../utils/lenra_page_test_help.dart';
@@ -24,7 +24,7 @@ void main() {
       ),
     ));
 
-    expect(find.byType(LenraTextField), findsOneWidget);
+    expect(find.byType(LenraTextFieldOld), findsOneWidget);
   });
 
   testWidgets('Test LenraTextFormField error minLines greater than maxLines', (WidgetTester tester) async {
