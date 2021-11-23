@@ -18,11 +18,7 @@ void main() {
 
     LenraToggle lenraToggle = LenraToggle(
       value: _giveVerse,
-      onPressed: (bool newValue) {
-        setState(() {
-          _giveVerse = newValue;
-        });
-      },
+      onPressed: null,
       style: style,
       autofocus: true,
       splashRadius: 2,
@@ -38,9 +34,10 @@ void main() {
     expect(style.inactiveThumbColor, Colors.amber);
     expect(style.hoverColor, Colors.amber);
     expect(style.materialTapTargetSize, MaterialTapTargetSize.padded);
+    expect(lenraToggle.onPressed, null);
   });
 
-  testWidgets('Test onPressed', (WidgetTester tester) async {
+  testWidgets('Test onPressed active', (WidgetTester tester) async {
     var value = false;
     await tester.pumpWidget(Directionality(
         textDirection: TextDirection.ltr,
@@ -63,5 +60,3 @@ void main() {
     expect(value, true);
   });
 }
-
-void setState(Null Function() param0) {}
