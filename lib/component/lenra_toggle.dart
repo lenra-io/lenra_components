@@ -7,7 +7,7 @@ import 'package:lenra_components/theme/lenra_toggle_syle.dart';
 class LenraToggle extends StatelessWidget {
   final LenraToggleStyle? style;
   final bool value;
-  final ValueChanged<bool> onPressed;
+  final ValueChanged<bool>? onPressed;
   final double? splashRadius;
   final FocusNode? focusNode;
   final bool autofocus;
