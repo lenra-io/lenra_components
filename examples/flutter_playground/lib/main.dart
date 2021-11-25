@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_playground/pages/wrap_example.dart';
+import 'package:flutter_playground/pages/stack_example.dart';
 
 import 'package:lenra_components/theme/lenra_theme.dart';
 import 'package:lenra_components/theme/lenra_theme_data.dart';
@@ -84,6 +85,8 @@ class _MyAppState extends State<MyApp> {
         return const TextFieldExample();
       case LeftMenu.wrapExample:
         return const WrapExample();
+      case LeftMenu.stackExample:
+        return const StackExample();
     }
     return const Text("N/A");
   }

@@ -18,6 +18,7 @@ class LeftMenu extends StatelessWidget {
   static const buttonExample = "buttonExample";
   static const textFieldExample = "textFieldExample";
   static const wrapExample = "wrapExample";
+  static const stackExample = "stackExample";
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +44,7 @@ class LeftMenu extends StatelessWidget {
         createMenu(context, 'Button Examples', buttonExample),
         createMenu(context, 'Textfield Examples', textFieldExample),
         createMenu(context, 'Wrap Examples', wrapExample),
+        createMenu(context, 'stackExample', stackExample),
       ],
     );
   }
