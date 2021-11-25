@@ -151,6 +151,58 @@ void main() {
 
     expect(find.byType(Padding), findsNothing);
   });
+
+  testWidgets('Flex horizontalDirection should work', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      createIn100x100Container(
+        LenraFlex(
+          horizontalDirection: TextDirection.ltr,
+          fillParent: true,
+          children: createTwo10x10Container(),
+        ),
+      ),
+    );
+
+    expect(tester.getTopLeft(find.byKey(const Key("A"))), const Offset(0, 0));
+
+    await tester.pumpWidget(
+      createIn100x100Container(
+        LenraFlex(
+          horizontalDirection: TextDirection.rtl,
+          fillParent: true,
+          children: createTwo10x10Container(),
+        ),
+      ),
+    );
+
+    expect(tester.getTopRight(find.byKey(const Key("A"))), const Offset(100, 0));
+  });
+
+  testWidgets('Flex verticalDirection should work', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      createIn100x100Container(
+        LenraFlex(
+          verticalDirection: VerticalDirection.down,
+          fillParent: true,
+          children: createTwo10x10Container(),
+        ),
+      ),
+    );
+
+    expect(tester.getTopLeft(find.byKey(const Key("A"))), const Offset(0, 0));
+
+    await tester.pumpWidget(
+      createIn100x100Container(
+        LenraFlex(
+          verticalDirection: VerticalDirection.up,
+          fillParent: true,
+          children: createTwo10x10Container(),
+        ),
+      ),
+    );
+
+    expect(tester.getBottomLeft(find.byKey(const Key("A"))), const Offset(0, 10));
+  });
   /*testFor(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
     crossAxisAlignment: CrossAxisAlignment.start,
