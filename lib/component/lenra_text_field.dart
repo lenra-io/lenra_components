@@ -14,9 +14,8 @@ class LenraTextField extends StatelessWidget {
   final LenraTextFieldStyle? style;
   final DragStartBehavior dragStartBehavior;
   final bool? enabled;
-  final bool enableIMEPersonalizedLearning;
   final bool enableInteractiveSelection;
-  final bool enableSuggestions;
+  final bool enableSuggestions = true;
   final bool expands;
   final FocusNode? focusNode;
   final List<TextInputFormatter>? formatters;
@@ -38,8 +37,6 @@ class LenraTextField extends StatelessWidget {
   final ScrollPhysics? scrollPhysics;
   final TextSelectionControls? selectionControls;
   final bool? showCursor;
-  final SmartDashesType? smartDashesType;
-  final SmartQuotesType? smartQuotesType;
   final TextCapitalization textCapitalization;
   final TextDirection? textDirection;
   final TextInputAction? textInputAction;
@@ -55,9 +52,7 @@ class LenraTextField extends StatelessWidget {
     this.style,
     this.dragStartBehavior = DragStartBehavior.start,
     this.enabled,
-    this.enableIMEPersonalizedLearning = true,
     this.enableInteractiveSelection = true,
-    this.enableSuggestions = true,
     this.expands = false,
     this.focusNode,
     this.formatters,
@@ -78,8 +73,6 @@ class LenraTextField extends StatelessWidget {
     this.scrollPhysics,
     this.selectionControls,
     this.showCursor = false,
-    this.smartDashesType,
-    this.smartQuotesType,
     this.textCapitalization = TextCapitalization.none,
     this.textDirection,
     this.textInputAction,
@@ -110,9 +103,7 @@ class LenraTextField extends StatelessWidget {
       textAlignVertical: style?.textAlignVertical,
       dragStartBehavior: dragStartBehavior,
       enabled: enabled,
-      enableIMEPersonalizedLearning: enableIMEPersonalizedLearning,
       enableInteractiveSelection: enableInteractiveSelection,
-      enableSuggestions: enableSuggestions,
       expands: expands,
       focusNode: focusNode,
       keyboardType: keyboardType,
@@ -132,8 +123,6 @@ class LenraTextField extends StatelessWidget {
       scrollPhysics: scrollPhysics,
       selectionControls: selectionControls,
       showCursor: showCursor,
-      smartDashesType: smartDashesType,
-      smartQuotesType: smartQuotesType,
       textCapitalization: textCapitalization,
       textDirection: textDirection,
       textInputAction: textInputAction,
