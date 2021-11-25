@@ -15,7 +15,7 @@ import 'pages/button_example.dart';
 import 'pages/checkbox_example.dart';
 import 'pages/radio_example.dart';
 import 'pages/status_sticker_example.dart';
-import 'pages/lenra_styled_container_page.dart';
+import 'pages/container_example.dart';
 import 'pages/textfield_example.dart';
 
 void main() {
@@ -73,8 +73,8 @@ class _MyAppState extends State<MyApp> {
         return DropdownExample();
       case LeftMenu.STICKER_EXAMPLE:
         return StatusStickerExample();
-      case LeftMenu.STYLED_CONTAINER_EXAMPLE:
-        return LenraStyledContainerPage();
+      case LeftMenu.containerExample:
+        return ContainerExample();
       case LeftMenu.radioExample:
         return const RadioExample();
       case LeftMenu.checkboxExample:
