@@ -8,6 +8,8 @@ class LenraContainer extends StatelessWidget {
   /// The padding around the `LenraContainer`.
   final EdgeInsets? padding;
 
+  final BoxBorder? border;
+
   /// The constraints to apply to the `LenraContainer`.
   final BoxConstraints? constraints;
 
@@ -18,6 +20,7 @@ class LenraContainer extends StatelessWidget {
     Key? key,
     required this.child,
     this.padding,
+    this.border,
     this.constraints,
     this.decoration,
   }) : super(key: key);
@@ -30,7 +33,7 @@ class LenraContainer extends StatelessWidget {
       child: child,
       padding: padding != null ? padding! * theme.baseSize : padding,
       constraints: constraints,
-      decoration: decoration,
+      decoration: decoration == null ? BoxDecoration(border: border) : decoration!.copyWith(border: border),
     );
   }
 }
