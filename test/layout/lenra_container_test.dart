@@ -66,8 +66,8 @@ void main() {
       createComponentTestWidgets(
         LenraContainer(
           child: const SizedBox(),
-          decoration: BoxDecoration(
-            border: Border.all(width: 2.0),
+          border: Border.all(width: 2.0),
+          decoration: const BoxDecoration(
             color: Colors.blue,
           ),
         ),
@@ -77,5 +77,30 @@ void main() {
     BoxDecoration decoration = tester.widget<Container>(find.byType(Container)).decoration as BoxDecoration;
     expect(decoration.color, Colors.blue);
     expect(decoration.border!.bottom.width, 2.0);
+  });
+
+  testWidgets('LenraContainer test border', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      createComponentTestWidgets(
+        const LenraContainer(
+          child: SizedBox(),
+        ),
+      ),
+    );
+
+    var sizeContainer = tester.getSize(find.byType(LenraContainer));
+
+    await tester.pumpWidget(
+      createComponentTestWidgets(
+        LenraContainer(
+          child: const SizedBox(),
+          border: Border.all(width: 1.0),
+        ),
+      ),
+    );
+
+    var sizeContainer1 = tester.getSize(find.byType(LenraContainer));
+
+    expect(sizeContainer.height + 2, sizeContainer1.height);
   });
 }
