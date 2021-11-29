@@ -88,7 +88,7 @@ void main() {
       ),
     );
 
-    var sizeContainer = tester.getSize(find.byType(LenraContainer));
+    var containerSize = tester.getSize(find.byType(LenraContainer));
 
     await tester.pumpWidget(
       createComponentTestWidgets(
@@ -99,8 +99,8 @@ void main() {
       ),
     );
 
-    var sizeContainer1 = tester.getSize(find.byType(LenraContainer));
+    var containerWithBorderSize = tester.getSize(find.byType(LenraContainer));
 
-    expect(sizeContainer.height + 2, sizeContainer1.height);
+    expect(containerSize.height + 2, containerWithBorderSize.height);
   });
 }

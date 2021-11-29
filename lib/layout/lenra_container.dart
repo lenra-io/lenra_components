@@ -8,21 +8,21 @@ class LenraContainer extends StatelessWidget {
   /// The padding around the `LenraContainer`.
   final EdgeInsets? padding;
 
+  final BoxBorder? border;
+
   /// The constraints to apply to the `LenraContainer`.
   final BoxConstraints? constraints;
 
   /// The decoration of the `LenraContainer`.
   final BoxDecoration? decoration;
 
-  final BoxBorder? border;
-
   const LenraContainer({
     Key? key,
     required this.child,
     this.padding,
+    this.border,
     this.constraints,
     this.decoration,
-    this.border,
   }) : super(key: key);
 
   @override
