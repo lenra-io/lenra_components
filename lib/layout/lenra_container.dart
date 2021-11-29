@@ -14,12 +14,15 @@ class LenraContainer extends StatelessWidget {
   /// The decoration of the `LenraContainer`.
   final BoxDecoration? decoration;
 
+  final BoxBorder? border;
+
   const LenraContainer({
     Key? key,
     required this.child,
     this.padding,
     this.constraints,
     this.decoration,
+    this.border,
   }) : super(key: key);
 
   @override
@@ -30,7 +33,7 @@ class LenraContainer extends StatelessWidget {
       child: child,
       padding: padding != null ? padding! * theme.baseSize : padding,
       constraints: constraints,
-      decoration: decoration,
+      decoration: decoration == null ? BoxDecoration(border: border) : decoration!.copyWith(border: border),
     );
   }
 }
