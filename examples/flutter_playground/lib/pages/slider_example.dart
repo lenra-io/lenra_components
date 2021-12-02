@@ -28,6 +28,7 @@ class _SliderExampleState extends State<SliderExample> {
           LenraSlider(
             divisions: 4,
             value: value,
+            label: label,
             onChanged: (v) {
               setState(() {
                 value = v;
