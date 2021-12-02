@@ -76,5 +76,10 @@ void main() {
     expect(value, 0.5);
     expect(valueStart, 0.0);
     expect(valueEnd, 0.5);
+    await tester.pump();
+    await tester.tap(find.byType(LenraSlider));
+    expect(value, 0.5);
+    expect(valueStart, 0.5);
+    expect(valueEnd, 0.5);
   });
 }
