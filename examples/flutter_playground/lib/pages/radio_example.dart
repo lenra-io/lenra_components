@@ -17,6 +17,7 @@ class _RadioExampleState extends State<RadioExample> {
       direction: Axis.vertical,
       children: [
         LenraFlex(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             LenraRadio(
               value: 1,
@@ -27,6 +28,7 @@ class _RadioExampleState extends State<RadioExample> {
           ],
         ),
         LenraFlex(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             LenraRadio(
               value: 1,
@@ -37,6 +39,7 @@ class _RadioExampleState extends State<RadioExample> {
           ],
         ),
         const LenraFlex(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             LenraRadio(
               value: 1,
@@ -47,6 +50,7 @@ class _RadioExampleState extends State<RadioExample> {
           ],
         ),
         const LenraFlex(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             LenraRadio(
               value: 1,
@@ -57,6 +61,7 @@ class _RadioExampleState extends State<RadioExample> {
           ],
         ),
         LenraFlex(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             LenraRadio(
               value: 1,
@@ -71,6 +76,7 @@ class _RadioExampleState extends State<RadioExample> {
           ],
         ),
         LenraFlex(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             LenraRadio(
               value: 2,
@@ -85,6 +91,7 @@ class _RadioExampleState extends State<RadioExample> {
           ],
         ),
         LenraFlex(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             LenraRadio(
               value: 3,
