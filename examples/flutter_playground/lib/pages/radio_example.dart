@@ -16,61 +16,94 @@ class _RadioExampleState extends State<RadioExample> {
     return LenraFlex(
       direction: Axis.vertical,
       children: [
-        LenraRadio(
-          label: "Basic",
-          value: 1,
-          groupValue: 2,
-          onPressed: () {},
+        LenraFlex(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            LenraRadio(
+              value: 1,
+              groupValue: 2,
+              onPressed: (value) {},
+            ),
+            const Text("Basic"),
+          ],
         ),
-        LenraRadio(
-          label: "Selected",
-          value: 1,
-          groupValue: 1,
-          onPressed: () {},
+        LenraFlex(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            LenraRadio(
+              value: 1,
+              groupValue: 1,
+              onPressed: (value) {},
+            ),
+            const Text("Selected"),
+          ],
         ),
-        LenraRadio(
-          label: "Disabled",
-          disabled: true,
-          value: 1,
-          groupValue: 2,
-          onPressed: () {},
+        const LenraFlex(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            LenraRadio(
+              value: 1,
+              groupValue: 2,
+              onPressed: null,
+            ),
+            Text("Disabled"),
+          ],
         ),
-        LenraRadio(
-          label: "Disabled selected",
-          disabled: true,
-          value: 1,
-          groupValue: 1,
-          onPressed: () {},
+        const LenraFlex(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            LenraRadio(
+              value: 1,
+              groupValue: 1,
+              onPressed: null,
+            ),
+            const Text("Disabled selected"),
+          ],
         ),
-        LenraRadio(
-          label: "Interactive 1",
-          value: 1,
-          groupValue: groupValue,
-          onPressed: () {
-            setState(() {
-              groupValue = 1;
-            });
-          },
+        LenraFlex(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            LenraRadio(
+              value: 1,
+              groupValue: groupValue,
+              onPressed: (value) {
+                setState(() {
+                  groupValue = 1;
+                });
+              },
+            ),
+            const Text("Interactive 1"),
+          ],
         ),
-        LenraRadio(
-          label: "Interactive 2",
-          value: 2,
-          groupValue: groupValue,
-          onPressed: () {
-            setState(() {
-              groupValue = 2;
-            });
-          },
+        LenraFlex(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            LenraRadio(
+              value: 2,
+              groupValue: groupValue,
+              onPressed: (value) {
+                setState(() {
+                  groupValue = 2;
+                });
+              },
+            ),
+            const Text("Interactive 2"),
+          ],
         ),
-        LenraRadio(
-          label: "Interactive 3",
-          value: 3,
-          groupValue: groupValue,
-          onPressed: () {
-            setState(() {
-              groupValue = 3;
-            });
-          },
+        LenraFlex(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            LenraRadio(
+              value: 3,
+              groupValue: groupValue,
+              onPressed: (value) {
+                setState(() {
+                  groupValue = 3;
+                });
+              },
+            ),
+            const Text("Interactive 3"),
+          ],
         ),
       ],
     );

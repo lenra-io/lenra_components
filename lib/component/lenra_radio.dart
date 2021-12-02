@@ -1,48 +1,54 @@
 import 'package:flutter/material.dart';
-import 'package:lenra_components/layout/lenra_flex.dart';
-import 'package:lenra_components/theme/lenra_radio_theme_data.dart';
-import 'package:lenra_components/theme/lenra_theme.dart';
+import 'package:lenra_components/theme/lenra_radio_style.dart';
 
 class LenraRadio<T> extends StatelessWidget {
-  final String? label;
+  /// The value of the LenraRadio.
   final T value;
-  final T groupValue;
-  final bool disabled;
-  final void Function()? onPressed;
+
+  /// The selected value for a group of LenraRadio.
+  final T? groupValue;
+
+  /// The callback when the LenraRadio is clicked.
+  final ValueChanged<T?>? onPressed;
+
+  /// The style of the LenraRadio.
+  final LenraRadioStyle? style;
+
+  /// Whether this LenraRadio is focused initially.
+  final bool autofocus;
+  final FocusNode? focusNode;
+  final MaterialTapTargetSize? materialTapTargetSize;
+
+  /// Whether the LenraRadio can be unselected after selecting it.
+  final bool toggleable;
 
   const LenraRadio({
-    this.label,
+    Key? key,
     required this.value,
     required this.groupValue,
     required this.onPressed,
-    this.disabled = false,
-    Key? key,
+    this.style,
+    this.autofocus = false,
+    this.focusNode,
+    this.materialTapTargetSize,
+    this.toggleable = false,
   }) : super(key: key);
-
-  void onRadioChanged(T? newValue) {
-    if (onPressed != null) {
-      onPressed!();
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
-    final LenraRadioThemeData finalLenraRadioThemeData = LenraTheme.of(context).lenraRadioThemeData;
-
-    Widget radio = Radio<T>(
-        value: value,
-        groupValue: groupValue,
-        fillColor: finalLenraRadioThemeData.fillColor,
-        onChanged: disabled ? null : onRadioChanged);
-
-    if (label == null) return radio;
-
-    return LenraFlex(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        radio,
-        Text(label!, style: finalLenraRadioThemeData.getTextStyle(disabled)),
-      ],
+    return Radio<T>(
+      value: value,
+      groupValue: groupValue,
+      onChanged: onPressed,
+      activeColor: style?.activeColor,
+      focusColor: style?.focusColor,
+      hoverColor: style?.hoverColor,
+      splashRadius: style?.splashRadius,
+      visualDensity: style?.visualDensity,
+      autofocus: autofocus,
+      focusNode: focusNode,
+      materialTapTargetSize: materialTapTargetSize,
+      toggleable: toggleable,
     );
   }
 }
