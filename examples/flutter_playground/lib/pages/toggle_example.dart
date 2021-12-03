@@ -3,19 +3,18 @@ import 'package:lenra_components/component/lenra_toggle.dart';
 import 'package:lenra_components/theme/lenra_toggle_syle.dart';
 import 'package:lenra_components/layout/lenra_flex.dart';
 
-class ToggleTest extends StatefulWidget {
-  const ToggleTest({Key? key}) : super(key: key);
+class ToggleExample extends StatefulWidget {
+  const ToggleExample({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _ToggleTestState();
+    return _ToggleExampleState();
   }
 }
 
-class _ToggleTestState extends State<ToggleTest> {
+class _ToggleExampleState extends State<ToggleExample> {
   bool toggleValue = false;
-  bool toggleValue1 = false;
-  bool toggleValue2 = true;
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -28,7 +27,7 @@ class _ToggleTestState extends State<ToggleTest> {
             LenraFlex(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text('First Toggle'),
+                const Text('Basic'),
                 LenraToggle(
                   value: toggleValue,
                   onPressed: (newValue) {
@@ -42,39 +41,25 @@ class _ToggleTestState extends State<ToggleTest> {
             LenraFlex(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text('Second Toggle'),
+                const Text('Disabled'),
                 LenraToggle(
-                  value: toggleValue1,
-                  onPressed: (newValue) {
-                    setState(() {
-                      toggleValue1 = newValue;
-                    });
-                  },
+                  value: toggleValue,
+                  onPressed: null,
                 ),
               ],
             ),
             LenraFlex(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text(
-                    'This is a very long text that has absolutely no utility apart to test the utility of a very long text'),
+                const Text('Styled'),
                 LenraToggle(
-                  value: toggleValue2,
-                  onPressed: (newValue) {
-                    setState(() {
-                      toggleValue2 = newValue;
-                    });
-                  },
-                ),
-              ],
-            ),
-            const LenraFlex(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text('Toggle disabled'),
-                LenraToggle(
-                  value: false,
-                  onPressed: null,
+                  value: toggleValue,
+                  onPressed: (v) {},
+                  style: const LenraToggleStyle(
+                    activeTrackColor: Colors.green,
+                    inactiveThumbColor: Colors.black,
+                    hoverColor: Colors.red,
+                  ),
                 ),
               ],
             ),
