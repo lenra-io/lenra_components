@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lenra_components/component/lenra_checkbox.dart';
 import 'package:lenra_components/layout/lenra_flex.dart';
-import 'package:lenra_components/lenra_components.dart';
 
 class CheckboxExample extends StatefulWidget {
   const CheckboxExample({Key? key}) : super(key: key);
@@ -13,6 +13,7 @@ class CheckboxExample extends StatefulWidget {
 
 class _CheckboxExampleState extends State<CheckboxExample> {
   bool value = true;
+  bool? triValue = true;
 
   @override
   Widget build(BuildContext context) {
@@ -26,20 +27,45 @@ class _CheckboxExampleState extends State<CheckboxExample> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            LenraCheckbox(label: "Basic", value: false, onPressed: () {}),
-            LenraCheckbox(
-                label: "Disabled",
-                disabled: true,
-                value: true,
-                onPressed: () {}),
-            LenraCheckbox(
-                label: "Interactive",
-                value: value,
-                onPressed: () {
-                  setState(() {
-                    value = !value;
-                  });
-                }),
+            const LenraFlex(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                LenraCheckbox(
+                  value: true,
+                  onPressed: null,
+                ),
+                Text("Disabled"),
+              ],
+            ),
+            LenraFlex(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                LenraCheckbox(
+                  value: value,
+                  onPressed: (bool? v) {
+                    setState(() {
+                      value = !value;
+                    });
+                  },
+                ),
+                const Text("Basic"),
+              ],
+            ),
+            LenraFlex(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                LenraCheckbox(
+                  value: triValue,
+                  tristate: true,
+                  onPressed: (bool? v) {
+                    setState(() {
+                      triValue = v;
+                    });
+                  },
+                ),
+                const Text("Tristate"),
+              ],
+            ),
           ],
         ),
       ],
