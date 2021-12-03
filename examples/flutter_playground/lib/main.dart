@@ -9,6 +9,7 @@ import 'pages/my_lenra_menu.dart';
 import 'pages/lenra_flex_expanded.dart';
 import 'pages/flex_test.dart';
 import 'pages/overlay_entry_example.dart';
+import 'pages/slider_example.dart';
 import 'pages/stack_example.dart';
 import 'pages/toggle_test.dart';
 import 'pages/button_example.dart';
@@ -90,6 +91,8 @@ class _MyAppState extends State<MyApp> {
         return const StackExample();
       case LeftMenu.overlayEntryExample:
         return const OverlayEntryExample();
+      case LeftMenu.sliderExample:
+        return const SliderExample();
     }
     return const Text("N/A");
   }
