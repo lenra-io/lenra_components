@@ -11,7 +11,7 @@ import 'pages/flex_test.dart';
 import 'pages/overlay_entry_example.dart';
 import 'pages/slider_example.dart';
 import 'pages/stack_example.dart';
-import 'pages/toggle_test.dart';
+import 'pages/toggle_example.dart';
 import 'pages/button_example.dart';
 import 'pages/checkbox_example.dart';
 import 'pages/radio_example.dart';
@@ -68,7 +68,7 @@ class _MyAppState extends State<MyApp> {
       case LeftMenu.FLEX_EXPANDED_EXAMPLE:
         return LenraFlexExpanded();
       case LeftMenu.TOGGLE_EXAMPLE:
-        return ToggleTest();
+        return const ToggleExample();
       case LeftMenu.MENU_EXAMPLE:
         return MyLenraMenu();
       case LeftMenu.DROPDOWN_EXAMPLE:
