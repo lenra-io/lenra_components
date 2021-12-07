@@ -7,7 +7,7 @@ export 'component/lenra_radio.dart';
 export 'component/lenra_table.dart';
 export 'component/lenra_table_cell.dart';
 export 'component/lenra_table_row.dart';
-export 'component/lenra_text_field_old.dart';
+export 'component/lenra_text_field.dart';
 export 'component/lenra_text_form_field.dart';
 
 export 'layout/lenra_flex.dart';

@@ -1,9 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'package:lenra_components/component/text_field.dart';
 import 'package:lenra_components/lenra_components.dart';
-import 'package:lenra_components/theme/text_field_style.dart';
+import 'package:lenra_components/theme/lenra_text_field_style.dart';
 
 class TextFieldExample extends StatefulWidget {
   const TextFieldExample({Key? key}) : super(key: key);
@@ -13,6 +12,10 @@ class TextFieldExample extends StatefulWidget {
 }
 
 class _TextFieldExampleState extends State<TextFieldExample> {
+  final _formKey = GlobalKey<FormState>();
+  // declare a variable to keep track of the input text
+  String _name = '';
+
   @override
   Widget build(BuildContext context) {
     return LenraFlex(
@@ -20,32 +23,7 @@ class _TextFieldExampleState extends State<TextFieldExample> {
       spacing: 5,
       children: [
         LenraTextField(
-          label: "size small + disabled",
-          disabled: true,
-          size: LenraComponentSize.small,
-        ),
-        LenraTextField(
-          label: "size medium + obscure text",
-          obscure: true,
-          size: LenraComponentSize.medium,
-        ),
-        LenraTextField(
-          label: "size large + hintText",
-          hintText: "Hint Text",
-          size: LenraComponentSize.large,
-        ),
-        LenraTextField(
-          label: "size default + minLines = maxLines ",
-          minLines: 3,
-          maxLines: 5,
-        ),
-        LenraTextField(
-          label: "error + errorMessage",
-          errorMessage: "errorMessage",
-          error: true,
-        ),
-        LTextField(
-          style: TextFieldStyle(
+          style: LenraTextFieldStyle(
             decoration: InputDecoration(
               labelText: "label",
               hintText: "hint",
@@ -58,6 +36,27 @@ class _TextFieldExampleState extends State<TextFieldExample> {
             ),
           ),
         ),
+        LenraTextField(
+          minLines: 2,
+          maxLines: 5,
+          maxLength: 800,
+        ),
+        LenraTextFormField(
+          autovalidateMode: AutovalidateMode.always,
+          validator: (String? text) {
+            print(text);
+            if (text == null || text.isEmpty) {
+              return 'Can\'t be empty';
+            }
+            if (text.length < 4) {
+              return 'Too short';
+            }
+            return null;
+          },
+        ),
+        // LenraTextFormField(
+
+        // )
       ],
     );
   }
