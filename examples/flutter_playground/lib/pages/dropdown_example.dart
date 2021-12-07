@@ -3,6 +3,7 @@ import 'package:lenra_components/component/lenra_dropdown_button.dart';
 import 'package:lenra_components/lenra_components.dart';
 
 class DropdownExample extends StatelessWidget {
+  @override
   Widget build(BuildContext context) {
     return LenraFlex(
       direction: Axis.vertical,
@@ -15,11 +16,11 @@ class DropdownExample extends StatelessWidget {
           children: [
             LenraDropdownButton(
               text: "Top Left",
-              child: this.buildMenu(),
+              child: buildMenu(),
             ),
             LenraDropdownButton(
               text: "Top Right",
-              child: this.buildMenu(),
+              child: buildMenu(),
             ),
           ],
         ),
@@ -66,11 +67,11 @@ class DropdownExample extends StatelessWidget {
           children: [
             LenraDropdownButton(
               text: "Bottom Left",
-              child: this.buildMenu(),
+              child: buildMenu(),
             ),
             LenraDropdownButton(
               text: "Bottom Right",
-              child: this.buildMenu(),
+              child: buildMenu(),
             ),
           ],
         ),

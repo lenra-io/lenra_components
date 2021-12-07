@@ -58,9 +58,9 @@ class _FlexTestState extends State<FlexTest> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             LenraCheckbox(
-              value: this.scrollable,
+              value: scrollable,
               onPressed: (bool? v) => setState(() {
-                this.scrollable = !this.scrollable;
+                scrollable = !scrollable;
               }),
             ),
             const Text("Scrollable"),
@@ -73,9 +73,9 @@ class _FlexTestState extends State<FlexTest> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 LenraCheckbox(
-                  value: this.vertical,
+                  value: vertical,
                   onPressed: (bool? v) => setState(() {
-                    this.vertical = !this.vertical;
+                    vertical = !vertical;
                   }),
                 ),
                 const Text("Vertical"),
@@ -85,9 +85,9 @@ class _FlexTestState extends State<FlexTest> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 LenraCheckbox(
-                  value: this.fillParent,
+                  value: fillParent,
                   onPressed: (bool? v) => setState(() {
-                    this.fillParent = !this.fillParent;
+                    fillParent = !fillParent;
                   }),
                 ),
                 const Text("fillParent"),
