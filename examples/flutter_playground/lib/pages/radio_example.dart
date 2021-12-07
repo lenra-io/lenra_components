@@ -57,7 +57,7 @@ class _RadioExampleState extends State<RadioExample> {
               groupValue: 1,
               onPressed: null,
             ),
-            const Text("Disabled selected"),
+            Text("Disabled selected"),
           ],
         ),
         LenraFlex(

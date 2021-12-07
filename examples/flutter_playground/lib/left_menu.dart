@@ -6,12 +6,12 @@ class LeftMenu extends StatelessWidget {
   final Function(String) onMenuTapped;
   final String currentMenu;
 
-  static const FLEX_EXAMPLE = "Flex";
-  static const FLEX_EXPANDED_EXAMPLE = "FlexExpanded";
-  static const TOGGLE_EXAMPLE = "Toggle";
-  static const MENU_EXAMPLE = "menu";
-  static const DROPDOWN_EXAMPLE = "Dropdown";
-  static const STICKER_EXAMPLE = "Stickers";
+  static const flexExample = "Flex";
+  static const flexExpandedExample = "FlexExpanded";
+  static const toggleExample = "Toggle";
+  static const menuExample = "menu";
+  static const dropdownExample = "Dropdown";
+  static const stickerExample = "Stickers";
   static const containerExample = "containerExample";
   static const radioExample = "radioExample";
   static const checkboxExample = "checkboxExample";
@@ -34,12 +34,12 @@ class LeftMenu extends StatelessWidget {
           ),
           child: Text('Examples'),
         ),
-        createMenu(context, 'Flex Examples', FLEX_EXAMPLE),
-        createMenu(context, 'Flex with Expanded', FLEX_EXPANDED_EXAMPLE),
-        createMenu(context, 'Toggle Examples', TOGGLE_EXAMPLE),
-        createMenu(context, 'Menu Examples', MENU_EXAMPLE),
-        createMenu(context, 'Dropdown Examples', DROPDOWN_EXAMPLE),
-        createMenu(context, 'Stickers Examples', STICKER_EXAMPLE),
+        createMenu(context, 'Flex Examples', flexExample),
+        createMenu(context, 'Flex with Expanded', flexExpandedExample),
+        createMenu(context, 'Toggle Examples', toggleExample),
+        createMenu(context, 'Menu Examples', menuExample),
+        createMenu(context, 'Dropdown Examples', dropdownExample),
+        createMenu(context, 'Stickers Examples', stickerExample),
         createMenu(context, 'Container Examples', containerExample),
         createMenu(context, 'Radio Examples', radioExample),
         createMenu(context, 'Checkbox Example', checkboxExample),
