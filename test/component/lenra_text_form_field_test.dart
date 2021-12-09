@@ -39,11 +39,11 @@ void main() {
     await tester.pumpWidget(createComponentTestWidgets(
       LenraTextFormField(
         minLines: 2,
-        maxLines: null,
+        maxLines: 2,
       ),
     ));
 
-    expect(tester.getSize(find.byType(LenraTextFormField)).height, equals(32.0));
+    expect(tester.getSize(find.byType(LenraTextFormField)).height, equals(56.0));
   });
 
   testWidgets('Test LenraTextFormField minLines size with text doesnt expand', (WidgetTester tester) async {
@@ -56,7 +56,7 @@ void main() {
 
     await tester.enterText(find.byType(LenraTextFormField), fourLines);
 
-    expect(tester.getSize(find.byType(LenraTextFormField)).height, equals(16.0));
+    expect(tester.getSize(find.byType(LenraTextFormField)).height, equals(48.0));
   });
 
   testWidgets('Test LenraTextFormField maxLines size', (WidgetTester tester) async {
@@ -66,7 +66,7 @@ void main() {
       ),
     ));
 
-    expect(tester.getSize(find.byType(LenraTextFormField)).height, equals(16.0));
+    expect(tester.getSize(find.byType(LenraTextFormField)).height, equals(48.0));
   });
 
   testWidgets('Test LenraTextFormField maxLines size with text expands', (WidgetTester tester) async {
@@ -77,11 +77,11 @@ void main() {
       ),
     ));
 
-    expect(tester.getSize(find.byType(LenraTextFormField)).height, equals(32.0));
+    expect(tester.getSize(find.byType(LenraTextFormField)).height, equals(56.0));
     await tester.enterText(find.byType(LenraTextFormField), fourLines);
     await tester.pump();
 
-    expect(tester.getSize(find.byType(LenraTextFormField)).height, equals(64.0));
+    expect(tester.getSize(find.byType(LenraTextFormField)).height, equals(88.0));
   });
 
   testWidgets('Test validator', (WidgetTester tester) async {
