@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lenra_components/component/lenra_text_field.dart';
 import 'package:lenra_components/component/lenra_text_form_field.dart';
-import 'package:lenra_components/theme/lenra_text_field_style.dart';
 
 import '../utils/lenra_page_test_help.dart';
 
