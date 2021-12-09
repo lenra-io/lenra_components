@@ -124,12 +124,20 @@ class LenraTextFormField extends FormField<String> {
           enabled: enabled ?? true,
           autovalidateMode: autovalidateMode,
           builder: (FormFieldState field) {
+            final _LenraTextFormField state = field as _LenraTextFormField;
+            void onChangedHandler(String value) {
+              field.didChange(value);
+              if (onChanged != null) {
+                onChanged(value);
+              }
+            }
+
             return LenraTextField(
               autocorrect: autocorrect,
               autofillHints: autofillHints,
               autofocus: autofocus,
               buildCounter: buildCounter,
-              controller: controller,
+              controller: state._effectiveController,
               style: LenraTextFieldStyle(
                 cursorColor: style?.cursorColor,
                 cursorHeight: style?.cursorHeight,
@@ -157,7 +165,7 @@ class LenraTextFormField extends FormField<String> {
               mouseCursor: mouseCursor,
               obscureText: obscureText,
               onAppPrivateCommand: onAppPrivateCommand,
-              onChanged: onChanged,
+              onChanged: onChangedHandler,
               onEditingComplete: onEditingComplete,
               enabled: enabled ?? true,
               onSubmitted: onSubmitted,
@@ -180,13 +188,99 @@ class LenraTextFormField extends FormField<String> {
 }
 
 class _LenraTextFormField extends FormFieldState<String> {
+  RestorableTextEditingController? _controller;
+
+  TextEditingController get _effectiveController => widget.controller ?? _controller!.value;
+
   @override
   LenraTextFormField get widget => super.widget as LenraTextFormField;
 
   @override
+  void restoreState(RestorationBucket? oldBucket, bool initialRestore) {
+    super.restoreState(oldBucket, initialRestore);
+    if (_controller != null) {
+      _registerController();
+    }
+    // Make sure to update the internal [FormFieldState] value to sync up with
+    // text editing controller value.
+    setValue(_effectiveController.text);
+  }
+
+  void _registerController() {
+    assert(_controller != null);
+    registerForRestoration(_controller!, 'controller');
+  }
+
+  void _createLocalController([TextEditingValue? value]) {
+    assert(_controller == null);
+    _controller = value == null ? RestorableTextEditingController() : RestorableTextEditingController.fromValue(value);
+    if (!restorePending) {
+      _registerController();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.controller == null) {
+      _createLocalController(widget.initialValue != null ? TextEditingValue(text: widget.initialValue!) : null);
+    } else {
+      widget.controller!.addListener(_handleControllerChanged);
+    }
+  }
+
+  @override
+  void didUpdateWidget(TextFormField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.controller != oldWidget.controller) {
+      oldWidget.controller?.removeListener(_handleControllerChanged);
+      widget.controller?.addListener(_handleControllerChanged);
+
+      if (oldWidget.controller != null && widget.controller == null) {
+        _createLocalController(oldWidget.controller!.value);
+      }
+
+      if (widget.controller != null) {
+        setValue(widget.controller!.text);
+        if (oldWidget.controller == null) {
+          unregisterFromRestoration(_controller!);
+          _controller!.dispose();
+          _controller = null;
+        }
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    widget.controller?.removeListener(_handleControllerChanged);
+    _controller?.dispose();
+    super.dispose();
+  }
+
+  @override
   void didChange(String? value) {
     super.didChange(value);
-    if (widget.onChanged == null || value == null) return;
-    widget.onChanged!(value);
+
+    if (_effectiveController.text != value) _effectiveController.text = value ?? '';
+  }
+
+  @override
+  void reset() {
+    // setState will be called in the superclass, so even though state is being
+    // manipulated, no setState call is needed here.
+    _effectiveController.text = widget.initialValue ?? '';
+    super.reset();
+  }
+
+  void _handleControllerChanged() {
+    // Suppress changes that originated from within this class.
+    //
+    // In the case where a controller has been passed in to this widget, we
+    // register this change listener. In these cases, we'll also receive change
+    // notifications for changes originating from within this class -- for
+    // example, the reset() method. In such cases, the FormField value will
+    // already have been set.
+    if (_effectiveController.text != value) didChange(_effectiveController.text);
   }
 }
