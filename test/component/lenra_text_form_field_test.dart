@@ -12,7 +12,7 @@ void main() {
       'Third line\n'
       'Fourth line';
 
-  test('LenraTextFormField test', () {
+  /*test('LenraTextFormField test', () {
     LenraTextFormField component = LenraTextFormField(
       onChanged: (String test) {},
     );
@@ -105,5 +105,42 @@ void main() {
     await tester.enterText(find.byType(LenraTextField), "foo");
     await tester.pump();
     expect(_validateCalled, 2);
+  });*/
+
+  testWidgets('onChanged callbacks are called', (WidgetTester tester) async {
+    String _value = "";
+
+    await tester.pumpWidget(createComponentTestWidgets(
+      LenraTextFormField(
+        onChanged: (String value) {
+          _value = value;
+        },
+      ),
+    ));
+
+    await tester.enterText(find.byType(TextField), 'foo');
+    await tester.pump();
+    expect(_value, 'foo');
+  });
+
+  testWidgets('onChanged callbacks value and FormFieldState.value are sync', (WidgetTester tester) async {
+    bool _called = false;
+
+    late FormFieldState<String> state;
+
+    await tester.pumpWidget(createComponentTestWidgets(
+      LenraTextFormField(
+        onChanged: (String value) {
+          _called = true;
+          expect(value, state.value);
+        },
+      ),
+    ));
+
+    state = tester.state<FormFieldState<String>>(find.byType(LenraTextFormField));
+
+    await tester.enterText(find.byType(TextField), 'foo');
+
+    expect(_called, true);
   });
 }
