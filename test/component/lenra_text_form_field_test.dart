@@ -12,7 +12,7 @@ void main() {
       'Third line\n'
       'Fourth line';
 
-  /*test('LenraTextFormField test', () {
+  test('LenraTextFormField test', () {
     LenraTextFormField component = LenraTextFormField(
       onChanged: (String test) {},
     );
@@ -105,7 +105,7 @@ void main() {
     await tester.enterText(find.byType(LenraTextField), "foo");
     await tester.pump();
     expect(_validateCalled, 2);
-  });*/
+  });
 
   testWidgets('onChanged callbacks are called', (WidgetTester tester) async {
     String _value = "";
