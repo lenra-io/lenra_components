@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:flutter/material.dart';
 import 'package:lenra_components/lenra_components.dart';
 import 'package:lenra_components/theme/lenra_text_field_style.dart';
@@ -12,10 +10,6 @@ class TextFieldExample extends StatefulWidget {
 }
 
 class _TextFieldExampleState extends State<TextFieldExample> {
-  final _formKey = GlobalKey<FormState>();
-  // declare a variable to keep track of the input text
-  String _name = '';
-
   @override
   Widget build(BuildContext context) {
     return LenraFlex(
@@ -54,9 +48,6 @@ class _TextFieldExampleState extends State<TextFieldExample> {
             return null;
           },
         ),
-        // LenraTextFormField(
-
-        // )
       ],
     );
   }

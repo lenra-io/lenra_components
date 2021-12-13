@@ -124,7 +124,7 @@ class LenraTextFormField extends FormField<String> {
           enabled: enabled ?? true,
           autovalidateMode: autovalidateMode,
           builder: (FormFieldState field) {
-            final _LenraTextFormField state = field as _LenraTextFormField;
+            final _LenraTextFormFieldState state = field as _LenraTextFormFieldState;
             void onChangedHandler(String value) {
               field.didChange(value);
               if (onChanged != null) {
@@ -184,10 +184,10 @@ class LenraTextFormField extends FormField<String> {
         );
 
   @override
-  FormFieldState<String> createState() => _LenraTextFormField();
+  FormFieldState<String> createState() => _LenraTextFormFieldState();
 }
 
-class _LenraTextFormField extends FormFieldState<String> {
+class _LenraTextFormFieldState extends FormFieldState<String> {
   RestorableTextEditingController? _controller;
 
   TextEditingController get _effectiveController => widget.controller ?? _controller!.value;

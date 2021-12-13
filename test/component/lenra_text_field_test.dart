@@ -10,8 +10,6 @@ import 'package:lenra_components/theme/lenra_text_field_style.dart';
 import '../utils/lenra_page_test_help.dart';
 
 void main() {
-  /// The LenraTextField widget defined in this project just passes its properties to the Flutter's TextField widget
-  /// except for the style. So we're testing that the style is properly applied to the LenraTextField widget.
   testWidgets('Test LenraTextField', (WidgetTester tester) async {
     var myController = TextEditingController();
     var focusNode = FocusNode(debugLabel: "foo");
