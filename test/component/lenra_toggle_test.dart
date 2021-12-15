@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lenra_components/component/lenra_toggle.dart';
-import 'package:lenra_components/theme/lenra_toggle_syle.dart';
+import 'package:lenra_components/theme/lenra_toggle_style.dart';
 
 import '../utils/lenra_page_test_help.dart';
 

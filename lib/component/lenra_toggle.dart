@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:lenra_components/theme/lenra_toggle_syle.dart';
+import 'package:lenra_components/theme/lenra_toggle_style.dart';
 
 class LenraToggle extends StatelessWidget {
   final bool value;
