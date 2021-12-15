@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lenra_components/component/lenra_toggle.dart';
-import 'package:lenra_components/theme/lenra_toggle_syle.dart';
+import 'package:lenra_components/theme/lenra_toggle_style.dart';
 import 'package:lenra_components/layout/lenra_flex.dart';
 
 class ToggleExample extends StatefulWidget {
