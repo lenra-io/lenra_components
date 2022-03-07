@@ -49,6 +49,7 @@ class LenraTextFormField extends FormField<String> {
   final int? maxLines;
   final FocusNode? focusNode;
   final TextEditingController? controller;
+  final Iterable<String>? autofillHints;
 
   LenraTextFormField({
     Key? key,
@@ -71,6 +72,7 @@ class LenraTextFormField extends FormField<String> {
     this.maxLines = 1,
     this.focusNode,
     this.controller,
+    this.autofillHints = const <String>[],
   })  : assert(maxLines == null || maxLines > 0),
         assert(minLines == null || minLines > 0),
         assert(
@@ -102,6 +104,7 @@ class LenraTextFormField extends FormField<String> {
               maxLines: maxLines,
               focusNode: focusNode,
               onSuffixPressed: onSuffixPressed,
+              autofillHints: autofillHints,
             );
           },
         );
