@@ -22,6 +22,7 @@ class LenraTextField extends StatelessWidget {
   final int? maxLines;
   final FocusNode? focusNode;
   final TextEditingController? controller;
+  final Iterable<String>? autofillHints;
 
   const LenraTextField({
     Key? key,
@@ -42,6 +43,7 @@ class LenraTextField extends StatelessWidget {
     this.maxLines = 1,
     this.focusNode,
     this.controller,
+    this.autofillHints = const <String>[],
   })  : assert(maxLines == null || maxLines > 0),
         assert(minLines == null || minLines > 0),
         assert(
@@ -118,6 +120,7 @@ class LenraTextField extends StatelessWidget {
           size, disabled, hintText, error, obscure, onSuffixPressed, errorMessage),
       onSubmitted: onSubmitted,
       onChanged: onChanged,
+      autofillHints: autofillHints,
     );
   }
 }
