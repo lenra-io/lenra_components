@@ -15,7 +15,7 @@ class LenraOverlayEntry extends StatefulWidget {
     this.maintainState,
     this.opaque,
     this.showOverlay = false,
-  }) : super(key: UniqueKey());
+  }) : super(key: key);
 
   @override
   _LenraOverlayEntryState createState() => _LenraOverlayEntryState();
@@ -27,16 +27,30 @@ class _LenraOverlayEntryState extends State<LenraOverlayEntry> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) => _showOrHideOverlay());
+    if (widget.showOverlay) {
+      showOverlay();
+    }
   }
 
-  void _showOrHideOverlay() {
-    if (widget.showOverlay) {
-      overlayEntry = _createOverlayEntry();
-      Overlay.of(context)!.insert(overlayEntry);
-    } else {
-      overlayEntry.remove();
+  @override
+  void didUpdateWidget(LenraOverlayEntry oldWidget) {
+    if (oldWidget.showOverlay == false && widget.showOverlay == true) {
+      showOverlay();
+    } else if (oldWidget.showOverlay == true && widget.showOverlay == false) {
+      removeOverlay();
     }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  void showOverlay() {
+    overlayEntry = _createOverlayEntry();
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      Overlay.of(context)!.insert(overlayEntry);
+    });
+  }
+
+  void removeOverlay() {
+    overlayEntry.remove();
   }
 
   OverlayEntry _createOverlayEntry() {
@@ -45,18 +59,11 @@ class _LenraOverlayEntryState extends State<LenraOverlayEntry> {
       opaque: widget.opaque ?? false,
       builder: (context) => LenraTheme(
         themeData: LenraThemeData(),
-        child: GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onTap: () {
-              widget.showOverlay = false;
-            _showOrHideOverlay();
-          },
-          child: Material(
+        child: Material(
             color: Colors.transparent,
             child: widget.child ?? Container(),
           ),
         ),
-      ),
     );
   }
 
