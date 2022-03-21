@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:lenra_components/theme/lenra_theme.dart';
 import 'package:lenra_components/theme/lenra_theme_data.dart';
 
+// ignore: must_be_immutable
 class LenraOverlayEntry extends StatefulWidget {
   final Widget? child;
   final bool? maintainState;
   final bool? opaque;
+  bool showOverlay;
 
   LenraOverlayEntry({
     Key? key,
     this.child,
     this.maintainState,
     this.opaque,
+    this.showOverlay = false,
   }) : super(key: UniqueKey());
 
   @override
@@ -20,22 +23,19 @@ class LenraOverlayEntry extends StatefulWidget {
 
 class _LenraOverlayEntryState extends State<LenraOverlayEntry> {
   late OverlayEntry overlayEntry;
-  bool isEntryShown = false;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) => _toggleOverlayEntry());
+    WidgetsBinding.instance!.addPostFrameCallback((_) => _showOrHideOverlay());
   }
 
-  void _toggleOverlayEntry() {
-    if (!isEntryShown) {
+  void _showOrHideOverlay() {
+    if (widget.showOverlay) {
       overlayEntry = _createOverlayEntry();
       Overlay.of(context)!.insert(overlayEntry);
-      isEntryShown = true;
     } else {
       overlayEntry.remove();
-      isEntryShown = false;
     }
   }
 
@@ -47,7 +47,10 @@ class _LenraOverlayEntryState extends State<LenraOverlayEntry> {
         themeData: LenraThemeData(),
         child: GestureDetector(
           behavior: HitTestBehavior.translucent,
-          onTap: () => _toggleOverlayEntry(),
+          onTap: () {
+              widget.showOverlay = false;
+            _showOrHideOverlay();
+          },
           child: Material(
             color: Colors.transparent,
             child: widget.child ?? Container(),

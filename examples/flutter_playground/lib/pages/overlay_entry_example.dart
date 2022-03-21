@@ -14,6 +14,7 @@ class OverlayEntryExample extends StatefulWidget {
 
 class _OverlayEntryExampleState extends State<OverlayEntryExample> {
   Widget test = const SizedBox.shrink();
+  bool showOverlay = false;
 
   @override
   Widget build(BuildContext context) {
@@ -25,26 +26,27 @@ class _OverlayEntryExampleState extends State<OverlayEntryExample> {
             text: "Show Overlay",
             onPressed: () {
               setState(() {
-                test = LenraOverlayEntry(
-                  child: LenraFlex(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: 100,
-                        height: 100,
-                        child: LenraButton(
-                          text: "Foo",
-                          onPressed: () {},
-                        ),
-                      ),
-                    ],
-                  ),
-                );
+                showOverlay = true;
               });
             },
           ),
-          test,
+          LenraOverlayEntry(
+            showOverlay: showOverlay,
+            child: LenraFlex(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 100,
+                  height: 100,
+                  child: LenraButton(
+                    text: "Foo",
+                    onPressed: () {},
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
