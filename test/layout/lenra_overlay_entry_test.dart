@@ -8,6 +8,7 @@ void main() {
     await tester.pumpWidget(createComponentTestWidgets(
       LenraOverlayEntry(
         child: const Text("Foo"),
+        showOverlay: true,
       )
     ));
 
