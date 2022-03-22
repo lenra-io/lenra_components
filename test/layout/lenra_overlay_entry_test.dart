@@ -6,8 +6,8 @@ import '../utils/lenra_page_test_help.dart';
 void main() {
   testWidgets('Test OverlayEntry', (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(
-      LenraOverlayEntry(
-        child: const Text("Foo"),
+      const LenraOverlayEntry(
+        child: Text("Foo"),
         showOverlay: true,
       )
     ));
