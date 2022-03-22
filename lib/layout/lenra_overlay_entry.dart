@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:lenra_components/theme/lenra_theme.dart';
 import 'package:lenra_components/theme/lenra_theme_data.dart';
 
-// ignore: must_be_immutable
 class LenraOverlayEntry extends StatefulWidget {
   final Widget? child;
   final bool? maintainState;
   final bool? opaque;
-  bool showOverlay;
+  final bool showOverlay;
 
-  LenraOverlayEntry({
+  const LenraOverlayEntry({
     Key? key,
     this.child,
     this.maintainState,
