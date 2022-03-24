@@ -32,6 +32,14 @@ class _LenraOverlayEntryState extends State<LenraOverlayEntry> {
   }
 
   @override
+  void deactivate() {
+    if (overlayEntry.mounted) {
+      overlayEntry.remove();
+    }
+    super.deactivate();
+  }
+
+  @override
   void didUpdateWidget(LenraOverlayEntry oldWidget) {
     if (oldWidget.showOverlay == false && widget.showOverlay == true) {
       showOverlay();
@@ -59,10 +67,10 @@ class _LenraOverlayEntryState extends State<LenraOverlayEntry> {
       builder: (context) => LenraTheme(
         themeData: LenraThemeData(),
         child: Material(
-            color: Colors.transparent,
-            child: widget.child ?? Container(),
-          ),
+          color: Colors.transparent,
+          child: widget.child ?? Container(),
         ),
+      ),
     );
   }
 
