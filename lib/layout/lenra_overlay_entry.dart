@@ -32,14 +32,6 @@ class _LenraOverlayEntryState extends State<LenraOverlayEntry> {
   }
 
   @override
-  void deactivate() {
-    if (overlayEntry.mounted) {
-      overlayEntry.remove();
-    }
-    super.deactivate();
-  }
-
-  @override
   void didUpdateWidget(LenraOverlayEntry oldWidget) {
     if (oldWidget.showOverlay == false && widget.showOverlay == true) {
       showOverlay();
