@@ -6,13 +6,15 @@ class LenraOverlayEntry extends StatefulWidget {
   final Widget? child;
   final bool? maintainState;
   final bool? opaque;
+  final bool showOverlay;
 
-  LenraOverlayEntry({
+  const LenraOverlayEntry({
     Key? key,
     this.child,
     this.maintainState,
     this.opaque,
-  }) : super(key: UniqueKey());
+    this.showOverlay = false,
+  }) : super(key: key);
 
   @override
   _LenraOverlayEntryState createState() => _LenraOverlayEntryState();
@@ -20,23 +22,42 @@ class LenraOverlayEntry extends StatefulWidget {
 
 class _LenraOverlayEntryState extends State<LenraOverlayEntry> {
   late OverlayEntry overlayEntry;
-  bool isEntryShown = false;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) => _toggleOverlayEntry());
+    if (widget.showOverlay) {
+      showOverlay();
+    }
   }
 
-  void _toggleOverlayEntry() {
-    if (!isEntryShown) {
-      overlayEntry = _createOverlayEntry();
-      Overlay.of(context)!.insert(overlayEntry);
-      isEntryShown = true;
-    } else {
-      overlayEntry.remove();
-      isEntryShown = false;
+  @override
+  void deactivate() {
+    super.deactivate();
+    if (overlayEntry.mounted) {
+      removeOverlay();
     }
+  }
+
+  @override
+  void didUpdateWidget(LenraOverlayEntry oldWidget) {
+    if (oldWidget.showOverlay == false && widget.showOverlay == true) {
+      showOverlay();
+    } else if (oldWidget.showOverlay == true && widget.showOverlay == false) {
+      removeOverlay();
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  void showOverlay() {
+    overlayEntry = _createOverlayEntry();
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      Overlay.of(context)!.insert(overlayEntry);
+    });
+  }
+
+  void removeOverlay() {
+    overlayEntry.remove();
   }
 
   OverlayEntry _createOverlayEntry() {
@@ -45,13 +66,9 @@ class _LenraOverlayEntryState extends State<LenraOverlayEntry> {
       opaque: widget.opaque ?? false,
       builder: (context) => LenraTheme(
         themeData: LenraThemeData(),
-        child: GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onTap: () => _toggleOverlayEntry(),
-          child: Material(
-            color: Colors.transparent,
-            child: widget.child ?? Container(),
-          ),
+        child: Material(
+          color: Colors.transparent,
+          child: widget.child ?? Container(),
         ),
       ),
     );
