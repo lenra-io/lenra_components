@@ -4,7 +4,8 @@ import 'package:lenra_components/theme/lenra_theme_data.dart';
 import 'package:lenra_components/theme/lenra_color_theme_data.dart';
 
 class LenraTextThemeData {
-  static const double defaultBaseFontSize = LenraThemeData.defaultBaseSize * 3 / 2;
+  static const double defaultBaseFontSize = 15;
+  static const double baseLineHeight = 20;
   late TextStyle headline1;
   late TextStyle headline2;
   late TextStyle headline3;
@@ -22,7 +23,7 @@ class LenraTextThemeData {
   final double? lineHeight;
 
   LenraTextThemeData({
-    this.lineHeight = LenraThemeData.defaultBaseSize * 2 / defaultBaseFontSize,
+    this.lineHeight = baseLineHeight / defaultBaseFontSize,
     TextStyle? headline1,
     TextStyle? headline2,
     TextStyle? headline3,
@@ -37,38 +38,38 @@ class LenraTextThemeData {
   }) {
     this.headline1 = headline1 ??
         TextStyle(
-          fontSize: defaultBaseFontSize * 2,
+          fontSize: defaultBaseFontSize * 5 / 3,
           fontWeight: FontWeight.w700,
           height: lineHeight,
         );
     this.headline2 = headline2 ??
         TextStyle(
-          fontSize: defaultBaseFontSize * 5 / 3,
+          fontSize: defaultBaseFontSize * 4 / 3,
           fontWeight: FontWeight.w700,
           height: lineHeight,
         );
     this.headline3 = headline3 ??
         TextStyle(
-          fontSize: defaultBaseFontSize * 4 / 3,
+          fontSize: defaultBaseFontSize * 6 / 5,
           fontWeight: FontWeight.w700,
           height: lineHeight,
         );
     this.headline4 = headline4 ??
         TextStyle(
-          fontSize: defaultBaseFontSize * 5 / 4,
+          fontSize: defaultBaseFontSize,
           fontWeight: FontWeight.w700,
           height: lineHeight,
         );
     this.headlineBody = headlineBody ??
         TextStyle(
-          fontSize: defaultBaseFontSize * 5 / 4,
+          fontSize: defaultBaseFontSize,
           fontWeight: FontWeight.w600,
           height: lineHeight,
         );
     this.bodyText = bodyText ??
         TextStyle(
           fontFamily: "Source Sans Pro",
-          fontSize: defaultBaseFontSize * 5 / 4,
+          fontSize: defaultBaseFontSize,
           fontWeight: FontWeight.w400,
           color: LenraColorThemeData.lenraBlack,
           height: lineHeight,
@@ -76,14 +77,14 @@ class LenraTextThemeData {
     this.blueBodyText = bodyText ??
         TextStyle(
           fontFamily: "Source Sans Pro",
-          fontSize: defaultBaseFontSize * 5 / 4,
+          fontSize: defaultBaseFontSize,
           fontWeight: FontWeight.w400,
           color: LenraColorThemeData.lenraBlue,
           height: lineHeight,
         );
     this.subtext = subtext ??
         TextStyle(
-          fontSize: defaultBaseFontSize,
+          fontSize: defaultBaseFontSize * 4 / 5,
           height: lineHeight,
         );
     this.disabledBodyText = disabledBodyText ??
@@ -95,7 +96,7 @@ class LenraTextThemeData {
     this.underDescriptionText = underDescriptionText ??
         TextStyle(
           fontFamily: "Source Sans Pro",
-          fontSize: defaultBaseFontSize,
+          fontSize: defaultBaseFontSize * 4 / 5,
           fontWeight: FontWeight.w400,
           color: LenraColorThemeData.lenraGreyText,
           height: lineHeight,
@@ -103,7 +104,7 @@ class LenraTextThemeData {
     this.errorText = disabledBodyText ??
         TextStyle(
           fontFamily: "Source Sans Pro",
-          fontSize: defaultBaseFontSize * 1.25,
+          fontSize: defaultBaseFontSize,
           fontWeight: FontWeight.w400,
           color: Colors.red,
           height: lineHeight,

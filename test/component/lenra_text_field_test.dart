@@ -25,7 +25,7 @@ void main() {
       ),
     ));
 
-    expect(tester.getSize(find.byType(LenraTextField)).height, equals(24.0));
+    expect(tester.getSize(find.byType(LenraTextField)).height, equals(32.0));
   });
   testWidgets('Test LenraTextField Medium size', (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(
@@ -35,7 +35,7 @@ void main() {
       ),
     ));
 
-    expect(tester.getSize(find.byType(LenraTextField)).height, equals(32.0));
+    expect(tester.getSize(find.byType(LenraTextField)).height, equals(40.0));
   });
 
   testWidgets('Test LenraTextField Large size', (WidgetTester tester) async {
@@ -46,7 +46,7 @@ void main() {
       ),
     ));
 
-    expect(tester.getSize(find.byType(LenraTextField)).height, equals(40.0));
+    expect(tester.getSize(find.byType(LenraTextField)).height, equals(48.0));
   });
 
   testWidgets('Test LenraTextField error minLines greater than maxLines', (WidgetTester tester) async {

@@ -35,7 +35,7 @@ void main() {
       ),
     ));
 
-    expect(tester.getSize(find.byType(LenraButton)).height, equals(24.0));
+    expect(tester.getSize(find.byType(LenraButton)).height, equals(28.0));
   });
 
   testWidgets('Test LenraButton Medium size', (WidgetTester tester) async {
@@ -47,7 +47,7 @@ void main() {
       ),
     ));
 
-    expect(tester.getSize(find.byType(LenraButton)).height, equals(32.0));
+    expect(tester.getSize(find.byType(LenraButton)).height, equals(36.0));
   });
 
   testWidgets('Test LenraButton Large size', (WidgetTester tester) async {
@@ -59,7 +59,7 @@ void main() {
       ),
     ));
 
-    expect(tester.getSize(find.byType(LenraButton)).height, equals(40.0));
+    expect(tester.getSize(find.byType(LenraButton)).height, equals(44.0));
   });
 
   testWidgets('LenraButton test rightIcon and leftIcon in LenraRow should not crash', (WidgetTester tester) async {

@@ -43,4 +43,12 @@ void main() {
 
     expect(find.text("TestFooBazBar"), findsOneWidget);
   });
+
+  testWidgets('Basic LenraText', (WidgetTester tester) async {
+    await tester.pumpWidget(createComponentTestWidgets(
+      const LenraText("foo", style: LenraTextStyle.bodyText),
+    ));
+
+    expect(tester.getSize(find.byType(Text)).height, equals(24.0));
+  });
 }
