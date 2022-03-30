@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lenra_components/component/lenra_text.dart';
 import 'package:lenra_components/lenra_components.dart';
-import 'package:lenra_components/theme/lenra_text_theme_data.dart';
 
 import '../utils/lenra_page_test_help.dart';
 
