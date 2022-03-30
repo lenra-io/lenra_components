@@ -111,9 +111,6 @@ class LenraTextField extends StatelessWidget {
       style: lenraTextFieldThemeData.getLabelStyle(),
       minLines: minLines,
       maxLines: maxLines,
-      strutStyle: const StrutStyle(
-        leading: 0.15,
-      ),
       controller: controller,
       focusNode: focusNode,
       decoration: lenraTextFieldThemeData.getInputdecoration(

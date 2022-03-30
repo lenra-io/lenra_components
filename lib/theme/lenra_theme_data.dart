@@ -36,6 +36,7 @@ enum LenraTextStyle {
 }
 
 class LenraThemeData {
+  static const double defaultBaseSize = 8;
   final double baseSize;
   late Map<LenraComponentSize, EdgeInsets> paddingMap;
   late LenraColorThemeData lenraColorThemeData;
@@ -49,7 +50,7 @@ class LenraThemeData {
   late LenraMenuThemeData lenraMenuThemeData;
 
   LenraThemeData({
-    this.baseSize = 8,
+    this.baseSize = defaultBaseSize,
     Map<LenraComponentSize, EdgeInsets>? paddingMap,
     LenraColorThemeData? lenraColorThemeData,
     LenraTextThemeData? lenraTextThemeData,
@@ -68,8 +69,8 @@ class LenraThemeData {
           LenraComponentSize.large: EdgeInsets.symmetric(vertical: 1.5 * baseSize, horizontal: 2 * baseSize),
         };
     this.lenraColorThemeData = lenraColorThemeData ?? LenraColorThemeData();
-    this.lenraTextThemeData = lenraTextThemeData ?? LenraTextThemeData();
     this.lenraBorderThemeData = lenraBorderThemeData ?? LenraBorderThemeData();
+    this.lenraTextThemeData = lenraTextThemeData ?? LenraTextThemeData();
     this.lenraTableThemeData = LenraTableThemeData(
       lenraThemeData: this,
     );
