@@ -83,16 +83,16 @@ class LenraColorThemeData {
     this.primaryForegroundHoverColor = primaryForegroundHoverColor ?? lenraWhite;
     this.primaryForegroundDisabledColor = primaryForegroundDisabledColor ?? lenraWhite;
 
-    this.secondaryBackgroundColor = secondaryBackgroundColor ?? Colors.transparent;
+    this.secondaryBackgroundColor = secondaryBackgroundColor ?? Colors.white;
     this.secondaryBackgroundHoverColor = secondaryBackgroundHoverColor ?? lenraBlueUnavailable;
-    this.secondaryBackgroundDisabledColor = secondaryBackgroundDisabledColor ?? Colors.transparent;
+    this.secondaryBackgroundDisabledColor = secondaryBackgroundDisabledColor ?? Colors.white;
     this.secondaryForegroundColor = secondaryForegroundColor ?? lenraBlue;
     this.secondaryForegroundHoverColor = secondaryForegroundHoverColor ?? lenraBlue;
     this.secondaryForegroundDisabledColor = secondaryForegroundDisabledColor ?? lenraBlueUnavailable;
 
-    this.tertiaryBackgroundColor = tertiaryBackgroundColor ?? Colors.transparent;
+    this.tertiaryBackgroundColor = tertiaryBackgroundColor ?? Colors.white;
     this.tertiaryBackgroundHoverColor = tertiaryBackgroundHoverColor ?? lenraBlueUnavailable;
-    this.tertiaryBackgroundDisabledColor = tertiaryBackgroundDisabledColor ?? Colors.transparent;
+    this.tertiaryBackgroundDisabledColor = tertiaryBackgroundDisabledColor ?? Colors.white;
     this.tertiaryForegroundColor = tertiaryForegroundColor ?? lenraBlue;
     this.tertiaryForegroundHoverColor = tertiaryForegroundHoverColor ?? lenraBlue;
     this.tertiaryForegroundDisabledColor = tertiaryForegroundDisabledColor ?? lenraBlueUnavailable;
