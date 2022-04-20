@@ -16,6 +16,7 @@ void main() {
       style: style,
       semanticsLabel: "bar",
       locale: const Locale('fr', 'FR'),
+      textAlign: TextAlign.center,
     );
 
     expect(lenraText.text, "foo");
@@ -23,6 +24,7 @@ void main() {
     expect(lenraText.spellOut, false);
     expect(lenraText.semanticsLabel, "bar");
     expect(lenraText.locale, const Locale('fr', 'FR'));
+    expect(lenraText.textAlign, TextAlign.center);
   });
 
   testWidgets('Test LenraText children', (WidgetTester tester) async {
