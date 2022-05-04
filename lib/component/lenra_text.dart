@@ -7,6 +7,7 @@ class LenraText extends StatelessWidget {
   final Locale? locale;
   final String? semanticsLabel;
   final bool? spellOut;
+  final TextAlign? textAlign;
 
   const LenraText({
     Key? key,
@@ -16,6 +17,7 @@ class LenraText extends StatelessWidget {
     this.locale,
     this.semanticsLabel,
     this.spellOut,
+    this.textAlign,
   }) : super(key: key);
 
   TextSpan _toTextSpan(LenraText text) {
@@ -40,6 +42,7 @@ class LenraText extends StatelessWidget {
         semanticsLabel: semanticsLabel,
         spellOut: spellOut,
       ),
+      textAlign: textAlign,
     );
   }
 }

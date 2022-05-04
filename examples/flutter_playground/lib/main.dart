@@ -11,6 +11,7 @@ import 'pages/flex_test.dart';
 import 'pages/overlay_entry_example.dart';
 import 'pages/slider_example.dart';
 import 'pages/stack_example.dart';
+import 'pages/text_example.dart';
 import 'pages/toggle_example.dart';
 import 'pages/button_example.dart';
 import 'pages/checkbox_example.dart';
@@ -93,6 +94,8 @@ class _MyAppState extends State<MyApp> {
         return const OverlayEntryExample();
       case LeftMenu.sliderExample:
         return const SliderExample();
+      case LeftMenu.textExample:
+        return const TextExample();
     }
     return const Text("N/A");
   }
