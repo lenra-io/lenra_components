@@ -16,7 +16,7 @@ class LenraToggle extends StatelessWidget {
     required this.onPressed,
     this.style,
     this.splashRadius,
-    this.autofocus = true,
+    this.autofocus = false,
     this.focusNode,
     this.dragStartBehavior = DragStartBehavior.start,
     Key? key,
