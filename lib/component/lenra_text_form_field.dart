@@ -104,6 +104,7 @@ class LenraTextFormField extends FormField<String> {
               maxLines: maxLines,
               focusNode: focusNode,
               onSuffixPressed: onSuffixPressed,
+              controller: controller,
               autofillHints: autofillHints,
               onSubmitted: onSubmitted,
             );
