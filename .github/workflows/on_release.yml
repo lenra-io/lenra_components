@@ -33,7 +33,7 @@ jobs:
         uses: shiipou/workflows/trigger_workflow@main
         with:
           target_ref: ${{ steps.extract_tag.outputs.target_ref }}
-          target_repository: "${{ github.repository_owner }}/lenra_ui_runner,${{ github.repository_owner }}/client,${{ github.repository_owner }}/client-common"
+          target_repository: "${{ github.repository_owner }}/lenra_ui_runner,${{ github.repository_owner }}/client,${{ github.repository_owner }}/client-common,${{ github.repository_owner }}/client-store"
           target_workflow: create_or_update_pr.yml
           params: |
             {
