@@ -15,7 +15,11 @@ Function emailValidator(Function? aditionalValidator) {
       checkNotEmpty(),
       checkLength(min: 2, max: 64),
       checkEmailFormat(),
-      (aditionalValidator != null) ? aditionalValidator() : (String? value) {},
+      (aditionalValidator != null)
+          ? aditionalValidator()
+          : (String? value) {
+              return null;
+            },
     ],
   );
 }
@@ -26,7 +30,11 @@ Function passwordValidator(Function? aditionalValidator) {
       checkNotEmpty(),
       checkLength(min: 8, max: 64),
       checkPassword(),
-      (aditionalValidator != null) ? aditionalValidator() : (String? value) {},
+      (aditionalValidator != null)
+          ? aditionalValidator()
+          : (String? value) {
+              return null;
+            },
     ],
   );
 }

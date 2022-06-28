@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lenra_components/lenra_components.dart';
-import 'package:lenra_components/theme/lenra_theme_data.dart';
-import 'package:lenra_components/theme/lenra_color_theme_data.dart';
 
 class LenraTextThemeData {
   static const double defaultBaseFontSize = 15;

@@ -171,7 +171,7 @@ class _DropdownState extends State<_Dropdown> with TickerProviderStateMixin {
       vsync: this,
     );
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (overlayOffset == null) {
         var overlay = overlayKey.currentContext?.findRenderObject();
 

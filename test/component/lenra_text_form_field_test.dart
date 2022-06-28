@@ -10,13 +10,6 @@ void main() {
       'Third line\n'
       'Fourth line';
 
-  test('LenraTextFormField test', () {
-    LenraTextFormField component = LenraTextFormField(
-      onChanged: (String test) {},
-    );
-    expect(component is LenraTextFormField, true);
-  });
-
   testWidgets('Test LenraTextFormField create TextField', (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(
       LenraTextFormField(

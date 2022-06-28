@@ -36,10 +36,6 @@ void main() {
     expect(lenraDropdownButton.icon.toString(), const Icon(Icons.expand_more_outlined).toString());
   });
 
-  test('LenraDropdownButton test', () {
-    expect(basicDropdown is LenraDropdownButton, true);
-  });
-
   testWidgets('LenraDropdownButton should have an Icon', (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(basicDropdown));
 

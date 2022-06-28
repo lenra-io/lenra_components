@@ -14,7 +14,6 @@ void main() {
       decoration: BoxDecoration(color: Colors.red),
     );
 
-    expect(container is LenraContainer, true);
     expect(container.padding!.left, 2);
     expect(container.constraints!.minWidth, 0.0);
     expect(container.decoration!.color, Colors.red);

@@ -96,13 +96,6 @@ void testFor({
 }
 
 void main() {
-  test('LenraFlex test', () {
-    LenraFlex component = const LenraFlex(
-      children: [],
-    );
-    expect(component is LenraFlex, true);
-  });
-
   testFor(
     mainAxisAlignment: MainAxisAlignment.center,
     crossAxisAlignment: CrossAxisAlignment.center,

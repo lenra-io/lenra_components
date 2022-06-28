@@ -6,15 +6,6 @@ import 'package:lenra_components/theme/lenra_radio_style.dart';
 import '../utils/lenra_page_test_help.dart';
 
 void main() {
-  test('LenraRadio test', () {
-    LenraRadio component = LenraRadio<String>(
-      value: "Foo",
-      onPressed: (String? value) {},
-      groupValue: "Foo",
-    );
-    expect(component is LenraRadio, true);
-  });
-
   testWidgets('Test Basic LenraRadio', (WidgetTester tester) async {
     final List<String?> log = <String?>[];
     const radioKey = Key("A");

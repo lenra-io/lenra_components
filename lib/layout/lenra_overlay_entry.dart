@@ -51,7 +51,7 @@ class _LenraOverlayEntryState extends State<LenraOverlayEntry> {
 
   void showOverlay() {
     overlayEntry = _createOverlayEntry();
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Overlay.of(context)!.insert(overlayEntry);
     });
   }

@@ -12,9 +12,6 @@ void main() {
       LenraMenuItem(text: "test3", isSelected: true, onPressed: () {}),
     ],
   );
-  test('LenraMenu test', () {
-    expect(basicMenu is LenraMenu, true);
-  });
 
   testWidgets('LenraMenu error empty items', (WidgetTester tester) async {
     expect(() async {
