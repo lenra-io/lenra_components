@@ -7,14 +7,6 @@ import 'package:lenra_components/theme/lenra_theme.dart';
 import '../utils/lenra_page_test_help.dart';
 
 void main() {
-  
-
-  test('LenraStatusSticker test', () {
-    LenraStatusSticker component = const LenraStatusSticker(color: LenraColorThemeData.lenraCustomGreen);
-
-    expect(component is LenraStatusSticker, true);
-  });
-
   testWidgets('LenraStatusSticker size', (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(
       const LenraStatusSticker(
@@ -37,6 +29,7 @@ void main() {
       ),
     ));
 
-    expect((tester.widget(find.byType(LenraStatusSticker)) as LenraStatusSticker).color, LenraColorThemeData.lenraCustomGreen);
+    expect((tester.widget(find.byType(LenraStatusSticker)) as LenraStatusSticker).color,
+        LenraColorThemeData.lenraCustomGreen);
   });
 }

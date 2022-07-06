@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lenra_components/lenra_components.dart';
-import 'package:lenra_components/theme/lenra_color_theme_data.dart';
-import 'package:lenra_components/theme/lenra_menu_theme_data.dart';
-import 'package:lenra_components/theme/lenra_theme.dart';
-import 'package:lenra_components/theme/lenra_theme_data.dart';
 
 class LenraMenu extends StatelessWidget {
   final List<Widget> items;

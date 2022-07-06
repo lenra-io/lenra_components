@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lenra_components/layout/lenra_flex.dart';
 import 'package:lenra_components/lenra_components.dart';
 
 class ButtonExample extends StatefulWidget {

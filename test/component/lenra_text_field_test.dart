@@ -1,9 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lenra_components/component/lenra_text_field.dart';
 import 'package:lenra_components/lenra_components.dart';
-import 'package:lenra_components/theme/lenra_theme_data.dart';
 
 import '../utils/lenra_page_test_help.dart';
 
@@ -12,13 +9,6 @@ void main() {
       'Second line\n'
       'Third line\n'
       'Fourth line';
-
-  test('LenraTextField test', () {
-    LenraTextField component = LenraTextField(
-      onChanged: (String test) {},
-    );
-    expect(component is LenraTextField, true);
-  });
 
   testWidgets('Test LenraTextField Small size', (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(

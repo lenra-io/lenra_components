@@ -14,12 +14,6 @@ void main() {
     );
 
     expect(
-        lenraTableRow.toTableRow(
-          padding: const EdgeInsets.symmetric(vertical: 1 * 8.0, horizontal: 2 * 8.0),
-          theme: LenraTableThemeData(lenraThemeData: LenraThemeData()),
-        ) is TableRow,
-        true);
-    expect(
         lenraTableRow
             .toTableRow(
               padding: const EdgeInsets.symmetric(vertical: 1 * 8.0, horizontal: 2 * 8.0),
