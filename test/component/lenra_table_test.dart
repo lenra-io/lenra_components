@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:lenra_components/component/lenra_table.dart';
 import 'package:lenra_components/component/lenra_table_cell.dart';
 import 'package:lenra_components/component/lenra_table_row.dart';
+import 'package:lenra_components/theme/lenra_table_theme_data.dart';
 import 'package:lenra_components/theme/lenra_theme_data.dart';
 
 import '../utils/lenra_page_test_help.dart';
@@ -25,6 +26,21 @@ void main() {
     expect(lenraTable.size, LenraComponentSize.large);
   });
 
+  test('lenra table buildChildren function', () {
+    LenraTable.buildChildren(
+      padding: const EdgeInsets.symmetric(vertical: 1 * 8.0, horizontal: 2 * 8.0),
+      lenraTableThemeData: LenraTableThemeData(lenraThemeData: LenraThemeData()),
+      children: [
+        const LenraTableRow(
+          children: [
+            Text("test"),
+          ],
+        ),
+      ],
+    );
+  });
+
+  
   testWidgets('Test LenraTable Small size', (WidgetTester tester) async {
     await tester.pumpWidget(createComponentTestWidgets(
       const LenraTable(
