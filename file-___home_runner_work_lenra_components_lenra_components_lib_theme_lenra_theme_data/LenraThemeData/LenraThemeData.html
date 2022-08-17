@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the LenraThemeData constructor from Class LenraThemeData from the lenra_theme_data library, for the Dart programming language.">
+  <title>LenraThemeData constructor - LenraThemeData - lenra_theme_data library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../../"
+      data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">lenra_components</a></li>
+    <li><a href="../../file-___home_runner_work_lenra_components_lenra_components_lib_theme_lenra_theme_data/file-___home_runner_work_lenra_components_lenra_components_lib_theme_lenra_theme_data-library.html">lenra_theme_data</a></li>
+    <li><a href="../../file-___home_runner_work_lenra_components_lenra_components_lib_theme_lenra_theme_data/LenraThemeData-class.html">LenraThemeData</a></li>
+    <li class="self-crumb">LenraThemeData constructor</li>
+  </ol>
+  <div class="self-name">LenraThemeData</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+
+  <div id="dartdoc-main-content" class="main-content">
+      <div>
+<h1><span class="kind-constructor">LenraThemeData</span> constructor 
+    <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
+</h1></div>
+
+    <section class="multi-line-signature">
+      <span class="name ">LenraThemeData</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="-param-baseSize">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/double-class.html">double</a></span> <span class="parameter-name">baseSize</span> = <span class="default-value">defaultBaseSize</span>, </span></li>
+<li><span class="parameter" id="-param-paddingMap"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../file-___home_runner_work_lenra_components_lenra_components_lib_theme_lenra_theme_data/LenraComponentSize.html">LenraComponentSize</a></span>, <span class="type-parameter">dynamic</span>&gt;</span>?</span> <span class="parameter-name">paddingMap</span>, </span></li>
+<li><span class="parameter" id="-param-lenraColorThemeData"><span class="type-annotation">dynamic</span> <span class="parameter-name">lenraColorThemeData</span>, </span></li>
+<li><span class="parameter" id="-param-lenraTextThemeData"><span class="type-annotation">dynamic</span> <span class="parameter-name">lenraTextThemeData</span>, </span></li>
+<li><span class="parameter" id="-param-lenraBorderThemeData"><span class="type-annotation">dynamic</span> <span class="parameter-name">lenraBorderThemeData</span>, </span></li>
+<li><span class="parameter" id="-param-lenraButtonThemeData"><span class="type-annotation">dynamic</span> <span class="parameter-name">lenraButtonThemeData</span>, </span></li>
+<li><span class="parameter" id="-param-lenraRadioThemeData"><span class="type-annotation">dynamic</span> <span class="parameter-name">lenraRadioThemeData</span>, </span></li>
+<li><span class="parameter" id="-param-lenraCheckboxThemeData"><span class="type-annotation">dynamic</span> <span class="parameter-name">lenraCheckboxThemeData</span>, </span></li>
+<li><span class="parameter" id="-param-lenraTextFieldThemeData"><span class="type-annotation">dynamic</span> <span class="parameter-name">lenraTextFieldThemeData</span>, </span></li>
+<li><span class="parameter" id="-param-lenraTableThemeData"><span class="type-annotation">dynamic</span> <span class="parameter-name">lenraTableThemeData</span>, </span></li>
+<li><span class="parameter" id="-param-lenraMenuThemeData"><span class="type-annotation">dynamic</span> <span class="parameter-name">lenraMenuThemeData</span>}</span></li>
+</ol>)
+    </section>
+
+    
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">LenraThemeData({
+  this.baseSize = defaultBaseSize,
+  Map&lt;LenraComponentSize, EdgeInsets&gt;? paddingMap,
+  LenraColorThemeData? lenraColorThemeData,
+  LenraTextThemeData? lenraTextThemeData,
+  LenraBorderThemeData? lenraBorderThemeData,
+  LenraButtonThemeData? lenraButtonThemeData,
+  LenraRadioThemeData? lenraRadioThemeData,
+  LenraCheckboxThemeData? lenraCheckboxThemeData,
+  LenraTextFieldThemeData? lenraTextFieldThemeData,
+  LenraTableThemeData? lenraTableThemeData,
+  LenraMenuThemeData? lenraMenuThemeData,
+}) {
+  this.paddingMap = paddingMap ??
+      {
+        LenraComponentSize.small: EdgeInsets.symmetric(vertical: 0.5 * baseSize, horizontal: 2 * baseSize),
+        LenraComponentSize.medium: EdgeInsets.symmetric(vertical: 1 * baseSize, horizontal: 2 * baseSize),
+        LenraComponentSize.large: EdgeInsets.symmetric(vertical: 1.5 * baseSize, horizontal: 2 * baseSize),
+      };
+  this.lenraColorThemeData = lenraColorThemeData ?? LenraColorThemeData();
+  this.lenraBorderThemeData = lenraBorderThemeData ?? LenraBorderThemeData();
+  this.lenraTextThemeData = lenraTextThemeData ?? LenraTextThemeData();
+  this.lenraTableThemeData = LenraTableThemeData(
+    lenraThemeData: this,
+  );
+  this.lenraButtonThemeData = LenraButtonThemeData(
+    lenraThemeData: this,
+  );
+  this.lenraRadioThemeData = LenraRadioThemeData(
+    lenraThemeData: this,
+  );
+  this.lenraCheckboxThemeData = LenraCheckboxThemeData(
+    lenraThemeData: this,
+  );
+  this.lenraTextFieldThemeData = LenraTextFieldThemeData(
+    lenraThemeData: this,
+    paddingMap: this.paddingMap.map((key, value) =&gt; MapEntry(
+        key,
+        EdgeInsets.only(
+          top: value.top,
+          bottom: value.bottom,
+          left: baseSize,
+          right: baseSize,
+        ))),
+  );
+  this.lenraMenuThemeData = LenraMenuThemeData(
+    lenraThemeData: this,
+  );
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li><a href="../../index.html">lenra_components</a></li>
+  <li><a href="../../file-___home_runner_work_lenra_components_lenra_components_lib_theme_lenra_theme_data/file-___home_runner_work_lenra_components_lenra_components_lib_theme_lenra_theme_data-library.html">lenra_theme_data</a></li>
+  <li><a href="../../file-___home_runner_work_lenra_components_lenra_components_lib_theme_lenra_theme_data/LenraThemeData-class.html">LenraThemeData</a></li>
+  <li class="self-crumb">LenraThemeData constructor</li>
+</ol>
+
+
+    <h5>LenraThemeData class</h5>
+    <ol>
+
+        <li class="section-title"><a href="../../file-___home_runner_work_lenra_components_lenra_components_lib_theme_lenra_theme_data/LenraThemeData-class.html#constructors">Constructors</a></li>
+          <li><a href="../../file-___home_runner_work_lenra_components_lenra_components_lib_theme_lenra_theme_data/LenraThemeData/LenraThemeData.html">LenraThemeData</a></li>
+
+
+    <li class="section-title">
+      <a href="../../file-___home_runner_work_lenra_components_lenra_components_lib_theme_lenra_theme_data/LenraThemeData-class.html#instance-properties">Properties</a>
+    </li>
+    <li><a href="../../file-___home_runner_work_lenra_components_lenra_components_lib_theme_lenra_theme_data/LenraThemeData/baseSize.html">baseSize</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
+    <li><a href="../../file-___home_runner_work_lenra_components_lenra_components_lib_theme_lenra_theme_data/LenraThemeData/lenraBorderThemeData.html">lenraBorderThemeData</a></li>
+    <li><a href="../../file-___home_runner_work_lenra_components_lenra_components_lib_theme_lenra_theme_data/LenraThemeData/lenraButtonThemeData.html">lenraButtonThemeData</a></li>
+    <li><a href="../../file-___home_runner_work_lenra_components_lenra_components_lib_theme_lenra_theme_data/LenraThemeData/lenraCheckboxThemeData.html">lenraCheckboxThemeData</a></li>
+    <li><a href="../../file-___home_runner_work_lenra_components_lenra_components_lib_theme_lenra_theme_data/LenraThemeData/lenraColorThemeData.html">lenraColorThemeData</a></li>
+    <li><a href="../../file-___home_runner_work_lenra_components_lenra_components_lib_theme_lenra_theme_data/LenraThemeData/lenraMenuThemeData.html">lenraMenuThemeData</a></li>
+    <li><a href="../../file-___home_runner_work_lenra_components_lenra_components_lib_theme_lenra_theme_data/LenraThemeData/lenraRadioThemeData.html">lenraRadioThemeData</a></li>
+    <li><a href="../../file-___home_runner_work_lenra_components_lenra_components_lib_theme_lenra_theme_data/LenraThemeData/lenraTableThemeData.html">lenraTableThemeData</a></li>
+    <li><a href="../../file-___home_runner_work_lenra_components_lenra_components_lib_theme_lenra_theme_data/LenraThemeData/lenraTextFieldThemeData.html">lenraTextFieldThemeData</a></li>
+    <li><a href="../../file-___home_runner_work_lenra_components_lenra_components_lib_theme_lenra_theme_data/LenraThemeData/lenraTextThemeData.html">lenraTextThemeData</a></li>
+    <li><a href="../../file-___home_runner_work_lenra_components_lenra_components_lib_theme_lenra_theme_data/LenraThemeData/paddingMap.html">paddingMap</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
+
+    <li class="section-title"><a href="../../file-___home_runner_work_lenra_components_lenra_components_lib_theme_lenra_theme_data/LenraThemeData-class.html#instance-methods">Methods</a></li>
+    <li><a href="../../file-___home_runner_work_lenra_components_lenra_components_lib_theme_lenra_theme_data/LenraThemeData/copyWith.html">copyWith</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
+
+    <li class="section-title inherited"><a href="../../file-___home_runner_work_lenra_components_lenra_components_lib_theme_lenra_theme_data/LenraThemeData-class.html#operators">Operators</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></li>
+
+
+
+
+        <li class="section-title"><a href="../../file-___home_runner_work_lenra_components_lenra_components_lib_theme_lenra_theme_data/LenraThemeData-class.html#constants">Constants</a></li>
+          <li><a href="../../file-___home_runner_work_lenra_components_lenra_components_lib_theme_lenra_theme_data/LenraThemeData/defaultBaseSize-constant.html">defaultBaseSize</a></li>
+</ol>
+
+  </div><!--/.sidebar-offcanvas-left-->
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    lenra_components
+      0.0.0
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/script.js?v1"></script>
+
+
+
+</body>
+
+</html>
+
