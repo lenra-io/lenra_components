@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lenra_components/layout/lenra_container.dart';
-import 'package:lenra_components/theme/lenra_theme_data.dart';
 
 import '../utils/lenra_page_test_help.dart';
 
@@ -20,8 +19,7 @@ void main() {
   });
 
   testWidgets('LenraContainer test padding', (WidgetTester tester) async {
-    double baseSize = LenraThemeData().baseSize;
-    const double paddingFactor = 2.0;
+    const double paddingFactor = 16.0;
     const double childHeight = 10.0;
     const double childWidth = 0.0;
 
@@ -37,7 +35,7 @@ void main() {
       ),
     );
 
-    Size expectedSize = Size(childWidth + paddingFactor * 2 * baseSize, childHeight + paddingFactor * 2 * baseSize);
+    Size expectedSize = const Size(childWidth + paddingFactor * 2, childHeight + paddingFactor * 2);
     expect(tester.getSize(find.byType(LenraContainer)), expectedSize);
   });
 
