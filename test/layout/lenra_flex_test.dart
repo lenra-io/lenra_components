@@ -111,7 +111,7 @@ void main() {
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     crossAxisAlignment: CrossAxisAlignment.start,
     fillParent: false,
-    spacing: 1,
+    spacing: 8.0,
     direction: Axis.horizontal,
     aTLOffset: const Offset(0, 0),
     bTLOffset: const Offset(width + 8, 0),
