@@ -72,12 +72,11 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 Widget build(BuildContext context) {
-  var theme = LenraTheme.of(context);
   return Wrap(
     children: children,
     direction: direction,
-    spacing: spacing * theme.baseSize,
-    runSpacing: runSpacing * theme.baseSize,
+    spacing: spacing,
+    runSpacing: runSpacing,
     crossAxisAlignment: crossAxisAlignment,
     alignment: alignment,
     runAlignment: runAlignment,
