@@ -30,8 +30,8 @@ void main() {
   testWidgets('LenraWrap should properly wrap children', (WidgetTester tester) async {
     await tester.pumpWidget(createBaseTestWidgets(
       const LenraWrap(
-        spacing: 100,
-        runSpacing: 2,
+        spacing: 1000,
+        runSpacing: 16,
         children: [
           SizedBox(
             key: Key("sb1"),
@@ -51,8 +51,8 @@ void main() {
   testWidgets('LenraWrap direction should work', (WidgetTester tester) async {
     await tester.pumpWidget(createBaseTestWidgets(
       const LenraWrap(
-        spacing: 75,
-        runSpacing: 2,
+        spacing: 1000,
+        runSpacing: 16,
         direction: Axis.vertical,
         children: [
           SizedBox(

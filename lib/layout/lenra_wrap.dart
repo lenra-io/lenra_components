@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:lenra_components/theme/lenra_theme.dart';
 
 class LenraWrap extends StatelessWidget {
   final List<Widget> children;
@@ -27,7 +26,6 @@ class LenraWrap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var theme = LenraTheme.of(context);
     return Wrap(
       children: children,
       direction: direction,

@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:lenra_components/theme/lenra_theme.dart';
 
 class LenraContainer extends StatelessWidget {
   /// The child of the `LenraContainer`.
@@ -27,8 +26,6 @@ class LenraContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var theme = LenraTheme.of(context);
-
     return Container(
       child: child,
       padding: padding,
