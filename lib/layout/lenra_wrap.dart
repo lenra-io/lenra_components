@@ -31,8 +31,8 @@ class LenraWrap extends StatelessWidget {
     return Wrap(
       children: children,
       direction: direction,
-      spacing: spacing * theme.baseSize,
-      runSpacing: runSpacing * theme.baseSize,
+      spacing: spacing,
+      runSpacing: runSpacing,
       crossAxisAlignment: crossAxisAlignment,
       alignment: alignment,
       runAlignment: runAlignment,

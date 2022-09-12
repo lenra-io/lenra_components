@@ -31,7 +31,7 @@ class LenraContainer extends StatelessWidget {
 
     return Container(
       child: child,
-      padding: padding != null ? padding! * theme.baseSize : padding,
+      padding: padding,
       constraints: constraints,
       decoration: decoration == null ? BoxDecoration(border: border) : decoration!.copyWith(border: border),
     );
