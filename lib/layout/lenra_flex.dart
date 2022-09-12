@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:lenra_components/theme/lenra_theme.dart';
 
 class LenraFlex extends StatelessWidget {
   /// The children of the `LenraFlex`.
@@ -104,32 +103,30 @@ class LenraFlex extends StatelessWidget {
 
   List<Widget> _buildSpacedChildren(BuildContext context) {
     List<Widget> spacedChildren = [];
-    var theme = LenraTheme.of(context);
-    var space = spacing * theme.baseSize;
 
     if (_isSpaceEvenly()) {
-      spacedChildren.add(_buildSizedBox(space));
+      spacedChildren.add(_buildSizedBox(spacing));
     }
 
     if (_isSpaceAround()) {
-      spacedChildren.add(_buildSizedBox(space / 2));
+      spacedChildren.add(_buildSizedBox(spacing / 2));
     }
 
     children.asMap().forEach(
       (key, value) {
         if (key != 0) {
-          spacedChildren.add(_buildSizedBox(space));
+          spacedChildren.add(_buildSizedBox(spacing));
         }
         spacedChildren.add(value);
       },
     );
 
     if (_isSpaceEvenly()) {
-      spacedChildren.add(_buildSizedBox(space));
+      spacedChildren.add(_buildSizedBox(spacing));
     }
 
     if (_isSpaceAround()) {
-      spacedChildren.add(_buildSizedBox(space / 2));
+      spacedChildren.add(_buildSizedBox(spacing / 2));
     }
     return spacedChildren;
   }
