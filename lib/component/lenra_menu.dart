@@ -70,7 +70,7 @@ class LenraMenuItem extends StatelessWidget {
         vertical: theme.baseSize / 2,
       ),
       child: LenraFlex(
-        spacing: 1,
+        spacing: 8,
         crossAxisAlignment: CrossAxisAlignment.center,
         fillParent: true,
         children: [
