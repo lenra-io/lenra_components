@@ -8,11 +8,13 @@ void main() {
   test('LenraContainer test', () {
     LenraContainer container = const LenraContainer(
       child: Text("foo"),
+      alignment: Alignment.center,
       padding: EdgeInsets.all(2),
       constraints: BoxConstraints(),
       decoration: BoxDecoration(color: Colors.red),
     );
 
+    expect(container.alignment, Alignment.center);
     expect(container.padding!.left, 2);
     expect(container.constraints!.minWidth, 0.0);
     expect(container.decoration!.color, Colors.red);
