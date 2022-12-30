@@ -96,15 +96,16 @@ class LenraTextFormField extends FormField<String> {
                   ? passwordValidator(validator)
                   : validator,
           builder: (FormFieldState field) {
+            bool hasError = errorMessage != null && errorMessage != "";
             return LenraTextField(
               label: label,
               hintText: hintText,
               description: description,
-              errorMessage: field.errorText,
+              errorMessage: hasError ? errorMessage : field.errorText,
               obscure: obscure,
               disabled: disabled,
               inRow: inRow,
-              error: field.hasError,
+              error: hasError ? true : field.hasError,
               onChanged: field.didChange,
               size: size,
               width: width,

@@ -17,6 +17,7 @@ class LeftMenu extends StatelessWidget {
   static const checkboxExample = "checkboxExample";
   static const buttonExample = "buttonExample";
   static const textFieldExample = "textFieldExample";
+  static const textFormFieldExample = "textFormFieldExample";
   static const wrapExample = "wrapExample";
   static const stackExample = "stackExample";
   static const overlayEntryExample = "overlayEntryExample";
@@ -46,6 +47,7 @@ class LeftMenu extends StatelessWidget {
         createMenu(context, 'Checkbox Example', checkboxExample),
         createMenu(context, 'Button Examples', buttonExample),
         createMenu(context, 'Textfield Examples', textFieldExample),
+        createMenu(context, "TextFormField Examples", textFormFieldExample),
         createMenu(context, 'Wrap Examples', wrapExample),
         createMenu(context, 'stackExample', stackExample),
         createMenu(context, 'OverlayEntry Examples', overlayEntryExample),
