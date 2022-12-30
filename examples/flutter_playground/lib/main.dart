@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_playground/pages/textformfield_example.dart';
 
 import 'package:lenra_components/theme/lenra_theme.dart';
 import 'package:lenra_components/theme/lenra_theme_data.dart';
@@ -13,6 +12,7 @@ import 'pages/overlay_entry_example.dart';
 import 'pages/slider_example.dart';
 import 'pages/stack_example.dart';
 import 'pages/text_example.dart';
+import 'pages/textformfield_example.dart';
 import 'pages/toggle_example.dart';
 import 'pages/button_example.dart';
 import 'pages/checkbox_example.dart';
