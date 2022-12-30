@@ -12,6 +12,7 @@ import 'pages/overlay_entry_example.dart';
 import 'pages/slider_example.dart';
 import 'pages/stack_example.dart';
 import 'pages/text_example.dart';
+import 'pages/textformfield_example.dart';
 import 'pages/toggle_example.dart';
 import 'pages/button_example.dart';
 import 'pages/checkbox_example.dart';
@@ -86,6 +87,8 @@ class _MyAppState extends State<MyApp> {
         return const ButtonExample();
       case LeftMenu.textFieldExample:
         return const TextFieldExample();
+      case LeftMenu.textFormFieldExample:
+        return const TextFormFieldExample();
       case LeftMenu.wrapExample:
         return const WrapExample();
       case LeftMenu.stackExample:
