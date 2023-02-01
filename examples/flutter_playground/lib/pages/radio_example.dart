@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lenra_components/lenra_components.dart';
+import 'package:lenra_components/theme/lenra_radio_style.dart';
 
 class RadioExample extends StatefulWidget {
   const RadioExample({Key? key}) : super(key: key);
@@ -36,6 +37,18 @@ class _RadioExampleState extends State<RadioExample> {
               onPressed: (value) {},
             ),
             const Text("Selected"),
+          ],
+        ),
+        LenraFlex(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            LenraRadio(
+              value: 1,
+              groupValue: 2,
+              style: LenraRadioStyle(unselectedColor: Colors.red),
+              onPressed: (value) {},
+            ),
+            const Text("Unselected Color"),
           ],
         ),
         const LenraFlex(

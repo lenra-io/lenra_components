@@ -36,19 +36,22 @@ class LenraRadio<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Radio<T>(
-      value: value,
-      groupValue: groupValue,
-      onChanged: onPressed,
-      activeColor: style?.activeColor,
-      focusColor: style?.focusColor,
-      hoverColor: style?.hoverColor,
-      splashRadius: style?.splashRadius,
-      visualDensity: style?.visualDensity,
-      autofocus: autofocus,
-      focusNode: focusNode,
-      materialTapTargetSize: materialTapTargetSize,
-      toggleable: toggleable,
+    return Theme(
+      data: Theme.of(context).copyWith(unselectedWidgetColor: style?.unselectedColor),
+      child: Radio<T>(
+        value: value,
+        groupValue: groupValue,
+        onChanged: onPressed,
+        activeColor: style?.activeColor,
+        focusColor: style?.focusColor,
+        hoverColor: style?.hoverColor,
+        splashRadius: style?.splashRadius,
+        visualDensity: style?.visualDensity,
+        autofocus: autofocus,
+        focusNode: focusNode,
+        materialTapTargetSize: materialTapTargetSize,
+        toggleable: toggleable,
+      ),
     );
   }
 }
