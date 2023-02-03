@@ -36,7 +36,7 @@ class LenraRadio<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Radio<T>(
+    Widget res = Radio<T>(
       value: value,
       groupValue: groupValue,
       onChanged: onPressed,
@@ -50,5 +50,14 @@ class LenraRadio<T> extends StatelessWidget {
       materialTapTargetSize: materialTapTargetSize,
       toggleable: toggleable,
     );
+
+    if (style?.unselectedColor != null) {
+      return Theme(
+        data: Theme.of(context).copyWith(unselectedWidgetColor: style?.unselectedColor),
+        child: res,
+      );
+    }
+
+    return res;
   }
 }
